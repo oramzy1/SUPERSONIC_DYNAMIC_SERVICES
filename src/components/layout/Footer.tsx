@@ -15,12 +15,12 @@ const NAV_LEFT = [
   { label: "About Us", to: "/about" },
   { label: "Request a Quote", to: "/quote" },
   { label: "Vacancies", to: "/about" },
-  { label: "Cookies policy", to: "/terms" },
+  { label: "Cookies policy", to: "/privacy" },
 ];
 const NAV_RIGHT = [
   { label: "Contact", to: "/contact" },
   { label: "Frequently Asked Questions", to: "/faqs" },
-  { label: "Privacy policy", to: "/terms" },
+  { label: "Privacy policy", to: "/privacy" },
   { label: "General terms and conditions", to: "/terms" },
 ];
 
