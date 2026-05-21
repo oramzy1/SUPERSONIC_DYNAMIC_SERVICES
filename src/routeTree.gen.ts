@@ -12,12 +12,18 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as QuoteRouteImport } from './routes/quote'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as FaqsRouteImport } from './routes/faqs'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as QuoteSuccessRouteImport } from './routes/quote.success'
 import { Route as QuoteProcessingRouteImport } from './routes/quote.processing'
+import { Route as DashboardQuotesRouteImport } from './routes/dashboard.quotes'
+import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -34,9 +40,19 @@ const QuoteRoute = QuoteRouteImport.update({
   path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FaqsRoute = FaqsRouteImport.update({
   id: '/faqs',
   path: '/faqs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -54,6 +70,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const ServicesSlugRoute = ServicesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ServicesRoute,
+} as any)
 const QuoteSuccessRoute = QuoteSuccessRouteImport.update({
   id: '/success',
   path: '/success',
@@ -64,40 +90,67 @@ const QuoteProcessingRoute = QuoteProcessingRouteImport.update({
   path: '/processing',
   getParentRoute: () => QuoteRoute,
 } as any)
+const DashboardQuotesRoute = DashboardQuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardInvoicesRoute = DashboardInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/dashboard/invoices': typeof DashboardInvoicesRoute
+  '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
   '/quote/success': typeof QuoteSuccessRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/dashboard/invoices': typeof DashboardInvoicesRoute
+  '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
   '/quote/success': typeof QuoteSuccessRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
+  '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRouteWithChildren
-  '/services': typeof ServicesRoute
+  '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/dashboard/invoices': typeof DashboardInvoicesRoute
+  '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
   '/quote/success': typeof QuoteSuccessRoute
+  '/services/$slug': typeof ServicesSlugRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,43 +158,62 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/dashboard'
     | '/faqs'
+    | '/privacy'
     | '/quote'
     | '/services'
     | '/terms'
+    | '/dashboard/invoices'
+    | '/dashboard/quotes'
     | '/quote/processing'
     | '/quote/success'
+    | '/services/$slug'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
     | '/faqs'
+    | '/privacy'
     | '/quote'
     | '/services'
     | '/terms'
+    | '/dashboard/invoices'
+    | '/dashboard/quotes'
     | '/quote/processing'
     | '/quote/success'
+    | '/services/$slug'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/dashboard'
     | '/faqs'
+    | '/privacy'
     | '/quote'
     | '/services'
     | '/terms'
+    | '/dashboard/invoices'
+    | '/dashboard/quotes'
     | '/quote/processing'
     | '/quote/success'
+    | '/services/$slug'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   FaqsRoute: typeof FaqsRoute
+  PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRouteWithChildren
-  ServicesRoute: typeof ServicesRoute
+  ServicesRoute: typeof ServicesRouteWithChildren
   TermsRoute: typeof TermsRoute
 }
 
@@ -168,11 +240,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/faqs': {
       id: '/faqs'
       path: '/faqs'
       fullPath: '/faqs'
       preLoaderRoute: typeof FaqsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -196,6 +282,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/services/$slug': {
+      id: '/services/$slug'
+      path: '/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof ServicesSlugRouteImport
+      parentRoute: typeof ServicesRoute
+    }
     '/quote/success': {
       id: '/quote/success'
       path: '/success'
@@ -210,8 +310,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuoteProcessingRouteImport
       parentRoute: typeof QuoteRoute
     }
+    '/dashboard/quotes': {
+      id: '/dashboard/quotes'
+      path: '/quotes'
+      fullPath: '/dashboard/quotes'
+      preLoaderRoute: typeof DashboardQuotesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/invoices': {
+      id: '/dashboard/invoices'
+      path: '/invoices'
+      fullPath: '/dashboard/invoices'
+      preLoaderRoute: typeof DashboardInvoicesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
+
+interface DashboardRouteChildren {
+  DashboardInvoicesRoute: typeof DashboardInvoicesRoute
+  DashboardQuotesRoute: typeof DashboardQuotesRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardInvoicesRoute: DashboardInvoicesRoute,
+  DashboardQuotesRoute: DashboardQuotesRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
 
 interface QuoteRouteChildren {
   QuoteProcessingRoute: typeof QuoteProcessingRoute
@@ -225,13 +355,27 @@ const QuoteRouteChildren: QuoteRouteChildren = {
 
 const QuoteRouteWithChildren = QuoteRoute._addFileChildren(QuoteRouteChildren)
 
+interface ServicesRouteChildren {
+  ServicesSlugRoute: typeof ServicesSlugRoute
+}
+
+const ServicesRouteChildren: ServicesRouteChildren = {
+  ServicesSlugRoute: ServicesSlugRoute,
+}
+
+const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
+  ServicesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   FaqsRoute: FaqsRoute,
+  PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRouteWithChildren,
-  ServicesRoute: ServicesRoute,
+  ServicesRoute: ServicesRouteWithChildren,
   TermsRoute: TermsRoute,
 }
 export const routeTree = rootRouteImport
