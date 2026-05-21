@@ -34,8 +34,8 @@
   --color-ring: var(--ring);
   --color-cyan: var(--cyan);
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -70,7 +70,7 @@ html, body, #root {
   -webkit-font-smoothing: antialiased;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 
 .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
 
