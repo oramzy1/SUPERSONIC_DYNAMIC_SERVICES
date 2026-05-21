@@ -11,10 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuoteSuccessRouteImport } from './routes/quote.success'
+import { Route as QuoteProcessingRouteImport } from './routes/quote.processing'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -24,6 +27,11 @@ const TermsRoute = TermsRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteRoute = QuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -46,22 +54,38 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuoteSuccessRoute = QuoteSuccessRouteImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => QuoteRoute,
+} as any)
+const QuoteProcessingRoute = QuoteProcessingRouteImport.update({
+  id: '/processing',
+  path: '/processing',
+  getParentRoute: () => QuoteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/quote': typeof QuoteRouteWithChildren
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/quote/processing': typeof QuoteProcessingRoute
+  '/quote/success': typeof QuoteSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/quote': typeof QuoteRouteWithChildren
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/quote/processing': typeof QuoteProcessingRoute
+  '/quote/success': typeof QuoteSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,22 +93,46 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
+  '/quote': typeof QuoteRouteWithChildren
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
+  '/quote/processing': typeof QuoteProcessingRoute
+  '/quote/success': typeof QuoteSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/contact' | '/faqs' | '/services' | '/terms'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/faqs'
+    | '/quote'
+    | '/services'
+    | '/terms'
+    | '/quote/processing'
+    | '/quote/success'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/faqs' | '/services' | '/terms'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/faqs'
+    | '/quote'
+    | '/services'
+    | '/terms'
+    | '/quote/processing'
+    | '/quote/success'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
     | '/faqs'
+    | '/quote'
     | '/services'
     | '/terms'
+    | '/quote/processing'
+    | '/quote/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -92,6 +140,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   FaqsRoute: typeof FaqsRoute
+  QuoteRoute: typeof QuoteRouteWithChildren
   ServicesRoute: typeof ServicesRoute
   TermsRoute: typeof TermsRoute
 }
@@ -110,6 +159,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quote': {
+      id: '/quote'
+      path: '/quote'
+      fullPath: '/quote'
+      preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -140,14 +196,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quote/success': {
+      id: '/quote/success'
+      path: '/success'
+      fullPath: '/quote/success'
+      preLoaderRoute: typeof QuoteSuccessRouteImport
+      parentRoute: typeof QuoteRoute
+    }
+    '/quote/processing': {
+      id: '/quote/processing'
+      path: '/processing'
+      fullPath: '/quote/processing'
+      preLoaderRoute: typeof QuoteProcessingRouteImport
+      parentRoute: typeof QuoteRoute
+    }
   }
 }
+
+interface QuoteRouteChildren {
+  QuoteProcessingRoute: typeof QuoteProcessingRoute
+  QuoteSuccessRoute: typeof QuoteSuccessRoute
+}
+
+const QuoteRouteChildren: QuoteRouteChildren = {
+  QuoteProcessingRoute: QuoteProcessingRoute,
+  QuoteSuccessRoute: QuoteSuccessRoute,
+}
+
+const QuoteRouteWithChildren = QuoteRoute._addFileChildren(QuoteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   FaqsRoute: FaqsRoute,
+  QuoteRoute: QuoteRouteWithChildren,
   ServicesRoute: ServicesRoute,
   TermsRoute: TermsRoute,
 }
