@@ -4,7 +4,7 @@ import { DashboardSidebar, DashboardTopbar } from "@/components/dashboard/Dashbo
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard — Supersonic Dynamic Services" },
+      { title: "Dashboard - Supersonic Dynamic Services" },
       { name: "description", content: "Manage your moves, quotes, and invoices." },
     ],
   }),

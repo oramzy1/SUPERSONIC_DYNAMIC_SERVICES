@@ -6,7 +6,7 @@ import { CTAButton } from "@/components/shared/CTAButton";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy & Data Ethics — Supersonic Dynamic Services" },
+      { title: "Privacy & Data Ethics - Supersonic Dynamic Services" },
       {
         name: "description",
         content:
@@ -72,7 +72,8 @@ function Privacy() {
                   Transit Security
                 </p>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  End-to-end encryption for all operational communications within the Supersonic fleet.
+                  End-to-end encryption for all operational communications within the Supersonic
+                  fleet.
                 </p>
               </div>
               <div className="rounded-xl bg-[#0E141A] p-4">
@@ -80,7 +81,8 @@ function Privacy() {
                   Data Retention
                 </p>
                 <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                  Automatic purging of sensitive transit data 90 days after successful delivery confirmation.
+                  Automatic purging of sensitive transit data 90 days after successful delivery
+                  confirmation.
                 </p>
               </div>
             </div>
@@ -104,7 +106,8 @@ function Privacy() {
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" /> PERFORMANCE LOGIC
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
-                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> MARKETING (DISABLED)
+                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> MARKETING
+                (DISABLED)
               </li>
             </ul>
             <CTAButton variant="white" className="mt-6 w-full rounded-xl">
@@ -122,9 +125,21 @@ function Privacy() {
             </div>
             <ul className="mt-5 space-y-4 text-sm">
               {[
-                ["A.", "Right to Rectification:", "Request correction of inaccurate logistical or profile data."],
-                ["B.", "Data Portability:", "Obtain a structured, machine-readable format of your interaction history."],
-                ["C.", "The Right to Erasure:", "The \"Right to be Forgotten\" within our kinetic storage systems."],
+                [
+                  "A.",
+                  "Right to Rectification:",
+                  "Request correction of inaccurate logistical or profile data.",
+                ],
+                [
+                  "B.",
+                  "Data Portability:",
+                  "Obtain a structured, machine-readable format of your interaction history.",
+                ],
+                [
+                  "C.",
+                  "The Right to Erasure:",
+                  'The "Right to be Forgotten" within our kinetic storage systems.',
+                ],
               ].map(([letter, title, desc]) => (
                 <li key={letter} className="flex items-start gap-3">
                   <span className="mt-0.5 text-xs font-semibold text-primary">{letter}</span>

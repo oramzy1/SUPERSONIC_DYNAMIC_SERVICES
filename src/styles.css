@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -54,7 +55,7 @@
   --secondary-foreground: #E8EEF4;
   --border: rgba(255,255,255,0.08);
   --input: rgba(255,255,255,0.10);
-  --ring: #79FF5B;
+  --ring: #79FF5B; 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --cyan: #6FE5FF;
@@ -69,8 +70,6 @@ html, body, #root {
   min-height: 100%;
   -webkit-font-smoothing: antialiased;
 }
-
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 
 .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
 

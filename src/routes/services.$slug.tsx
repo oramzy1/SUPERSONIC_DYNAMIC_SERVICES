@@ -14,7 +14,7 @@ export const Route = createFileRoute("/services/$slug")({
   head: ({ loaderData }) => ({
     meta: loaderData?.service
       ? [
-          { title: `${loaderData.service.title} — Supersonic Dynamic Services` },
+          { title: `${loaderData.service.title} - Supersonic Dynamic Services` },
           { name: "description", content: loaderData.service.intro },
         ]
       : [],
@@ -24,14 +24,18 @@ export const Route = createFileRoute("/services/$slug")({
     <SiteLayout>
       <div className="mx-auto max-w-xl px-6 py-24 text-center">
         <h1 className="font-display text-3xl font-bold">Service not found</h1>
-        <Link to="/services" className="mt-6 inline-block text-primary">Back to services</Link>
+        <Link to="/services" className="mt-6 inline-block text-primary">
+          Back to services
+        </Link>
       </div>
     </SiteLayout>
   ),
 });
 
 function ServiceDetail() {
-  const { service } = Route.useLoaderData() as { service: NonNullable<ReturnType<typeof getService>> };
+  const { service } = Route.useLoaderData() as {
+    service: NonNullable<ReturnType<typeof getService>>;
+  };
   const navigate = useNavigate();
   const otherServices = SERVICES.filter((s) => s.slug !== service.slug).slice(0, 3);
 
@@ -39,7 +43,11 @@ function ServiceDetail() {
     <SiteLayout>
       {/* HERO */}
       <section className="relative h-[340px] w-full overflow-hidden md:h-[440px]">
-        <img src={service.image} alt={service.heroTitle} className="absolute inset-0 h-full w-full object-cover" />
+        <img
+          src={service.image}
+          alt={service.heroTitle}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0E141A]/85 via-[#0E141A]/55 to-[#0E141A]/20" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0E141A]" />
 
@@ -75,7 +83,10 @@ function ServiceDetail() {
           </p>
 
           {service.body.map((p, i) => (
-            <p key={i} className="mt-5 text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+            <p
+              key={i}
+              className="mt-5 text-sm leading-relaxed text-muted-foreground md:text-[15px]"
+            >
               {p}
             </p>
           ))}
@@ -140,7 +151,11 @@ function ServiceDetail() {
                 params={{ slug: s.slug }}
                 className="group overflow-hidden rounded-2xl bg-surface transition hover:ring-1 hover:ring-primary/60"
               >
-                <img src={s.image} alt={s.heroTitle} className="h-36 w-full object-cover transition group-hover:scale-[1.02]" />
+                <img
+                  src={s.image}
+                  alt={s.heroTitle}
+                  className="h-36 w-full object-cover transition group-hover:scale-[1.02]"
+                />
                 <div className="p-4">
                   <p className="font-display text-sm font-semibold">{s.heroTitle}</p>
                 </div>

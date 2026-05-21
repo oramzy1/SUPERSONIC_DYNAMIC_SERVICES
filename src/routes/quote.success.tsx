@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
-import thankBg from "@/assets/thankyou-bg.jpg";
+import thankBg from "@/assets/images/thankyou-bg.jpg";
 
 export const Route = createFileRoute("/quote/success")({
   component: Success,
@@ -27,7 +27,8 @@ function Success() {
                 Thankyou
               </motion.h1>
               <p className="mt-3 max-w-md text-muted-foreground">
-                We have received your request for a quote, our team is working on getting back to you as soon as possible.
+                We have received your request for a quote, our team is working on getting back to
+                you as soon as possible.
               </p>
             </div>
           </div>
@@ -44,10 +45,14 @@ function Success() {
           Successfully Submitted
         </motion.h2>
         <p className="mt-4 text-muted-foreground">
-          Your quote request <span className="text-[#6FE5FF] font-mono">#SDS-2024-X</span> has been received and is being processed by our logistics crew.
+          Your quote request <span className="text-[#6FE5FF] font-mono">#SDS-2024-X</span> has been
+          received and is being processed by our logistics crew.
         </p>
         <Link to="/" className="mt-8">
-          <CTAButton variant="outline" className="rounded-xl bg-surface px-8 py-3.5 tracking-[0.2em]">
+          <CTAButton
+            variant="outline"
+            className="rounded-xl bg-surface px-8 py-3.5 tracking-[0.2em]"
+          >
             RETURN HOME
           </CTAButton>
         </Link>

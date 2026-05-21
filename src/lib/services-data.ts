@@ -1,8 +1,8 @@
-import student from "@/assets/service-student.jpg";
-import residential from "@/assets/service-residential.jpg";
-import enterprise from "@/assets/service-enterprise.jpg";
-import storage from "@/assets/service-storage.jpg";
-import waste from "@/assets/service-waste.jpg";
+import student from "@/assets/images/service-student.jpg";
+import residential from "@/assets/images/service-residential.jpg";
+import enterprise from "@/assets/images/service-enterprise.jpg";
+import storage from "@/assets/images/service-storage.jpg";
+import waste from "@/assets/images/service-waste.jpg";
 
 export type ServiceDetail = {
   slug: string;
@@ -21,8 +21,7 @@ export const SERVICES: ServiceDetail[] = [
     slug: "student-moving",
     image: student,
     heroTitle: "Student Moving & Micro Moving With Supersonic",
-    title:
-      "Student & Micro Moving with SUPERSONIC DYNAMIC SERVICES - Fast, Smart and Stress-Free.",
+    title: "Student & Micro Moving with SUPERSONIC DYNAMIC SERVICES - Fast, Smart and Stress-Free.",
     intro:
       "At SUPERSONIC DYNAMIC SERVICES, we redefine student and micro-moving with a seamless, technology-driven and eco-responsible approach. Our mission is simple: to make your move smooth, efficient, and completely stress-free.",
     body: [
@@ -44,7 +43,8 @@ export const SERVICES: ServiceDetail[] = [
     slug: "residential-moving",
     image: residential,
     heroTitle: "Residential Moving Local & Long Distance",
-    title: "Residential Moving (Local & Long-Distance) - Professional, Fast, Reliable & Stress-Free.",
+    title:
+      "Residential Moving (Local & Long-Distance) - Professional, Fast, Reliable & Stress-Free.",
     intro:
       "At SUPERSONIC DYNAMIC SERVICES, we provide comprehensive residential moving solutions across the Netherlands - designed for private individuals, family households, seniors, elderly relocations, care home transfers, and full house clearances.",
     body: [
@@ -89,7 +89,7 @@ export const SERVICES: ServiceDetail[] = [
     slug: "smart-storage",
     image: storage,
     heroTitle: "SMART STORAGE SOLUTIONS Secure, Flexible & Hassle-Free",
-    title: "SMART STORAGE SOLUTIONS — Secure, Flexible & Hassle-Free",
+    title: "SMART STORAGE SOLUTIONS - Secure, Flexible & Hassle-Free",
     intro:
       "At SUPERSONIC DYNAMIC SERVICES, we provide safe, flexible, and professionally managed storage solutions tailored for individuals, families, and businesses that need reliable short-term or long-term storage.",
     body: [

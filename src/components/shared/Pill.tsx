@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
-type Variant = "primary" | "cyan" | "muted";
+type Variant = "primary" | "cyan" | "muted" | "text" | "none";
 
 export function Pill({
   children,
@@ -18,6 +18,8 @@ export function Pill({
     primary: "border-primary/50 text-primary",
     cyan: "border-[#6FE5FF]/50 text-[#6FE5FF]",
     muted: "border-white/10 text-muted-foreground",
+    text: "border-transparent text-primary",
+    none: "border-transparent text-foreground",
   };
   return (
     <span

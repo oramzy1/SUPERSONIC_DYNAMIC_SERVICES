@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { LoadingProvider } from "@/contexts/LoadingContext";
+import PageLoader from "@/components/PageLoader";
 
 function NotFoundComponent() {
   return (
@@ -37,16 +38,26 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">This page didn't load</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+          This page didn't load
+        </h1>
         <p className="mt-2 text-sm text-muted-foreground">Try again or head back home.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
           >
             Try again
           </button>
-          <a href="/" className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold">Go home</a>
+          <a
+            href="/"
+            className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold"
+          >
+            Go home
+          </a>
         </div>
       </div>
     </div>
@@ -58,7 +69,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Supersonic Dynamic Services B.V. — Next-Gen Moving in the Netherlands" },
+      { title: "Supersonic Dynamic Services B.V. - Next-Gen Moving in the Netherlands" },
       {
         name: "description",
         content:
@@ -76,7 +87,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image", content: "/favicon.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Supersonic Dynamic Services B.V." },
-      { name: "twitter:description", content: "The next-generation moving service redefining relocation in the Netherlands." },
+      {
+        name: "twitter:description",
+        content: "The next-generation moving service redefining relocation in the Netherlands.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -108,6 +122,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LoadingProvider>
+      <PageLoader />
         <Outlet />
       </LoadingProvider>
     </QueryClientProvider>

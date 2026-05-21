@@ -2,7 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Bell, Menu, Search, UserCircle2, X } from "lucide-react";
 import { useState } from "react";
 import { CTAButton } from "@/components/shared/CTAButton";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/images/logo.png";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -42,7 +42,7 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
-          <div className="hidden items-center gap-2 rounded-full bg-surface px-4 py-2 md:flex w-[260px]">
+          <div className="hidden items-center gap-2 rounded-full bg-surface px-4 py-2 md:flex w-65">
             <Search className="h-4 w-4 text-muted-foreground" />
             <input
               placeholder="Search services..."
@@ -56,7 +56,7 @@ export function Header() {
             <UserCircle2 className="h-6 w-6" />
           </button>
           <Link to="/quote" className="hidden md:block">
-            <CTAButton variant="primary" className="rounded-full px-5 py-2.5 text-sm">
+            <CTAButton variant="primary" className="rounded-md px-5 py-2.5 text-sm">
               Request Quote
             </CTAButton>
           </Link>

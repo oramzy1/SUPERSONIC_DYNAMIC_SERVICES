@@ -7,10 +7,12 @@ type Props = HTMLMotionProps<"div"> & {
   className?: string;
   bordered?: "primary" | "none";
   padded?: boolean;
+  coloredBorder?: boolean;
 };
 
 export function SurfaceCard({
   children,
+  coloredBorder = false,
   className,
   bordered = "none",
   padded = true,
@@ -25,6 +27,7 @@ export function SurfaceCard({
       className={cn(
         "rounded-2xl bg-surface",
         bordered === "primary" ? "border border-primary/60" : "border border-white/5",
+        coloredBorder && 'border-l-3 border-l-primary',
         padded && "p-6 md:p-8",
         className,
       )}

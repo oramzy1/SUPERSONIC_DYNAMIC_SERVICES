@@ -26,7 +26,12 @@ type FormData = z.infer<typeof schema>;
 function Contact() {
   const { show, hide } = useLoading();
   const [sent, setSent] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { subject: "General Inquiry" },
   });
@@ -43,26 +48,32 @@ function Contact() {
   return (
     <SiteLayout>
       <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 md:py-20">
-        <Pill variant="primary" dot>Global Operations</Pill>
+        <Pill variant="primary">
+          Global Operations
+        </Pill>
         <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">
           Need Help? <br /> Contact Us Now.
         </h1>
         <p className="mt-5 max-w-2xl text-muted-foreground">
-          Are you having trouble with any of our services or you have a question and would you like to know more information about a potential collaboration? Please contact us using the contact form below. We'll do our best to respond as quickly as possible.
+          Are you having trouble with any of our services or you have a question and would you like
+          to know more information about a potential collaboration? Please contact us using the
+          contact form below. We'll do our best to respond as quickly as possible.
         </p>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.4fr]">
           <div className="space-y-4">
             <div className="rounded-2xl bg-surface p-6 border border-white/5">
               <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-primary" />
+                <Mail className="h-5 w-5 text-white" />
                 <p className="font-display text-lg font-semibold">Email Us</p>
               </div>
-              <p className="mt-3 text-sm text-muted-foreground">info@supersonic_dynamicservices.nl</p>
+              <p className="mt-3 text-sm text-muted-foreground">
+                info@supersonic_dynamicservices.nl
+              </p>
             </div>
             <div className="rounded-2xl bg-surface p-6 border border-white/5">
               <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-primary" />
+                <Phone className="h-5 w-5 text-white" />
                 <p className="font-display text-lg font-semibold">Call Center</p>
               </div>
               <p className="mt-3 font-display text-lg">+31 (06) 84 336 600</p>
@@ -87,20 +98,35 @@ function Contact() {
             <h3 className="font-display text-2xl font-semibold">Send Us Messages</h3>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <Field label="Full Name" error={errors.fullName?.message}>
-                <input className="field w-full rounded-lg px-3 py-2.5 text-sm" placeholder="e.g. Alex Chen" {...register("fullName")} />
+                <input
+                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                  placeholder="e.g. Alex Chen"
+                  {...register("fullName")}
+                />
               </Field>
               <Field label="Company">
-                <input className="field w-full rounded-lg px-3 py-2.5 text-sm" placeholder="Global Logistics Inc." {...register("company")} />
+                <input
+                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                  placeholder="Global Logistics Inc."
+                  {...register("company")}
+                />
               </Field>
             </div>
             <div className="mt-4">
               <Field label="Email Address" error={errors.email?.message}>
-                <input className="field w-full rounded-lg px-3 py-2.5 text-sm" placeholder="alex@company.com" {...register("email")} />
+                <input
+                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                  placeholder="alex@company.com"
+                  {...register("email")}
+                />
               </Field>
             </div>
             <div className="mt-4">
               <Field label="Subject of Inquiry">
-                <select className="field w-full rounded-lg px-3 py-2.5 text-sm" {...register("subject")}>
+                <select
+                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                  {...register("subject")}
+                >
                   <option>General Inquiry</option>
                   <option>Quote Request</option>
                   <option>Partnership</option>
@@ -127,7 +153,7 @@ function Contact() {
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-4 text-center text-sm text-primary"
               >
-                Message sent — we'll be in touch shortly.
+                Message sent - we'll be in touch shortly.
               </motion.p>
             )}
           </form>
@@ -137,7 +163,15 @@ function Contact() {
   );
 }
 
-function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
+function Field({
+  label,
+  error,
+  children,
+}: {
+  label: string;
+  error?: string;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.16em] text-foreground/80">

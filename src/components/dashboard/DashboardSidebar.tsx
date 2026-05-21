@@ -1,7 +1,16 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, FileText, HelpCircle, LayoutGrid, LogOut, Receipt, Search, Settings } from "lucide-react";
+import {
+  Bell,
+  FileText,
+  HelpCircle,
+  LayoutGrid,
+  LogOut,
+  Receipt,
+  Search,
+  Settings,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/images/logo.png";
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
@@ -44,10 +53,16 @@ export function DashboardSidebar() {
         <button className="flex items-center justify-center gap-2 rounded-xl border border-white/15 px-4 py-3 text-sm font-semibold text-foreground transition hover:bg-white/5">
           <LogOut className="h-4 w-4" /> EXIT
         </button>
-        <Link to="/dashboard" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground">
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+        >
           <Settings className="h-4 w-4" /> Settings
         </Link>
-        <Link to="/contact" className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground">
+        <Link
+          to="/contact"
+          className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm text-muted-foreground hover:text-foreground"
+        >
           <HelpCircle className="h-4 w-4" /> Support
         </Link>
       </div>
@@ -71,7 +86,9 @@ export function DashboardTopbar() {
       <div className="hidden items-center gap-3 md:flex">
         <div className="text-right">
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em]">Clinton Nweze</p>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Enterprise User</p>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            Enterprise User
+          </p>
         </div>
         <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-primary to-[#002B73] text-xs font-bold text-primary-foreground">
           CN

@@ -28,12 +28,12 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
       <AnimatePresence>
         {isLoading && (
           <motion.div
-            key="global-loader"
+            key="global-loader" 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] grid place-items-center bg-[#0E141A]/85 backdrop-blur-md"
+            className="fixed inset-0 z-100 grid place-items-center bg-[#0E141A]/85 backdrop-blur-md"
           >
             <div className="flex flex-col items-center gap-5">
               <div className="relative h-14 w-14">
