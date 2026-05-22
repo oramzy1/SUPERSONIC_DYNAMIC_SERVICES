@@ -12,6 +12,16 @@ import { useState } from "react";
 
 export const Route = createFileRoute("/contact")({
   component: Contact,
+  head: () => ({
+  meta: [
+    { title: "Contact Us - Supersonic Dynamic Services B.V." },
+    {
+      name: "description",
+      content:
+        "Get in touch with Supersonic Dynamic Services B.V. Call +31 (06) 84 336 600 or email us. We're available Monday to Friday, 8:30–17:30.",
+    },
+  ],
+}),
 });
 
 const schema = z.object({

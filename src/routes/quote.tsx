@@ -23,6 +23,16 @@ import vanHero from "@/assets/images/hero-van.jpg";
 
 export const Route = createFileRoute("/quote")({
   component: Quote,
+  head: () => ({
+  meta: [
+    { title: "Request a Free Quote - Supersonic Dynamic Services B.V." },
+    {
+      name: "description",
+      content:
+        "Request your free, no-obligation moving quote today. Upload photos, videos or schedule a virtual home visit. Transparent pricing with no hidden fees.",
+    },
+  ],
+}),
 });
 
 const step1 = z.object({

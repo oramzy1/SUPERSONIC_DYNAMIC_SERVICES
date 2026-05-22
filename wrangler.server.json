@@ -3,7 +3,7 @@
   "name": "supersonic-dynamic-services",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "src/server.ts",
+  "main": "dist/server/server.js",
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS"

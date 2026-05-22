@@ -6,6 +6,16 @@ import { CTAButton } from "@/components/shared/CTAButton";
 
 export const Route = createFileRoute("/terms")({
   component: Terms,
+  head: () => ({
+  meta: [
+    { title: "General Terms and Conditions - Supersonic Dynamic Services B.V." },
+    {
+      name: "description",
+      content:
+        "Read the general terms and conditions of Supersonic Dynamic Services B.V. governing our moving and freight haulage services across the Netherlands.",
+    },
+  ],
+}),
 });
 
 const ARTICLES = [
