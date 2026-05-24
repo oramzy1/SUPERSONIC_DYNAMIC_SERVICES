@@ -21,8 +21,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
-import { Route as QuoteSuccessRouteImport } from './routes/quote.success'
-import { Route as QuoteProcessingRouteImport } from './routes/quote.processing'
+import { Route as QuoteSuccessRouteImport } from './routes/quote_.success'
+import { Route as QuoteProcessingRouteImport } from './routes/quote_.processing'
 import { Route as DashboardQuotesRouteImport } from './routes/dashboard.quotes'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
 
@@ -87,14 +87,14 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   getParentRoute: () => ServicesRoute,
 } as any)
 const QuoteSuccessRoute = QuoteSuccessRouteImport.update({
-  id: '/success',
-  path: '/success',
-  getParentRoute: () => QuoteRoute,
+  id: '/quote_/success',
+  path: '/quote/success',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const QuoteProcessingRoute = QuoteProcessingRouteImport.update({
-  id: '/processing',
-  path: '/processing',
-  getParentRoute: () => QuoteRoute,
+  id: '/quote_/processing',
+  path: '/quote/processing',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardQuotesRoute = DashboardQuotesRouteImport.update({
   id: '/quotes',
@@ -114,7 +114,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
   '/privacy': typeof PrivacyRoute
-  '/quote': typeof QuoteRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
@@ -131,7 +131,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/privacy': typeof PrivacyRoute
-  '/quote': typeof QuoteRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/terms': typeof TermsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
@@ -149,13 +149,13 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
   '/privacy': typeof PrivacyRoute
-  '/quote': typeof QuoteRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
-  '/quote/processing': typeof QuoteProcessingRoute
-  '/quote/success': typeof QuoteSuccessRoute
+  '/quote_/processing': typeof QuoteProcessingRoute
+  '/quote_/success': typeof QuoteSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -208,8 +208,8 @@ export interface FileRouteTypes {
     | '/terms'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
-    | '/quote/processing'
-    | '/quote/success'
+    | '/quote_/processing'
+    | '/quote_/success'
     | '/services/$slug'
     | '/dashboard/'
     | '/services/'
@@ -222,9 +222,11 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   FaqsRoute: typeof FaqsRoute
   PrivacyRoute: typeof PrivacyRoute
-  QuoteRoute: typeof QuoteRouteWithChildren
+  QuoteRoute: typeof QuoteRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   TermsRoute: typeof TermsRoute
+  QuoteProcessingRoute: typeof QuoteProcessingRoute
+  QuoteSuccessRoute: typeof QuoteSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -313,19 +315,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/quote/success': {
-      id: '/quote/success'
-      path: '/success'
+    '/quote_/success': {
+      id: '/quote_/success'
+      path: '/quote/success'
       fullPath: '/quote/success'
       preLoaderRoute: typeof QuoteSuccessRouteImport
-      parentRoute: typeof QuoteRoute
+      parentRoute: typeof rootRouteImport
     }
-    '/quote/processing': {
-      id: '/quote/processing'
-      path: '/processing'
+    '/quote_/processing': {
+      id: '/quote_/processing'
+      path: '/quote/processing'
       fullPath: '/quote/processing'
       preLoaderRoute: typeof QuoteProcessingRouteImport
-      parentRoute: typeof QuoteRoute
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/quotes': {
       id: '/dashboard/quotes'
@@ -360,18 +362,6 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
   DashboardRouteChildren,
 )
 
-interface QuoteRouteChildren {
-  QuoteProcessingRoute: typeof QuoteProcessingRoute
-  QuoteSuccessRoute: typeof QuoteSuccessRoute
-}
-
-const QuoteRouteChildren: QuoteRouteChildren = {
-  QuoteProcessingRoute: QuoteProcessingRoute,
-  QuoteSuccessRoute: QuoteSuccessRoute,
-}
-
-const QuoteRouteWithChildren = QuoteRoute._addFileChildren(QuoteRouteChildren)
-
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -393,9 +383,11 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   FaqsRoute: FaqsRoute,
   PrivacyRoute: PrivacyRoute,
-  QuoteRoute: QuoteRouteWithChildren,
+  QuoteRoute: QuoteRoute,
   ServicesRoute: ServicesRouteWithChildren,
   TermsRoute: TermsRoute,
+  QuoteProcessingRoute: QuoteProcessingRoute,
+  QuoteSuccessRoute: QuoteSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

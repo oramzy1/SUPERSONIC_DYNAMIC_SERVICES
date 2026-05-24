@@ -4,12 +4,35 @@ import { ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import thankBg from "@/assets/images/thankyou-bg.jpg";
+import { useEffect } from "react";
 
-export const Route = createFileRoute("/quote/success")({
+export const Route = createFileRoute("/quote_/success")({
   component: Success,
 });
 
 function Success() {
+
+    useEffect(() => {
+    const win = window as any
+    if (!win.tp) return
+
+    const email = sessionStorage.getItem('quote_email') ?? ''
+    const name = sessionStorage.getItem('quote_name') ?? ''
+    if (!email) return
+
+    win.tp('createInvitation', {
+      recipientEmail: email,
+      recipientName: name,
+      referenceId: `SDS-${Date.now()}`,
+      source: 'InvitationScript',
+    })
+
+
+  console.log('[Trustpilot] invitation fired for', email)
+    // Clean up after firing
+    sessionStorage.removeItem('quote_email')
+    sessionStorage.removeItem('quote_name')
+  }, [])
   return (
     <SiteLayout marquee={false}>
       <section className="relative overflow-hidden">

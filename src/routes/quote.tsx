@@ -93,12 +93,14 @@ function Quote() {
   };
   const back = () => setStep((s) => (s === 1 ? 1 : ((s - 1) as 1 | 2 | 3)));
 
-  const onSubmit = async () => {
-    show("Submitting your quote…");
-    await new Promise((r) => setTimeout(r, 600));
-    hide();
-    navigate({ to: "/quote/processing" });
-  };
+ const onSubmit = async (data: FormData) => {
+  show("Submitting your quote…")
+  await new Promise((r) => setTimeout(r, 600))
+  hide()
+  sessionStorage.setItem('quote_email', data.email)
+  sessionStorage.setItem('quote_name', data.name)
+  navigate({ to: "/quote/processing" })
+}
 
   return (
     <SiteLayout>
