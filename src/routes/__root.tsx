@@ -69,7 +69,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Supersonic Dynamic Services B.V. - Next-Gen Moving in the Netherlands" },
+      {
+        title:
+          "Supersonic Dynamic Services B.V. - Next-Gen Moving & Freight Haulage Service in the Netherlands & Europe",
+      },
       {
         name: "description",
         content:
@@ -81,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Next-generation moving service redefining relocation. 100% electric fleet, transparent pricing, professional movers.",
+          "Next-generation moving & freight haulage service in the Netherlands & Europe . 100% electric fleet, transparent pricing, professional movers.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/favicon.png" },
@@ -89,7 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Supersonic Dynamic Services B.V." },
       {
         name: "twitter:description",
-        content: "The next-generation moving service redefining relocation in the Netherlands.",
+        content: "The next-generation moving & freight haulage service in the Netherlands.",
       },
     ],
     links: [
@@ -116,6 +119,14 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-WFZ99JP4');`,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
+a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
+f.parentNode.insertBefore(a,f)})(window,document,'script','https://invitejs.trustpilot.com/tp.min.js','tp');
+tp('register', 'WrRbEIZd9LK7Suj8');`,
           }}
         />
       </head>

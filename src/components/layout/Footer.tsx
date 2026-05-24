@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Share2 } from "lucide-react";
+import TrustPilotWidget from "../shared/TrustPilotWidget";
 
 const HOURS = [
   ["Monday", "8:30 - 17:30", true],
@@ -45,6 +46,7 @@ export function Footer() {
               </a>
             ))}
           </div>
+          <TrustPilotWidget />
         </div>
 
         <div>
