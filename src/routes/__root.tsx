@@ -129,6 +129,10 @@ f.parentNode.insertBefore(a,f)})(window,document,'script','https://invitejs.trus
 tp('register', 'WrRbEIZd9LK7Suj8');`,
           }}
         />
+        <script
+  async
+  src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+/>
       </head>
       <body>
         <noscript

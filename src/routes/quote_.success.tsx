@@ -27,9 +27,6 @@ function Success() {
       source: 'InvitationScript',
     })
 
-
-  console.log('[Trustpilot] invitation fired for', email)
-    // Clean up after firing
     sessionStorage.removeItem('quote_email')
     sessionStorage.removeItem('quote_name')
   }, [])
