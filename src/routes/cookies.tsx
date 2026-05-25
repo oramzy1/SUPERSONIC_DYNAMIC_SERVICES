@@ -3,6 +3,7 @@ import { Cookie, ShieldCheck, ToggleLeft, Info, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { Pill } from "@/components/shared/Pill";
+import { useCookieConsent } from "@/contexts/CookieConsentContext";
 
 export const Route = createFileRoute("/cookies")({
   head: () => ({
@@ -66,20 +67,23 @@ const COOKIE_TYPES = [
 ];
 
 function Cookies() {
+  const { prefs, openBanner } = useCookieConsent();
   return (
     <SiteLayout marquee={false}>
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-white/5">
         <div className="absolute inset-0 bg-linear-to-br from-[#0E141A] via-[#0b1a3a]/40 to-[#0E141A]" />
         <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-24">
-          <Pill variant="cyan" dot>Transparency Framework</Pill>
+          <Pill variant="cyan" dot>
+            Transparency Framework
+          </Pill>
           <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] md:text-6xl">
             Cookie <br /> Policy
           </h1>
           <div className="mt-8 flex items-end justify-between border-b border-white/10 pb-6">
             <p className="max-w-lg text-sm text-muted-foreground">
-              We believe in full transparency about how our platform uses cookies and
-              tracking technologies. This policy explains what we collect, why, and your rights.
+              We believe in full transparency about how our platform uses cookies and tracking
+              technologies. This policy explains what we collect, why, and your rights.
             </p>
             <div className="text-right">
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -92,7 +96,6 @@ function Cookies() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 space-y-6">
-
         {/* WHAT ARE COOKIES */}
         <div className="grid gap-6 md:grid-cols-3">
           <div className="rounded-2xl bg-surface p-6 md:col-span-2 md:p-8">
@@ -103,9 +106,9 @@ function Cookies() {
               <Cookie className="h-14 w-14 text-white/10" />
             </div>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              Cookies are small text files stored on your device when you visit a website. They allow
-              platforms to remember information about your visit - such as your preferred language or
-              form state - making your next visit easier and the site more useful.
+              Cookies are small text files stored on your device when you visit a website. They
+              allow platforms to remember information about your visit - such as your preferred
+              language or form state - making your next visit easier and the site more useful.
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               At Supersonic Dynamic Services B.V., we use cookies responsibly and in accordance with
@@ -129,15 +132,20 @@ function Cookies() {
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Consent-based tracking
               </li>
               <li className="flex items-center gap-2 text-foreground/85">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary" /> No data sold to third parties
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" /> No data sold to third
+                parties
               </li>
               <li className="flex items-center gap-2 text-foreground/85">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Right to withdraw consent
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
-                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> Marketing cookies disabled
+                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> Marketing cookies
+                disabled
               </li>
             </ul>
+            <CTAButton variant="white" className="mt-6 w-full rounded-xl" onClick={openBanner}>
+              MANAGE PREFERENCES
+            </CTAButton>
           </div>
         </div>
 
@@ -148,33 +156,60 @@ function Cookies() {
             <h2 className="font-display text-xl font-semibold">02. Cookie Types We Use</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            {COOKIE_TYPES.map((c) => (
-              <div key={c.label} className={`rounded-xl border ${c.border} ${c.bg} p-5`}>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${c.dot}`} />
-                    <span className={`text-xs font-semibold uppercase tracking-[0.2em] ${c.color}`}>
-                      {c.label}
+            {COOKIE_TYPES.map((c) => {
+              const isEnabled =
+                c.label === "Essential"
+                  ? true
+                  : c.label === "Analytics"
+                    ? prefs.analytics
+                    : c.label === "Functional"
+                      ? prefs.functional
+                      : false;
+
+              return (
+                <div
+                  key={c.label}
+                  className={`rounded-xl border p-5 transition ${
+                    isEnabled ? `${c.border} ${c.bg}` : "border-white/5 bg-black/20"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`h-2 w-2 rounded-full ${isEnabled ? c.dot : "bg-muted-foreground"}`}
+                      />
+                      <span
+                        className={`text-xs font-semibold uppercase tracking-[0.2em] ${isEnabled ? c.color : "text-muted-foreground"}`}
+                      >
+                        {c.label}
+                      </span>
+                    </div>
+                    <span
+                      className={`text-[10px] rounded-full px-2 py-0.5 border ${
+                        c.required
+                          ? "border-[#6FE5FF]/30 text-[#6FE5FF] bg-[#6FE5FF]/10"
+                          : isEnabled
+                            ? "border-primary/30 text-primary bg-primary/10"
+                            : "border-white/10 text-muted-foreground"
+                      }`}
+                    >
+                      {c.required ? "Required" : isEnabled ? "Enabled" : "Disabled"}
                     </span>
                   </div>
-                  <span className={`text-[10px] rounded-full px-2 py-0.5 border ${
-                    c.required
-                      ? "border-[#6FE5FF]/30 text-[#6FE5FF] bg-[#6FE5FF]/10"
-                      : "border-white/10 text-muted-foreground"
-                  }`}>
-                    {c.required ? "Required" : "Optional"}
-                  </span>
+                  <p className="text-xs leading-relaxed text-muted-foreground">{c.description}</p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {c.examples.map((e) => (
+                      <span
+                        key={e}
+                        className="rounded bg-white/5 px-2 py-0.5 text-[10px] text-foreground/60"
+                      >
+                        {e}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <p className="text-xs leading-relaxed text-muted-foreground">{c.description}</p>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {c.examples.map((e) => (
-                    <span key={e} className="rounded bg-white/5 px-2 py-0.5 text-[10px] text-foreground/60">
-                      {e}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -182,13 +217,15 @@ function Cookies() {
         <div className="rounded-2xl bg-surface p-6 md:p-8">
           <div className="flex items-center gap-3 mb-4">
             <Info className="h-5 w-5 text-primary" />
-            <h2 className="font-display text-xl font-semibold">03. Google Tag Manager & Analytics</h2>
+            <h2 className="font-display text-xl font-semibold">
+              03. Google Tag Manager & Analytics
+            </h2>
           </div>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Our platform uses Google Tag Manager (GTM-WFZ99JP4) to manage analytics tags, including
             Google Analytics 4 (GA4). This helps us understand platform usage patterns to improve
-            our services. IP addresses are anonymised by default, and data is processed in accordance
-            with Google's data processing terms.
+            our services. IP addresses are anonymised by default, and data is processed in
+            accordance with Google's data processing terms.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {[
@@ -197,7 +234,9 @@ function Cookies() {
               ["Data Region", "European Union", "Processing location"],
             ].map(([title, value, sub]) => (
               <div key={title} className="rounded-xl bg-black/30 p-4">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">{sub}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  {sub}
+                </p>
                 <p className="mt-1 text-sm font-semibold text-foreground">{title}</p>
                 <p className="mt-0.5 font-mono text-xs text-[#6FE5FF]">{value}</p>
               </div>
@@ -211,9 +250,21 @@ function Cookies() {
             <h2 className="font-display text-xl font-semibold mb-4">04. Your Rights</h2>
             <ul className="space-y-4">
               {[
-                ["A.", "Withdraw Consent:", "You may withdraw cookie consent at any time by clearing your browser cookies or adjusting settings below."],
-                ["B.", "Access & Portability:", "Request a copy of any personal data we hold, including analytics identifiers."],
-                ["C.", "Right to Erasure:", "Request deletion of your data from our analytics systems at any time."],
+                [
+                  "A.",
+                  "Withdraw Consent:",
+                  "You may withdraw cookie consent at any time by clearing your browser cookies or adjusting settings below.",
+                ],
+                [
+                  "B.",
+                  "Access & Portability:",
+                  "Request a copy of any personal data we hold, including analytics identifiers.",
+                ],
+                [
+                  "C.",
+                  "Right to Erasure:",
+                  "Request deletion of your data from our analytics systems at any time.",
+                ],
               ].map(([letter, title, desc]) => (
                 <li key={letter} className="flex items-start gap-3">
                   <span className="mt-0.5 text-xs font-semibold text-primary">{letter}</span>
@@ -234,14 +285,21 @@ function Cookies() {
             <div className="mt-5 flex items-start gap-3">
               <Mail className="mt-1 h-4 w-4 text-[#6FE5FF]" />
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Email</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Email
+                </p>
                 <p className="mt-1 text-xs text-[#6FE5FF]">info@supersonicdynamicservices.nl</p>
               </div>
             </div>
             <p className="mt-5 text-xs text-muted-foreground">
               You also have the right to lodge a complaint with the Dutch Data Protection Authority
               (Autoriteit Persoonsgegevens) at{" "}
-              <a href="https://www.autoriteitpersoonsgegevens.nl" target="_blank" rel="noopener noreferrer" className="text-[#6FE5FF] hover:underline">
+              <a
+                href="https://www.autoriteitpersoonsgegevens.nl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#6FE5FF] hover:underline"
+              >
                 autoriteitpersoonsgegevens.nl
               </a>
             </p>
@@ -258,18 +316,23 @@ function Cookies() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link to="/contact">
-              <CTAButton variant="secondary" className="rounded-xl bg-[#0E141A] text-white hover:bg-black px-6">
+              <CTAButton
+                variant="secondary"
+                className="rounded-xl bg-[#0E141A] text-white hover:bg-black px-6"
+              >
                 Contact Us
               </CTAButton>
             </Link>
             <Link to="/privacy">
-              <CTAButton variant="outline" className="rounded-xl border-[#0E141A]/20 text-[#0E141A] px-6">
+              <CTAButton
+                variant="outline"
+                className="rounded-xl border-[#0E141A]/20 text-[#0E141A] px-6"
+              >
                 Privacy Policy
               </CTAButton>
             </Link>
           </div>
         </div>
-
       </section>
     </SiteLayout>
   );
