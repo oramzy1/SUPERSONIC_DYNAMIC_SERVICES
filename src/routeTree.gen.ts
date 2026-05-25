@@ -9,12 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VacanciesRouteImport } from './routes/vacancies'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -26,6 +28,11 @@ import { Route as QuoteProcessingRouteImport } from './routes/quote_.processing'
 import { Route as DashboardQuotesRouteImport } from './routes/dashboard.quotes'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
 
+const VacanciesRoute = VacanciesRouteImport.update({
+  id: '/vacancies',
+  path: '/vacancies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -54,6 +61,11 @@ const FaqsRoute = FaqsRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -111,12 +123,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/vacancies': typeof VacanciesRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
@@ -129,10 +143,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/faqs': typeof FaqsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/terms': typeof TermsRoute
+  '/vacancies': typeof VacanciesRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
@@ -146,12 +162,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/vacancies': typeof VacanciesRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote_/processing': typeof QuoteProcessingRoute
@@ -166,12 +184,14 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/cookies'
     | '/dashboard'
     | '/faqs'
     | '/privacy'
     | '/quote'
     | '/services'
     | '/terms'
+    | '/vacancies'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/quote/processing'
@@ -184,10 +204,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/cookies'
     | '/faqs'
     | '/privacy'
     | '/quote'
     | '/terms'
+    | '/vacancies'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/quote/processing'
@@ -200,12 +222,14 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/cookies'
     | '/dashboard'
     | '/faqs'
     | '/privacy'
     | '/quote'
     | '/services'
     | '/terms'
+    | '/vacancies'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/quote_/processing'
@@ -219,18 +243,27 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   FaqsRoute: typeof FaqsRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   TermsRoute: typeof TermsRoute
+  VacanciesRoute: typeof VacanciesRoute
   QuoteProcessingRoute: typeof QuoteProcessingRoute
   QuoteSuccessRoute: typeof QuoteSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vacancies': {
+      id: '/vacancies'
+      path: '/vacancies'
+      fullPath: '/vacancies'
+      preLoaderRoute: typeof VacanciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -271,6 +304,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -380,12 +420,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
   DashboardRoute: DashboardRouteWithChildren,
   FaqsRoute: FaqsRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   ServicesRoute: ServicesRouteWithChildren,
   TermsRoute: TermsRoute,
+  VacanciesRoute: VacanciesRoute,
   QuoteProcessingRoute: QuoteProcessingRoute,
   QuoteSuccessRoute: QuoteSuccessRoute,
 }

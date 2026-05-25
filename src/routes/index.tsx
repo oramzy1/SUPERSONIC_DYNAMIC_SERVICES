@@ -282,7 +282,7 @@ export function RequestQuoteBanner() {
                   Email us
                 </p>
                 <p className="font-display text-xs sm:text-lg font-semibold">
-                  info@supersonic_dynamicservices.nl
+                  info@supersonicdynamicservices.nl
                 </p>
               </div>
             </div>

@@ -10,13 +10,13 @@ export default function TrustPilotWidget() {
       if (win.Trustpilot) {
         const el = document.querySelector('.trustpilot-widget');
         if (el) {
-          console.log('Trustpilot object found, attempting to load widget.');
+          // console.log('Trustpilot object found, attempting to load widget.');
           win.Trustpilot.loadFromElement(el);
         } else {
-          console.error('Error: Trustpilot widget element (.trustpilot-widget) not found in DOM.');
+          // console.error('Error: Trustpilot widget element (.trustpilot-widget) not found in DOM.');
         }
       } else {
-        console.warn('Warning: window.Trustpilot is not defined. Script might not have loaded yet or failed.');
+        // console.warn('Warning: window.Trustpilot is not defined. Script might not have loaded yet or failed.');
       }
     };
 
@@ -32,24 +32,22 @@ export default function TrustPilotWidget() {
       script.onerror = () => console.error('Failed to load Trustpilot script.');
       document.body.appendChild(script);
 
-      // Cleanup function: remove the script when the component unmounts
       return () => {
         document.body.removeChild(script);
       };
     }
-
-    // The empty dependency array ensures this effect runs only once on mount and cleans up on unmount.
   }, []);
     return (
-    <div className="flex justify-start py-6">
+    // This is a tricky design for TrustPilot, it requires an inversion of the "known" design formats, aligning to the right takes it to the left and vice versa. Leave as is!
+    <div className="justify-start flex items-start md:justify-end md:flex md:items-center p-8">
       <div
         className="trustpilot-widget"
         data-locale="en-NL"
         data-template-id="56278e9abfbbba0bdcd568bc"
         data-businessunit-id={BUSINESS_UNIT_ID}
-        data-style-height="50px"
-        data-style-width="250px"
-        data-theme="dark"
+        data-theme="light"
+        data-token="069be7a2-39b5-4116-bfd0-8403f5fecbd5"
+        
       >
         <a
           href="https://www.trustpilot.com/review/supersonicdynamicservices.nl"

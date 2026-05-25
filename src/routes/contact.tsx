@@ -13,15 +13,15 @@ import { useState } from "react";
 export const Route = createFileRoute("/contact")({
   component: Contact,
   head: () => ({
-  meta: [
-    { title: "Contact Us - Supersonic Dynamic Services B.V." },
-    {
-      name: "description",
-      content:
-        "Get in touch with Supersonic Dynamic Services B.V. Call +31 (06) 84 336 600 or email us. We're available Monday to Friday, 8:30–17:30.",
-    },
-  ],
-}),
+    meta: [
+      { title: "Contact Us - Supersonic Dynamic Services B.V." },
+      {
+        name: "description",
+        content:
+          "Get in touch with Supersonic Dynamic Services B.V. Call +31 (06) 84 336 600 or email us. We're available Monday to Friday, 8:30–17:30.",
+      },
+    ],
+  }),
 });
 
 const schema = z.object({
@@ -58,9 +58,7 @@ function Contact() {
   return (
     <SiteLayout>
       <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 md:py-20">
-        <Pill variant="primary">
-          Global Operations
-        </Pill>
+        <Pill variant="primary">Global Operations</Pill>
         <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">
           Need Help? <br /> Contact Us Now.
         </h1>
@@ -78,7 +76,7 @@ function Contact() {
                 <p className="font-display text-lg font-semibold">Email Us</p>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
-                info@supersonic_dynamicservices.nl
+                info@supersonicdynamicservices.nl
               </p>
             </div>
             <div className="rounded-2xl bg-surface p-6 border border-white/5">
