@@ -111,7 +111,7 @@ function Home() {
           <div className="absolute inset-0 bg-linear-to-b from-[#0E141A]/85 via-[#0E141A]/80 to-[#0E141A]" />
         </div>
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 md:px-8 md:py-24 lg:grid-cols-2">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 md:px-8 md:py-20 lg:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -120,7 +120,7 @@ function Home() {
             <Pill variant="primary" dot>
               Amsterdam - Netherlands
             </Pill>
-            <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] text-foreground md:text-6xl">
+            <h1 className="mt-4 font-display text-4xl font-bold leading-[1.05] text-foreground md:text-6xl">
               The Next-Generation <br /> Moving & Freight <br />
               <span className="text-foreground/80">Haulage Service.</span>
             </h1>
