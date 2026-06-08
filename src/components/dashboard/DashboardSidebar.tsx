@@ -90,7 +90,7 @@ export function DashboardTopbar() {
             Enterprise User
           </p>
         </div>
-        <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-primary to-[#002B73] text-xs font-bold text-primary-foreground">
+        <div className="grid h-10 w-10 place-items-center rounded-full bg-linear-to-br from-primary to-[#002B73] text-xs font-bold text-primary-foreground">
           CN
         </div>
       </div>
