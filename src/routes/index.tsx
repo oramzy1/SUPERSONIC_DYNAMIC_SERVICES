@@ -243,8 +243,8 @@ function Home() {
 
 export function RequestQuoteBanner() {
   return (
-    <section className="mx-auto max-w-7xl px-6 pb-20 md:px-8">
-      <div className="rounded-3xl bg-[#ABBDF4]/90 p-8 text-[#0E141A] md:p-12">
+    <section className="mx-auto max-w-7xl px-2 pb-20 md:px-8">
+      <div className="rounded-3xl bg-[#ABBDF4]/90 p-4 text-[#0E141A] md:p-12">
         <div className="grid gap-8 md:grid-cols-2">
           <div>
             <h3 className="font-display text-3xl font-bold md:text-4xl">
@@ -270,7 +270,7 @@ export function RequestQuoteBanner() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Call us
                 </p>
-                <p className="font-display text-lg font-semibold">+31 (06) 84 336 600</p>
+                <p className="font-display text-xs sm:text-lg font-semibold">+31 (06) 84 336 600</p>
               </div>
             </div>
             <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-5 py-4">
@@ -281,8 +281,8 @@ export function RequestQuoteBanner() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Email us
                 </p>
-                <p className="font-display text-lg font-semibold">
-                  info@supersonic_dynamicservices.nl
+                <p className="font-display text-xs sm:text-lg font-semibold">
+                  info@supersonicdynamicservices.nl
                 </p>
               </div>
             </div>

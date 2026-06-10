@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 
-export const Route = createFileRoute("/quote/processing")({
+export const Route = createFileRoute("/quote_/processing")({
   component: Processing,
 });
 
@@ -13,12 +13,23 @@ function Processing() {
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const id = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 1100);
-    const go = setTimeout(() => navigate({ to: "/quote/success" }), 4200);
-    return () => { clearInterval(id); clearTimeout(go); };
-  }, [navigate]);
+  // useEffect(() => {
+  //   const id = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 1100);
+  //   const go = setTimeout(() => navigate({ to: "/quote/success" }), 4200);
+  //   return () => { clearInterval(id); clearTimeout(go); };
+  // }, []);
 
+
+  useEffect(() => {
+  const id = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 1100)
+  const go = setTimeout(() => {
+    window.location.href = '/quote/success'
+  }, 4200)
+  return () => {
+    clearInterval(id)
+    clearTimeout(go)
+  }
+}, [])
   return (
     <SiteLayout marquee={false}>
       <section className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center md:px-8">

@@ -11,6 +11,16 @@ import packing from "@/assets/images/about-packing.jpg";
 
 export const Route = createFileRoute("/about")({
   component: About,
+   head: () => ({
+    meta: [
+      { title: "About - Supersonic Dynamic Services B.V." },
+      {
+        name: "description",
+        content:
+          "Supersonic Dynamic Services B.V. is the next level game changer in the Dutch moving services market. Eco-responsible, technology-powered moving across the Netherlands.",
+      },
+    ],
+  }),
 });
 
 const ADVANTAGES = [

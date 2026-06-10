@@ -4,18 +4,38 @@ import { ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import thankBg from "@/assets/images/thankyou-bg.jpg";
+import { useEffect } from "react";
 
-export const Route = createFileRoute("/quote/success")({
+export const Route = createFileRoute("/quote_/success")({
   component: Success,
 });
 
 function Success() {
+
+    useEffect(() => {
+    const win = window as any
+    if (!win.tp) return
+
+    const email = sessionStorage.getItem('quote_email') ?? ''
+    const name = sessionStorage.getItem('quote_name') ?? ''
+    if (!email) return
+
+    win.tp('createInvitation', {
+      recipientEmail: email,
+      recipientName: name,
+      referenceId: `SDS-${Date.now()}`,
+      source: 'InvitationScript',
+    })
+
+    sessionStorage.removeItem('quote_email')
+    sessionStorage.removeItem('quote_name')
+  }, [])
   return (
     <SiteLayout marquee={false}>
       <section className="relative overflow-hidden">
         <div className="relative">
-          <img src={thankBg} alt="" className="h-[420px] w-full object-cover opacity-50" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0E141A] via-[#0E141A]/70 to-[#0E141A]/20" />
+          <img src={thankBg} alt="" className="h-105 w-full object-cover opacity-50" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#0E141A] via-[#0E141A]/70 to-[#0E141A]/20" />
           <div className="absolute inset-0 flex items-end">
             <div className="mx-auto w-full max-w-7xl px-6 pb-12 md:px-8">
               <motion.h1

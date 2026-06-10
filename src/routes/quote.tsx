@@ -23,6 +23,16 @@ import vanHero from "@/assets/images/hero-van.jpg";
 
 export const Route = createFileRoute("/quote")({
   component: Quote,
+  head: () => ({
+    meta: [
+      { title: "Request a Free Quote - Supersonic Dynamic Services B.V." },
+      {
+        name: "description",
+        content:
+          "Request your free, no-obligation moving quote today. Upload photos, videos or schedule a virtual home visit. Transparent pricing with no hidden fees.",
+      },
+    ],
+  }),
 });
 
 const step1 = z.object({
@@ -83,10 +93,12 @@ function Quote() {
   };
   const back = () => setStep((s) => (s === 1 ? 1 : ((s - 1) as 1 | 2 | 3)));
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: FormData) => {
     show("Submitting your quote…");
     await new Promise((r) => setTimeout(r, 600));
     hide();
+    sessionStorage.setItem("quote_email", data.email);
+    sessionStorage.setItem("quote_name", data.name);
     navigate({ to: "/quote/processing" });
   };
 
@@ -354,7 +366,7 @@ function Quote() {
               <ContactStrip
                 icon={<User className="h-5 w-5" />}
                 label="Email us"
-                value="info@supersonic_dynamicservices.nl"
+                value="info@supersonicdynamicservices.nl"
               />
               <ContactStrip
                 icon={<MapPin className="h-5 w-5" />}

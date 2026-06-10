@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Instagram, Share2 } from "lucide-react";
+import { Facebook, Instagram, Share2, Linkedin } from "lucide-react";
+import TrustPilotWidget from "../shared/TrustPilotWidget";
 
 const HOURS = [
   ["Monday", "8:30 - 17:30", true],
@@ -14,8 +15,8 @@ const HOURS = [
 const NAV_LEFT = [
   { label: "About Us", to: "/about" },
   { label: "Request a Quote", to: "/quote" },
-  { label: "Vacancies", to: "/about" },
-  { label: "Cookies policy", to: "/privacy" },
+  { label: "Vacancies", to: "/vacancies" },
+  { label: "Cookies policy", to: "/cookies" },
 ];
 const NAV_RIGHT = [
   { label: "Contact", to: "/contact" },
@@ -27,14 +28,14 @@ const NAV_RIGHT = [
 export function Footer() {
   return (
     <footer className="bg-[#090F15] text-foreground/85">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-4 md:px-8">
+      <div className="mx-auto grid max-w-7xl gap-2 md:gap-10 px-6 pb-5 pt-14 md:grid-cols-4 md:px-8">
         <div>
           <p className="text-sm leading-relaxed text-muted-foreground">
             Leading the transition to carbon-neutral logistics in the Netherlands. We combine
             precision engineering with premium moving experiences.
           </p>
           <div className="mt-6 flex items-center gap-3">
-            {[Facebook, Instagram, Share2, Share2].map((Icon, i) => (
+            {[Facebook, Instagram, Linkedin, Share2].map((Icon, i) => (
               <a
                 key={i}
                 href="#"
@@ -45,6 +46,7 @@ export function Footer() {
               </a>
             ))}
           </div>
+          <TrustPilotWidget />
         </div>
 
         <div>
@@ -61,14 +63,14 @@ export function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className=" my-10 sm:my-0">
           <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/90">
             Quick Navigation
           </h4>
           <ul className="space-y-3 text-sm">
             {NAV_LEFT.map((n) => (
               <li key={n.label} className="flex items-center gap-2">
-                <span className="h-1 w-1 rounded-full bg-foreground/40" />
+                {/* <span className="h-1 w-1 rounded-full bg-foreground/40" /> */}
                 <Link to={n.to} className="hover:text-primary">{n.label}</Link>
               </li>
             ))}
@@ -76,11 +78,14 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="mb-5 invisible text-xs font-semibold uppercase tracking-[0.2em]">.</h4>
+          {/* <h4 className="mb-5 invisible text-xs font-semibold uppercase tracking-[0.2em]">.</h4> */}
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/90">
+            Legal & Support
+          </h4>
           <ul className="space-y-3 text-sm">
             {NAV_RIGHT.map((n) => (
               <li key={n.label} className="flex items-center gap-2">
-                <span className="h-1 w-1 rounded-full bg-foreground/40" />
+                {/* <span className="h-1 w-1 rounded-full bg-foreground/40" /> */}
                 <Link to={n.to} className="hover:text-primary">{n.label}</Link>
               </li>
             ))}
