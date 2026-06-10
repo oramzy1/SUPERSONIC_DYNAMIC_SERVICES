@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useRouterState, useNavigate } from "@tanstack/react-router"; 
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Bell,
   FileText,
@@ -37,71 +37,78 @@ const NAV = [
 
 export function AdminDashboardSidebar() {
   const { location } = useRouterState();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  
+  const desktopMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileSidebarRef = useRef<HTMLDivElement>(null);
 
-  // Synchronize mobile visibility via native safe cross-component window listeners
   useEffect(() => {
     const handleToggleMobile = () => setIsMobileOpen((prev) => !prev);
     window.addEventListener("toggle-admin-sidebar", handleToggleMobile);
     return () => window.removeEventListener("toggle-admin-sidebar", handleToggleMobile);
   }, []);
 
-  // Close dropups & drawers if user changes views
   useEffect(() => {
     setIsMobileOpen(false);
     setIsMenuOpen(false);
   }, [location.pathname]);
 
-  // Handle click outside hooks safely
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+
+      const clickedInsideDesktopMenu = desktopMenuRef.current?.contains(target);
+      const clickedInsideMobileMenu = mobileMenuRef.current?.contains(target);
+
+      if (isMenuOpen && !clickedInsideDesktopMenu && !clickedInsideMobileMenu) {
         setIsMenuOpen(false);
       }
+
       if (
         isMobileOpen &&
         mobileSidebarRef.current &&
-        !mobileSidebarRef.current.contains(event.target as Node)
+        !mobileSidebarRef.current.contains(target)
       ) {
-        // Only close if we didn't click the menu trigger button directly
-        const target = event.target as HTMLElement;
-        if (!target.closest(".mobile-sidebar-toggle-btn")) {
+        const targetElement = event.target as HTMLElement;
+        if (!targetElement.closest(".mobile-sidebar-toggle-btn")) {
           setIsMobileOpen(false);
         }
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isMobileOpen]);
+  }, [isMenuOpen, isMobileOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("supersonic_admin_authed");
-    window.dispatchEvent(new Event("storage"));
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    setIsMenuOpen(false);
+    setIsMobileOpen(false);
+
     navigate({ to: "/" });
   };
 
-  // Reusable core nav elements to maintain exact identity styling mapping
-  const SidebarContent = () => (
+  const SidebarContent = ({ menuRef }: { menuRef: React.RefObject<HTMLDivElement | null> }) => (
     <>
-      <div>
-        <div className="mb-8 flex items-center justify-between px-6">
+      <div className="flex-1 flex flex-col min-h-0 w-full">
+        <div className="mb-8 flex items-center justify-between px-6 shrink-0">
           <Link to="/admindashboard" className="flex items-center gap-2">
             <img src={logo} alt="Supersonic" className="h-8 w-auto object-contain" />
           </Link>
-          {/* Close menu button visible only on mobile wrappers */}
-          <button 
+          <button
             onClick={() => setIsMobileOpen(false)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 md:hidden"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800/40 hover:text-slate-200 md:hidden focus:outline-none"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <nav className="flex flex-col gap-1 px-3">
+        <nav className="flex flex-col gap-1 px-3 flex-1 overflow-y-auto hidden-scrollbar w-full">
           {NAV.map((n) => {
             const active = location.pathname.startsWith(n.to);
             const Icon = n.icon;
@@ -111,7 +118,7 @@ export function AdminDashboardSidebar() {
                 key={n.to}
                 to={n.to}
                 className={cn(
-                  "relative flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition duration-200 group",
+                  "relative flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition duration-200 group w-full",
                   active
                     ? "text-[#E2A54A] bg-[#E2A54A]/5 font-semibold"
                     : "text-slate-400 hover:bg-slate-800/30 hover:text-slate-200",
@@ -123,11 +130,11 @@ export function AdminDashboardSidebar() {
 
                 <Icon
                   className={cn(
-                    "h-5 w-5 transition-colors",
+                    "h-5 w-5 shrink-0 transition-colors",
                     active ? "text-[#E2A54A]" : "text-slate-400 group-hover:text-slate-300",
                   )}
                 />
-                {n.label}
+                <span className="truncate">{n.label}</span>
               </Link>
             );
           })}
@@ -136,35 +143,35 @@ export function AdminDashboardSidebar() {
 
       <div
         ref={menuRef}
-        className="relative flex flex-col gap-4 px-3 border-t border-[#1c1e21] pt-4"
+        className="relative flex flex-col gap-4 px-3 border-t border-[#1c1e21] pt-4 shrink-0 w-full"
       >
         {isMenuOpen && (
-          <div className="absolute bottom-18 left-3 right-3 z-50 flex flex-col gap-1 bg-[#16191c] border border-slate-800 rounded-xl p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150">
+          <div className="absolute bottom-full left-3 right-3 mb-2 z-60 flex flex-col gap-1 bg-[#16191c] border border-slate-800 rounded-xl p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150 max-w-full overflow-hidden">
             <button
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition truncate focus:outline-none"
             >
-              <User className="h-4 w-4 text-slate-500" />
-              View Profile
+              <User className="h-4 w-4 shrink-0 text-slate-500" />
+              <span className="truncate">View Profile</span>
             </button>
 
             <Link
               to="/adminsettings"
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 rounded-lg transition truncate"
             >
-              <Settings className="h-4 w-4 text-slate-500" />
-              Account Settings
+              <Settings className="h-4 w-4 shrink-0 text-slate-500" />
+              <span className="truncate">Account Settings</span>
             </Link>
 
             <div className="h-px bg-slate-800/60 my-1 mx-1" />
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 rounded-lg transition truncate focus:outline-none"
             >
-              <LogOut className="h-4 w-4 text-rose-400/80" />
-              Log Out
+              <LogOut className="h-4 w-4 shrink-0 text-rose-400/80" />
+              <span className="truncate">Log Out</span>
             </button>
           </div>
         )}
@@ -172,11 +179,11 @@ export function AdminDashboardSidebar() {
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className={cn(
-            "flex items-center justify-between w-full gap-2 px-3 py-2 bg-slate-900/20 rounded-xl border border-slate-800/40 text-left outline-none transition focus:border-slate-700 hover:bg-slate-800/20",
+            "flex items-center justify-between w-full gap-2 px-3 py-2 bg-slate-900/20 rounded-xl border border-slate-800/40 text-left outline-none transition focus:border-slate-700 hover:bg-slate-800/20 overflow-hidden",
             isMenuOpen && "border-slate-700 bg-slate-800/20",
           )}
         >
-          <div className="flex items-center gap-3 truncate">
+          <div className="flex items-center gap-3 truncate min-w-0 flex-1">
             <div className="relative shrink-0">
               <img
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
@@ -186,7 +193,7 @@ export function AdminDashboardSidebar() {
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-[#111315] rounded-full" />
             </div>
 
-            <div className="flex flex-col truncate">
+            <div className="flex flex-col truncate min-w-0">
               <span className="text-xs font-semibold text-slate-200 truncate leading-tight">
                 Admin User
               </span>
@@ -205,25 +212,25 @@ export function AdminDashboardSidebar() {
   return (
     <>
       {/* 1. DESKTOP VIEW SIDEBAR PANEL LAYOUT */}
-      <aside className="hidden w-60 shrink-0 flex-col justify-between border-r border-[#1c1e21] bg-[#111315] pb-6 pt-6 md:flex select-none">
-        <SidebarContent />
+      <aside className="hidden md:flex w-60 shrink-0 flex-col justify-between border-r border-[#1c1e21] bg-[#111315] pb-6 pt-6 relative z-40 select-none h-screen top-0">
+        <SidebarContent menuRef={desktopMenuRef} />
       </aside>
 
       {/* 2. MOBILE VIEW SLIDEOUT SIDEBAR DRAWER PANEL LAYOUT */}
       <div
         className={cn(
-          "fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity duration-300 md:hidden select-none",
-          isMobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          "fixed inset-0 z-100 bg-[#100315]/80 backdrop-blur-sm transition-opacity duration-300 md:hidden select-none",
+          isMobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         )}
       >
         <div
-          ref={mobileSidebarRef}
           className={cn(
-            "absolute top-0 bottom-0 left-0 flex w-64 flex-col justify-between border-r border-[#1c1e21] bg-[#111315] pb-6 pt-6 transition-transform duration-300 ease-in-out",
-            isMobileOpen ? "translate-x-0" : "-translate-x-full"
+            "fixed top-0 bottom-0 left-0 flex w-64 max-w-[80vw] flex-col justify-between border-r border-[#1c1e21] bg-[#111315] pb-6 pt-6 transition-transform duration-300 ease-in-out z-105",
+            isMobileOpen ? "translate-x-0" : "-translate-x-full",
           )}
+          ref={mobileSidebarRef}
         >
-          <SidebarContent />
+          <SidebarContent menuRef={mobileMenuRef} />
         </div>
       </div>
     </>
@@ -236,39 +243,34 @@ export function AdminDashboardTopbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[#1c1e21] bg-[#111315]/85 px-4 sm:px-8 py-4 backdrop-blur-xl gap-4">
-      
-      {/* Mobile Hamburger Trigger Toggle Button */}
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#1c1e21] bg-[#111315]/85 px-4 sm:px-6 lg:px-8 py-4 backdrop-blur-xl gap-4 w-full box-border">
       <button
         onClick={handleOpenMobileSidebar}
-        className="mobile-sidebar-toggle-btn flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#16191c] border border-slate-800/40 text-slate-400 hover:text-slate-200 md:hidden transition"
+        className="mobile-sidebar-toggle-btn flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#16191c] border border-slate-800/40 text-slate-400 hover:text-slate-200 md:hidden transition focus:outline-none"
       >
         <Menu className="h-5 w-5" />
       </button>
 
-      {/* Search Input Box Layout */}
-      <div className="flex flex-1 items-center gap-3 rounded-xl bg-[#16191c] px-4 py-2.5 max-w-md border border-slate-800/20">
-        <Search className="h-4 w-4 text-slate-500" />
+      <div className="flex flex-1 items-center gap-3 rounded-xl bg-[#16191c] px-4 py-2.5 max-w-xs sm:max-w-md border border-slate-800/20 min-w-0">
+        <Search className="h-4 w-4 text-slate-500 shrink-0" />
         <input
-          placeholder="Search orders, clients, or IDs..."
-          className="w-full bg-transparent text-sm text-slate-200 outline-none placeholder:text-slate-500"
+          placeholder="Search..."
+          className="w-full bg-transparent text-sm text-slate-200 outline-none placeholder:text-slate-500 min-w-0"
         />
       </div>
 
-      {/* Right Core Action Tools Overlay Options */}
-      <div className="flex items-center gap-2 sm:gap-4">
-        <button className="relative grid h-9 w-9 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+      <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+        <button className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 focus:outline-none">
           <Bell className="h-5 w-5" />
           <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#E2A54A] rounded-full" />
         </button>
 
-        <button className="hidden sm:grid h-9 w-9 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-slate-800/50">
+        <button className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 focus:outline-none">
           <HelpCircle className="h-5 w-5" />
         </button>
 
-        <div className="hidden sm:block h-8 w-px bg-[#1c1e21]" />
+        <div className="hidden sm:block h-8 w-px bg-[#1c1e21] shrink-0" />
 
-        {/* Header User Corner Profile Icon Token */}
         <div className="h-9 w-9 overflow-hidden rounded-full border border-slate-700 shrink-0">
           <img
             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"

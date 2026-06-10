@@ -16,17 +16,8 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AdmintrackingRouteImport } from './routes/admintracking'
-import { Route as AdminsettingsRouteImport } from './routes/adminsettings'
-import { Route as AdminservicesRouteImport } from './routes/adminservices'
-import { Route as AdminquotesRouteImport } from './routes/adminquotes'
-import { Route as AdminnotificationsRouteImport } from './routes/adminnotifications'
-import { Route as AdminjobsRouteImport } from './routes/adminjobs'
-import { Route as AdmininvoicesRouteImport } from './routes/admininvoices'
-import { Route as AdmindashboardRouteImport } from './routes/admindashboard'
-import { Route as AdmincustomersRouteImport } from './routes/admincustomers'
-import { Route as AdminanalyticsRouteImport } from './routes/adminanalytics'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
@@ -35,6 +26,16 @@ import { Route as QuoteSuccessRouteImport } from './routes/quote.success'
 import { Route as QuoteProcessingRouteImport } from './routes/quote.processing'
 import { Route as DashboardQuotesRouteImport } from './routes/dashboard.quotes'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
+import { Route as AuthAdmintrackingRouteImport } from './routes/_auth.admintracking'
+import { Route as AuthAdminsettingsRouteImport } from './routes/_auth.adminsettings'
+import { Route as AuthAdminservicesRouteImport } from './routes/_auth.adminservices'
+import { Route as AuthAdminquotesRouteImport } from './routes/_auth.adminquotes'
+import { Route as AuthAdminnotificationsRouteImport } from './routes/_auth.adminnotifications'
+import { Route as AuthAdminjobsRouteImport } from './routes/_auth.adminjobs'
+import { Route as AuthAdmininvoicesRouteImport } from './routes/_auth.admininvoices'
+import { Route as AuthAdmindashboardRouteImport } from './routes/_auth.admindashboard'
+import { Route as AuthAdmincustomersRouteImport } from './routes/_auth.admincustomers'
+import { Route as AuthAdminanalyticsRouteImport } from './routes/_auth.adminanalytics'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -71,59 +72,13 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdmintrackingRoute = AdmintrackingRouteImport.update({
-  id: '/admintracking',
-  path: '/admintracking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminsettingsRoute = AdminsettingsRouteImport.update({
-  id: '/adminsettings',
-  path: '/adminsettings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminservicesRoute = AdminservicesRouteImport.update({
-  id: '/adminservices',
-  path: '/adminservices',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminquotesRoute = AdminquotesRouteImport.update({
-  id: '/adminquotes',
-  path: '/adminquotes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminnotificationsRoute = AdminnotificationsRouteImport.update({
-  id: '/adminnotifications',
-  path: '/adminnotifications',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminjobsRoute = AdminjobsRouteImport.update({
-  id: '/adminjobs',
-  path: '/adminjobs',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdmininvoicesRoute = AdmininvoicesRouteImport.update({
-  id: '/admininvoices',
-  path: '/admininvoices',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdmindashboardRoute = AdmindashboardRouteImport.update({
-  id: '/admindashboard',
-  path: '/admindashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdmincustomersRoute = AdmincustomersRouteImport.update({
-  id: '/admincustomers',
-  path: '/admincustomers',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminanalyticsRoute = AdminanalyticsRouteImport.update({
-  id: '/adminanalytics',
-  path: '/adminanalytics',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -166,20 +121,60 @@ const DashboardInvoicesRoute = DashboardInvoicesRouteImport.update({
   path: '/invoices',
   getParentRoute: () => DashboardRoute,
 } as any)
+const AuthAdmintrackingRoute = AuthAdmintrackingRouteImport.update({
+  id: '/admintracking',
+  path: '/admintracking',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminsettingsRoute = AuthAdminsettingsRouteImport.update({
+  id: '/adminsettings',
+  path: '/adminsettings',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminservicesRoute = AuthAdminservicesRouteImport.update({
+  id: '/adminservices',
+  path: '/adminservices',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminquotesRoute = AuthAdminquotesRouteImport.update({
+  id: '/adminquotes',
+  path: '/adminquotes',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminnotificationsRoute = AuthAdminnotificationsRouteImport.update({
+  id: '/adminnotifications',
+  path: '/adminnotifications',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminjobsRoute = AuthAdminjobsRouteImport.update({
+  id: '/adminjobs',
+  path: '/adminjobs',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdmininvoicesRoute = AuthAdmininvoicesRouteImport.update({
+  id: '/admininvoices',
+  path: '/admininvoices',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdmindashboardRoute = AuthAdmindashboardRouteImport.update({
+  id: '/admindashboard',
+  path: '/admindashboard',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdmincustomersRoute = AuthAdmincustomersRouteImport.update({
+  id: '/admincustomers',
+  path: '/admincustomers',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminanalyticsRoute = AuthAdminanalyticsRouteImport.update({
+  id: '/adminanalytics',
+  path: '/adminanalytics',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/adminanalytics': typeof AdminanalyticsRoute
-  '/admincustomers': typeof AdmincustomersRoute
-  '/admindashboard': typeof AdmindashboardRoute
-  '/admininvoices': typeof AdmininvoicesRoute
-  '/adminjobs': typeof AdminjobsRoute
-  '/adminnotifications': typeof AdminnotificationsRoute
-  '/adminquotes': typeof AdminquotesRoute
-  '/adminservices': typeof AdminservicesRoute
-  '/adminsettings': typeof AdminsettingsRoute
-  '/admintracking': typeof AdmintrackingRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
@@ -187,6 +182,16 @@ export interface FileRoutesByFullPath {
   '/quote': typeof QuoteRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/adminanalytics': typeof AuthAdminanalyticsRoute
+  '/admincustomers': typeof AuthAdmincustomersRoute
+  '/admindashboard': typeof AuthAdmindashboardRoute
+  '/admininvoices': typeof AuthAdmininvoicesRoute
+  '/adminjobs': typeof AuthAdminjobsRoute
+  '/adminnotifications': typeof AuthAdminnotificationsRoute
+  '/adminquotes': typeof AuthAdminquotesRoute
+  '/adminservices': typeof AuthAdminservicesRoute
+  '/adminsettings': typeof AuthAdminsettingsRoute
+  '/admintracking': typeof AuthAdmintrackingRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
@@ -198,21 +203,21 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/adminanalytics': typeof AdminanalyticsRoute
-  '/admincustomers': typeof AdmincustomersRoute
-  '/admindashboard': typeof AdmindashboardRoute
-  '/admininvoices': typeof AdmininvoicesRoute
-  '/adminjobs': typeof AdminjobsRoute
-  '/adminnotifications': typeof AdminnotificationsRoute
-  '/adminquotes': typeof AdminquotesRoute
-  '/adminservices': typeof AdminservicesRoute
-  '/adminsettings': typeof AdminsettingsRoute
-  '/admintracking': typeof AdmintrackingRoute
   '/contact': typeof ContactRoute
   '/faqs': typeof FaqsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRouteWithChildren
   '/terms': typeof TermsRoute
+  '/adminanalytics': typeof AuthAdminanalyticsRoute
+  '/admincustomers': typeof AuthAdmincustomersRoute
+  '/admindashboard': typeof AuthAdmindashboardRoute
+  '/admininvoices': typeof AuthAdmininvoicesRoute
+  '/adminjobs': typeof AuthAdminjobsRoute
+  '/adminnotifications': typeof AuthAdminnotificationsRoute
+  '/adminquotes': typeof AuthAdminquotesRoute
+  '/adminservices': typeof AuthAdminservicesRoute
+  '/adminsettings': typeof AuthAdminsettingsRoute
+  '/admintracking': typeof AuthAdmintrackingRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
@@ -224,17 +229,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_auth': typeof AuthRouteWithChildren
   '/about': typeof AboutRoute
-  '/adminanalytics': typeof AdminanalyticsRoute
-  '/admincustomers': typeof AdmincustomersRoute
-  '/admindashboard': typeof AdmindashboardRoute
-  '/admininvoices': typeof AdmininvoicesRoute
-  '/adminjobs': typeof AdminjobsRoute
-  '/adminnotifications': typeof AdminnotificationsRoute
-  '/adminquotes': typeof AdminquotesRoute
-  '/adminservices': typeof AdminservicesRoute
-  '/adminsettings': typeof AdminsettingsRoute
-  '/admintracking': typeof AdmintrackingRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
@@ -242,6 +238,16 @@ export interface FileRoutesById {
   '/quote': typeof QuoteRouteWithChildren
   '/services': typeof ServicesRouteWithChildren
   '/terms': typeof TermsRoute
+  '/_auth/adminanalytics': typeof AuthAdminanalyticsRoute
+  '/_auth/admincustomers': typeof AuthAdmincustomersRoute
+  '/_auth/admindashboard': typeof AuthAdmindashboardRoute
+  '/_auth/admininvoices': typeof AuthAdmininvoicesRoute
+  '/_auth/adminjobs': typeof AuthAdminjobsRoute
+  '/_auth/adminnotifications': typeof AuthAdminnotificationsRoute
+  '/_auth/adminquotes': typeof AuthAdminquotesRoute
+  '/_auth/adminservices': typeof AuthAdminservicesRoute
+  '/_auth/adminsettings': typeof AuthAdminsettingsRoute
+  '/_auth/admintracking': typeof AuthAdmintrackingRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/quote/processing': typeof QuoteProcessingRoute
@@ -255,6 +261,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/contact'
+    | '/dashboard'
+    | '/faqs'
+    | '/privacy'
+    | '/quote'
+    | '/services'
+    | '/terms'
     | '/adminanalytics'
     | '/admincustomers'
     | '/admindashboard'
@@ -265,13 +278,6 @@ export interface FileRouteTypes {
     | '/adminservices'
     | '/adminsettings'
     | '/admintracking'
-    | '/contact'
-    | '/dashboard'
-    | '/faqs'
-    | '/privacy'
-    | '/quote'
-    | '/services'
-    | '/terms'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/quote/processing'
@@ -283,6 +289,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/contact'
+    | '/faqs'
+    | '/privacy'
+    | '/quote'
+    | '/terms'
     | '/adminanalytics'
     | '/admincustomers'
     | '/admindashboard'
@@ -293,11 +304,6 @@ export interface FileRouteTypes {
     | '/adminservices'
     | '/adminsettings'
     | '/admintracking'
-    | '/contact'
-    | '/faqs'
-    | '/privacy'
-    | '/quote'
-    | '/terms'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/quote/processing'
@@ -308,17 +314,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_auth'
     | '/about'
-    | '/adminanalytics'
-    | '/admincustomers'
-    | '/admindashboard'
-    | '/admininvoices'
-    | '/adminjobs'
-    | '/adminnotifications'
-    | '/adminquotes'
-    | '/adminservices'
-    | '/adminsettings'
-    | '/admintracking'
     | '/contact'
     | '/dashboard'
     | '/faqs'
@@ -326,6 +323,16 @@ export interface FileRouteTypes {
     | '/quote'
     | '/services'
     | '/terms'
+    | '/_auth/adminanalytics'
+    | '/_auth/admincustomers'
+    | '/_auth/admindashboard'
+    | '/_auth/admininvoices'
+    | '/_auth/adminjobs'
+    | '/_auth/adminnotifications'
+    | '/_auth/adminquotes'
+    | '/_auth/adminservices'
+    | '/_auth/adminsettings'
+    | '/_auth/admintracking'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/quote/processing'
@@ -337,17 +344,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRouteWithChildren
   AboutRoute: typeof AboutRoute
-  AdminanalyticsRoute: typeof AdminanalyticsRoute
-  AdmincustomersRoute: typeof AdmincustomersRoute
-  AdmindashboardRoute: typeof AdmindashboardRoute
-  AdmininvoicesRoute: typeof AdmininvoicesRoute
-  AdminjobsRoute: typeof AdminjobsRoute
-  AdminnotificationsRoute: typeof AdminnotificationsRoute
-  AdminquotesRoute: typeof AdminquotesRoute
-  AdminservicesRoute: typeof AdminservicesRoute
-  AdminsettingsRoute: typeof AdminsettingsRoute
-  AdmintrackingRoute: typeof AdmintrackingRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   FaqsRoute: typeof FaqsRoute
@@ -408,81 +406,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admintracking': {
-      id: '/admintracking'
-      path: '/admintracking'
-      fullPath: '/admintracking'
-      preLoaderRoute: typeof AdmintrackingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/adminsettings': {
-      id: '/adminsettings'
-      path: '/adminsettings'
-      fullPath: '/adminsettings'
-      preLoaderRoute: typeof AdminsettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/adminservices': {
-      id: '/adminservices'
-      path: '/adminservices'
-      fullPath: '/adminservices'
-      preLoaderRoute: typeof AdminservicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/adminquotes': {
-      id: '/adminquotes'
-      path: '/adminquotes'
-      fullPath: '/adminquotes'
-      preLoaderRoute: typeof AdminquotesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/adminnotifications': {
-      id: '/adminnotifications'
-      path: '/adminnotifications'
-      fullPath: '/adminnotifications'
-      preLoaderRoute: typeof AdminnotificationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/adminjobs': {
-      id: '/adminjobs'
-      path: '/adminjobs'
-      fullPath: '/adminjobs'
-      preLoaderRoute: typeof AdminjobsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admininvoices': {
-      id: '/admininvoices'
-      path: '/admininvoices'
-      fullPath: '/admininvoices'
-      preLoaderRoute: typeof AdmininvoicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admindashboard': {
-      id: '/admindashboard'
-      path: '/admindashboard'
-      fullPath: '/admindashboard'
-      preLoaderRoute: typeof AdmindashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admincustomers': {
-      id: '/admincustomers'
-      path: '/admincustomers'
-      fullPath: '/admincustomers'
-      preLoaderRoute: typeof AdmincustomersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/adminanalytics': {
-      id: '/adminanalytics'
-      path: '/adminanalytics'
-      fullPath: '/adminanalytics'
-      preLoaderRoute: typeof AdminanalyticsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -541,8 +476,106 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardInvoicesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/_auth/admintracking': {
+      id: '/_auth/admintracking'
+      path: '/admintracking'
+      fullPath: '/admintracking'
+      preLoaderRoute: typeof AuthAdmintrackingRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminsettings': {
+      id: '/_auth/adminsettings'
+      path: '/adminsettings'
+      fullPath: '/adminsettings'
+      preLoaderRoute: typeof AuthAdminsettingsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminservices': {
+      id: '/_auth/adminservices'
+      path: '/adminservices'
+      fullPath: '/adminservices'
+      preLoaderRoute: typeof AuthAdminservicesRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminquotes': {
+      id: '/_auth/adminquotes'
+      path: '/adminquotes'
+      fullPath: '/adminquotes'
+      preLoaderRoute: typeof AuthAdminquotesRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminnotifications': {
+      id: '/_auth/adminnotifications'
+      path: '/adminnotifications'
+      fullPath: '/adminnotifications'
+      preLoaderRoute: typeof AuthAdminnotificationsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminjobs': {
+      id: '/_auth/adminjobs'
+      path: '/adminjobs'
+      fullPath: '/adminjobs'
+      preLoaderRoute: typeof AuthAdminjobsRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admininvoices': {
+      id: '/_auth/admininvoices'
+      path: '/admininvoices'
+      fullPath: '/admininvoices'
+      preLoaderRoute: typeof AuthAdmininvoicesRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admindashboard': {
+      id: '/_auth/admindashboard'
+      path: '/admindashboard'
+      fullPath: '/admindashboard'
+      preLoaderRoute: typeof AuthAdmindashboardRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admincustomers': {
+      id: '/_auth/admincustomers'
+      path: '/admincustomers'
+      fullPath: '/admincustomers'
+      preLoaderRoute: typeof AuthAdmincustomersRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminanalytics': {
+      id: '/_auth/adminanalytics'
+      path: '/adminanalytics'
+      fullPath: '/adminanalytics'
+      preLoaderRoute: typeof AuthAdminanalyticsRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
+
+interface AuthRouteChildren {
+  AuthAdminanalyticsRoute: typeof AuthAdminanalyticsRoute
+  AuthAdmincustomersRoute: typeof AuthAdmincustomersRoute
+  AuthAdmindashboardRoute: typeof AuthAdmindashboardRoute
+  AuthAdmininvoicesRoute: typeof AuthAdmininvoicesRoute
+  AuthAdminjobsRoute: typeof AuthAdminjobsRoute
+  AuthAdminnotificationsRoute: typeof AuthAdminnotificationsRoute
+  AuthAdminquotesRoute: typeof AuthAdminquotesRoute
+  AuthAdminservicesRoute: typeof AuthAdminservicesRoute
+  AuthAdminsettingsRoute: typeof AuthAdminsettingsRoute
+  AuthAdmintrackingRoute: typeof AuthAdmintrackingRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthAdminanalyticsRoute: AuthAdminanalyticsRoute,
+  AuthAdmincustomersRoute: AuthAdmincustomersRoute,
+  AuthAdmindashboardRoute: AuthAdmindashboardRoute,
+  AuthAdmininvoicesRoute: AuthAdmininvoicesRoute,
+  AuthAdminjobsRoute: AuthAdminjobsRoute,
+  AuthAdminnotificationsRoute: AuthAdminnotificationsRoute,
+  AuthAdminquotesRoute: AuthAdminquotesRoute,
+  AuthAdminservicesRoute: AuthAdminservicesRoute,
+  AuthAdminsettingsRoute: AuthAdminsettingsRoute,
+  AuthAdmintrackingRoute: AuthAdmintrackingRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface DashboardRouteChildren {
   DashboardInvoicesRoute: typeof DashboardInvoicesRoute
@@ -588,17 +621,8 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRouteWithChildren,
   AboutRoute: AboutRoute,
-  AdminanalyticsRoute: AdminanalyticsRoute,
-  AdmincustomersRoute: AdmincustomersRoute,
-  AdmindashboardRoute: AdmindashboardRoute,
-  AdmininvoicesRoute: AdmininvoicesRoute,
-  AdminjobsRoute: AdminjobsRoute,
-  AdminnotificationsRoute: AdminnotificationsRoute,
-  AdminquotesRoute: AdminquotesRoute,
-  AdminservicesRoute: AdminservicesRoute,
-  AdminsettingsRoute: AdminsettingsRoute,
-  AdmintrackingRoute: AdmintrackingRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRouteWithChildren,
   FaqsRoute: FaqsRoute,

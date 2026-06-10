@@ -2,19 +2,48 @@ import React, { useState, useEffect } from "react";
 import { ShieldCheck, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 
 interface AdminAuthGuardProps {
-  onSuccess: () => void;
+  children: React.ReactNode; // Enabled structural wrapping compatibility
+  onSuccess?: () => void;
 }
 
-export default function AdminAuthGuard({ onSuccess }: AdminAuthGuardProps) {
+// Named Export aligned with Topbar/Sidebar import statements
+export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
   // --- Form & Step States ---
   const [email, setEmail] = useState("");
   const [passcode, setPasscode] = useState("");
-  const [step, setStep] = useState<"IDENTIFY" | "VERIFY" | "SUCCESS">("IDENTIFY");
+
+  // Persist session check instantly to avoid flashing blank pages on authenticated reloads
+  const [step, setStep] = useState<"IDENTIFY" | "VERIFY" | "SUCCESS" | "AUTHENTICATED">(() => {
+    const isSaved = localStorage.getItem("supersonic_admin_authed") === "true";
+    return isSaved ? "AUTHENTICATED" : "IDENTIFY";
+  });
 
   // --- Validation & UI Feedback States ---
   const [emailError, setEmailError] = useState("");
   const [passcodeError, setPasscodeError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // --- AUTOMATED LOGOUT STATE SYNC ---
+  // This watches local storage changes to snap the screen back to login instantly upon logout
+  useEffect(() => {
+    const handleStorageSync = () => {
+      const isSaved = localStorage.getItem("supersonic_admin_authed") === "true";
+      if (!isSaved) {
+        setStep("IDENTIFY");
+        setPasscode("");
+        setEmail("");
+      }
+    };
+
+    // Listen for storage changes from other windows/tabs or custom dispatch events
+    window.addEventListener("storage", handleStorageSync);
+    window.addEventListener("local-storage-logout", handleStorageSync);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageSync);
+      window.removeEventListener("local-storage-logout", handleStorageSync);
+    };
+  }, []);
 
   // --- Email Format Validation Helper ---
   const validateEmail = (targetEmail: string) => {
@@ -69,14 +98,8 @@ export default function AdminAuthGuard({ onSuccess }: AdminAuthGuardProps) {
     // Simulate authorization processing handshake
     setTimeout(() => {
       setIsLoading(false);
-      
-      // 1. Re-initialize the precise token key your dashboard route checks for
+      // Persist to localStorage so layout doesn't lock up again upon hot reloads
       localStorage.setItem("supersonic_admin_authed", "true");
-      
-      // 2. Notify storage event listeners across contexts immediately
-      window.dispatchEvent(new Event("storage"));
-      
-      // 3. Complete step transition to execute hook side-effect safely
       setStep("SUCCESS");
     }, 1500);
   };
@@ -85,11 +108,17 @@ export default function AdminAuthGuard({ onSuccess }: AdminAuthGuardProps) {
   useEffect(() => {
     if (step === "SUCCESS") {
       const redirectTimeout = setTimeout(() => {
-        onSuccess();
+        setStep("AUTHENTICATED");
+        if (onSuccess) onSuccess();
       }, 2000);
       return () => clearTimeout(redirectTimeout);
     }
   }, [step, onSuccess]);
+
+  // If already logged in successfully, simply drop the gateway wall and show the page contents
+  if (step === "AUTHENTICATED") {
+    return <>{children}</>;
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B0F17] text-[#94A3B8] font-sans antialiased px-4">
