@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Edit3, X, Plus, Save, Info, Layers, Sparkles, Trash2 } from "lucide-react";
 
 // Local Asset fallbacks if bundler paths resolve asynchronously
-import student from "@/assets/images/service-student.jpg";
-import residential from "@/assets/images/service-residential.jpg";
+import micromoving from "@/assets/images/micro-moving.jpg";
+import residential from "@/assets/images/residential-moving.jpg";
 import enterprise from "@/assets/images/service-enterprise.jpg";
-import storage from "@/assets/images/service-storage.jpg";
-import waste from "@/assets/images/service-waste.jpg";
+import storage from "@/assets/images/smart-storage.jpg";
+import waste from "@/assets/images/waste-removal.jpg";
 
 export type ServiceDetail = {
   slug: string;
@@ -24,7 +24,7 @@ export type ServiceDetail = {
 const INITIAL_SERVICES: ServiceDetail[] = [
   {
     slug: "student-moving",
-    image: student,
+    image: micromoving,
     heroTitle: "Student Moving & Micro Moving With Supersonic",
     title: "Student & Micro Moving (Local & Short Distance)",
     intro:
@@ -141,7 +141,7 @@ export function RouteComponent() {
   const [isNewService, setIsNewService] = useState<boolean>(false);
 
   const [activeToggles, setActiveToggles] = useState<Record<string, boolean>>({
-    "student-moving": true,
+    "micro-moving": true,
     "residential-moving": true,
     "enterprise-moving": true,
     "smart-storage": true,
@@ -354,7 +354,7 @@ export function RouteComponent() {
 
       {/* MODAL DIALOG OVERLAY PANEL */}
       {editingService && (
-        <div className="fixed inset-0 z-50 bg-[#070809]/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div className="fixed inset-0 z-999 bg-[#070809]/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-[#111315] border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl transition duration-150">
             <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-[#14171a]/40">
               <div className="flex items-center gap-2">
@@ -436,7 +436,7 @@ export function RouteComponent() {
                     required
                   >
                     <option value="">Select illustrative archetype wrapper...</option>
-                    <option value={student}>Student & Micro Moving Base Graphic</option>
+                    <option value={micromoving}>Student & Micro Moving Base Graphic</option>
                     <option value={residential}>Residential Moving Long Distance Graphic</option>
                     <option value={enterprise}>Enterprise Commercial Fleet Graphic</option>
                     <option value={storage}>Smart Vault Storage Graphic</option>

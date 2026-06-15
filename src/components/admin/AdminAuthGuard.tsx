@@ -253,7 +253,7 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
               <button
                 type="submit"
                 disabled={isLoading}
-                style={{ backgroundColor: "#C8A24A" }}
+                style={{ backgroundColor: "#F4D35E" }}
                 className="flex-1 text-[#0B0F17] hover:brightness-110 font-bold text-xs tracking-wider py-3 rounded-xl transition-all shadow-xl shadow-[#C8A24A]/5 flex items-center justify-center gap-2 uppercase disabled:opacity-50"
               >
                 {isLoading ? (

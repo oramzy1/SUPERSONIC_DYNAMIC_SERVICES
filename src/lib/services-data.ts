@@ -1,8 +1,9 @@
-import student from "@/assets/images/service-student.jpg";
-import residential from "@/assets/images/service-residential.jpg";
+import micromoving from "@/assets/images/micro-moving.jpg";
+import residential from "@/assets/images/residential-moving.jpg";
 import enterprise from "@/assets/images/service-enterprise.jpg";
-import storage from "@/assets/images/service-storage.jpg";
-import waste from "@/assets/images/service-waste.jpg";
+import storage from "@/assets/images/smart-storage.jpg";
+import waste from "@/assets/images/waste-removal.jpg";
+import haulage from "@/assets/images/service-enterprise.jpg"; 
 
 export type ServiceDetail = {
   slug: string;
@@ -19,7 +20,7 @@ export type ServiceDetail = {
 export const SERVICES: ServiceDetail[] = [
   {
     slug: "student-moving",
-    image: student,
+    image: micromoving,
     heroTitle: "Student Moving & Micro Moving With Supersonic",
     title: "Student & Micro Moving with SUPERSONIC DYNAMIC SERVICES - Fast, Smart and Stress-Free.",
     intro:
@@ -37,6 +38,7 @@ export const SERVICES: ServiceDetail[] = [
       "Local and long-distance coverage across the Netherlands",
       "Fast booking & flexible schedule",
       "Eco-responsible moving solutions (electric vans & sustainable logistics).",
+      "Technology-powered moving experience instant quotes, live move tracking, and one-click digital payments.",
     ],
   },
   {
@@ -128,6 +130,29 @@ export const SERVICES: ServiceDetail[] = [
       "Suitable for small pickups to large-scale clearances.",
       "Transparent pricing with no hidden fees.",
       "Eco-friendly operations aligned with Dutch regulations.",
+    ],
+  },
+  {
+    slug: "freight-haulage",
+    image: haulage,
+    heroTitle: "RELIABLE FREIGHT HAULAGE SERVICES - Safe, Efficient & On-Time Delivery",
+    title: "RELIABLE FREIGHT HAULAGE SERVICES - Safe, Efficient & On-Time Delivery",
+    intro:
+      "At SUPERSONIC DYNAMIC SERVICES, we provide dependable, efficient, and professionally managed freight haulage solutions - tailored for businesses, logistics companies, and individuals who require safe transportation of goods from one destination to another.",
+    body: [
+      "Whether you need local distribution, regional transportation, or long-distance haulage, we ensure your cargo is delivered securely, on schedule, and with the highest level of professionalism. From commercial goods and industrial equipment to retail products and bulk consignments, our experienced team handles every shipment with care, precision, and efficiency.",
+      "Our freight haulage service is designed to support smooth supply chain operations by offering reliable transportation, flexible scheduling, and professional cargo handling. With a strong focus on safety, timely delivery, and customer satisfaction, we help businesses move goods seamlessly while minimizing delays and operational stress.",
+    ],
+    expertise:
+      "Local freight distribution, Regional and cross-region transportation, Long-distance haulage operations, Commercial and industrial item distribution, Retail inventory shipments, Bulk logistics consignment handlings.",
+    tags: ["Tech Innovation", "Eco-Centric", "Global Scale"],
+    benefits: [
+      "Reliable and timely delivery services.",
+      "Safe handling and secure transportation of goods.",
+      "Flexible transport solutions tailored to your needs.",
+      "Professional and experienced haulage team.",
+      "Efficient logistics coordination and route planning.",
+      "Transparent pricing with no hidden charges.",
     ],
   },
 ];

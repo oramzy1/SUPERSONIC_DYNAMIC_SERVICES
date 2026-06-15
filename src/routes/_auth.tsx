@@ -17,15 +17,7 @@ function AuthLayout() {
       {/* OUTER SHELL: locks viewport perfectly, handles all device screens safely */}
       <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
 
-        {/* SIDEBAR: Component controls its own responsive behaviors internally.
-          We render it inside the root flex flow without hardcoded fixed-position wrappers.
-        */}
         <AdminDashboardSidebar />
-
-        {/* MAIN COLUMN: No hardcoded left margin offsets! 
-          On desktop, it naturally sits beside the sidebar. On mobile, it automatically spans 100% width.
-          'min-w-0' is crucial to prevent inner elements from pushing past screen boundaries.
-        */}
         <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
 
           {/* TOPBAR: Re-aligned with proper safe toggling bindings */}
