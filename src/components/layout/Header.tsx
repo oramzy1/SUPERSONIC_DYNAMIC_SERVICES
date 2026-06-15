@@ -382,7 +382,7 @@ export function Header() {
               {/* Quick profile redirect links for mobile layout stack */}
               <div className="grid grid-cols-2 gap-2">
                 <Link
-                  to={isLoggedIn ? "/dashboard" : "/login"}
+                  to={isLoggedIn ? ("/dashboard" as any) : ("/login" as any)}
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-center gap-2 rounded-xl border border-white/5 bg-white/5 py-2.5 text-xs font-medium text-foreground"
                 >

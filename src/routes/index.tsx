@@ -244,11 +244,11 @@ function Home() {
 export function RequestQuoteBanner() {
   return (
     <section className="mx-auto max-w-7xl px-6 pb-20 md:px-8">
-      <div className="rounded-3xl bg-[#ABBDF4]/90 p-6 sm:p-8 text-[#0E141A] md:p-12">
-        <div className="grid gap-8 md:grid-cols-2 items-center">
-          <div className="text-center md:text-left flex flex-col items-center md:items-start">
-            <h3 className="font-display text-2xl sm:text-3xl font-extrabold md:text-4xl">
-              Request Your Free <br className="hidden sm:inline" /> Moving Quote:
+      <div className="rounded-3xl bg-[#ABBDF4]/90 p-8 text-[#0E141A] md:p-12">
+        <div className="grid gap-8 md:grid-cols-2">
+          <div>
+            <h3 className="font-display text-3xl font-bold md:text-4xl">
+              Request Your Free <br /> Moving Quote:
             </h3>
             <p className="mt-4 max-w-md text-sm text-[#0E141A]/80 leading-relaxed">
               Planning a move in the Netherlands? Let SUPERSONIC DYNAMIC SERVICES B.V. handle your
@@ -273,9 +273,7 @@ export function RequestQuoteBanner() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Call us
                 </p>
-                <p className="font-display text-base sm:text-lg font-semibold truncate">
-                  +31 (06) 84 336 600
-                </p>
+                <p className="font-display text-lg font-semibold">+31 (06) 84 336 600</p>
               </div>
             </div>
             <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-4 py-4 sm:px-5">
@@ -286,7 +284,7 @@ export function RequestQuoteBanner() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Email us
                 </p>
-                <p className="font-display text-sm sm:text-base font-semibold break-all sm:truncate">
+                <p className="font-display text-lg font-semibold">
                   info@supersonic_dynamicservices.nl
                 </p>
               </div>

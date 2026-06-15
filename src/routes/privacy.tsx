@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Cookie, Gavel, Mail, MapPin, ShieldCheck } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { useCookieConsent } from "@/contexts/CookieConsentContext";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -18,11 +19,13 @@ export const Route = createFileRoute("/privacy")({
 });
 
 function Privacy() {
+  const { prefs, openBanner } = useCookieConsent();
+
   return (
     <SiteLayout marquee={false}>
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0E141A] via-[#0b1a3a]/40 to-[#0E141A]" />
+        <div className="absolute inset-0 bg-linear-to-br from-[#0E141A] via-[#0b1a3a]/40 to-[#0E141A]" />
         <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-24">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
             Regulatory Framework
@@ -100,17 +103,30 @@ function Privacy() {
             </p>
             <ul className="mt-5 space-y-2.5 text-xs">
               <li className="flex items-center gap-2 text-foreground/85">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary" /> ESSENTIAL ANALYTICS
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" /> ESSENTIAL - ALWAYS ON
               </li>
-              <li className="flex items-center gap-2 text-foreground/85">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary" /> PERFORMANCE LOGIC
+              <li
+                className={`flex items-center gap-2 ${prefs.analytics ? "text-foreground/85" : "text-muted-foreground"}`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${prefs.analytics ? "bg-primary" : "bg-muted-foreground"}`}
+                />
+                ANALYTICS - {prefs.analytics ? "ENABLED" : "DISABLED"}
+              </li>
+              <li
+                className={`flex items-center gap-2 ${prefs.functional ? "text-foreground/85" : "text-muted-foreground"}`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${prefs.functional ? "bg-primary" : "bg-muted-foreground"}`}
+                />
+                FUNCTIONAL - {prefs.functional ? "ENABLED" : "DISABLED"}
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
-                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> MARKETING
-                (DISABLED)
+                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> MARKETING -
+                DISABLED
               </li>
             </ul>
-            <CTAButton variant="white" className="mt-6 w-full rounded-xl">
+            <CTAButton variant="white" className="mt-6 w-full rounded-xl" onClick={openBanner}>
               MANAGE PREFERENCES
             </CTAButton>
           </div>
@@ -165,7 +181,7 @@ function Privacy() {
                   <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Email Terminal
                   </p>
-                  <p className="mt-1 text-xs text-[#6FE5FF]">info@supersonic_dynamicservices.nl</p>
+                  <p className="mt-1 text-xs text-[#6FE5FF]">info@supersonicdynamicservices.nl</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">

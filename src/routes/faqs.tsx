@@ -11,6 +11,16 @@ import { RequestQuoteBanner } from "./index";
 
 export const Route = createFileRoute("/faqs")({
   component: FAQs,
+  head: () => ({
+  meta: [
+    { title: "Frequently Asked Questions - Supersonic Dynamic Services B.V." },
+    {
+      name: "description",
+      content:
+        "Find answers to common questions about our moving services, pricing, booking process, electric fleet and coverage across the Netherlands.",
+    },
+  ],
+}),
 });
 
 const FAQS = [

@@ -96,7 +96,7 @@ function UserRegisterPage() {
     // Simulated Verification Processing step
     setFormStep("LOADING");
     setTimeout(() => {
-      navigate({ to: "/login" });
+      navigate({ to: "/login" as any });
     }, 1500);
   };
 
@@ -326,7 +326,7 @@ function UserRegisterPage() {
 
               <p className="mt-6 text-center text-xs text-slate-400">
                 Already Have An Account?{" "}
-                <Link to="/login" className="text-[#8EA7FF] hover:underline font-semibold">
+                <Link to={'/login' as any} className="text-[#8EA7FF] hover:underline font-semibold">
                   Sign In
                 </Link>
               </p>

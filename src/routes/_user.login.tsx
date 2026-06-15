@@ -134,7 +134,7 @@ function UserLoginPage() {
                 </div>
 
                 <Link
-                  to="/forgotpassword"
+                  to={"/_user/forgotpassword" as any}
                   className="text-[#8EA7FF]/80 hover:text-[#8EA7FF] hover:underline text-[11px]"
                 >
                   Forgot password?
@@ -155,9 +155,9 @@ function UserLoginPage() {
             {/* Dynamic Route Switching Links */}
             <p className="mt-8 text-center text-xs text-slate-400">
               Don't Have An Account?{" "}
-              <Link to="/register" className="text-[#8EA7FF] hover:underline font-semibold">
+              <a href="/register" className="text-[#8EA7FF] hover:underline font-semibold">
                 Register
-              </Link>
+              </a>
             </p>
           </div>
         ) : (

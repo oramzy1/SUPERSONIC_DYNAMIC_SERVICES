@@ -9,13 +9,23 @@ import { SERVICES } from "@/lib/services-data";
 
 export const Route = createFileRoute("/services/")({
   component: Services,
+  head: () => ({
+  meta: [
+    { title: "Moving & Freight Haulage Services - Supersonic Dynamic Services B.V." },
+    {
+      name: "description",
+      content:
+        "Explore our full range of moving services in the Netherlands — residential, student, enterprise, storage and waste removal. Eco-friendly, technology-powered relocation.",
+    },
+  ],
+}),
 });
 
 function Services() {
   return (
     <SiteLayout>
       <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 md:py-20">
-        <Pill variant="primary" dot>Supersonic Dynamic Services B.V</Pill>
+        <Pill variant="primary">Supersonic Dynamic Services B.V</Pill>
         <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">Our Service Modules</h1>
         <p className="mt-4 max-w-2xl text-muted-foreground">
           At SUPERSONIC DYNAMIC SERVICES, we redefine student and micro-moving with a

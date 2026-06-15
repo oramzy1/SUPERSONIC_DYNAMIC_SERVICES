@@ -1,16 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import {
-  Facebook,
-  Instagram,
-  Share2,
-  MessageSquare,
-  X,
-  ChevronUp,
-  Ticket,
-  PhoneCall,
-  MessageCircle,
-} from "lucide-react";
+import { ChevronUp, Facebook, Instagram, Linkedin, MessageCircle, MessageSquare, PhoneCall, Share2, Ticket, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import TrustPilotWidget from "../shared/TrustPilotWidget";
 
 const HOURS = [
   ["Monday", "8:30 - 17:30", true],
@@ -25,8 +16,8 @@ const HOURS = [
 const NAV_LEFT = [
   { label: "About Us", to: "/about" },
   { label: "Request a Quote", to: "/quote" },
-  { label: "Vacancies", to: "/about" },
-  { label: "Cookies policy", to: "/privacy" },
+  { label: "Vacancies", to: "/vacancies" },
+  { label: "Cookies policy", to: "/cookies" },
 ];
 const NAV_RIGHT = [
   { label: "Contact", to: "/contact" },
@@ -60,7 +51,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#090F15] text-foreground/85 relative">
+    <footer className="bg-[#090F15] text-foreground/85">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-4 md:px-8">
         <div>
           <p className="text-sm leading-relaxed text-muted-foreground">
@@ -68,7 +59,7 @@ export function Footer() {
             precision engineering with premium moving experiences.
           </p>
           <div className="mt-6 flex items-center gap-3">
-            {[Facebook, Instagram, Share2, Share2].map((Icon, i) => (
+            {[Facebook, Instagram, Linkedin, Share2].map((Icon, i) => (
               <a
                 key={i}
                 href="#"
@@ -79,6 +70,7 @@ export function Footer() {
               </a>
             ))}
           </div>
+          <TrustPilotWidget />
         </div>
 
         <div>
@@ -97,7 +89,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className=" my-10 sm:my-0">
           <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/90">
             Quick Navigation
           </h4>
@@ -105,23 +97,22 @@ export function Footer() {
             {NAV_LEFT.map((n) => (
               <li key={n.label} className="flex items-center gap-2">
                 <span className="h-1 w-1 rounded-full bg-foreground/40" />
-                <Link to={n.to} className="hover:text-primary">
-                  {n.label}
-                </Link>
+                <Link to={n.to} className="hover:text-primary">{n.label}</Link>
               </li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h4 className="mb-5 invisible text-xs font-semibold uppercase tracking-[0.2em]">.</h4>
+          {/* <h4 className="mb-5 invisible text-xs font-semibold uppercase tracking-[0.2em]">.</h4> */}
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/90">
+            Legal & Support
+          </h4>
           <ul className="space-y-3 text-sm">
             {NAV_RIGHT.map((n) => (
               <li key={n.label} className="flex items-center gap-2">
                 <span className="h-1 w-1 rounded-full bg-foreground/40" />
-                <Link to={n.to} className="hover:text-primary">
-                  {n.label}
-                </Link>
+                <Link to={n.to} className="hover:text-primary">{n.label}</Link>
               </li>
             ))}
           </ul>
@@ -182,7 +173,11 @@ export function Footer() {
 
             <div className="space-y-2">
               {/* Option 1: Live Chat Link */}
-              <Link to="/support" onClick={() => setShowSupportCard(false)} className="block">
+              <Link to="/support" onClick={() => setShowSupportCard(false)} className="block" search={function (current: { tab?: ("profile" | "security" | "notifications" | "api") | undefined; }): never {
+                throw new Error("Function not implemented.");
+              } } params={function (current: { slug?: string | undefined; }): never {
+                throw new Error("Function not implemented.");
+              } }>
                 <div className="w-full flex items-center gap-3 rounded-xl bg-white/5 p-3 text-left text-xs transition hover:bg-white/10 group">
                   <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-[#8EA7FF]/10 text-[#8EA7FF]">
                     <MessageCircle className="h-4 w-4" />

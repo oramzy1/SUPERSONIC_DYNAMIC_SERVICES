@@ -190,7 +190,7 @@ function UserSetNewPasswordPage() {
               </div>
               <CTAButton
                 variant="primary"
-                onClick={() => navigate({ to: "/login" })}
+                onClick={() => navigate({ to: "/login" as any })}
                 style={{ backgroundColor: "var(--primary)" }}
                 className="w-full rounded-xl py-2.5 text-xs font-semibold text-slate-900 mt-2"
               >
@@ -203,7 +203,11 @@ function UserSetNewPasswordPage() {
         {/* Footer help link line precisely duplicating graphic text content */}
         <p className="text-center text-xs text-slate-500">
           Need technical support?{" "}
-          <Link to="/support" className="text-[#8EA7FF] hover:underline font-medium">
+          <Link to="/support" className="text-[#8EA7FF] hover:underline font-medium" search={function (current: { tab?: ("security" | "profile" | "notifications" | "api") | undefined; }): never {
+            throw new Error("Function not implemented.");
+          } } params={function (current: { slug?: string | undefined; }): never {
+            throw new Error("Function not implemented.");
+          } }>
             Contact Intelligence Desk
           </Link>
         </p>

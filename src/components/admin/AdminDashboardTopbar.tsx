@@ -164,8 +164,7 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
                 <Link
                   to="/adminsettings"
                   onClick={() => setOpenProfile(false)}
-                  className="text-left px-3 py-2 hover:bg-[#16191c] rounded-md text-slate-300 block transition-colors"
-                >
+                  className="text-left px-3 py-2 hover:bg-[#16191c] rounded-md text-slate-300 block transition-colors" search={undefined}                >
                   Account Settings
                 </Link>
                 <button

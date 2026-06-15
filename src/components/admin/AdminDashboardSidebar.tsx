@@ -199,9 +199,9 @@ export function AdminDashboardSidebar() {
             </div>
           </div>
 
-          <button className="h-4 w-4 text-slate-500 shrink-0 pointer-events-none">
+          <span className="h-4 w-4 text-slate-500 shrink-0 pointer-events-none">
             <ChevronsUpDown className="h-4 w-4" />
-          </button>
+          </span>
         </button>
       </div>
     </>
