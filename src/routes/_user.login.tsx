@@ -134,7 +134,7 @@ function UserLoginPage() {
                 </div>
 
                 <Link
-                  to={"/_user/forgotpassword" as any}
+                  to={"/forgotpassword" as any}
                   className="text-[#8EA7FF]/80 hover:text-[#8EA7FF] hover:underline text-[11px]"
                 >
                   Forgot password?

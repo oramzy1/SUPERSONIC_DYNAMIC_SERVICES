@@ -1,5 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
+import { createFileRoute } from "@tanstack/react-router";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
@@ -7,13 +7,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   Calendar,
-  FileText,
   MapPin,
   Phone,
   Truck,
-  Upload,
   User,
   Zap,
+  Shield,
+  Leaf,
+  Layers,
+  Upload,
+  FileText,
+  CheckCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
@@ -54,7 +58,6 @@ const schema = z.object({
   additionalServices: z.string().optional(),
   deliveryDate: z.string().optional(),
   description: z.string().optional(),
-  videoNote: z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -68,46 +71,79 @@ const SERVICE_OPTIONS = [
   { v: "freight-haulage", label: "Reliable Freight Haulage Services" },
 ];
 
-// FIX 1: Dedicated processing route component to avoid route conflicts
-export const ProcessingRoute = createFileRoute("/quote/processing")({
-  component: QuoteProcessing,
-});
-
-function QuoteProcessing() {
-  return (
-    <SiteLayout>
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-14 md:px-8 md:py-20 text-center">
-        <div className="mx-auto max-w-md space-y-6">
-          <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-            <Zap className="h-8 w-8" />
-          </div>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold">Quote Submitted!</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Thank you. Your quote request has been received. Our team will review your details and
-            get back to you as soon as possible.
-          </p>
-          <a
-            href="/"
-            className="inline-block mt-4 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition"
-          >
-            Return to Home
-          </a>
-        </div>
-      </section>
-    </SiteLayout>
-  );
-}
+const SERVICE_DETAILS: Record<string, { title: string; features: string[]; specs: string }> = {
+  "student-moving": {
+    title: "Micro-Logistics & Student Moving Framework",
+    features: [
+      "Flexible room-to-room loading setups",
+      "Optimized micro-van transit patterns",
+      "Affordable modular pricing scales",
+    ],
+    specs: "Ideal for swift single-room apartments, flatshares, and fast campus relocations.",
+  },
+  "residential-moving": {
+    title: "Full-Scale Family Residential Relocation",
+    features: [
+      "All-inclusive heavy furniture wrapping",
+      "Tailgate lift loading mechanisms",
+      "Multi-room routing options",
+    ],
+    specs:
+      "Full transit coverage for detached houses, complex family estates, and high-floor apartments.",
+  },
+  "enterprise-moving": {
+    title: "Commercial Asset & Office Migration",
+    features: [
+      "Server array and IT asset protective cages",
+      "Off-hours operations minimize downtime",
+      "Detailed workspace item tagging",
+    ],
+    specs:
+      "Tailored to high-value equipment, document management, and fast corporate facility transitions.",
+  },
+  "smart-storage": {
+    title: "Dynamic Smart Storage Container Vaults",
+    features: [
+      "24/7 climate-controlled environments",
+      "Full digital asset inventory logging",
+      "Seamless pickup and return routing",
+    ],
+    specs:
+      "Perfect secure holding framework for seasonal assets, dynamic stock overflows, or interim transit items.",
+  },
+  "sustainable-waste": {
+    title: "Eco-Responsible & Certified Waste Clearance",
+    features: [
+      "Validated sorting and recycling protocols",
+      "Green municipal landfill diversion goals",
+      "Heavy breakdown handling arrays",
+    ],
+    specs:
+      "Comprehensive processing of broken fixtures, old office furniture, and non-hazardous building debris.",
+  },
+  "freight-haulage": {
+    title: "Heavy Haulage & Industrial Freight Solutions",
+    features: [
+      "Palletized cross-docking tracking systems",
+      "High-capacity payload transport options",
+      "Strict deadline-focused delivery frameworks",
+    ],
+    specs:
+      "Engineered specifically for high-volume commercial items, material handling supplies, and distribution networks.",
+  },
+};
 
 function Quote() {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [step, setStep] = useState<1 | 2>(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const navigate = useNavigate();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [videoFile, setVideoFile] = useState<string>("");
+  const [descFile, setDescFile] = useState<string>("");
   const { show, hide } = useLoading();
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     mode: "onTouched",
-    // FIX 2: Corrected defaultValues indentation — was misaligned causing potential parse issues
     defaultValues: {
       serviceType: "student-moving",
       name: "",
@@ -125,7 +161,6 @@ function Quote() {
       additionalServices: "",
       deliveryDate: "",
       description: "",
-      videoNote: "",
     },
   });
 
@@ -149,39 +184,91 @@ function Quote() {
   const isFreightSelected = selectedService === "freight-haulage";
   const isAnyServiceSelected = selectedService !== "";
 
-  const next = async () => {
-    let ok = true;
+  const handleNextStep = async (e?: React.MouseEvent) => {
+    if (e) e.preventDefault(); // Safeguard any unexpected bubbles
     if (step === 1) {
       const fieldsToValidate: (keyof FormData)[] = ["serviceType", "name"];
       if (isMovingSelected) {
         fieldsToValidate.push(
-          "email", "phone", "residentAddress", "destinationAddress",
-          "currentPostCode", "destinationPostCode", "date",
+          "email",
+          "phone",
+          "residentAddress",
+          "destinationAddress",
+          "currentPostCode",
+          "destinationPostCode",
+          "date",
         );
       } else if (isStorageSelected) {
-        fieldsToValidate.push("email", "phone", "residentAddress", "currentPostCode", "date", "storageSize");
+        fieldsToValidate.push(
+          "email",
+          "phone",
+          "residentAddress",
+          "currentPostCode",
+          "date",
+          "storageSize",
+        );
       } else if (isWasteSelected) {
         fieldsToValidate.push("email", "residentAddress", "currentPostCode", "date");
       } else if (isFreightSelected) {
         fieldsToValidate.push(
-          "phone", "residentAddress", "destinationAddress",
-          "currentPostCode", "destinationPostCode", "date", "deliveryDate",
+          "phone",
+          "residentAddress",
+          "destinationAddress",
+          "currentPostCode",
+          "destinationPostCode",
+          "date",
+          "deliveryDate",
         );
       }
-      ok = await trigger(fieldsToValidate);
+
+      const isValid = await trigger(fieldsToValidate);
+      if (isValid) {
+        setStep(2);
+      }
     }
-    if (ok) setStep((s) => (s === 3 ? 3 : ((s + 1) as 1 | 2 | 3)));
   };
 
-  const back = () => setStep((s) => (s === 1 ? 1 : ((s - 1) as 1 | 2 | 3)));
+  const handleBackStep = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (step === 2) {
+      setStep(1);
+    }
+  };
 
-  const onSubmit = async () => {
-    show("Submitting your quote…");
-    await new Promise((r) => setTimeout(r, 600));
+  const onSubmit = async (data: FormData) => {
+    // Only execute submission when on step 2
+    if (step !== 2) return;
+
+    show("Processing your parameters…");
+    await new Promise((r) => setTimeout(r, 1200));
     hide();
-    // FIX 3: Navigate to a properly registered route, not a non-existent path
-    navigate({ to: "/quote/processing" });
+    setIsSubmitted(true);
   };
+
+  if (isSubmitted) {
+    return (
+      <SiteLayout>
+        <section className="mx-auto max-w-7xl px-4 sm:px-6 mt-30 py-14 md:px-8 md:py-20 text-center">
+          <div className="mx-auto max-w-md space-y-6">
+            <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+              <CheckCircle className="h-8 w-8" />
+            </div>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold">Quote Request Received!</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Your configurations and verified assignment documentation assets have been
+              successfully routed through our production pipeline.
+            </p>
+            <a
+              href="/"
+              className="inline-block mt-4 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition shadow-lg"
+            >
+              Return to Home
+            </a>
+          </div>
+        </section>
+      </SiteLayout>
+    );
+  }
 
   return (
     <SiteLayout>
@@ -191,51 +278,49 @@ function Quote() {
         </Pill>
 
         <h1 className="mt-4 font-display text-3xl font-bold sm:text-4xl md:text-6xl">
-          {step === 3 ? "Review & Confirm Quote" : "Request a Quote"}
+          {step === 2 ? "Review & Confirm Details" : "Request a Quote"}
         </h1>
         <p className="mt-3 max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed">
-          Curious about the digital and eco-responsible driven moving services we provide? Fill out
-          the form below and we will get in touch as soon as possible.
+          Fill out the functional operations configuration data parameters below and accurately
+          evaluate your submission metrics before final commitment.
         </p>
 
-        {/* Progress Bar */}
+        {/* Progress Timeline Tracker */}
         <div className="mt-8 sm:mt-10">
           <div className="mb-2 flex items-center justify-between text-xs sm:text-sm">
-            <span className="text-primary font-semibold">Step {step} of 3</span>
+            <span className="text-primary font-semibold">Step {step} of 2</span>
             <span className="text-muted-foreground">
-              {step === 1 ? "Service Details" : step === 2 ? "Documentation" : "Assignment Details"}
+              {step === 1 ? "Information Collection" : "Final Verification Dashboard"}
             </span>
           </div>
           <div className="h-1 w-full rounded-full bg-white/5">
             <motion.div
               className="h-full rounded-full bg-primary"
               initial={false}
-              animate={{ width: `${(step / 3) * 100}%` }}
+              animate={{ width: `${(step / 2) * 100}%` }}
               transition={{ duration: 0.4 }}
             />
           </div>
         </div>
 
-        {/* Main Grid — stacks on mobile, side-by-side on md+ */}
+        {/* Structural Form Layout Core */}
         <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr]">
-
-          {/* FORM CARD */}
+          {/* Core Layout Data Engine */}
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-6 md:p-8 relative"
+            className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-6 md:p-8 relative h-fit"
           >
             <AnimatePresence mode="wait">
-
-              {/* ─── STEP 1 ─── */}
+              {/* STEP 1: PARSING SELECTIONS AND TARGET INPUT CONFIGS */}
               {step === 1 && (
                 <motion.div
-                  key="s1"
+                  key="step-capture"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {/* Service Type Dropdown */}
+                  {/* Service Dropdown Picker Section */}
                   <Field
                     label="Select Service Type"
                     error={errors.serviceType?.message}
@@ -298,208 +383,505 @@ function Quote() {
                     </AnimatePresence>
                   </Field>
 
-                  {/* Moving Services Form */}
+                  {/* Operational Core Service Breakdown Display Panel */}
+                  <AnimatePresence mode="wait">
+                    {selectedService && SERVICE_DETAILS[selectedService] && (
+                      <motion.div
+                        key={selectedService}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="mb-6 p-4 rounded-xl border border-primary/20 bg-primary/5 space-y-3"
+                      >
+                        <div className="flex items-center gap-2 text-primary">
+                          <Layers className="h-4 w-4" />
+                          <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider">
+                            {SERVICE_DETAILS[selectedService].title}
+                          </h4>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                          {SERVICE_DETAILS[selectedService].specs}
+                        </p>
+                        <div className="pt-1 grid grid-cols-1 gap-1.5 sm:grid-cols-3">
+                          {SERVICE_DETAILS[selectedService].features.map((feature, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-start gap-1.5 text-[10px] text-foreground/80 bg-black/30 p-2 rounded-md"
+                            >
+                              <span className="text-primary font-bold">✓</span>
+                              <span>{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* FORM TYPE 1: Core Moving Services */}
                   <AnimatePresence>
                     {isMovingSelected && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="mt-5 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 overflow-hidden"
+                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
                       >
-                        <Field icon={<User className="h-4 w-4" />} label="Name" error={errors.name?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Johndoe Alenn" {...register("name")} />
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="Name"
+                          error={errors.name?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Johndoe Alenn"
+                            {...register("name")}
+                          />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Company name" {...register("company")} />
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Company name"
+                            {...register("company")}
+                          />
                         </Field>
-                        <Field icon={<User className="h-4 w-4" />} label="E-mail address" error={errors.email?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="johndoe@email.com" {...register("email")} />
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="E-mail address"
+                          error={errors.email?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="johndoe@email.com"
+                            {...register("email")}
+                          />
                         </Field>
-                        <Field icon={<Phone className="h-4 w-4" />} label="Telephone" error={errors.phone?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="+31 (123) 456 789" {...register("phone")} />
+                        <Field
+                          icon={<Phone className="h-4 w-4" />}
+                          label="Telephone"
+                          error={errors.phone?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="+31 (123) 456 789"
+                            {...register("phone")}
+                          />
                         </Field>
-                        <Field icon={<MapPin className="h-4 w-4" />} label="Resident Address" error={errors.residentAddress?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Moving out of address" {...register("residentAddress")} />
+                        <Field
+                          icon={<MapPin className="h-4 w-4" />}
+                          label="Resident Address"
+                          error={errors.residentAddress?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Moving out of address"
+                            {...register("residentAddress")}
+                          />
                         </Field>
-                        <Field icon={<MapPin className="h-4 w-4" />} label="Destination Address" error={errors.destinationAddress?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Moving into address" {...register("destinationAddress")} />
+                        <Field
+                          icon={<MapPin className="h-4 w-4" />}
+                          label="Destination Address"
+                          error={errors.destinationAddress?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Moving into address"
+                            {...register("destinationAddress")}
+                          />
                         </Field>
                         <Field label="Current Post Code" error={errors.currentPostCode?.message}>
-                          <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="1234AB" {...register("currentPostCode")} />
+                          <input
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            placeholder="1234AB"
+                            {...register("currentPostCode")}
+                          />
                         </Field>
-                        <Field label="Destination Post Code" error={errors.destinationPostCode?.message}>
-                          <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="5678CD" {...register("destinationPostCode")} />
+                        <Field
+                          label="Destination Post Code"
+                          error={errors.destinationPostCode?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            placeholder="5678CD"
+                            {...register("destinationPostCode")}
+                          />
                         </Field>
-                        <Field icon={<Calendar className="h-4 w-4" />} label="Desired Date of Moving" error={errors.date?.message}>
-                          <input type="date" className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" {...register("date")} />
+                        <Field
+                          icon={<Calendar className="h-4 w-4" />}
+                          label="Desired Date of Moving"
+                          error={errors.date?.message}
+                        >
+                          <input
+                            type="date"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            {...register("date")}
+                          />
                         </Field>
-                        <div className="sm:col-span-2">
-                          <Field label="Additional Services Required (Optional)">
-                            <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="e.g. Packing service, Assembly setup, Extra hand loader" {...register("additionalServices")} />
+                        <div className="md:col-span-2">
+                          <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
+                            <input
+                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                              placeholder="e.g. Packing service, Assembly setup, Extra hand loader"
+                              {...register("additionalServices")}
+                            />
                           </Field>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
 
-                  {/* Smart Storage Form */}
+                  {/* FORM TYPE 2: Smart Storage Solution */}
                   <AnimatePresence>
                     {isStorageSelected && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="mt-5 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 overflow-hidden"
+                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
                       >
-                        <Field icon={<User className="h-4 w-4" />} label="Name" error={errors.name?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Johndoe Alenn" {...register("name")} />
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="Name"
+                          error={errors.name?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Johndoe Alenn"
+                            {...register("name")}
+                          />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Company name" {...register("company")} />
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Company name"
+                            {...register("company")}
+                          />
                         </Field>
-                        <Field icon={<User className="h-4 w-4" />} label="E-mail address" error={errors.email?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="johndoe@email.com" {...register("email")} />
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="E-mail address"
+                          error={errors.email?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="johndoe@email.com"
+                            {...register("email")}
+                          />
                         </Field>
-                        <Field icon={<Phone className="h-4 w-4" />} label="Telephone" error={errors.phone?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="+31 (123) 456 789" {...register("phone")} />
+                        <Field
+                          icon={<Phone className="h-4 w-4" />}
+                          label="Telephone"
+                          error={errors.phone?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="+31 (123) 456 789"
+                            {...register("phone")}
+                          />
                         </Field>
-                        <Field icon={<MapPin className="h-4 w-4" />} label="Address" error={errors.residentAddress?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Storage Address" {...register("residentAddress")} />
+                        <Field
+                          icon={<MapPin className="h-4 w-4" />}
+                          label="Address"
+                          error={errors.residentAddress?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Storage Address"
+                            {...register("residentAddress")}
+                          />
                         </Field>
                         <Field label="Post Code" error={errors.currentPostCode?.message}>
-                          <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="1234AB" {...register("currentPostCode")} />
+                          <input
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            placeholder="1234AB"
+                            {...register("currentPostCode")}
+                          />
                         </Field>
-                        <Field icon={<Calendar className="h-4 w-4" />} label="Desired Start Date of Storage Access" error={errors.date?.message}>
-                          <input type="date" className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" {...register("date")} />
+                        <Field
+                          icon={<Calendar className="h-4 w-4" />}
+                          label="Desired start-date of storage access."
+                          error={errors.date?.message}
+                        >
+                          <input
+                            type="date"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            {...register("date")}
+                          />
                         </Field>
-                        <Field label="Storage Unit Size (DDB)" error={errors.storageSize?.message}>
-                          <select className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm bg-black text-white border border-white/10 focus:outline-none" {...register("storageSize")}>
-                            <option value="">Select storage unit size...</option>
+                        <Field
+                          label="Select size of storage unit (DDB)"
+                          error={errors.storageSize?.message}
+                        >
+                          <select
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none"
+                            {...register("storageSize")}
+                          >
+                            <option value="">Select storage sizing unit...</option>
                             <option value="small">Small Container Unit</option>
                             <option value="medium">Medium Container Unit</option>
                             <option value="large">Large Warehouse Suite Container</option>
                           </select>
                         </Field>
-                        <div className="sm:col-span-2">
-                          <Field label="Additional Services Required (Optional)">
-                            <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="e.g. Climate control monitoring, Inventory listing, Collection logistics" {...register("additionalServices")} />
+                        <div className="md:col-span-2">
+                          <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
+                            <input
+                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                              placeholder="e.g. Climate control monitoring, Inventory listing, Collection logistics"
+                              {...register("additionalServices")}
+                            />
                           </Field>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
 
-                  {/* Sustainable Waste Removal Form */}
+                  {/* FORM TYPE 3: Sustainable Waste Removal Services */}
                   <AnimatePresence>
                     {isWasteSelected && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="mt-5 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 overflow-hidden"
+                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
                       >
-                        <Field icon={<User className="h-4 w-4" />} label="Name" error={errors.name?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Johndoe Alenn" {...register("name")} />
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="Name"
+                          error={errors.name?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Johndoe Alenn"
+                            {...register("name")}
+                          />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Company name" {...register("company")} />
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Company name"
+                            {...register("company")}
+                          />
                         </Field>
-                        <Field icon={<User className="h-4 w-4" />} label="E-mail address" error={errors.email?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="johndoe@email.com" {...register("email")} />
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="E-mail address"
+                          error={errors.email?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="johndoe@email.com"
+                            {...register("email")}
+                          />
                         </Field>
-                        <Field icon={<MapPin className="h-4 w-4" />} label="Waste Pick-up Address" error={errors.residentAddress?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Collection address location" {...register("residentAddress")} />
+                        <Field
+                          icon={<MapPin className="h-4 w-4" />}
+                          label="Waste pick-up Address"
+                          error={errors.residentAddress?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Collection address location"
+                            {...register("residentAddress")}
+                          />
                         </Field>
-                        <Field label="Waste Pick-up Post Code" error={errors.currentPostCode?.message}>
-                          <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="1234AB" {...register("currentPostCode")} />
+                        <Field
+                          label="Waste Pick-up Post Code"
+                          error={errors.currentPostCode?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            placeholder="1234AB"
+                            {...register("currentPostCode")}
+                          />
                         </Field>
-                        <Field icon={<Calendar className="h-4 w-4" />} label="Desired Date of Waste Pick-Up" error={errors.date?.message}>
-                          <input type="date" className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" {...register("date")} />
+                        <Field
+                          icon={<Calendar className="h-4 w-4" />}
+                          label="Desired date of waste Pick-Up."
+                          error={errors.date?.message}
+                        >
+                          <input
+                            type="date"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            {...register("date")}
+                          />
                         </Field>
-                        <div className="sm:col-span-2">
-                          <Field label="Additional Services Required (Optional)">
-                            <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="e.g. Heavy item dismantling, Deep eco-cleaning, Recycling sorting" {...register("additionalServices")} />
+                        <div className="md:col-span-2">
+                          <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
+                            <input
+                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                              placeholder="e.g. Heavy item dismantling, Deep eco-cleaning recycling sorting"
+                              {...register("additionalServices")}
+                            />
                           </Field>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
 
-                  {/* Freight Haulage Form */}
+                  {/* FORM TYPE 4: Reliable Freight Haulage Services */}
                   <AnimatePresence>
                     {isFreightSelected && (
                       <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="mt-5 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 overflow-hidden"
+                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
                       >
-                        <Field icon={<User className="h-4 w-4" />} label="Name" error={errors.name?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Johndoe Alenn" {...register("name")} />
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="Name"
+                          error={errors.name?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Johndoe Alenn"
+                            {...register("name")}
+                          />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Company name" {...register("company")} />
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Company name"
+                            {...register("company")}
+                          />
                         </Field>
-                        <Field icon={<Phone className="h-4 w-4" />} label="Telephone" error={errors.phone?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="+31 (123) 456 789" {...register("phone")} />
+                        <Field
+                          icon={<Phone className="h-4 w-4" />}
+                          label="Telephone"
+                          error={errors.phone?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="+31 (123) 456 789"
+                            {...register("phone")}
+                          />
                         </Field>
-                        <Field icon={<MapPin className="h-4 w-4" />} label="Freight Pick-up Address" error={errors.residentAddress?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Pick up origin address" {...register("residentAddress")} />
+                        <Field
+                          icon={<MapPin className="h-4 w-4" />}
+                          label="Freight pick-up Address"
+                          error={errors.residentAddress?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Pick up origin address"
+                            {...register("residentAddress")}
+                          />
                         </Field>
-                        <Field icon={<MapPin className="h-4 w-4" />} label="Freight Delivery Address" error={errors.destinationAddress?.message}>
-                          <input className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" placeholder="Drop off arrival address" {...register("destinationAddress")} />
+                        <Field
+                          icon={<MapPin className="h-4 w-4" />}
+                          label="Freight Delivery Address"
+                          error={errors.destinationAddress?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            placeholder="Drop off arrival address"
+                            {...register("destinationAddress")}
+                          />
                         </Field>
-                        <Field label="Freight Pick-up Post Code" error={errors.currentPostCode?.message}>
-                          <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="1234AB" {...register("currentPostCode")} />
+                        <Field
+                          label="Freight Pick-up Post Code"
+                          error={errors.currentPostCode?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            placeholder="1234AB"
+                            {...register("currentPostCode")}
+                          />
                         </Field>
-                        <Field label="Freight Delivery Post Code" error={errors.destinationPostCode?.message}>
-                          <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="5678CD" {...register("destinationPostCode")} />
+                        <Field
+                          label="Freight Delivery Post Code"
+                          error={errors.destinationPostCode?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            placeholder="5678CD"
+                            {...register("destinationPostCode")}
+                          />
                         </Field>
-                        <Field icon={<Calendar className="h-4 w-4" />} label="Desired Date of Freight Pick-Up" error={errors.date?.message}>
-                          <input type="date" className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" {...register("date")} />
+                        <Field
+                          icon={<Calendar className="h-4 w-4" />}
+                          label="Desired date of Freight Pick-Up."
+                          error={errors.date?.message}
+                        >
+                          <input
+                            type="date"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            {...register("date")}
+                          />
                         </Field>
-                        <Field icon={<Calendar className="h-4 w-4" />} label="Desired Date of Freight Delivery" error={errors.deliveryDate?.message}>
-                          <input type="date" className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-xs sm:text-sm" {...register("deliveryDate")} />
+                        <Field
+                          icon={<Calendar className="h-4 w-4" />}
+                          label="Desired date of Freight Delivery."
+                          error={errors.deliveryDate?.message}
+                        >
+                          <input
+                            type="date"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            {...register("deliveryDate")}
+                          />
                         </Field>
-                        <Field label="Total Weight of Freight" error={errors.freightWeight?.message}>
-                          <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="e.g. 1500 kg" {...register("freightWeight")} />
+                        <Field
+                          label="Total weight of Freight."
+                          error={errors.freightWeight?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            placeholder="e.g. 1500 kg"
+                            {...register("freightWeight")}
+                          />
                         </Field>
-                        <div className="sm:col-span-2">
-                          <Field label="Additional Services Required (Optional)">
-                            <input className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm" placeholder="e.g. Tailgate lift routing, Express custom verification clearings" {...register("additionalServices")} />
+                        <div className="md:col-span-2">
+                          <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
+                            <input
+                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                              placeholder="e.g. Tailgate lift routing, Express custom verification clearings"
+                              {...register("additionalServices")}
+                            />
                           </Field>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
 
-                  {/* Step 2 Preview Cards */}
-                  {isAnyServiceSelected && (
-                    <div className="mt-8">
-                      <h3 className="font-display text-base sm:text-lg">Preview: Step 2 Documentation</h3>
-                      <div className="mt-3 grid gap-3 grid-cols-1 xs:grid-cols-2">
-                        <PreviewBox
-                          icon={<Upload className="h-5 w-5" />}
-                          title={
-                            isStorageSelected
-                              ? "Upload a short video of the items to be stored"
-                              : "Upload a short video of the items to be moved"
-                          }
-                          body="Show us the items for a precision quote"
-                        />
-                        <PreviewBox
-                          icon={<FileText className="h-5 w-5" />}
-                          title="Upload a detailed assignment description of the job"
-                          body="Provide specific service instruction parameters"
-                        />
-                      </div>
+                  {/* Standard Job Description Block */}
+                  <div className="mt-4">
+                    <Field label="Job Description & Structural Specifications">
+                      <textarea
+                        rows={3}
+                        className="field w-full rounded-lg px-3 py-2.5 text-sm resize-none"
+                        placeholder="Provide specific notes on access levels, heavy items, structural layouts..."
+                        {...register("description")}
+                      />
+                    </Field>
+                  </div>
+
+                  {/* Step 1 Visual Upload Prompts */}
+                  <div className="mt-8">
+                    <h3 className="font-display text-lg">Preview: Step 2 Documentation</h3>
+                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                      <PreviewBox
+                        icon={<Upload className="h-5 w-5" />}
+                        title={
+                          isStorageSelected
+                            ? "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS TO BE STORED):"
+                            : "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS WE NEED TO MOVE):"
+                        }
+                        body="Show us the items for a precision quote"
+                        fileState={videoFile}
+                        onFileChange={(name) => setVideoFile(name)}
+                      />
+                      <PreviewBox
+                        icon={<FileText className="h-5 w-5" />}
+                        title="CLICK HERE TO UPLOAD( A DETAILED ASSIGNMENT DESCRIPTION OF THE JOB):"
+                        body="Provide the specific dynamic service instructions parameters"
+                        fileState={descFile}
+                        onFileChange={(name) => setDescFile(name)}
+                      />
                     </div>
-                  )}
+                  </div>
                 </motion.div>
               )}
 
-              {/* ─── STEP 2 ─── */}
+              {/* STEP 2: STANDALONE FULL PREVIEW & VERIFICATION INTERFACE BEFORE CONFIRMATION */}
               {step === 2 && (
                 <motion.div
                   key="s2"
@@ -508,77 +890,210 @@ function Quote() {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="font-display text-lg sm:text-xl font-semibold">Documentation</h3>
-                  <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
+                  <h3 className="font-display text-xl font-semibold">Documentation & Preview</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
                     Help us understand your setup requirements accurately with files and written
                     instructions.
                   </p>
-                  <div className="mt-5 sm:mt-6 space-y-4">
-                    <div className="rounded-xl border border-dashed border-white/15 bg-black/20 p-6 sm:p-8 text-center">
-                      <Upload className="mx-auto h-6 w-6 sm:h-7 sm:w-7 text-primary" />
-                      <p className="mt-3 font-medium uppercase tracking-wide text-[10px] sm:text-xs px-2 text-foreground">
+
+                  <div className="mt-6 space-y-4">
+                    <div className="rounded-xl border border-dashed border-white/15 bg-black/20 p-8 text-center relative">
+                      <Upload className="mx-auto h-7 w-7 text-primary" />
+                      <p className="mt-3 font-medium uppercase tracking-wide text-xs px-2 text-foreground">
                         {isStorageSelected
-                          ? "Upload a short detailed video of the items to be stored"
-                          : "Upload a short detailed video of the items to be moved"}
+                          ? "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS TO BE STORED):"
+                          : "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS WE NEED TO MOVE):"}
                       </p>
-                      <p className="text-[10px] sm:text-xs text-muted-foreground mt-1">MP4 / MOV up to 200MB</p>
-                      <input type="file" className="mt-4 mx-auto block text-xs text-muted-foreground w-full max-w-xs" />
+                      <p className="text-xs text-muted-foreground mt-1">MP4 / MOV up to 200MB</p>
+                      <input
+                        type="file"
+                        accept="video/*"
+                        onChange={(e) =>
+                          e.target.files?.[0] && setVideoFile(e.target.files[0].name)
+                        }
+                        className="mt-4 mx-auto block text-xs text-muted-foreground"
+                      />
+                      {videoFile && (
+                        <p className="mt-2 text-xs text-primary font-mono truncate">
+                          Attached Video: {videoFile}
+                        </p>
+                      )}
                     </div>
 
-                    <Field label="Detailed Assignment Description of the Job">
-                      {isWasteSelected && (
-                        <div className="mb-3">
-                          <span className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-primary">
-                            Description of the type of waste requiring removal
-                          </span>
-                        </div>
-                      )}
-                      {isFreightSelected && (
-                        <div className="mb-3">
-                          <span className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-primary">
-                            Description of the type of freight
-                          </span>
-                          <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm mb-3 bg-black/40"
-                            placeholder="Describe freight category and item types safely..."
-                            {...register("freightType")}
-                          />
-                        </div>
-                      )}
-                      <textarea
-                        rows={5}
-                        className="field w-full rounded-lg px-3 py-2.5 text-xs sm:text-sm resize-none"
-                        placeholder="Provide details corresponding with your targeted service requirements..."
-                        {...register("description")}
+                    <div className="rounded-xl border border-dashed border-white/15 bg-black/20 p-8 text-center relative">
+                      <FileText className="mx-auto h-7 w-7 text-primary" />
+                      <p className="mt-3 font-medium uppercase tracking-wide text-xs px-2 text-foreground">
+                        CLICK HERE TO UPLOAD( A DETAILED ASSIGNMENT DESCRIPTION OF THE JOB):
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">PDF / DOCX up to 20MB</p>
+                      <input
+                        type="file"
+                        accept=".pdf,.docx,.doc,.txt"
+                        onChange={(e) => e.target.files?.[0] && setDescFile(e.target.files[0].name)}
+                        className="mt-4 mx-auto block text-xs text-muted-foreground"
                       />
-                    </Field>
+                      {descFile && (
+                        <p className="mt-2 text-xs text-primary font-mono truncate">
+                          Attached Description File: {descFile}
+                        </p>
+                      )}
+                    </div>
+
+                    {isWasteSelected && (
+                      <div className="mb-3">
+                        <span className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-primary">
+                          DESCRIPTION OF THE TYPE OF WASTE REQUIRING REMOVAL
+                        </span>
+                      </div>
+                    )}
+
+                    {/* COMPLETE DETAILED PREVIEW MATRIX SECTION */}
+                    <div className="pt-6 mt-6 border-t border-white/10 space-y-4">
+                      <div className="flex items-center gap-2 text-primary">
+                        <Shield className="h-4 w-4" />
+                        <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider">
+                          PREVIEW OF ALL INPUTTED INFORMATION
+                        </h4>
+                      </div>
+
+                      <div className="grid gap-2 grid-cols-1 sm:grid-cols-2">
+                        <Row label="Name" value={getValues("name")} />
+                        <Row label="Company Name" value={getValues("company") || "—"} />
+                        <Row label="E-mail address" value={getValues("email") || "—"} />
+                        <Row label="Telephone" value={getValues("phone") || "—"} />
+
+                        {getValues("residentAddress") && (
+                          <Row
+                            label={
+                              isWasteSelected
+                                ? "Waste pick-up Address"
+                                : isFreightSelected
+                                  ? "Freight pick-up Address"
+                                  : isStorageSelected
+                                    ? "Address"
+                                    : "Resident Address"
+                            }
+                            value={getValues("residentAddress")}
+                          />
+                        )}
+                        {getValues("destinationAddress") && (
+                          <Row
+                            label={
+                              isFreightSelected ? "Freight Delivery Address" : "Destination Address"
+                            }
+                            value={getValues("destinationAddress")}
+                          />
+                        )}
+
+                        {getValues("currentPostCode") && (
+                          <Row
+                            label={
+                              isWasteSelected
+                                ? "Waste Pick-up Post Code"
+                                : isFreightSelected
+                                  ? "Freight Pick-up Post Code"
+                                  : isStorageSelected
+                                    ? "Post Code"
+                                    : "Current Post Code"
+                            }
+                            value={getValues("currentPostCode")}
+                          />
+                        )}
+                        {getValues("destinationPostCode") && (
+                          <Row
+                            label={
+                              isFreightSelected
+                                ? "Freight Delivery Post Code"
+                                : "Destination Post Code"
+                            }
+                            value={getValues("destinationPostCode")}
+                          />
+                        )}
+
+                        <Row
+                          label={
+                            isStorageSelected
+                              ? "Desired start-date of storage access."
+                              : isWasteSelected
+                                ? "Desired date of waste Pick-Up."
+                                : isFreightSelected
+                                  ? "Desired date of Freight Pick-Up."
+                                  : "Desired Date of Moving"
+                          }
+                          value={getValues("date") || "—"}
+                        />
+
+                        {isFreightSelected && getValues("deliveryDate") && (
+                          <Row
+                            label="Desired date of Freight Delivery."
+                            value={getValues("deliveryDate")}
+                          />
+                        )}
+                        {getValues("storageSize") && (
+                          <Row
+                            label="Select size of storage unit (DDB)"
+                            value={
+                              getValues("storageSize") === "small"
+                                ? "Small Container Unit"
+                                : getValues("storageSize") === "medium"
+                                  ? "Medium Container Unit"
+                                  : "Large Warehouse Suite Container"
+                            }
+                          />
+                        )}
+                        {getValues("freightWeight") && (
+                          <Row
+                            label="Total weight of Freight."
+                            value={getValues("freightWeight")}
+                          />
+                        )}
+                        {getValues("additionalServices") && (
+                          <Row
+                            label="Additional Services Selected"
+                            value={getValues("additionalServices")}
+                          />
+                        )}
+                      </div>
+
+                      {getValues("description") && (
+                        <div className="rounded-lg bg-black/40 p-3 border border-white/5 text-xs">
+                          <span className="text-muted-foreground block mb-1">
+                            Job Description Specifications:
+                          </span>
+                          <p className="text-foreground leading-relaxed font-normal">
+                            {getValues("description")}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               )}
-
-              {/* ─── STEP 3 ─── */}
-              {step === 3 && <ReviewStep values={getValues()} />}
-
             </AnimatePresence>
 
-            {/* Navigation Buttons */}
+            {/* Stepped Progressive Controller Strip */}
             <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
               {step > 1 ? (
-                <CTAButton type="button" variant="outline" className="rounded-xl w-full sm:w-auto" onClick={back}>
-                  Back
+                <CTAButton
+                  type="button"
+                  variant="outline"
+                  className="rounded-xl w-full sm:w-auto"
+                  onClick={handleBackStep}
+                >
+                  Modify Information
                 </CTAButton>
               ) : (
                 <span className="hidden sm:block" />
               )}
-              {step < 3 ? (
+              {step === 1 ? (
                 <CTAButton
                   type="button"
                   variant="white"
                   className="rounded-xl w-full sm:w-auto"
-                  onClick={next}
+                  onClick={handleNextStep}
                   disabled={!isAnyServiceSelected}
                 >
-                  Next <ArrowRight className="h-4 w-4" />
+                  Preview Parameters <ArrowRight className="h-4 w-4" />
                 </CTAButton>
               ) : (
                 <CTAButton type="submit" variant="white" className="rounded-xl w-full sm:w-auto">
@@ -588,27 +1103,46 @@ function Quote() {
             </div>
           </form>
 
-          {/* Sidebar — hidden on step 3 */}
-          {step < 3 && (
+          {/* Core Content Branding Sidebar */}
+          {step === 1 && (
             <aside className="space-y-3 sm:space-y-4">
               <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface">
                 <div className="relative">
-                  <img src={vanHero} alt="Supersonic Services Van" className="h-40 sm:h-44 w-full object-cover" loading="lazy" />
+                  <img
+                    src={vanHero}
+                    alt="Supersonic Services Van"
+                    className="h-40 sm:h-44 w-full object-cover"
+                    loading="lazy"
+                  />
                   <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-full bg-black/60 px-3 py-1.5 backdrop-blur">
                     <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-primary-foreground">
                       <Zap className="h-3.5 w-3.5" />
                     </span>
                     <div className="text-xs leading-tight">
-                      <p className="uppercase tracking-[0.18em] text-muted-foreground">Efficiency Rate</p>
+                      <p className="uppercase tracking-[0.18em] text-muted-foreground">
+                        Efficiency Rate
+                      </p>
                       <p className="font-semibold">99.8%</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <ContactStrip icon={<Phone className="h-4 w-4 sm:h-5 sm:w-5" />} label="Call us" value="+31 (06) 84 336 600" />
-              <ContactStrip icon={<User className="h-4 w-4 sm:h-5 sm:w-5" />} label="Email us" value="info@supersonic_dynamicservices.nl" />
-              <ContactStrip icon={<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />} label="Address" value="De Lingestraat 23, 6467 BK Kerkrade" />
+              <ContactStrip
+                icon={<Phone className="h-4 w-4 sm:h-5 sm:w-5" />}
+                label="Call us"
+                value="+31 (06) 84 336 600"
+              />
+              <ContactStrip
+                icon={<User className="h-4 w-4 sm:h-5 sm:w-5" />}
+                label="Email us"
+                value="info@supersonic_dynamicservices.nl"
+              />
+              <ContactStrip
+                icon={<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />}
+                label="Address"
+                value="De Lingestraat 23, 6467 BK Kerkrade"
+              />
             </aside>
           )}
         </div>
@@ -617,7 +1151,7 @@ function Quote() {
   );
 }
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Component Extensions & Sub-components ───────────────────────────────────
 
 function Field({
   label,
@@ -632,7 +1166,7 @@ function Field({
 }) {
   return (
     <div className="block w-full mb-3 sm:mb-4">
-      <span className="mb-1.5 block text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.16em] text-foreground/80 leading-snug">
+      <span className="mb-1.5 block text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/80 leading-snug">
         {label}
       </span>
       <div className="relative">
@@ -648,21 +1182,15 @@ function Field({
   );
 }
 
-function PreviewBox({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
-  return (
-    <div className="rounded-xl border border-white/5 bg-black/20 p-4 sm:p-6 text-center flex flex-col justify-center items-center">
-      <div className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full bg-white/5 text-foreground mb-2">
-        {icon}
-      </div>
-      <p className="font-display text-[10px] sm:text-[11px] font-bold uppercase text-primary tracking-wide leading-tight px-1">
-        {title}
-      </p>
-      <p className="text-[10px] text-muted-foreground mt-1">{body}</p>
-    </div>
-  );
-}
-
-function ContactStrip({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function ContactStrip({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
   return (
     <div className="flex items-center gap-3 rounded-2xl bg-[#9DB1E6]/90 p-3 sm:p-4 text-[#0E141A]">
       <div className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full bg-white shrink-0">
@@ -678,73 +1206,49 @@ function ContactStrip({ icon, label, value }: { icon: React.ReactNode; label: st
   );
 }
 
-function ReviewStep({ values }: { values: FormData }) {
-  const matchedService = SERVICE_OPTIONS.find((s) => s.v === values.serviceType);
-
+function PreviewBox({
+  icon,
+  title,
+  body,
+  fileState,
+  onFileChange,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  body: string;
+  fileState: string;
+  onFileChange: (name: string) => void;
+}) {
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <h3 className="font-display text-xl sm:text-2xl font-semibold">Final Review</h3>
-      <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
-        Verify your logistics assignment parameters before final submission.
-      </p>
-
-      {/* Route summary — stacks cleanly on mobile */}
-      <div className="mt-5 sm:mt-6 rounded-2xl bg-black/30 p-4 sm:p-5">
-        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-3 sm:gap-4 items-center">
-          <div>
-            <p className="flex items-center gap-1 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              <MapPin className="h-3 w-3" /> Setup Location / Pickup
-            </p>
-            <p className="mt-1.5 font-display text-base sm:text-lg font-semibold">{values.residentAddress || "—"}</p>
-            <p className="text-xs text-muted-foreground">Post code {values.currentPostCode || "—"}</p>
-          </div>
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-white text-[#0E141A] mx-auto sm:mx-0">
-            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
-          </div>
-          <div className="sm:text-left">
-            <p className="flex items-center gap-1 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              <MapPin className="h-3 w-3" /> Destination / Dropoff
-            </p>
-            <p className="mt-1.5 font-display text-base sm:text-lg font-semibold">
-              {values.destinationAddress || "N/A (Single Point)"}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Post code {values.destinationPostCode || "—"}
-            </p>
-          </div>
+    <div className="rounded-xl border border-white/5 bg-black/40 p-4 flex flex-col justify-between text-left relative overflow-hidden min-h-35">
+      <div className="text-primary mb-2 shrink-0">{icon}</div>
+      <div>
+        <h4 className="text-[10px] font-bold uppercase tracking-wide text-foreground/90 leading-tight">
+          {title}
+        </h4>
+        <p className="text-[11px] text-muted-foreground mt-1 leading-normal">{body}</p>
+      </div>
+      <input
+        type="file"
+        onChange={(e) => e.target.files?.[0] && onFileChange(e.target.files[0].name)}
+        className="absolute inset-0 opacity-0 cursor-pointer z-10"
+      />
+      {fileState && (
+        <div className="mt-2 text-[10px] text-primary font-mono truncate bg-primary/5 px-2 py-1 rounded border border-primary/10">
+          Loaded: {fileState}
         </div>
-      </div>
-
-      {/* Detail rows */}
-      <div className="mt-4 grid gap-2 sm:gap-3 grid-cols-1 sm:grid-cols-2">
-        <Row label="Client Name" value={values.name} />
-        <Row label="Company Reference" value={values.company || "—"} />
-        <Row label="Contact" value={values.phone || values.email || "—"} />
-        <Row label="Target Operational Date" value={values.date} />
-        <Row label="Selected Service" value={matchedService ? matchedService.label : values.serviceType} />
-        {values.storageSize && <Row label="Storage Sizing (DDB)" value={values.storageSize} />}
-        {values.freightWeight && <Row label="Freight Weight" value={values.freightWeight} />}
-        {values.additionalServices && <Row label="Requested Add-ons" value={values.additionalServices} />}
-      </div>
-
-      <div className="mt-4 sm:mt-5 rounded-xl border border-primary/30 bg-primary/5 p-3 sm:p-4 text-xs text-muted-foreground leading-relaxed">
-        By choosing Supersonic Dynamic Services, you are offsetting carbon outputs dynamically for
-        this specific route execution path.
-      </div>
-    </motion.div>
+      )}
+    </div>
   );
 }
 
 function Row({ label, value }: { label: string; value?: string }) {
   return (
-    // FIX 4: Replaced invalid `max-w-50` with valid Tailwind class `max-w-[200px]`
-    <div className="flex items-center justify-between rounded-lg bg-black/20 px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm gap-3">
+    <div className="flex items-center justify-between rounded-lg bg-black/20 px-3 py-2.5 text-xs gap-3 border border-white/2">
       <span className="text-muted-foreground shrink-0">{label}</span>
-      <span className="font-medium truncate max-w-45 sm:max-w-50 text-right">{value || "—"}</span>
+      <span className="font-medium truncate max-w-45 text-right text-foreground">
+        {value || "—"}
+      </span>
     </div>
   );
 }

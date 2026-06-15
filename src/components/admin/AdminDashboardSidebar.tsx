@@ -152,7 +152,7 @@ export function AdminDashboardSidebar() {
             </button>
 
             <Link
-              to="/adminsettings"
+              to={"/adminsettings" as any}
               onClick={() => setIsMenuOpen(false)}
               className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate"
             >

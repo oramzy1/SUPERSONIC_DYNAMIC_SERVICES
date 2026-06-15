@@ -183,6 +183,7 @@ export function Header() {
           {/* USER MENU & PROFILE DROPDOWN WRAPPER */}
           <div ref={profileRef} className="relative">
             <button
+              type="button"
               onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
               className={cn(
                 "flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground hover:bg-white/5",
@@ -200,12 +201,12 @@ export function Header() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 mt-3 w-80 rounded-2xl border border-white/5 bg-[#12181F] p-4 shadow-2xl z-50 hidden md:block"
+                  className="fixed left-4 right-4 mx-auto mt-3 w-[calc(100vw-2rem)] sm:absolute sm:left-auto sm:right-0 sm:mx-0 sm:w-80 max-w-85 rounded-2xl border border-white/5 bg-[#12181F] p-4 shadow-2xl z-50"
                 >
                   {/* Close Cross Trigger */}
                   <button
                     onClick={() => setProfileDropdownOpen(false)}
-                    className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-muted-foreground hover:text-foreground"
+                    className="absolute right-4 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-muted-foreground hover:text-foreground"
                   >
                     <X className="h-4 w-4" />
                   </button>

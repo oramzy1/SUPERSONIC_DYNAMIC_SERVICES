@@ -243,12 +243,13 @@ function Home() {
 
 export function RequestQuoteBanner() {
   return (
-    <section className="mx-auto max-w-7xl px-6 pb-20 md:px-8">
-      <div className="rounded-3xl bg-[#ABBDF4]/90 p-8 text-[#0E141A] md:p-12">
-        <div className="grid gap-8 md:grid-cols-2">
+    <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 md:px-8">
+      <div className="rounded-3xl bg-[#ABBDF4]/90 p-6 text-[#0E141A] sm:p-8 md:p-12">
+        {/* Grid adapts perfectly from single column mobile to 2 columns on desktop */}
+        <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
           <div>
-            <h3 className="font-display text-3xl font-bold md:text-4xl">
-              Request Your Free <br /> Moving Quote:
+            <h3 className="font-display text-2xl font-bold sm:text-3xl md:text-4xl">
+              Request Your Free <br className="hidden sm:inline" /> Moving Quote:
             </h3>
             <p className="mt-4 max-w-md text-sm text-[#0E141A]/80 leading-relaxed">
               Planning a move in the Netherlands? Let SUPERSONIC DYNAMIC SERVICES B.V. handle your
@@ -264,7 +265,9 @@ export function RequestQuoteBanner() {
               </CTAButton>
             </Link>
           </div>
+
           <div className="space-y-3 w-full">
+            {/* Call Info Box */}
             <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-4 py-4 sm:px-5">
               <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
                 <Phone className="h-5 w-5 text-[#002B73]" />
@@ -273,9 +276,13 @@ export function RequestQuoteBanner() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Call us
                 </p>
-                <p className="font-display text-lg font-semibold">+31 (06) 84 336 600</p>
+                <p className="font-display text-base font-semibold sm:text-lg truncate">
+                  +31 (06) 84 336 600
+                </p>
               </div>
             </div>
+
+            {/* Email Info Box - Fixed layout text-wrapping for mobile viewports */}
             <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-4 py-4 sm:px-5">
               <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
                 <Mail className="h-5 w-5 text-[#002B73]" />
@@ -284,7 +291,7 @@ export function RequestQuoteBanner() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Email us
                 </p>
-                <p className="font-display text-lg font-semibold">
+                <p className="font-display text-base font-semibold sm:text-lg break-all sm:break-normal">
                   info@supersonic_dynamicservices.nl
                 </p>
               </div>
