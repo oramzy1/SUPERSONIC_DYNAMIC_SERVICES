@@ -152,7 +152,7 @@ export function AdminDashboardSidebar() {
             </button>
 
             <Link
-              to="/adminsettings"
+              to={"/adminsettings" as any}
               onClick={() => setIsMenuOpen(false)}
               className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate"
             >
@@ -199,9 +199,9 @@ export function AdminDashboardSidebar() {
             </div>
           </div>
 
-          <button className="h-4 w-4 text-slate-500 shrink-0 pointer-events-none">
+          <span className="h-4 w-4 text-slate-500 shrink-0 pointer-events-none">
             <ChevronsUpDown className="h-4 w-4" />
-          </button>
+          </span>
         </button>
       </div>
     </>

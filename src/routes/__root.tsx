@@ -114,8 +114,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
         <script
-  dangerouslySetInnerHTML={{
-    __html: `
+          dangerouslySetInnerHTML={{
+            __html: `
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('consent', 'default', {
@@ -125,8 +125,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
         wait_for_update: 500
       });
     `,
-  }}
-/>
+          }}
+        />
         {/* Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{
@@ -145,10 +145,7 @@ f.parentNode.insertBefore(a,f)})(window,document,'script','https://invitejs.trus
 tp('register', 'WrRbEIZd9LK7Suj8');`,
           }}
         />
-        <script
-  async
-  src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-/>
+        <script async src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" />
       </head>
       <body>
         <noscript

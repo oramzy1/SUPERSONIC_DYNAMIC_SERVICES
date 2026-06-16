@@ -10,24 +10,31 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VacanciesRouteImport } from './routes/vacancies'
+import { Route as TicketRouteImport } from './routes/ticket'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SupportRouteImport } from './routes/support'
+import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as UserRouteImport } from './routes/_user'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
-import { Route as QuoteSuccessRouteImport } from './routes/quote_.success'
-import { Route as QuoteProcessingRouteImport } from './routes/quote_.processing'
 import { Route as DashboardQuotesRouteImport } from './routes/dashboard.quotes'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
+import { Route as UserSetnewpasswordRouteImport } from './routes/_user.setnewpassword'
+import { Route as UserRegisterRouteImport } from './routes/_user.register'
+import { Route as UserLoginRouteImport } from './routes/_user.login'
+import { Route as UserForgotpasswordRouteImport } from './routes/_user.forgotpassword'
 import { Route as AuthAdmintrackingRouteImport } from './routes/_auth.admintracking'
 import { Route as AuthAdminsettingsRouteImport } from './routes/_auth.adminsettings'
 import { Route as AuthAdminservicesRouteImport } from './routes/_auth.adminservices'
@@ -44,9 +51,24 @@ const VacanciesRoute = VacanciesRouteImport.update({
   path: '/vacancies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TicketRoute = TicketRouteImport.update({
+  id: '/ticket',
+  path: '/ticket',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -62,6 +84,11 @@ const QuoteRoute = QuoteRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -89,6 +116,10 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserRoute = UserRouteImport.update({
+  id: '/_user',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
@@ -113,16 +144,6 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
-const QuoteSuccessRoute = QuoteSuccessRouteImport.update({
-  id: '/quote_/success',
-  path: '/quote/success',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuoteProcessingRoute = QuoteProcessingRouteImport.update({
-  id: '/quote_/processing',
-  path: '/quote/processing',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DashboardQuotesRoute = DashboardQuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
@@ -132,6 +153,26 @@ const DashboardInvoicesRoute = DashboardInvoicesRouteImport.update({
   id: '/invoices',
   path: '/invoices',
   getParentRoute: () => DashboardRoute,
+} as any)
+const UserSetnewpasswordRoute = UserSetnewpasswordRouteImport.update({
+  id: '/setnewpassword',
+  path: '/setnewpassword',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserRegisterRoute = UserRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserLoginRoute = UserLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserForgotpasswordRoute = UserForgotpasswordRouteImport.update({
+  id: '/forgotpassword',
+  path: '/forgotpassword',
+  getParentRoute: () => UserRoute,
 } as any)
 const AuthAdmintrackingRoute = AuthAdmintrackingRouteImport.update({
   id: '/admintracking',
@@ -191,10 +232,15 @@ export interface FileRoutesByFullPath {
   '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/services': typeof ServicesRouteWithChildren
+  '/shop': typeof ShopRoute
+  '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/ticket': typeof TicketRoute
+  '/vacancies': typeof VacanciesRoute
   '/adminanalytics': typeof AuthAdminanalyticsRoute
   '/admincustomers': typeof AuthAdmincustomersRoute
   '/admindashboard': typeof AuthAdmindashboardRoute
@@ -205,11 +251,12 @@ export interface FileRoutesByFullPath {
   '/adminservices': typeof AuthAdminservicesRoute
   '/adminsettings': typeof AuthAdminsettingsRoute
   '/admintracking': typeof AuthAdmintrackingRoute
-  '/vacancies': typeof VacanciesRoute
+  '/forgotpassword': typeof UserForgotpasswordRoute
+  '/login': typeof UserLoginRoute
+  '/register': typeof UserRegisterRoute
+  '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
-  '/quote/processing': typeof QuoteProcessingRoute
-  '/quote/success': typeof QuoteSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -220,9 +267,14 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/faqs': typeof FaqsRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
+  '/shop': typeof ShopRoute
+  '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/ticket': typeof TicketRoute
+  '/vacancies': typeof VacanciesRoute
   '/adminanalytics': typeof AuthAdminanalyticsRoute
   '/admincustomers': typeof AuthAdmincustomersRoute
   '/admindashboard': typeof AuthAdmindashboardRoute
@@ -233,11 +285,12 @@ export interface FileRoutesByTo {
   '/adminservices': typeof AuthAdminservicesRoute
   '/adminsettings': typeof AuthAdminsettingsRoute
   '/admintracking': typeof AuthAdmintrackingRoute
-  '/vacancies': typeof VacanciesRoute
+  '/forgotpassword': typeof UserForgotpasswordRoute
+  '/login': typeof UserLoginRoute
+  '/register': typeof UserRegisterRoute
+  '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
-  '/quote/processing': typeof QuoteProcessingRoute
-  '/quote/success': typeof QuoteSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/dashboard': typeof DashboardIndexRoute
   '/services': typeof ServicesIndexRoute
@@ -246,15 +299,21 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
+  '/_user': typeof UserRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
   '/services': typeof ServicesRouteWithChildren
+  '/shop': typeof ShopRoute
+  '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
+  '/ticket': typeof TicketRoute
+  '/vacancies': typeof VacanciesRoute
   '/_auth/adminanalytics': typeof AuthAdminanalyticsRoute
   '/_auth/admincustomers': typeof AuthAdmincustomersRoute
   '/_auth/admindashboard': typeof AuthAdmindashboardRoute
@@ -265,11 +324,12 @@ export interface FileRoutesById {
   '/_auth/adminservices': typeof AuthAdminservicesRoute
   '/_auth/adminsettings': typeof AuthAdminsettingsRoute
   '/_auth/admintracking': typeof AuthAdmintrackingRoute
-  '/vacancies': typeof VacanciesRoute
+  '/_user/forgotpassword': typeof UserForgotpasswordRoute
+  '/_user/login': typeof UserLoginRoute
+  '/_user/register': typeof UserRegisterRoute
+  '/_user/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
-  '/quote_/processing': typeof QuoteProcessingRoute
-  '/quote_/success': typeof QuoteSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
@@ -280,12 +340,18 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/cookies'
     | '/dashboard'
     | '/faqs'
+    | '/notifications'
     | '/privacy'
     | '/quote'
     | '/services'
+    | '/shop'
+    | '/support'
     | '/terms'
+    | '/ticket'
+    | '/vacancies'
     | '/adminanalytics'
     | '/admincustomers'
     | '/admindashboard'
@@ -296,19 +362,12 @@ export interface FileRouteTypes {
     | '/adminservices'
     | '/adminsettings'
     | '/admintracking'
-    | '/contact'
-    | '/cookies'
-    | '/dashboard'
-    | '/faqs'
-    | '/privacy'
-    | '/quote'
-    | '/services'
-    | '/terms'
-    | '/vacancies'
+    | '/forgotpassword'
+    | '/login'
+    | '/register'
+    | '/setnewpassword'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
-    | '/quote/processing'
-    | '/quote/success'
     | '/services/$slug'
     | '/dashboard/'
     | '/services/'
@@ -317,10 +376,16 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/cookies'
     | '/faqs'
+    | '/notifications'
     | '/privacy'
     | '/quote'
+    | '/shop'
+    | '/support'
     | '/terms'
+    | '/ticket'
+    | '/vacancies'
     | '/adminanalytics'
     | '/admincustomers'
     | '/admindashboard'
@@ -331,17 +396,12 @@ export interface FileRouteTypes {
     | '/adminservices'
     | '/adminsettings'
     | '/admintracking'
-    | '/contact'
-    | '/cookies'
-    | '/faqs'
-    | '/privacy'
-    | '/quote'
-    | '/terms'
-    | '/vacancies'
+    | '/forgotpassword'
+    | '/login'
+    | '/register'
+    | '/setnewpassword'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
-    | '/quote/processing'
-    | '/quote/success'
     | '/services/$slug'
     | '/dashboard'
     | '/services'
@@ -349,15 +409,21 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_auth'
+    | '/_user'
     | '/about'
     | '/contact'
     | '/cookies'
     | '/dashboard'
     | '/faqs'
+    | '/notifications'
     | '/privacy'
     | '/quote'
     | '/services'
+    | '/shop'
+    | '/support'
     | '/terms'
+    | '/ticket'
+    | '/vacancies'
     | '/_auth/adminanalytics'
     | '/_auth/admincustomers'
     | '/_auth/admindashboard'
@@ -368,11 +434,12 @@ export interface FileRouteTypes {
     | '/_auth/adminservices'
     | '/_auth/adminsettings'
     | '/_auth/admintracking'
-    | '/vacancies'
+    | '/_user/forgotpassword'
+    | '/_user/login'
+    | '/_user/register'
+    | '/_user/setnewpassword'
     | '/dashboard/invoices'
     | '/dashboard/quotes'
-    | '/quote_/processing'
-    | '/quote_/success'
     | '/services/$slug'
     | '/dashboard/'
     | '/services/'
@@ -381,18 +448,21 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
+  UserRoute: typeof UserRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   FaqsRoute: typeof FaqsRoute
+  NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
   ServicesRoute: typeof ServicesRouteWithChildren
+  ShopRoute: typeof ShopRoute
+  SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
+  TicketRoute: typeof TicketRoute
   VacanciesRoute: typeof VacanciesRoute
-  QuoteProcessingRoute: typeof QuoteProcessingRoute
-  QuoteSuccessRoute: typeof QuoteSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -404,11 +474,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VacanciesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ticket': {
+      id: '/ticket'
+      path: '/ticket'
+      fullPath: '/ticket'
+      preLoaderRoute: typeof TicketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -430,6 +521,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -467,6 +565,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_user': {
+      id: '/_user'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof UserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -502,20 +607,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/quote_/success': {
-      id: '/quote_/success'
-      path: '/quote/success'
-      fullPath: '/quote/success'
-      preLoaderRoute: typeof QuoteSuccessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quote_/processing': {
-      id: '/quote_/processing'
-      path: '/quote/processing'
-      fullPath: '/quote/processing'
-      preLoaderRoute: typeof QuoteProcessingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dashboard/quotes': {
       id: '/dashboard/quotes'
       path: '/quotes'
@@ -529,6 +620,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/invoices'
       preLoaderRoute: typeof DashboardInvoicesRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/_user/setnewpassword': {
+      id: '/_user/setnewpassword'
+      path: '/setnewpassword'
+      fullPath: '/setnewpassword'
+      preLoaderRoute: typeof UserSetnewpasswordRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/register': {
+      id: '/_user/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof UserRegisterRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/login': {
+      id: '/_user/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof UserLoginRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/forgotpassword': {
+      id: '/_user/forgotpassword'
+      path: '/forgotpassword'
+      fullPath: '/forgotpassword'
+      preLoaderRoute: typeof UserForgotpasswordRouteImport
+      parentRoute: typeof UserRoute
     }
     '/_auth/admintracking': {
       id: '/_auth/admintracking'
@@ -631,6 +750,22 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface UserRouteChildren {
+  UserForgotpasswordRoute: typeof UserForgotpasswordRoute
+  UserLoginRoute: typeof UserLoginRoute
+  UserRegisterRoute: typeof UserRegisterRoute
+  UserSetnewpasswordRoute: typeof UserSetnewpasswordRoute
+}
+
+const UserRouteChildren: UserRouteChildren = {
+  UserForgotpasswordRoute: UserForgotpasswordRoute,
+  UserLoginRoute: UserLoginRoute,
+  UserRegisterRoute: UserRegisterRoute,
+  UserSetnewpasswordRoute: UserSetnewpasswordRoute,
+}
+
+const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
+
 interface DashboardRouteChildren {
   DashboardInvoicesRoute: typeof DashboardInvoicesRoute
   DashboardQuotesRoute: typeof DashboardQuotesRoute
@@ -664,18 +799,21 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
+  UserRoute: UserRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,
   DashboardRoute: DashboardRouteWithChildren,
   FaqsRoute: FaqsRoute,
+  NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
   ServicesRoute: ServicesRouteWithChildren,
+  ShopRoute: ShopRoute,
+  SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
+  TicketRoute: TicketRoute,
   VacanciesRoute: VacanciesRoute,
-  QuoteProcessingRoute: QuoteProcessingRoute,
-  QuoteSuccessRoute: QuoteSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -42,14 +42,14 @@ function ServiceDetail() {
   return (
     <SiteLayout>
       {/* HERO */}
-      <section className="relative h-[340px] w-full overflow-hidden md:h-[440px]">
+      <section className="relative h-85 w-full overflow-hidden md:h-110">
         <img
           src={service.image}
           alt={service.heroTitle}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0E141A]/85 via-[#0E141A]/55 to-[#0E141A]/20" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0E141A]" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#0E141A]/85 via-[#0E141A]/55 to-[#0E141A]/20" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent to-[#0E141A]" />
 
         <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-between px-6 py-6 md:px-8 md:py-8">
           <button
@@ -72,7 +72,7 @@ function ServiceDetail() {
 
       {/* CONTENT */}
       <section className="mx-auto max-w-7xl px-6 py-12 md:px-8 md:py-16">
-        <h2 className="max-w-3xl font-display text-2xl font-semibold leading-snug md:text-3xl">
+        <h2 className="max-w-3xl font-display text-1xl font-semibold leading-snug md:text-2xl">
           {service.title}
         </h2>
 
@@ -104,7 +104,7 @@ function ServiceDetail() {
             {service.tags.map((t) => (
               <span
                 key={t}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-xs text-foreground/80"
+                className="rounded-full border border-white/10 bg-white/3 px-4 py-1.5 text-xs text-foreground/80"
               >
                 {t}
               </span>

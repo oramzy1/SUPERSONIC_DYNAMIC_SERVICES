@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Eye, Target, User } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { Eye, User, X, Landmark, GraduationCap } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
 import { SurfaceCard } from "@/components/shared/SurfaceCard";
@@ -62,38 +63,79 @@ const TESTIMONIALS = [
   },
 ];
 
+const FOUNDER_DATA = {
+  nweze: {
+    name: "Mr. NWEZE WIEGI EMI CHUKWUDI",
+    role: "CEO & FOUNDER",
+    age: "35 years old",
+    origin: "Nigeria (integrated in the Netherlands for ~5 years)",
+    education: [
+      "B.Eng. in Chemical Engineering — Niger Delta University, Bayelsa State, Nigeria",
+      "M.Sc. in Advanced Chemical Engineering — University of Aberdeen, Scotland, United Kingdom"
+    ],
+    bio: [
+      "I am a highly skilled professional with cognate work experience spanning across process engineering in manufacturing and production, teaching in higher education and Logistics and supply chain. I have worked professionally for more than four years in the Logistics and supply chain industry both in the United Kingdom and the Netherlands. I have worked on both implementation projects and projects that have been in operations for years in the Logistics business space from which i have grown and learnt about the trade, general end-to-end framework and secrets of the logistics business in the Netherlands and Europe.",
+      "Due to the passion to build and drive my own private business that serves the populace of the Netherlands in the domain of “moving services” I committed to working on a freelance basis with several moving services providing companies here in the Netherlands to broaden my scope in the moving services business and also gain core skills in handling and dealing with the technicalities of running the general operations of a moving services business in the Netherlands. I have over the years received several core trainings in relation to entrepreneurship, business development, business operations and personnel management, investments and finance management equipping me with the core knowledge necessary to build and grow a business venture right form the very scratch.",
+      "While entrepreneurship is defined as the art of identification of a need and the creation of an effective and easy to use solution through innovation and risk-taking for the satisfaction of the man’s needs and as well for profit purposes; and an entrepreneur is a person who identifies a need and the creates an effective solution (a value proposition) through innovation and risk-taking for the purpose of satisfying human needs and profit making. I happen to fall into the category of people on planet earth that is passionate, fulfilled and excited about solving problems for man. As a passion driven entrepreneur, I view challenges as the necessity which drives innovation and the prompts man to tap into the vast possibilities that man can accomplish. This makes me to see resources, opportunities, and value in everything around me which is classified as a problem, and i believe the only way to get rewarded is to see and solve a problem for man.",
+      "Finally, living and working in the Netherlands for the past four years has made me see the abundance of opportunities which are channels through which i can leverage on partnership with other creative minds to create innovative solutions that serves the Netherlands and solves many problems faced by the populace of the Netherlands. What makes the decision to start a private company in the Netherlands more desiring is how that the Dutch Government encourages entrepreneurs and business start-ups with the right support such as reducing the regulatory burden on entrepreneurs through grants and financial incentives access for entrepreneurs, tax benefits for green and sustainability driven businesses, specialized startup programs to build more entrepreneurs who would create more job opportunities in the Netherlands, and all of these support is geared towards helping entrepreneurs get their business ideas move from just ideas on paper into real operational business ventures which are solving real problems and impacting the Netherlands positively. This enabling environment for entrepreneurs and start-ups provided by the Dutch Government is the driving force that has made me and my team to take the decision to birth SUPERSONIC DYNAMIC SERVICES B.V. and embark on an adventure to translate the innovate ideas in our heads into real innovate solutions which will continue to serve the Netherlands create long term positive impact in the Netherlands."
+    ]
+  },
+  henry: {
+    name: "Mr. HENRY OBI NDUBISI",
+    role: "CO-FOUNDER & COO",
+    age: "51 years old",
+    origin: "Nigeria (integrated in the Netherlands for ~5 years)",
+    education: [
+      "B.Sc. in Accounting and Finance — University of Port-Harcourt, Rivers State, Nigeria",
+      "B.A. in International Business — Guangdong Polytechnic Normal University, Guangzhou, China",
+      "M.Sc. in International Marketing — Jönköping University, Jönköping, Sweden",
+      "MBA — University of Maastricht, Limburg, Netherlands"
+    ],
+    bio: [
+      "I am a dedicated and results-oriented professional with over 25 years of experience marketing and business administration within the construction, catering and high-tech industry, with a proven track record of executing successful marketing campaigns and driving brand awareness. I do have strong analytical skills coupled with creative thinking abilities, adept at identifying market trends and leveraging them to develop innovative strategies. Seeking to leverage expertise in a dynamic managerial role within a forward-thinking organization. I’m committed to fostering collaborative environments where ideas thrive and products excel. My approach combines strategic planning, user-centric design, and agile methodologies to turn complex challenges into growth opportunities.",
+      "In an ever-changing world of work, setting up my own business can be the best way to find a stable job, without fear of redundancy or waiting for the perfect offer that may never fully meet one’s expectations. As an entrepreneur my dream revolves around achieving autonomy, creating meaningful impact, and building a legacy, rather than just earning profits. It involves transforming my personal passion into a business that solves problems, offers flexibility over one's schedule, and provides financial freedom. Success requires relentless dedication, research, and resilience. One possible aim among entrepreneurs is to establish a successful business and also achieve a healthy balance between their personal and professional lives. This involves creating a business venture that fulfils market needs and secures financial stability while allowing for personal growth and life satisfaction.",
+      "With the Dutch government taking steps to reduce the regulatory burden on entrepreneurs through a combination of financial incentives, tax benefits, specialized startup programs, and support for innovation, aiming to foster a competitive, sustainable, and technology-driven economy there is no better time for me and my team to establish SUPERSONIC DYNAMIC SERVICES B.V a company that prides in leveraging on technology, environmentally sustainable interventions (electric trucks), commitment to a reliable, fast and quality service delivery and trust to bring consumers of moving services across the Netherlands into a whole new digitalized experience of moving services hence bringing satisfaction to the consumers growing interest in moving services which are fast, efficient, user friendly, digitally driven and of course environmentally sustainable (zero-carbon emission moving solutions)."
+    ]
+  }
+};
+
+type FounderKey = keyof typeof FOUNDER_DATA;
+
 function About() {
+  const [selectedFounder, setSelectedFounder] = useState<FounderKey | null>(null);
+
   return (
     <SiteLayout>
-      <section className="py-14 md:py-20">
-        <header className="mx-auto max-w-7xl px-6">
+      <section className="py-10 md:py-20 overflow-x-hidden">
+        <header className="mx-auto max-w-7xl px-4 sm:px-6">
           <Pill variant="primary" dot>
             Supersonic Dynamic Services B.V.
           </Pill>
-          <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold md:text-6xl">
+          <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold sm:text-4xl md:text-6xl">
             About Supersonic Dynamic Services B.V.
           </h1>
-          <p className="mt-5 max-w-3xl text-muted-foreground">
+          <p className="mt-5 max-w-3xl text-sm sm:text-base text-muted-foreground">
             SUPERSONIC DYNAMIC SERVICES B.V. is the next-level game changer in the Dutch moving
             services market. We pride in leveraging on our unique value proposition of continuously
             investing in a strong commitment to driving technological innovation, environmental
             sustainability - responsible and sustainable moving solutions.
           </p>
         </header>
-        <div className="w-full bg-surface py-15 my-10">
-          <div className="mx-auto max-w-7xl px-6 grid gap-5 md:grid-cols-[1.4fr_0.6fr]">
-            <SurfaceCard className="border-0 bg-[#1A2027]">
+
+        {/* Mission and Vision Grid Setup */}
+        <div className="w-full bg-surface py-10 md:py-16 my-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 grid gap-6 grid-cols-1 md:grid-cols-[1.3fr_0.7fr]">
+            <SurfaceCard className="border-0 bg-[#1A2027] p-6 sm:p-8">
               <h3 className="font-display text-xl font-semibold">Our Mission</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                To be a next-level game changer in the logistics industry by integrating
-                hyper-advanced communication with unyielding environmental sustainability. We bridge
-                the gap between heavy-duty reliability and weightless digital intelligence.
+              <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
+                The mission of SUPERSONIC DYNAMIC SERVICES B.V. is to Build the Netherlands most trusted, transparent, 
+                digitally driven, and environmentally sustainable moving services and freight haulage services.
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="mt-5 flex flex-wrap gap-2">
                 {["Tech Innovation", "Eco Drive", "Client Care"].map((t) => (
                   <span
                     key={t}
-                    className="rounded-full border border-white/10 px-3 py-1 text-[11px] text-foreground/85"
+                    className="rounded-full border border-white/10 bg-white/2 px-3 py-1 text-[11px] text-foreground/85"
                   >
                     {t}
                   </span>
@@ -101,175 +143,141 @@ function About() {
               </div>
             </SurfaceCard>
 
-            <SurfaceCard bordered="primary" className="bg-[#D7FFC5] border-0 text-center">
-              <div className="mb-3 grid h-10 w-10 place-items-center rounded-full mx-auto">
-                <Eye fill="#053900" color="#fff" className="h-5 w-5" />
+            <SurfaceCard bordered="primary" className="bg-[#D7FFC5] border-0 text-center p-6 sm:p-8 flex flex-col justify-center items-center">
+              <div className="mb-3 grid h-10 w-10 place-items-center rounded-full bg-[#053900]">
+                <Eye className="h-5 w-5 text-white" />
               </div>
               <h3 className="font-display text-[#053900] text-xl font-semibold">Our Vision</h3>
-              <p className="mt-2 text-sm text-[#053900]">
-                Leading the global transition to clean, zero emissions logistics by becoming a
-                mainstay of intelligent electric fleets.
+              <p className="mt-3 text-xs sm:text-sm text-[#053900]/90 leading-relaxed">
+                The vision of SUPERSONIC DYNAMIC SERVICES B.V. is to be in the forefront of the Dutch moving and freight haulage 
+                services market changing the game as one of the leading innovative technology and sustainability driven moving and 
+                freight haulage service providers in the Netherlands.
               </p>
             </SurfaceCard>
           </div>
         </div>
 
-        {/* Founders Section */}
-        <section className="mt-24 mx-auto max-w-7xl px-6 overflow-hidden">
-          <div className="grid gap-14 lg:grid-cols-[1.4fr_0.6fr] items-center">
+        {/* Founders Leadership and Identity Cards */}
+        <section className="mt-16 md:mt-24 mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] items-center">
+            
             {/* LEFT CONTENT */}
-            <div className="w-full">
+            <div className="w-full space-y-4">
               <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-white/40">
                 Legacy of Leadership
               </p>
 
-              <h2 className="mt-3 max-w-lg font-display text-3xl font-bold leading-[1.1] text-white md:text-[44px]">
+              <h2 className="font-display text-2xl font-bold leading-[1.2] text-white sm:text-3xl md:text-[40px]">
                 Founded by Mr. Nweze W. Chukwudi & Henry Obi Ndubuisi
               </h2>
 
-              <div className="mt-4 flex gap-5">
-                {/* Vertical Line */}
-                <div className="w-px bg-[#5B8CFF]" />
-
-                <div>
-                  <p className="max-w-md text-[15px] leading-7 text-white/65">
-                    Logistics is the heartbeat of the global economy. At Supersonic, we've
-                    engineered that heartbeat to be cleaner, faster, and smarter than ever before.
-                  </p>
-                </div>
+              <div className="flex gap-4">
+                <div className="w-0.5 bg-[#5B8CFF] shrink-0" />
+                <p className="text-sm sm:text-[15px] leading-6 sm:leading-7 text-white/65">
+                  Logistics is the heartbeat of the global economy. At Supersonic, we've
+                  engineered that heartbeat to be cleaner, faster, and smarter than ever before.
+                </p>
               </div>
 
-              <p className="mt-4 max-w-lg text-sm leading-7 text-white/45">
+              <p className="text-xs sm:text-sm leading-6 text-white/45">
                 Under the visionary leadership of Mr. Nweze W. Chukwudi & Henry Obi Ndubuisi,
                 Supersonic Dynamic Services B.V. has evolved from a kinetic concept into a premier
                 logistics powerhouse. Our foundation is built on the belief that speed should never
                 come at the cost of our planet.
               </p>
 
-              <Link to="/about" className="mt-5 inline-block">
-                {" "}
-                <CTAButton variant="primary" className="rounded">
-                  {" "}
-                  View Profiles{" "}
-                </CTAButton>{" "}
-              </Link>
+              <div className="pt-2 flex flex-wrap gap-3">
+                <CTAButton variant="primary" className="rounded" onClick={() => setSelectedFounder("nweze")}>
+                  CEO Profile
+                </CTAButton>
+                <CTAButton variant="secondary" className="rounded border border-white/10 bg-white/5 text-white hover:bg-white/10" onClick={() => setSelectedFounder("henry")}>
+                  COO Profile
+                </CTAButton>
+              </div>
             </div>
 
-            {/* RIGHT FOUNDERS CARDS */}
-            <div className="flex items-end justify-start gap-5">
-              {[
-                {
-                  name: "Mr. Nweze W. Chukwudi",
-                  role: "Founder & CEO",
-                },
-                {
-                  name: "Mr. Henry Obi Ndubuisi",
-                  role: "Co-Founder/COO",
-                },
-              ].map((founder) => (
-                <div
-                  key={founder.name}
-                  className="
-            relative
-            flex
-            h-85
-            w-55
-            flex-col
-            justify-end
-            overflow-hidden
-            rounded-[24px]
-            border
-            border-white/10
-            bg-white/6
-            p-6
-            backdrop-blur-xl
-          "
-                >
-                  {/* Optional Gradient Overlay */}
-                  <div className="absolute inset-0 bg-linear-to-b from-white/3 to-transparent" />
-
-                  <div className="relative z-10">
-                    <h4 className="max-w-37.5 text-[26px] font-semibold leading-[1.15] text-white">
-                      {founder.name}
-                    </h4>
-
-                    <p className="mt-2 text-sm text-[#8EA7FF]">{founder.role}</p>
+            {/* RIGHT FOUNDERS PHOTO CARDS BOXES */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full h-auto">
+              {(Object.keys(FOUNDER_DATA) as FounderKey[]).map((key) => {
+                const founder = FOUNDER_DATA[key];
+                return (
+                  <div
+                    key={key}
+                    onClick={() => setSelectedFounder(key)}
+                    className="group relative flex min-h-70 sm:h-80 w-full flex-col justify-end overflow-hidden rounded-[24px] border border-white/10 bg-white/3 p-6 backdrop-blur-xl transition duration-300 hover:border-white/20 hover:bg-white/6 cursor-pointer"
+                  >
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                    <div className="relative z-10 space-y-1.5">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white opacity-0 group-hover:opacity-100 transition-opacity absolute top-0 right-0 -mt-12">
+                        <Eye className="h-4 w-4" />
+                      </div>
+                      <h4 className="text-lg font-semibold leading-snug text-white transition-colors group-hover:text-[#8EA7FF]">
+                        {founder.name}
+                      </h4>
+                      <p className="text-xs font-medium tracking-wide text-[#8EA7FF]/90 uppercase">{founder.role}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* Advantage */}
-        <div className="bg-[#090F15] w-full py-10 mt-8">
-          <div className="mt-20 mx-auto max-w-7xl px-6 text-center">
-            <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
-              {" "}
+        {/* Advantage Section */}
+        <div className="bg-[#090F15] w-full py-12 md:py-20 mt-16 md:mt-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 text-center">
+            <h2 className="font-display text-2xl font-bold sm:text-3xl md:text-4xl">
               The Supersonic Advantage
             </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">
+            <p className="mx-auto mt-3 max-w-2xl text-xs sm:text-sm text-muted-foreground">
               At SUPERSONIC DYNAMIC SERVICES, we redefine moving with a seamless, technology-driven,
               and eco-responsible approach that makes your move smooth, efficient, and completely
               stress-free.
             </p>
           </div>
-          <div className="mt-10 mx-auto max-w-7xl px-6 space-y-10">
+          
+          <div className="mt-12 mx-auto max-w-7xl px-4 sm:px-6 space-y-12 md:space-y-16">
             {ADVANTAGES.map((a, i) => (
-              <div key={a.title} className="grid items-center gap-8 md:grid-cols-2">
-                {i % 2 === 0 ? (
-                  <>
-                    <div>
-                      <h3 className="font-display text-2xl font-semibold">{a.title}</h3>
-                      <p className="mt-3 text-sm text-muted-foreground">{a.body}</p>
-                    </div>
-                    <img
-                      src={a.image}
-                      alt={a.title}
-                      loading="lazy"
-                      className="aspect-4/3 w-full rounded-2xl object-cover"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <img
-                      src={a.image}
-                      alt={a.title}
-                      loading="lazy"
-                      className="aspect-4/3 w-full rounded-2xl object-cover order-2 md:order-1"
-                    />
-                    <div className="order-1 md:order-2">
-                      <h3 className="font-display text-2xl font-semibold">{a.title}</h3>
-                      <p className="mt-3 text-sm text-muted-foreground">{a.body}</p>
-                    </div>
-                  </>
-                )}
+              <div key={a.title} className="grid items-center gap-6 md:grid-cols-2">
+                <div className={i % 2 === 0 ? "order-1" : "order-1 md:order-2"}>
+                  <h3 className="font-display text-xl sm:text-2xl font-semibold">{a.title}</h3>
+                  <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">{a.body}</p>
+                </div>
+                <div className={i % 2 === 0 ? "order-2" : "order-2 md:order-1"}>
+                  <img
+                    src={a.image}
+                    alt={a.title}
+                    loading="lazy"
+                    className="aspect-4/3 w-full rounded-2xl object-cover shadow-xl border border-white/5"
+                  />
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Testimonials */}
-        <div className="mt-20 mx-auto max-w-7xl px-6 text-start">
+        <div className="mt-16 md:mt-24 mx-auto max-w-7xl px-4 sm:px-6 text-start">
           <Pill variant="muted">Proven Excellence</Pill>
-          <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">What Our Clients Say</h2>
-          <p className="mx-auto mt-3 text-sm text-muted-foreground text-start">
+          <h2 className="mt-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">What Our Customers Say</h2>
+          <p className="mt-3 max-w-2xl text-xs sm:text-sm text-muted-foreground">
             Reliability, speed, and sustainability are at the core of every move. Join thousands of
             satisfied clients across the Netherlands and Europe.
           </p>
         </div>
-        <div className="mt-8 grid mx-auto max-w-7xl px-6 gap-5 md:grid-cols-3">
+        
+        <div className="mt-8 grid mx-auto max-w-7xl px-4 sm:px-6 gap-5 grid-cols-1 md:grid-cols-3">
           {TESTIMONIALS.map((t) => (
-            <SurfaceCard key={t.name}>
-              <p className="text-3xl text-muted-foreground font-display">"</p>
-              <p className="-mt-2 text-sm text-muted-foreground">{t.quote}</p>
-              <div className="mt-5 flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-full bg-muted">
-                  <User className="w-5 h-5" />
+            <SurfaceCard key={t.name} className="p-6">
+              <p className="text-3xl text-muted-foreground font-display leading-none">"</p>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed -mt-1">{t.quote}</p>
+              <div className="mt-5 flex items-center gap-3 border-t border-white/5 pt-4">
+                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/5 text-slate-400">
+                  <User className="w-4 h-4" />
                 </div>
-                <div>
-                  <p className="text-sm font-semibold">{t.name}</p>
-                  <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground">
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-semibold truncate">{t.name}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground truncate mt-0.5">
                     {t.role}
                   </p>
                 </div>
@@ -278,7 +286,77 @@ function About() {
           ))}
         </div>
       </section>
+      
       <RequestQuoteBanner />
+
+      {/* MODAL BIOGRAPHY DIALOG WINDOW - HIGHEST Z-INDEX OVERLAY */}
+      {selectedFounder && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 sm:p-6 md:p-10 animate-in fade-in duration-200">
+          {/* Translucent Backdrop Blur layer */}
+          <div 
+            className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" 
+            onClick={() => setSelectedFounder(null)}
+          />
+          
+          {/* Modal Container Window Box */}
+          <div className="relative bg-[#0d121a] border border-white/10 w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 text-left custom-scrollbar animate-in zoom-in-95 duration-200 flex flex-col gap-6">
+            
+            {/* Header Area */}
+            <div className="flex items-start justify-between gap-4 border-b border-white/5 pb-5 sticky top-0 bg-[#0d121a] z-10">
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold tracking-widest text-[#8EA7FF] uppercase px-2 py-0.5 bg-[#8EA7FF]/10 rounded">
+                  {FOUNDER_DATA[selectedFounder].role}
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-2">
+                  {FOUNDER_DATA[selectedFounder].name}
+                </h3>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400 font-medium">
+                  <span>Age: {FOUNDER_DATA[selectedFounder].age}</span>
+                  <span className="h-1 w-1 bg-white/20 rounded-full hidden sm:inline" />
+                  <span className="inline-flex items-center gap-1">
+                    <Landmark className="h-3 w-3 text-slate-500" /> {FOUNDER_DATA[selectedFounder].origin}
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedFounder(null)}
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition focus:outline-none"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Academic Credentials Box */}
+            <div className="bg-white/2 border border-white/5 rounded-xl p-4 space-y-2.5">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <GraduationCap className="h-4 w-4 text-[#8EA7FF]" /> Education & Credentials
+              </h4>
+              <ul className="space-y-1.5 text-xs sm:text-sm text-slate-300 list-none pl-0">
+                {FOUNDER_DATA[selectedFounder].education.map((edu, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="text-[#8EA7FF] mt-1 shrink-0">▪</span>
+                    <span>{edu}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Main Statement Text Area */}
+            <div className="space-y-4 text-xs sm:text-sm text-slate-300 font-normal leading-relaxed">
+              {FOUNDER_DATA[selectedFounder].bio.map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+
+            {/* Footer Control Box */}
+            <div className="border-t border-white/5 pt-4 mt-2 flex justify-end sticky bottom-0 bg-[#0d121a] z-10">
+              <CTAButton variant="primary" className="rounded px-6 py-2 text-xs" onClick={() => setSelectedFounder(null)}>
+                Close Profile
+              </CTAButton>
+            </div>
+          </div>
+        </div>
+      )}
     </SiteLayout>
   );
 }

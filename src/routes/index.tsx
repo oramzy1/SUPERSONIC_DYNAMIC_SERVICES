@@ -118,7 +118,7 @@ function Home() {
             transition={{ duration: 0.7 }}
           >
             <Pill variant="primary" dot>
-              Amsterdam - Netherlands
+              Netherlands
             </Pill>
             <h1 className="mt-4 font-display text-4xl font-bold leading-[1.05] text-foreground md:text-6xl">
               The Next-Generation <br /> Moving & Freight <br />
@@ -205,7 +205,7 @@ function Home() {
       <section className="mx-auto max-w-7xl px-6 pb-20 md:px-8">
         <div className="mb-10">
           <Pill variant="primary">The Supersonic Advantage</Pill>
-          <h2 className="mt-4 max-w-2xl font-display text-3xl font-bold md:text-5xl">
+          <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold md:text-5xl">
             Why Choose Supersonic Dynamic Services?
           </h2>
         </div>
@@ -243,46 +243,56 @@ function Home() {
 
 export function RequestQuoteBanner() {
   return (
-    <section className="mx-auto max-w-7xl px-2 pb-20 md:px-8">
-      <div className="rounded-3xl bg-[#ABBDF4]/90 p-4 text-[#0E141A] md:p-12">
-        <div className="grid gap-8 md:grid-cols-2">
+    <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 md:px-8">
+      <div className="rounded-3xl bg-[#ABBDF4]/90 p-6 text-[#0E141A] sm:p-8 md:p-12">
+        {/* Grid adapts perfectly from single column mobile to 2 columns on desktop */}
+        <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
           <div>
-            <h3 className="font-display text-3xl font-bold md:text-4xl">
-              Request Your Free <br /> Moving Quote:
+            <h3 className="font-display text-2xl font-bold sm:text-3xl md:text-4xl">
+              Request Your Free <br className="hidden sm:inline" /> Moving Quote:
             </h3>
-            <p className="mt-4 max-w-md text-sm text-[#0E141A]/80">
+            <p className="mt-4 max-w-md text-sm text-[#0E141A]/80 leading-relaxed">
               Planning a move in the Netherlands? Let SUPERSONIC DYNAMIC SERVICES B.V. handle your
               relocation with professionalism and care. Request your free, no-obligation quote today
               and discover a smarter way to move.
             </p>
-            <Link to="/quote" className="mt-6 inline-block">
-              <CTAButton variant="secondary" className="rounded-md px-6 py-3.5">
+            <Link to="/quote" className="mt-6 block w-full sm:w-auto">
+              <CTAButton
+                variant="secondary"
+                className="rounded-md w-full sm:w-auto px-6 py-3.5 justify-center"
+              >
                 Request Quote
               </CTAButton>
             </Link>
           </div>
-          <div className="space-y-3">
-            <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-5 py-4">
-              <div className="grid h-10 w-10 place-items-center rounded-full bg-white">
+
+          <div className="space-y-3 w-full">
+            {/* Call Info Box */}
+            <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-4 py-4 sm:px-5">
+              <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
                 <Phone className="h-5 w-5 text-[#002B73]" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Call us
                 </p>
-                <p className="font-display text-xs sm:text-lg font-semibold">+31 (06) 84 336 600</p>
+                <p className="font-display text-base font-semibold sm:text-lg truncate">
+                  +31 (06) 84 336 600
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-5 py-4">
-              <div className="grid h-10 w-10 place-items-center rounded-full bg-white">
+
+            {/* Email Info Box - Fixed layout text-wrapping for mobile viewports */}
+            <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-4 py-4 sm:px-5">
+              <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
                 <Mail className="h-5 w-5 text-[#002B73]" />
               </div>
-              <div>
+              <div className="min-w-0 w-full">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
                   Email us
                 </p>
-                <p className="font-display text-xs sm:text-lg font-semibold">
-                  info@supersonicdynamicservices.nl
+                <p className="font-display text-base font-semibold sm:text-lg break-all sm:break-normal">
+                  info@supersonic_dynamicservices.nl
                 </p>
               </div>
             </div>

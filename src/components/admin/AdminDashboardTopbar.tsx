@@ -39,10 +39,8 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
 
   return (
     <header className="sticky top-0 z-90 w-full flex items-center justify-between border-b border-[#1c1e21] bg-[#100315]/80 px-4 sm:px-6 py-3 backdrop-blur-xl gap-3 shrink-0 box-border">
-
       {/* LEFT: Hamburger + Search */}
       <div className="flex items-center gap-2 flex-1 min-w-0">
-
         {/* Mobile menu toggle */}
         <button
           onClick={onMenuToggle}
@@ -66,7 +64,6 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
 
       {/* RIGHT: Actions */}
       <div className="flex items-center gap-2 shrink-0">
-
         {/* NOTIFICATIONS */}
         <div ref={notifRef} className="relative">
           <button
@@ -162,7 +159,7 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
                   View Profile
                 </button>
                 <Link
-                  to="/adminsettings"
+                  to={"/adminsettings" as any}
                   onClick={() => setOpenProfile(false)}
                   className="text-left px-3 py-2 hover:bg-[#16191c] rounded-md text-slate-300 block transition-colors"
                 >
