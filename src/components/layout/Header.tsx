@@ -312,7 +312,7 @@ export function Header() {
           <Link to="/quote" className="hidden md:block">
             <CTAButton
               variant="primary"
-              className="rounded-xl px-5 py-2 text-sm tracking-wide shadow-lg shadow-(--primary)/10"
+              className="rounded-md px-5 py-2 text-sm tracking-wide shadow-lg shadow-(--primary)/10"
             >
               Request Quote
             </CTAButton>
