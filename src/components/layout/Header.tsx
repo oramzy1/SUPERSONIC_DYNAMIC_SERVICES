@@ -1,7 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   Bell,
-  Menu,
   Search,
   UserCircle2,
   X,
@@ -51,35 +50,8 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // Always show navbar at the very top of the page
-      if (currentScrollY < 10) {
-        setVisible(true);
-        lastScrollY.current = currentScrollY;
-        return;
-      }
-
-      // If mobile menu or profile dropdown is currently open, don't auto-hide the navbar
-      if (open || profileDropdownOpen) {
-        setVisible(true);
-        return;
-      }
-
-      // Hide on scroll down, show on scroll up
-      if (currentScrollY > lastScrollY.current) {
-        setVisible(false);
-      } else {
-        setVisible(true);
-      }
-
-      lastScrollY.current = currentScrollY;
-
-      // Professional Debounce Timer: Force reveal the navbar as soon as user scrolling stops entirely
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-      scrollTimeout.current = setTimeout(() => {
-        setVisible(true);
-      }, 150); // Fires exactly 150ms after scroll action ceases
+      // Force the navbar to remain fixed and visible at all times
+      setVisible(true);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -112,7 +84,11 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 md:px-8 md:py-4">
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img src={logo} alt="Supersonic Dynamic Services" className="h-10 w-auto" />
+          <img 
+            src={logo} 
+            alt="Supersonic Dynamic Services" 
+            className="h-10 w-auto rounded-md sm:rounded-md" 
+          />
         </Link>
 
         {/* DESKTOP NAVIGATION */}
@@ -327,7 +303,12 @@ export function Header() {
             {open ? (
               <X className="h-5 w-5 animate-in fade-in zoom-in duration-200" />
             ) : (
-              <Menu className="h-5 w-5 animate-in fade-in zoom-in duration-200" />
+              /* Classic Hamburger Stack: Top/Bottom are short, center line is longer facing left */
+              <div className="relative flex flex-col justify-between h-3.5 w-5 items-start animate-in fade-in zoom-in duration-200">
+                <span className="h-0.5 w-3.5 bg-current rounded-full transition-all" />
+                <span className="h-0.5 w-5 bg-current rounded-full transition-all" />
+                <span className="h-0.5 w-3.5 bg-current rounded-full transition-all" />
+              </div>
             )}
           </button>
         </div>
@@ -344,14 +325,7 @@ export function Header() {
             className="overflow-hidden border-t border-white/5 bg-[#0E141A] lg:hidden shadow-2xl"
           >
             <div className="flex flex-col gap-4 px-4 py-5">
-              {/* Native Fluid Search inside Mobile Dropdown View */}
-              <div className="flex items-center gap-2 rounded-xl bg-white/5 border border-white/5 px-3 py-2.5">
-                <Search className="h-4 w-4 text-muted-foreground" />
-                <input
-                  placeholder="Search services..."
-                  className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
-                />
-              </div>
+              {/* Search overlay configuration removed from mobile menu view layout */}
 
               {/* Core Links */}
               <nav className="flex flex-col gap-1">

@@ -23,7 +23,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
-import vanHero from "@/assets/images/hero-van.jpg";
+import vanHero from "@/assets/images/hero-van.png";
 
 export const Route = createFileRoute("/quote")({
   component: Quote,
