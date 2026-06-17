@@ -756,7 +756,7 @@ function Quote() {
                                     {...register("additionalServices")}
                                   />
                                   <span className="text-xs text-white font-small select-none">
-                                    Work hours/weekend/collection support
+                                    Work hours/weekdays collection support
                                   </span>
                                 </label>
 
