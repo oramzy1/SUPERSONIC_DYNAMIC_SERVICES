@@ -512,7 +512,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -637,7 +637,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -648,7 +648,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -812,7 +812,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -950,7 +950,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -961,7 +961,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("deliveryDate")}
                           />
                         </Field>
