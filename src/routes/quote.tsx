@@ -518,11 +518,45 @@ function Quote() {
                         </Field>
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
-                            <input
-                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
-                              placeholder="e.g. Packing service, Assembly setup, Extra hand loader"
-                              {...register("additionalServices")}
-                            />
+                            <div className="relative w-full">
+                              <select
+                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                                {...register("additionalServices")}
+                              >
+                                <option value="" className="bg-[#0E141A] text-muted-foreground">
+                                  Select an additional service...
+                                </option>
+                                <option
+                                  value="packing_service"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Packing service — Professional boxing & protection
+                                </option>
+                                <option
+                                  value="assembly_setup"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Assembly setup — Furniture dismantling & rebuilding
+                                </option>
+                                <option
+                                  value="extra_loader"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Extra hand loader — Additional personnel assistance
+                                </option>
+                              </select>
+
+                              {/* Custom Dropdown Chevron Icon Overlay */}
+                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
+                                <svg
+                                  className="fill-current h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                              </div>
+                            </div>
                           </Field>
                         </div>
                       </motion.div>
@@ -608,26 +642,104 @@ function Quote() {
                           />
                         </Field>
                         <Field
-                          label="Select size of storage unit (DDB)"
+                          icon={<Calendar className="h-4 w-4" />}
+                          label="Desired end-date of storage access."
+                          error={errors.date?.message}
+                        >
+                          <input
+                            type="date"
+                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            {...register("date")}
+                          />
+                        </Field>
+                        <Field
+                          label="Select size of storage unit"
                           error={errors.storageSize?.message}
                         >
-                          <select
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none"
-                            {...register("storageSize")}
-                          >
-                            <option value="">Select storage sizing unit...</option>
-                            <option value="small">Small Container Unit</option>
-                            <option value="medium">Medium Container Unit</option>
-                            <option value="large">Large Warehouse Suite Container</option>
-                          </select>
+                          <div className="relative w-full">
+                            <select
+                              className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                              {...register("storageSize")}
+                            >
+                              <option value="" className="bg-[#0E141A] text-muted-foreground">
+                                Select storage sizing unit...
+                              </option>
+                              <option value="1x1x2_3m3" className="bg-[#0E141A] text-white py-2">
+                                1 m x 1 m x 2 m = 3 m³
+                              </option>
+                              <option value="2x1x3_6m3" className="bg-[#0E141A] text-white py-2">
+                                2 m x 1 m x 3 m = 6 m³
+                              </option>
+                              <option value="2x2x3_12m3" className="bg-[#0E141A] text-white py-2">
+                                2 m x 2 m x 3 m = 12 m³
+                              </option>
+                              <option value="3x2x3_18m3" className="bg-[#0E141A] text-white py-2">
+                                3 m x 2 m x 3 m = 18 m³
+                              </option>
+                              <option value="3x3x3_27m3" className="bg-[#0E141A] text-white py-2">
+                                3 m x 3 m x 3 m = 27 m³
+                              </option>
+                              <option value="3x4x3_36m3" className="bg-[#0E141A] text-white py-2">
+                                3 m x 4 m x 3 m = 36 m³
+                              </option>
+                              <option value="4x4x3_48m3" className="bg-[#0E141A] text-white py-2">
+                                4 m x 4 m x 3 m = 48 m³
+                              </option>
+                            </select>
+
+                            {/* Custom Dropdown Chevron Icon Overlay */}
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
+                              <svg
+                                className="fill-current h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                              </svg>
+                            </div>
+                          </div>
                         </Field>
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
-                            <input
-                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
-                              placeholder="e.g. Climate control monitoring, Inventory listing, Collection logistics"
-                              {...register("additionalServices")}
-                            />
+                            <div className="relative w-full">
+                              <select
+                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                                {...register("additionalServices")}
+                              >
+                                <option value="" className="bg-[#0E141A] text-muted-foreground">
+                                  Select an additional service...
+                                </option>
+                                <option
+                                  value="climate_control"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Climate control monitoring — Continuous temperature tracking
+                                </option>
+                                <option
+                                  value="inventory_listing"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Inventory listing — Structured item tracking records
+                                </option>
+                                <option
+                                  value="collection_logistics"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Collection logistics — Organized item route staging
+                                </option>
+                              </select>
+
+                              {/* Custom Dropdown Chevron Icon Overlay */}
+                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
+                                <svg
+                                  className="fill-current h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                              </div>
+                            </div>
                           </Field>
                         </div>
                       </motion.div>
@@ -706,11 +818,45 @@ function Quote() {
                         </Field>
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
-                            <input
-                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
-                              placeholder="e.g. Heavy item dismantling, Deep eco-cleaning recycling sorting"
-                              {...register("additionalServices")}
-                            />
+                            <div className="relative w-full">
+                              <select
+                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                                {...register("additionalServices")}
+                              >
+                                <option value="" className="bg-[#0E141A] text-muted-foreground">
+                                  Select an additional service...
+                                </option>
+                                <option
+                                  value="heavy_item_dismantling"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Heavy item dismantling — Safe breakdown of bulky furniture
+                                </option>
+                                <option
+                                  value="deep_eco_cleaning"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Deep eco-cleaning — Environmentally friendly room scrubbing
+                                </option>
+                                <option
+                                  value="recycling_sorting"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Recycling sorting — Sustainable waste allocation management
+                                </option>
+                              </select>
+
+                              {/* Custom Dropdown Chevron Icon Overlay */}
+                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
+                                <svg
+                                  className="fill-current h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                              </div>
+                            </div>
                           </Field>
                         </div>
                       </motion.div>
@@ -831,28 +977,47 @@ function Quote() {
                         </Field>
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
-                            <input
-                              className="field w-full rounded-lg px-3 py-2.5 text-sm"
-                              placeholder="e.g. Tailgate lift routing, Express custom verification clearings"
-                              {...register("additionalServices")}
-                            />
+                            <div className="relative w-full">
+                              <select
+                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                                {...register("additionalServices")}
+                              >
+                                <option value="" className="bg-[#0E141A] text-muted-foreground">
+                                  Select an additional service...
+                                </option>
+                                <option
+                                  value="tailgate_lift_routing"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Tailgate lift routing — Heavy machinery loading dispatch
+                                </option>
+                                <option
+                                  value="express_custom_verification"
+                                  className="bg-[#0E141A] text-white py-2"
+                                >
+                                  Express custom verification — Accelerated border compliance check
+                                </option>
+                                <option value="clearings" className="bg-[#0E141A] text-white py-2">
+                                  Clearings — Fast-track terminal cargo release management
+                                </option>
+                              </select>
+
+                              {/* Custom Dropdown Chevron Icon Overlay */}
+                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
+                                <svg
+                                  className="fill-current h-4 w-4"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                              </div>
+                            </div>
                           </Field>
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
-
-                  {/* Standard Job Description Block */}
-                  <div className="mt-4">
-                    <Field label="Job Description & Structural Specifications">
-                      <textarea
-                        rows={3}
-                        className="field w-full rounded-lg px-3 py-2.5 text-sm resize-none"
-                        placeholder="Provide specific notes on access levels, heavy items, structural layouts..."
-                        {...register("description")}
-                      />
-                    </Field>
-                  </div>
 
                   {/* Step 1 Visual Upload Prompts */}
                   <div className="mt-8">
@@ -1057,9 +1222,6 @@ function Quote() {
 
                       {getValues("description") && (
                         <div className="rounded-lg bg-black/40 p-3 border border-white/5 text-xs">
-                          <span className="text-muted-foreground block mb-1">
-                            Job Description Specifications:
-                          </span>
                           <p className="text-foreground leading-relaxed font-normal">
                             {getValues("description")}
                           </p>
@@ -1136,7 +1298,7 @@ function Quote() {
               <ContactStrip
                 icon={<User className="h-4 w-4 sm:h-5 sm:w-5" />}
                 label="Email us"
-                value="info@supersonic_dynamicservices.nl"
+                value="info@supersonicdynamicservices.nl"
               />
               <ContactStrip
                 icon={<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />}

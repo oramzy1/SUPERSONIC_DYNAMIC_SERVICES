@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Mail, Phone, Zap } from "lucide-react";
+import { ArrowRight, ArrowUpRight, FileText, Mail, Phone, Zap } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
@@ -125,21 +125,27 @@ function Home() {
               <span className="text-foreground/80">Haulage Service.</span>
             </h1>
             <p className="mt-5 max-w-xl tracking-tight text-base text-muted-foreground">
-              Professional moving and freight haulage services powered by precision logistics and carbon-neutral fleet -
-              experience the most seamless relocation and freight haulage services in the Netherlands.
+              Professional moving and freight haulage services powered by precision logistics and
+              carbon-neutral fleet - experience the most seamless relocation and freight haulage
+              services in the Netherlands.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/quote">
-                <CTAButton variant="primary" className="rounded-md px-6 py-3.5">
-                  Request Your Free Quote
+                <CTAButton
+                  variant="primary"
+                  className="rounded-md px-6 py-3.5 flex items-center justify-center gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  <span>Request Your Free Quote</span>
                 </CTAButton>
               </Link>
               <Link to="/services">
                 <CTAButton
                   variant="outline"
-                  className="rounded-md px-6 bg-[#2F353C] border-[#2F353C] py-3.5"
+                  className="group rounded-md px-6 bg-[#2F353C] border-[#2F353C] py-3.5 flex items-center justify-center gap-2"
                 >
-                  View All Services
+                  <span>View All Services</span>
+                  <ArrowUpRight className="h-4 w-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </CTAButton>
               </Link>
             </div>
@@ -259,9 +265,10 @@ export function RequestQuoteBanner() {
             <Link to="/quote" className="mt-6 block w-full sm:w-auto">
               <CTAButton
                 variant="secondary"
-                className="rounded-md w-full sm:w-auto px-6 py-3.5 justify-center"
+                className="group rounded-md w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"
               >
-                Request Quote
+                <span>Request Quote</span>
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </CTAButton>
             </Link>
           </div>

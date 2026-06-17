@@ -20,15 +20,9 @@ function DashboardLayout() {
     <div className="flex min-h-screen bg-background relative overflow-hidden">
       {/* Fixed Desktop Sidebar & Mobile Drawer */}
       <DashboardSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      {/* Added `md:pl-64` to push the main panel safely out from behind the fixed sidebar */}
       <div className="flex min-h-screen flex-1 flex-col overflow-hidden md:pl-64">
         {/* Fixed Topbar */}
         <DashboardTopbar onMenuOpen={() => setSidebarOpen(true)} />
-
-        {/* Added `pt-[72px] md:pt-[100px]` to push the layout code down below the fixed header.
-          This prevents your table headers and titles from being covered!
-        */}
         <main className="flex-1 px-6 pb-8 pt-18 md:px-10 md:pb-10 md:pt-25 overflow-y-auto">
           <Outlet />
         </main>
