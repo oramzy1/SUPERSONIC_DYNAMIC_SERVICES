@@ -187,10 +187,10 @@ function RouteComponent() {
       <header className="h-14 w-full fixed top-0 z-30 bg-[#0C1218]/90 backdrop-blur-md border-b border-white/6 flex items-center justify-between px-5 sm:px-7 shrink-0">
         <div className="flex items-center gap-3 min-w-0">
           <div className="flex flex-col min-w-0">
-            <span className="text-[11px] font-black tracking-tight text-white uppercase leading-tight">
+            <span className="text-[11px] font-black tracking-tight text-primary uppercase leading-tight">
               Supersonic <span>Dynamic Services B.V.</span>
             </span>
-            <span className="text-[9px] text-slate-500 tracking-widest uppercase hidden sm:block mt-0.5">
+            <span className="text-[9px] text-slate-200-500 tracking-widest uppercase hidden sm:block mt-0.5">
               Operations Terminal · Live Customer Updates
             </span>
           </div>
