@@ -120,13 +120,13 @@ function Home() {
             <Pill variant="primary" dot>
               Netherlands
             </Pill>
-            <h1 className="mt-4 font-display text-4xl font-bold leading-[1.05] text-foreground md:text-6xl">
+            <h1 className="mt-4 font-display text-4xl font-bold leading-[1.1] text-foreground md:text-6xl">
               The Next-Generation <br /> Moving & Freight <br />
               <span className="text-foreground/80">Haulage Service.</span>
             </h1>
-            <p className="mt-5 max-w-xl text-base text-muted-foreground">
-              Professional movers powered by precision logistics and carbon-neutral fleet -
-              experience the most seamless relocation in the Netherlands.
+            <p className="mt-5 max-w-xl tracking-tight text-base text-muted-foreground">
+              Professional moving and freight haulage services powered by precision logistics and carbon-neutral fleet -
+              experience the most seamless relocation and freight haulage services in the Netherlands.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/quote">
@@ -139,7 +139,7 @@ function Home() {
                   variant="outline"
                   className="rounded-md px-6 bg-[#2F353C] border-[#2F353C] py-3.5"
                 >
-                  View Services
+                  View All Services
                 </CTAButton>
               </Link>
             </div>
@@ -292,7 +292,7 @@ export function RequestQuoteBanner() {
                   Email us
                 </p>
                 <p className="font-display text-base font-semibold sm:text-lg break-all sm:break-normal">
-                  info@supersonic_dynamicservices.nl
+                  info@supersonicdynamicservices.nl
                 </p>
               </div>
             </div>

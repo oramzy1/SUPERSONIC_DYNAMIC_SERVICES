@@ -3,7 +3,7 @@ import residential from "@/assets/images/residential-moving.jpg";
 import enterprise from "@/assets/images/service-enterprise.jpg";
 import storage from "@/assets/images/smart-storage.jpg";
 import waste from "@/assets/images/waste-removal.jpg";
-import haulage from "@/assets/images/service-enterprise.jpg"; 
+import fregth from "@/assets/images/freight-haulage.jpeg";
 
 export type ServiceDetail = {
   slug: string;
@@ -134,7 +134,7 @@ export const SERVICES: ServiceDetail[] = [
   },
   {
     slug: "freight-haulage",
-    image: haulage,
+    image: fregth,
     heroTitle: "RELIABLE FREIGHT HAULAGE SERVICES - Safe, Efficient & On-Time Delivery",
     title: "RELIABLE FREIGHT HAULAGE SERVICES - Safe, Efficient & On-Time Delivery",
     intro:
