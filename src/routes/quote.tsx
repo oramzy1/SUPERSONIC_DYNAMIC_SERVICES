@@ -519,42 +519,59 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              <select
-                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
-                                {...register("additionalServices")}
-                              >
-                                <option value="" className="bg-[#0E141A] text-muted-foreground">
-                                  Select an additional service...
-                                </option>
-                                <option
-                                  value="packing_service"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Packing service — Professional boxing & protection
-                                </option>
-                                <option
-                                  value="assembly_setup"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Assembly setup — Furniture dismantling & rebuilding
-                                </option>
-                                <option
-                                  value="extra_loader"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Extra hand loader — Additional personnel assistance
-                                </option>
-                              </select>
+                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {/* Option 1 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="waste_removal"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Waste removal/recycling
+                                  </span>
+                                </label>
 
-                              {/* Custom Dropdown Chevron Icon Overlay */}
-                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
-                                <svg
-                                  className="fill-current h-4 w-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
+                                {/* Option 2 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="storage_short_long_term"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Storage short-term/long-term
+                                  </span>
+                                </label>
+
+                                {/* Option 3 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="after_hour_holiday_weekend_move"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    After hours/weekend/holiday move
+                                  </span>
+                                </label>
+
+                                {/* Option 4 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="disasembling_assembling"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Disassembling/Assembling
+                                  </span>
+                                </label>
                               </div>
                             </div>
                           </Field>
@@ -702,42 +719,59 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              <select
-                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
-                                {...register("additionalServices")}
-                              >
-                                <option value="" className="bg-[#0E141A] text-muted-foreground">
-                                  Select an additional service...
-                                </option>
-                                <option
-                                  value="climate_control"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Climate control monitoring — Continuous temperature tracking
-                                </option>
-                                <option
-                                  value="inventory_listing"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Inventory listing — Structured item tracking records
-                                </option>
-                                <option
-                                  value="collection_logistics"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Collection logistics — Organized item route staging
-                                </option>
-                              </select>
+                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {/* Option 1 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="packing_support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Packing Support
+                                  </span>
+                                </label>
 
-                              {/* Custom Dropdown Chevron Icon Overlay */}
-                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
-                                <svg
-                                  className="fill-current h-4 w-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
+                                {/* Option 2 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="disassembling_support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Disassembling Support
+                                  </span>
+                                </label>
+
+                                {/* Option 3 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="hours_weekend_holiday_move"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Work hours/weekend/collection support
+                                  </span>
+                                </label>
+
+                                {/* Option 4 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="hours_weekend_holiday_move"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    After hours/weekend/holiday collection support
+                                  </span>
+                                </label>
                               </div>
                             </div>
                           </Field>
@@ -819,42 +853,46 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              <select
-                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
-                                {...register("additionalServices")}
-                              >
-                                <option value="" className="bg-[#0E141A] text-muted-foreground">
-                                  Select an additional service...
-                                </option>
-                                <option
-                                  value="heavy_item_dismantling"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Heavy item dismantling — Safe breakdown of bulky furniture
-                                </option>
-                                <option
-                                  value="deep_eco_cleaning"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Deep eco-cleaning — Environmentally friendly room scrubbing
-                                </option>
-                                <option
-                                  value="recycling_sorting"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Recycling sorting — Sustainable waste allocation management
-                                </option>
-                              </select>
+                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {/* Option 1 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="waste_sorting_support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Waste sorting support
+                                  </span>
+                                </label>
 
-                              {/* Custom Dropdown Chevron Icon Overlay */}
-                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
-                                <svg
-                                  className="fill-current h-4 w-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
+                                {/* Option 2 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="disassembling_support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Disassembling support
+                                  </span>
+                                </label>
+
+                                {/* Option 3 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    After hours/weekend/holiday removal support
+                                  </span>
+                                </label>
                               </div>
                             </div>
                           </Field>
@@ -978,39 +1016,59 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              <select
-                                className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
-                                {...register("additionalServices")}
-                              >
-                                <option value="" className="bg-[#0E141A] text-muted-foreground">
-                                  Select an additional service...
-                                </option>
-                                <option
-                                  value="tailgate_lift_routing"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Tailgate lift routing — Heavy machinery loading dispatch
-                                </option>
-                                <option
-                                  value="express_custom_verification"
-                                  className="bg-[#0E141A] text-white py-2"
-                                >
-                                  Express custom verification — Accelerated border compliance check
-                                </option>
-                                <option value="clearings" className="bg-[#0E141A] text-white py-2">
-                                  Clearings — Fast-track terminal cargo release management
-                                </option>
-                              </select>
+                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {/* Option 1 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="Loading_Support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Loading Support
+                                  </span>
+                                </label>
 
-                              {/* Custom Dropdown Chevron Icon Overlay */}
-                              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
-                                <svg
-                                  className="fill-current h-4 w-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                >
-                                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
+                                {/* Option 2 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="Unloading_Support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Unloading Support
+                                  </span>
+                                </label>
+
+                                {/* Option 3 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="transport"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    After hours/weekend/holiday transport support
+                                  </span>
+                                </label>
+
+                                {/* Option 4 */}
+                                <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
+                                  <input
+                                    type="checkbox"
+                                    value="storage_support"
+                                    className="mt-0.5 h-4 w-4 rounded border-white/20 bg-[#0E141A] text-white accent-white focus:ring-0 cursor-pointer"
+                                    {...register("additionalServices")}
+                                  />
+                                  <span className="text-xs text-white font-small select-none">
+                                    Overnight freight storage support
+                                  </span>
+                                </label>
                               </div>
                             </div>
                           </Field>
