@@ -76,7 +76,7 @@ function DashboardHome() {
         </div>
 
         <div className="mt-6 overflow-x-auto">
-          <table className="w-full min-w-[680px]">
+          <table className="w-full min-w-170">
             <thead>
               <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 <th className="pb-4">Assignment ID</th>
