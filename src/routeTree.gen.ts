@@ -15,6 +15,8 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as QuotesuccessRouteImport } from './routes/quotesuccess'
+import { Route as QuoteprocessingRouteImport } from './routes/quoteprocessing'
 import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -74,6 +76,16 @@ const ShopRoute = ShopRouteImport.update({
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuotesuccessRoute = QuotesuccessRouteImport.update({
+  id: '/quotesuccess',
+  path: '/quotesuccess',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteprocessingRoute = QuoteprocessingRouteImport.update({
+  id: '/quoteprocessing',
+  path: '/quoteprocessing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuoteRoute = QuoteRouteImport.update({
@@ -235,6 +247,8 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
+  '/quoteprocessing': typeof QuoteprocessingRoute
+  '/quotesuccess': typeof QuotesuccessRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRoute
   '/support': typeof SupportRoute
@@ -270,6 +284,8 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
+  '/quoteprocessing': typeof QuoteprocessingRoute
+  '/quotesuccess': typeof QuotesuccessRoute
   '/shop': typeof ShopRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
@@ -308,6 +324,8 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quote': typeof QuoteRoute
+  '/quoteprocessing': typeof QuoteprocessingRoute
+  '/quotesuccess': typeof QuotesuccessRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRoute
   '/support': typeof SupportRoute
@@ -346,6 +364,8 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/privacy'
     | '/quote'
+    | '/quoteprocessing'
+    | '/quotesuccess'
     | '/services'
     | '/shop'
     | '/support'
@@ -381,6 +401,8 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/privacy'
     | '/quote'
+    | '/quoteprocessing'
+    | '/quotesuccess'
     | '/shop'
     | '/support'
     | '/terms'
@@ -418,6 +440,8 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/privacy'
     | '/quote'
+    | '/quoteprocessing'
+    | '/quotesuccess'
     | '/services'
     | '/shop'
     | '/support'
@@ -457,6 +481,8 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteRoute: typeof QuoteRoute
+  QuoteprocessingRoute: typeof QuoteprocessingRoute
+  QuotesuccessRoute: typeof QuotesuccessRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   ShopRoute: typeof ShopRoute
   SupportRoute: typeof SupportRoute
@@ -507,6 +533,20 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quotesuccess': {
+      id: '/quotesuccess'
+      path: '/quotesuccess'
+      fullPath: '/quotesuccess'
+      preLoaderRoute: typeof QuotesuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quoteprocessing': {
+      id: '/quoteprocessing'
+      path: '/quoteprocessing'
+      fullPath: '/quoteprocessing'
+      preLoaderRoute: typeof QuoteprocessingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quote': {
@@ -808,6 +848,8 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteRoute: QuoteRoute,
+  QuoteprocessingRoute: QuoteprocessingRoute,
+  QuotesuccessRoute: QuotesuccessRoute,
   ServicesRoute: ServicesRouteWithChildren,
   ShopRoute: ShopRoute,
   SupportRoute: SupportRoute,

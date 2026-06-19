@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -30,19 +30,14 @@ export const Route = createFileRoute("/quote")({
 });
 
 const schema = z.object({
-  serviceType: z
-    .enum([
-      "",
-      "student-moving",
-      "residential-moving",
-      "enterprise-moving",
-      "smart-storage",
-      "sustainable-waste",
-      "freight-haulage",
-    ])
-    .refine((val) => val !== "", {
-      message: "Please select a service type",
-    }),
+  serviceType: z.enum([
+    "student-moving",
+    "residential-moving",
+    "enterprise-moving",
+    "smart-storage",
+    "sustainable-waste",
+    "freight-haulage",
+  ]),
   name: z.string().min(2, "Required"),
   company: z.string().optional(),
   email: z.string().email("Invalid email").or(z.literal("")),
@@ -60,7 +55,7 @@ const schema = z.object({
   description: z.string().optional(),
 });
 
-type FormData = z.infer<typeof schema>;
+type QuoteFormData = z.infer<typeof schema>;
 
 const SERVICE_OPTIONS = [
   { v: "student-moving", label: "Student Moving & Micro Moving With Supersonic" },
@@ -136,12 +131,13 @@ const SERVICE_DETAILS: Record<string, { title: string; features: string[]; specs
 function Quote() {
   const [step, setStep] = useState<1 | 2>(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [videoFile, setVideoFile] = useState<string>("");
   const [descFile, setDescFile] = useState<string>("");
   const { show, hide } = useLoading();
+  const navigate = useNavigate();
 
-  const form = useForm<FormData>({
+  const form = useForm<QuoteFormData>({
     resolver: zodResolver(schema),
     mode: "onTouched",
     defaultValues: {
@@ -182,12 +178,12 @@ function Quote() {
   const isStorageSelected = selectedService === "smart-storage";
   const isWasteSelected = selectedService === "sustainable-waste";
   const isFreightSelected = selectedService === "freight-haulage";
-  const isAnyServiceSelected = selectedService !== "";
+  const isAnyServiceSelected = Boolean(selectedService);
 
   const handleNextStep = async (e?: React.MouseEvent) => {
-    if (e) e.preventDefault(); // Safeguard any unexpected bubbles
+    if (e) e.preventDefault();
     if (step === 1) {
-      const fieldsToValidate: (keyof FormData)[] = ["serviceType", "name"];
+      const fieldsToValidate: (keyof QuoteFormData)[] = ["serviceType", "name"];
       if (isMovingSelected) {
         fieldsToValidate.push(
           "email",
@@ -224,6 +220,7 @@ function Quote() {
       const isValid = await trigger(fieldsToValidate);
       if (isValid) {
         setStep(2);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
   };
@@ -232,47 +229,27 @@ function Quote() {
     if (e) e.preventDefault();
     if (step === 2) {
       setStep(1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
-  const onSubmit = async (data: FormData) => {
-    // Only execute submission when on step 2
+  const onSubmit: SubmitHandler<QuoteFormData> = async (data) => {
     if (step !== 2) return;
-
-    show("Processing your parameters…");
-    await new Promise((r) => setTimeout(r, 1200));
-    hide();
-    setIsSubmitted(true);
+    try {
+      setIsSubmitting(true);
+      show("Processing your parameters…");
+      await new Promise((r) => setTimeout(r, 1200));
+      navigate({ to: "/quotesuccess" });
+    } finally {
+      hide();
+      setIsSubmitting(false);
+    }
   };
-
-  if (isSubmitted) {
-    return (
-      <SiteLayout>
-        <section className="mx-auto max-w-7xl px-4 sm:px-6 mt-30 py-14 md:px-8 md:py-20 text-center">
-          <div className="mx-auto max-w-md space-y-6">
-            <div className="mx-auto h-16 w-16 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
-              <CheckCircle className="h-8 w-8" />
-            </div>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold">Quote Request Received!</h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Your configurations and verified assignment documentation assets have been
-              successfully routed through our production pipeline.
-            </p>
-            <a
-              href="/"
-              className="inline-block mt-4 px-6 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-bold hover:opacity-90 transition shadow-lg"
-            >
-              Return to Home
-            </a>
-          </div>
-        </section>
-      </SiteLayout>
-    );
-  }
 
   return (
     <SiteLayout>
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-10 md:px-8 md:py-20">
+        {/* Page header (non-sticky, scrolls normally) */}
         <Pill variant="cyan" dot>
           Supersonic Dynamic Services B.V
         </Pill>
@@ -285,27 +262,29 @@ function Quote() {
           evaluate your submission metrics before final commitment.
         </p>
 
-        {/* Progress Timeline Tracker */}
-        <div className="mt-8 sm:mt-10">
-          <div className="mb-2 flex items-center justify-between text-xs sm:text-sm">
-            <span className="text-primary font-semibold">Step {step} of 2</span>
-            <span className="text-muted-foreground">
-              {step === 1 ? "Information Collection" : "Final Verification Dashboard"}
-            </span>
-          </div>
-          <div className="h-1 w-full rounded-full bg-white/5">
-            <motion.div
-              className="h-full rounded-full bg-primary"
-              initial={false}
-              animate={{ width: `${(step / 2) * 100}%` }}
-              transition={{ duration: 0.4 }}
-            />
+        {/* Sticky progress bar — sticks just below the navbar */}
+        <div className="sticky top-(--navbar-height,64px) z-30 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-3 bg-background/90 backdrop-blur-md border-b border-white/5">
+          <div className="max-w-7xl mx-auto">
+            <div className="mb-1.5 flex items-center justify-between text-xs sm:text-sm">
+              <span className="text-primary font-semibold">Step {step} of 2</span>
+              <span className="text-muted-foreground">
+                {step === 1 ? "Information Collection" : "Final Verification Dashboard"}
+              </span>
+            </div>
+            <div className="h-1 w-full rounded-full bg-white/5">
+              <motion.div
+                className="h-full rounded-full bg-primary"
+                initial={false}
+                animate={{ width: `${(step / 2) * 100}%` }}
+                transition={{ duration: 0.4 }}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Structural Form Layout Core */}
-        <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr]">
-          {/* Core Layout Data Engine */}
+        {/* Main two-column layout */}
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr] items-start">
+          {/* Form column (scrolls freely) */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-6 md:p-8 relative h-fit"
@@ -326,6 +305,7 @@ function Quote() {
                     error={errors.serviceType?.message}
                     icon={<Truck className="h-4 w-4" />}
                   >
+                    <input type="hidden" {...register("serviceType")} />
                     <button
                       type="button"
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -519,9 +499,7 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                {/* Option 1 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -533,8 +511,6 @@ function Quote() {
                                     Waste removal/recycling
                                   </span>
                                 </label>
-
-                                {/* Option 2 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -546,8 +522,6 @@ function Quote() {
                                     Storage short-term/long-term
                                   </span>
                                 </label>
-
-                                {/* Option 3 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -559,8 +533,6 @@ function Quote() {
                                     After hours/weekend/holiday move
                                   </span>
                                 </label>
-
-                                {/* Option 4 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -703,8 +675,6 @@ function Quote() {
                                 4 m x 4 m x 3 m = 48 m³
                               </option>
                             </select>
-
-                            {/* Custom Dropdown Chevron Icon Overlay */}
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
                               <svg
                                 className="fill-current h-4 w-4"
@@ -719,9 +689,7 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                {/* Option 1 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -733,8 +701,6 @@ function Quote() {
                                     Packing Support
                                   </span>
                                 </label>
-
-                                {/* Option 2 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -746,8 +712,6 @@ function Quote() {
                                     Disassembling Support
                                   </span>
                                 </label>
-
-                                {/* Option 3 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -759,8 +723,6 @@ function Quote() {
                                     Work hours/weekdays collection support
                                   </span>
                                 </label>
-
-                                {/* Option 4 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -853,9 +815,7 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                {/* Option 1 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -867,8 +827,6 @@ function Quote() {
                                     Waste sorting support
                                   </span>
                                 </label>
-
-                                {/* Option 2 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -880,8 +838,6 @@ function Quote() {
                                     Disassembling support
                                   </span>
                                 </label>
-
-                                {/* Option 3 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -1016,9 +972,7 @@ function Quote() {
                         <div className="md:col-span-2">
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
-                              {/* Responsive grid: 1 column on mobile, 2 columns on desktop */}
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                {/* Option 1 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -1030,8 +984,6 @@ function Quote() {
                                     Loading Support
                                   </span>
                                 </label>
-
-                                {/* Option 2 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -1043,8 +995,6 @@ function Quote() {
                                     Unloading Support
                                   </span>
                                 </label>
-
-                                {/* Option 3 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -1056,8 +1006,6 @@ function Quote() {
                                     After hours/weekend/holiday transport support
                                   </span>
                                 </label>
-
-                                {/* Option 4 */}
                                 <label className="flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer hover:border-white/20 transition-colors group">
                                   <input
                                     type="checkbox"
@@ -1316,17 +1264,31 @@ function Quote() {
                   Preview Parameters <ArrowRight className="h-4 w-4" />
                 </CTAButton>
               ) : (
-                <CTAButton type="submit" variant="white" className="rounded-xl w-full sm:w-auto">
-                  Confirm & Submit Quote
-                </CTAButton>
+                <Link to="/quoteprocessing" className="w-full sm:w-auto">
+                  <CTAButton
+                    type="button"
+                    variant="white"
+                    className="rounded-xl w-full inline-flex items-center justify-center gap-2"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-800 border-t-transparent" />
+                        Processing Request...
+                      </>
+                    ) : (
+                      "Confirm & Submit Quote"
+                    )}
+                  </CTAButton>
+                </Link>
               )}
             </div>
           </form>
 
-          {/* Core Content Branding Sidebar */}
+          {/* Sticky sidebar — image + contact strips */}
           {step === 1 && (
-            <aside className="space-y-3 sm:space-y-4">
-              <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface">
+            <aside className="self-start sticky top-[calc(var(--navbar-height,64px)+52px+8px)] h-fit w-full space-y-3 sm:space-y-4 max-h-[calc(100vh-var(--navbar-height,64px)-52px-24px)] overflow-y-auto custom-scrollbar">
+              <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface shadow-xl">
                 <div className="relative">
                   <img
                     src={vanHero}
