@@ -145,7 +145,7 @@ function SupportChatPage() {
 
           <div className="flex flex-col min-w-0">
             <span className="text-[11px] sm:text-xs font-black tracking-widest text-white uppercase leading-tight truncate">
-              Supersonic <span className="text-[#8EA7FF]">Dynamic Services B.V.</span>
+              Supersonic <span className="text-primary">Dynamic Services B.V.</span>
             </span>
             <span className="text-[8px] sm:text-[9px] text-slate-500 font-mono tracking-wider uppercase hidden xs:block">
               Global Operations Control Panel
@@ -264,7 +264,7 @@ function SupportChatPage() {
                 className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-md transition flex items-center gap-1 shrink-0 ${
                   selectedChannel === key
                     ? activeClass
-                    : "bg-white/5 text-slate-400 hover:bg-white/10"
+                    : "bg-white/5 text-white hover:bg-white/10"
                 }`}
               >
                 {icon}

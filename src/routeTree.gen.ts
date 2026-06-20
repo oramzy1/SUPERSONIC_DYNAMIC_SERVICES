@@ -15,6 +15,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SchedulecallRouteImport } from './routes/schedulecall'
 import { Route as QuotesuccessRouteImport } from './routes/quotesuccess'
 import { Route as QuoteprocessingRouteImport } from './routes/quoteprocessing'
 import { Route as QuoteRouteImport } from './routes/quote'
@@ -24,6 +25,7 @@ import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BookingsuccessRouteImport } from './routes/bookingsuccess'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as UserRouteImport } from './routes/_user'
 import { Route as AuthRouteImport } from './routes/_auth'
@@ -78,6 +80,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SchedulecallRoute = SchedulecallRouteImport.update({
+  id: '/schedulecall',
+  path: '/schedulecall',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuotesuccessRoute = QuotesuccessRouteImport.update({
   id: '/quotesuccess',
   path: '/quotesuccess',
@@ -121,6 +128,11 @@ const CookiesRoute = CookiesRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsuccessRoute = BookingsuccessRouteImport.update({
+  id: '/bookingsuccess',
+  path: '/bookingsuccess',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -240,6 +252,7 @@ const AuthAdminanalyticsRoute = AuthAdminanalyticsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bookingsuccess': typeof BookingsuccessRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -249,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/quote': typeof QuoteRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
   '/quotesuccess': typeof QuotesuccessRoute
+  '/schedulecall': typeof SchedulecallRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRoute
   '/support': typeof SupportRoute
@@ -278,6 +292,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/bookingsuccess': typeof BookingsuccessRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/faqs': typeof FaqsRoute
@@ -286,6 +301,7 @@ export interface FileRoutesByTo {
   '/quote': typeof QuoteRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
   '/quotesuccess': typeof QuotesuccessRoute
+  '/schedulecall': typeof SchedulecallRoute
   '/shop': typeof ShopRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
@@ -317,6 +333,7 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/_user': typeof UserRouteWithChildren
   '/about': typeof AboutRoute
+  '/bookingsuccess': typeof BookingsuccessRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
@@ -326,6 +343,7 @@ export interface FileRoutesById {
   '/quote': typeof QuoteRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
   '/quotesuccess': typeof QuotesuccessRoute
+  '/schedulecall': typeof SchedulecallRoute
   '/services': typeof ServicesRouteWithChildren
   '/shop': typeof ShopRoute
   '/support': typeof SupportRoute
@@ -357,6 +375,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/bookingsuccess'
     | '/contact'
     | '/cookies'
     | '/dashboard'
@@ -366,6 +385,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/quoteprocessing'
     | '/quotesuccess'
+    | '/schedulecall'
     | '/services'
     | '/shop'
     | '/support'
@@ -395,6 +415,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/bookingsuccess'
     | '/contact'
     | '/cookies'
     | '/faqs'
@@ -403,6 +424,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/quoteprocessing'
     | '/quotesuccess'
+    | '/schedulecall'
     | '/shop'
     | '/support'
     | '/terms'
@@ -433,6 +455,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/_user'
     | '/about'
+    | '/bookingsuccess'
     | '/contact'
     | '/cookies'
     | '/dashboard'
@@ -442,6 +465,7 @@ export interface FileRouteTypes {
     | '/quote'
     | '/quoteprocessing'
     | '/quotesuccess'
+    | '/schedulecall'
     | '/services'
     | '/shop'
     | '/support'
@@ -474,6 +498,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   UserRoute: typeof UserRouteWithChildren
   AboutRoute: typeof AboutRoute
+  BookingsuccessRoute: typeof BookingsuccessRoute
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
   DashboardRoute: typeof DashboardRouteWithChildren
@@ -483,6 +508,7 @@ export interface RootRouteChildren {
   QuoteRoute: typeof QuoteRoute
   QuoteprocessingRoute: typeof QuoteprocessingRoute
   QuotesuccessRoute: typeof QuotesuccessRoute
+  SchedulecallRoute: typeof SchedulecallRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   ShopRoute: typeof ShopRoute
   SupportRoute: typeof SupportRoute
@@ -533,6 +559,13 @@ declare module '@tanstack/react-router' {
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schedulecall': {
+      id: '/schedulecall'
+      path: '/schedulecall'
+      fullPath: '/schedulecall'
+      preLoaderRoute: typeof SchedulecallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quotesuccess': {
@@ -596,6 +629,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookingsuccess': {
+      id: '/bookingsuccess'
+      path: '/bookingsuccess'
+      fullPath: '/bookingsuccess'
+      preLoaderRoute: typeof BookingsuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -841,6 +881,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   UserRoute: UserRouteWithChildren,
   AboutRoute: AboutRoute,
+  BookingsuccessRoute: BookingsuccessRoute,
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,
   DashboardRoute: DashboardRouteWithChildren,
@@ -850,6 +891,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuoteRoute: QuoteRoute,
   QuoteprocessingRoute: QuoteprocessingRoute,
   QuotesuccessRoute: QuotesuccessRoute,
+  SchedulecallRoute: SchedulecallRoute,
   ServicesRoute: ServicesRouteWithChildren,
   ShopRoute: ShopRoute,
   SupportRoute: SupportRoute,

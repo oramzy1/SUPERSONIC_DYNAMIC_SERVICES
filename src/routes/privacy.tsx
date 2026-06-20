@@ -205,10 +205,14 @@ function Privacy() {
               Our support team are ready to assist with help
             </p>
           </div>
+
           <div className="flex flex-col gap-3 sm:flex-row">
-            <CTAButton variant="white" className="rounded-xl px-6">
-              Schedule a Call
-            </CTAButton>
+            <Link to="/schedulecall">
+              <CTAButton variant="white" className="rounded-xl px-6">
+                Schedule a Call
+              </CTAButton>
+            </Link>
+
             <Link to="/contact">
               <CTAButton variant="outline" className="rounded-xl px-6">
                 Contact Us

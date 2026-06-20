@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -165,6 +165,27 @@ function Contact() {
               </motion.p>
             )}
           </form>
+        </div>
+        <div className="mt-8 flex flex-col items-start justify-between gap-6 rounded-2xl bg-surface p-6 md:flex-row md:items-center md:p-10">
+          <div>
+            <h3 className="font-display text-2xl font-semibold">Have Any Issues?</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Our support team are ready to assist with help
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link to="/schedulecall">
+              <CTAButton variant="white" className="rounded-xl px-6">
+                Schedule a Call
+              </CTAButton>
+            </Link>
+
+            <Link to="/support">
+              <CTAButton variant="outline" className="rounded-xl px-6">
+                Chat with our Support
+              </CTAButton>
+            </Link>
+          </div>
         </div>
       </section>
     </SiteLayout>
