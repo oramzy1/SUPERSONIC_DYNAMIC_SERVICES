@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
 import {
@@ -8,19 +8,20 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { RequestQuoteBanner } from "./index";
+import { CTAButton } from "@/components/shared/CTAButton";
 
 export const Route = createFileRoute("/faqs")({
   component: FAQs,
   head: () => ({
-  meta: [
-    { title: "Frequently Asked Questions - Supersonic Dynamic Services B.V." },
-    {
-      name: "description",
-      content:
-        "Find answers to common questions about our moving services, pricing, booking process, electric fleet and coverage across the Netherlands.",
-    },
-  ],
-}),
+    meta: [
+      { title: "Frequently Asked Questions - Supersonic Dynamic Services B.V." },
+      {
+        name: "description",
+        content:
+          "Find answers to common questions about our moving services, pricing, booking process, electric fleet and coverage across the Netherlands.",
+      },
+    ],
+  }),
 });
 
 const FAQS = [
@@ -76,6 +77,27 @@ function FAQs() {
             </AccordionItem>
           ))}
         </Accordion>
+        <div className="mt-6 flex flex-col items-start justify-between gap-6 rounded-2xl bg-surface p-6 md:flex-row md:items-center md:p-10">
+          <div>
+            <h3 className="font-display text-2xl font-semibold">Have Any Issues?</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Our support team are ready to assist with help
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link to="/schedulecall">
+              <CTAButton variant="white" className="rounded-xl px-6">
+                Schedule a Call
+              </CTAButton>
+            </Link>
+
+            <Link to="/contact">
+              <CTAButton variant="outline" className="rounded-xl px-6">
+                Contact Us
+              </CTAButton>
+            </Link>
+          </div>
+        </div>
       </section>
       <RequestQuoteBanner />
     </SiteLayout>
