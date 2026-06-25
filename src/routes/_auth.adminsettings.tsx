@@ -124,17 +124,26 @@ export function AdminSettingsDashboard() {
     if (activeTab === "security") {
       if (security.newPassword || security.currentPassword || security.confirmPassword) {
         if (!security.currentPassword) {
-          setToast({ type: "error", message: "Current authorization password token missing verification." });
+          setToast({
+            type: "error",
+            message: "Current authorization password token missing verification.",
+          });
           setIsSaving(false);
           return;
         }
         if (security.newPassword.length < 8) {
-          setToast({ type: "error", message: "New Master security string requires 8 characters minimum." });
+          setToast({
+            type: "error",
+            message: "New Master security string requires 8 characters minimum.",
+          });
           setIsSaving(false);
           return;
         }
         if (security.newPassword !== security.confirmPassword) {
-          setToast({ type: "error", message: "Input validation mismatch: New credentials do not match." });
+          setToast({
+            type: "error",
+            message: "Input validation mismatch: New credentials do not match.",
+          });
           setIsSaving(false);
           return;
         }
@@ -143,17 +152,29 @@ export function AdminSettingsDashboard() {
 
     setTimeout(() => {
       setIsSaving(false);
-      setToast({ type: "success", message: "System configuration matrix safely compiled and active." });
+      setToast({
+        type: "success",
+        message: "System configuration matrix safely compiled and active.",
+      });
       if (activeTab === "security") {
-        setSecurity((prev) => ({ ...prev, currentPassword: "", newPassword: "", confirmPassword: "" }));
+        setSecurity((prev) => ({
+          ...prev,
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        }));
       }
     }, 1000);
   };
 
   const regenerateApiKeys = () => {
-    if (window.confirm("Regenerating keys will immediately invalidate current production integrations. Proceed?")) {
+    if (
+      window.confirm(
+        "Regenerating keys will immediately invalidate current production integrations. Proceed?",
+      )
+    ) {
       const generatedHex = Array.from({ length: 32 }, () =>
-        Math.floor(Math.random() * 16).toString(16)
+        Math.floor(Math.random() * 16).toString(16),
       ).join("");
       setApiConfig((prev) => ({ ...prev, secretKey: `sk_test_${generatedHex}` }));
       setToast({ type: "success", message: "New encryption client gateway secrets compiled." });
@@ -190,7 +211,11 @@ export function AdminSettingsDashboard() {
             disabled={isSaving}
             className="bg-[#e2a54a] hover:bg-[#cb923c] disabled:bg-slate-800 text-[#07090e] disabled:text-slate-500 font-bold text-xs tracking-wide px-5 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 uppercase disabled:cursor-not-allowed"
           >
-            {isSaving ? <RefreshCw className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+            {isSaving ? (
+              <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Save className="h-3.5 w-3.5" />
+            )}
             {isSaving ? "Syncing..." : "Save Changes"}
           </button>
         </div>
@@ -227,7 +252,6 @@ export function AdminSettingsDashboard() {
           {/* Form Panel */}
           <div className="md:col-span-3 bg-[#0c1017] sm:border border-[#161b22] sm:rounded-xl p-4 sm:p-6 min-h-105">
             <form id="settings-matrix-form" onSubmit={handleSaveSettings} className="space-y-6">
-
               {/* PROFILE TAB */}
               {activeTab === "profile" && (
                 <div className="space-y-6">
@@ -235,12 +259,18 @@ export function AdminSettingsDashboard() {
                     <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1 font-mono">
                       Admin Configuration
                     </h3>
-                    <p className="text-[11px] text-slate-500">Configure corporate structural mapping rules.</p>
+                    <p className="text-[11px] text-slate-500">
+                      Configure corporate structural mapping rules.
+                    </p>
                   </div>
                   <div className="flex flex-col sm:flex-row items-center gap-5 p-4 bg-[#07090e]/50 border border-[#161b22] rounded-xl">
                     <div className="relative h-16 w-16 rounded-full overflow-hidden border border-slate-700 bg-slate-900 shrink-0">
                       {profile.avatarUrl ? (
-                        <img src={profile.avatarUrl} alt="Avatar Preview" className="h-full w-full object-cover" />
+                        <img
+                          src={profile.avatarUrl}
+                          alt="Avatar Preview"
+                          className="h-full w-full object-cover"
+                        />
                       ) : (
                         <div className="h-full w-full flex items-center justify-center text-slate-600 font-mono text-xl uppercase">
                           {profile.fullName.substring(0, 2)}
@@ -251,14 +281,21 @@ export function AdminSettingsDashboard() {
                       <label className="cursor-pointer bg-[#16191c] hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center gap-2">
                         <Upload className="h-3.5 w-3.5 text-slate-400" />
                         Upload New Image
-                        <input type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleAvatarChange}
+                          className="hidden"
+                        />
                       </label>
                       <p className="text-[10px] text-slate-500">Supports PNG or JPEG up to 2MB.</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">Account Handle</label>
+                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                        Account Handle
+                      </label>
                       <input
                         type="text"
                         required
@@ -268,7 +305,9 @@ export function AdminSettingsDashboard() {
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">System Routing Address</label>
+                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                        System Routing Address
+                      </label>
                       <input
                         type="text"
                         required
@@ -278,7 +317,9 @@ export function AdminSettingsDashboard() {
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#2d3643] tracking-wider">Assigned Infrastructure Role</label>
+                      <label className="text-[10px] uppercase font-bold text-[#2d3643] tracking-wider">
+                        Assigned Infrastructure Role
+                      </label>
                       <input
                         type="text"
                         value={profile.role}
@@ -287,7 +328,9 @@ export function AdminSettingsDashboard() {
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">Operational Timezone Matrix</label>
+                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                        Operational Timezone Matrix
+                      </label>
                       <select
                         value={profile.timezone}
                         onChange={(e) => setProfile({ ...profile, timezone: e.target.value })}
@@ -310,15 +353,21 @@ export function AdminSettingsDashboard() {
                     <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1 font-mono">
                       Cryptographic Credentials
                     </h3>
-                    <p className="text-[11px] text-slate-500">Rotate security profile authorization parameters below.</p>
+                    <p className="text-[11px] text-slate-500">
+                      Rotate security profile authorization parameters below.
+                    </p>
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                    <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">Current Encryption Password</label>
+                    <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                      Current Encryption Password
+                    </label>
                     <div className="relative w-full">
                       <input
                         type={showCurrentPassword ? "text" : "password"}
                         value={security.currentPassword}
-                        onChange={(e) => setSecurity({ ...security, currentPassword: e.target.value })}
+                        onChange={(e) =>
+                          setSecurity({ ...security, currentPassword: e.target.value })
+                        }
                         className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 pr-10 transition"
                       />
                       <button
@@ -326,18 +375,26 @@ export function AdminSettingsDashboard() {
                         onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2d3643] hover:text-[#626d7c] transition"
                       >
-                        {showCurrentPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showCurrentPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
                       </button>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">New Master Password</label>
+                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                        New Master Password
+                      </label>
                       <div className="relative w-full">
                         <input
                           type={showNewPassword ? "text" : "password"}
                           value={security.newPassword}
-                          onChange={(e) => setSecurity({ ...security, newPassword: e.target.value })}
+                          onChange={(e) =>
+                            setSecurity({ ...security, newPassword: e.target.value })
+                          }
                           className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 pr-10 transition"
                         />
                         <button
@@ -345,16 +402,24 @@ export function AdminSettingsDashboard() {
                           onClick={() => setShowNewPassword(!showNewPassword)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2d3643] hover:text-[#626d7c] transition"
                         >
-                          {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          {showNewPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
                         </button>
                       </div>
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">Confirm Master Token</label>
+                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                        Confirm Master Token
+                      </label>
                       <input
                         type="password"
                         value={security.confirmPassword}
-                        onChange={(e) => setSecurity({ ...security, confirmPassword: e.target.value })}
+                        onChange={(e) =>
+                          setSecurity({ ...security, confirmPassword: e.target.value })
+                        }
                         className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 transition"
                       />
                     </div>
@@ -364,7 +429,9 @@ export function AdminSettingsDashboard() {
                     <div className="flex items-start gap-3">
                       <Lock className="h-5 w-5 text-[#e2a54a] mt-0.5 shrink-0" />
                       <div>
-                        <p className="text-xs font-bold text-white">Two-Factor Authentication Core (2FA)</p>
+                        <p className="text-xs font-bold text-white">
+                          Two-Factor Authentication Core (2FA)
+                        </p>
                         <p className="text-[11px] text-slate-500 mt-0.5">
                           Enforce hardware/TOTP cryptographic challenges on core operations resets.
                         </p>
@@ -374,7 +441,9 @@ export function AdminSettingsDashboard() {
                       <input
                         type="checkbox"
                         checked={security.twoFactorEnabled}
-                        onChange={(e) => setSecurity({ ...security, twoFactorEnabled: e.target.checked })}
+                        onChange={(e) =>
+                          setSecurity({ ...security, twoFactorEnabled: e.target.checked })
+                        }
                         className="sr-only peer"
                       />
                       <div className="w-9 h-5 bg-[#161b22] border border-slate-800 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#626d7c] peer-checked:after:bg-[#07090e] after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#e2a54a] peer-checked:border-transparent" />
@@ -388,8 +457,12 @@ export function AdminSettingsDashboard() {
                       <div className="flex items-center gap-3 min-w-0">
                         <Laptop className="h-4 w-4 text-slate-400 shrink-0" />
                         <div className="truncate">
-                          <p className="font-mono text-white text-[11px] truncate">Macintosh — Chrome Core Module</p>
-                          <p className="text-[10px] text-slate-500 mt-0.5 truncate">197.210.44.12 — Lagos, Nigeria</p>
+                          <p className="font-mono text-white text-[11px] truncate">
+                            Macintosh - Chrome Core Module
+                          </p>
+                          <p className="text-[10px] text-slate-500 mt-0.5 truncate">
+                            197.210.44.12 - Lagos, Nigeria
+                          </p>
                         </div>
                       </div>
                       <span className="shrink-0 text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded tracking-wide">
@@ -407,15 +480,32 @@ export function AdminSettingsDashboard() {
                     <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1 font-mono">
                       Event Threshold Routing
                     </h3>
-                    <p className="text-[11px] text-slate-500">Configure system diagnostic monitoring endpoints.</p>
+                    <p className="text-[11px] text-slate-500">
+                      Configure system diagnostic monitoring endpoints.
+                    </p>
                   </div>
                   <div className="space-y-2">
                     {[
-                      { key: "alertCritical" as const, title: "Critical Telemetry Violations", desc: "Broadcast active warnings when metrics breach threshold zones." },
-                      { key: "alertMaintenance" as const, title: "Scheduled Maintenance Flags", desc: "Receive pushes when micro-nodes disconnect for maintenance pipelines." },
-                      { key: "weeklyReport" as const, title: "Weekly Fleet Compilation Matrix", desc: "Compile logistical optimization summaries into encrypted emails." },
+                      {
+                        key: "alertCritical" as const,
+                        title: "Critical Telemetry Violations",
+                        desc: "Broadcast active warnings when metrics breach threshold zones.",
+                      },
+                      {
+                        key: "alertMaintenance" as const,
+                        title: "Scheduled Maintenance Flags",
+                        desc: "Receive pushes when micro-nodes disconnect for maintenance pipelines.",
+                      },
+                      {
+                        key: "weeklyReport" as const,
+                        title: "Weekly Fleet Compilation Matrix",
+                        desc: "Compile logistical optimization summaries into encrypted emails.",
+                      },
                     ].map(({ key, title, desc }) => (
-                      <div key={key} className="flex items-center justify-between p-3.5 bg-[#07090e]/60 rounded-lg border border-[#161b22] gap-4">
+                      <div
+                        key={key}
+                        className="flex items-center justify-between p-3.5 bg-[#07090e]/60 rounded-lg border border-[#161b22] gap-4"
+                      >
                         <div className="min-w-0">
                           <p className="text-xs font-bold text-white">{title}</p>
                           <p className="text-[10px] text-slate-500 mt-0.5">{desc}</p>
@@ -423,7 +513,9 @@ export function AdminSettingsDashboard() {
                         <input
                           type="checkbox"
                           checked={notifications[key]}
-                          onChange={(e) => setNotifications({ ...notifications, [key]: e.target.checked })}
+                          onChange={(e) =>
+                            setNotifications({ ...notifications, [key]: e.target.checked })
+                          }
                           className="accent-[#e2a54a] h-4 w-4 rounded bg-[#07090e] border-[#161b22] shrink-0 cursor-pointer"
                         />
                       </div>
@@ -436,7 +528,9 @@ export function AdminSettingsDashboard() {
                     <input
                       type="url"
                       value={notifications.slackWebhook}
-                      onChange={(e) => setNotifications({ ...notifications, slackWebhook: e.target.value })}
+                      onChange={(e) =>
+                        setNotifications({ ...notifications, slackWebhook: e.target.value })
+                      }
                       className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 transition"
                     />
                   </div>
@@ -451,7 +545,9 @@ export function AdminSettingsDashboard() {
                       <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
                         Gateway API Authorization
                       </h3>
-                      <p className="text-[11px] text-slate-500 mt-0.5">Control web services token signatures securely.</p>
+                      <p className="text-[11px] text-slate-500 mt-0.5">
+                        Control web services token signatures securely.
+                      </p>
                     </div>
                     <button
                       type="button"
@@ -478,7 +574,11 @@ export function AdminSettingsDashboard() {
                           onClick={() => handleCopyClipboard(apiConfig.publicKey, "public")}
                           className="p-1.5 text-slate-500 hover:text-slate-300 transition shrink-0"
                         >
-                          {copiedKey === "public" ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                          {copiedKey === "public" ? (
+                            <Check className="h-3.5 w-3.5 text-emerald-400" />
+                          ) : (
+                            <Copy className="h-3.5 w-3.5" />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -498,21 +598,28 @@ export function AdminSettingsDashboard() {
                           onClick={() => setShowApiKey(!showApiKey)}
                           className="p-1.5 text-slate-500 hover:text-slate-300 transition shrink-0 mr-1"
                         >
-                          {showApiKey ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                          {showApiKey ? (
+                            <EyeOff className="h-3.5 w-3.5" />
+                          ) : (
+                            <Eye className="h-3.5 w-3.5" />
+                          )}
                         </button>
                         <button
                           type="button"
                           onClick={() => handleCopyClipboard(apiConfig.secretKey, "secret")}
                           className="p-1.5 text-slate-500 hover:text-slate-300 transition shrink-0"
                         >
-                          {copiedKey === "secret" ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                          {copiedKey === "secret" ? (
+                            <Check className="h-3.5 w-3.5 text-emerald-400" />
+                          ) : (
+                            <Copy className="h-3.5 w-3.5" />
+                          )}
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
-
             </form>
           </div>
         </div>

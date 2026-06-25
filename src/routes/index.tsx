@@ -8,11 +8,12 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import heroVan from "@/assets/images/hero-van.png";
 import heroBg from "@/assets/images/hero-bg.png";
 import homeEco from "@/assets/images/home-eco.png";
+import crates from "@/assets/shop/crates-lifestyle.jpg";
 import homePricing from "@/assets/images/home-pricing.jpg";
 import homeTech from "@/assets/images/home-tech.jpg";
 import homeHandling from "@/assets/images/home-handling.jpg";
 import localVan from "@/assets/images/local-van.png";
-import homeTeam from "@/assets/images/home-team.jpg";
+import homeTeam from "@/assets/images/home-team.jpg"; 
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -241,6 +242,110 @@ function Home() {
           ))}
         </div>
       </section>
+
+      {/* MOVING ESSENTIALS */}
+<section className="py-20">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
+      <SurfaceCard className="overflow-hidden">
+        <div className="grid md:grid-cols-2">
+          <div className="p-4">
+            <Pill>
+              <Zap className="h-3.5 w-3.5" />
+              Moving Essentials
+            </Pill>
+
+            <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white">
+              Need packing supplies before your move?
+            </h2>
+
+            <p className="mt-4 text-base leading-relaxed text-white/70">
+              Browse our collection of reusable moving crates, bubble wrap,
+              storage solutions and eco-friendly packing materials designed
+              to make every relocation smoother, safer and more sustainable.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {[
+                "Reusable Crates",
+                "Bubble Wrap",
+                "Storage Solutions",
+                "Eco-Friendly Materials",
+              ].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-8">
+              <Link to="/shop">
+                <CTAButton>
+                  Visit Store
+                  <ArrowRight className="h-4 w-4" />
+                </CTAButton>
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative hidden md:block">
+            <img
+              src={crates}
+              alt="Moving supplies"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/20 to-transparent" />
+          </div>
+        </div>
+      </SurfaceCard>
+<SurfaceCard className="p-8">
+  <div className="flex h-full flex-col">
+    <span className="text-sm text-primary">
+      Available Online
+    </span>
+
+    <h3 className="mt-3 text-xl font-semibold text-white">
+      Sustainable packing products delivered across the Netherlands.
+    </h3>
+
+    <p className="mt-4 text-sm leading-relaxed text-white/70">
+      Rent reusable moving crates, order protective packaging,
+      and prepare your move with tools trusted by our professional
+      moving teams.
+    </p>
+
+    {/* Fills the visual gap */}
+    <div className="mt-6 space-y-3">
+      {[
+        "Reusable Moving Crates",
+        "Eco-Friendly Bubble Wrap",
+        "Flexible Storage Solutions",
+      ].map((item) => (
+        <div
+          key={item}
+          className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+        >
+          <div className="h-2 w-2 rounded-full bg-primary" />
+          <span className="text-sm text-white/80">{item}</span>
+        </div>
+      ))}
+    </div>
+
+    <Link
+      to="/shop"
+      className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80"
+    >
+      Explore the shop
+      <ArrowUpRight className="h-4 w-4" />
+    </Link>
+  </div>
+</SurfaceCard>
+    </div>
+  </div>
+</section>
 
       <RequestQuoteBanner />
     </SiteLayout>

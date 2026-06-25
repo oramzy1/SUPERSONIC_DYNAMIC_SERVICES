@@ -134,7 +134,7 @@ function SupportChatPage() {
       {/* BRAND MASTER TOPBAR */}
       <header className="h-14 w-full bg-[#0F151C] border-b border-white/10 flex items-center justify-between px-3 sm:px-4 shrink-0 z-30">
         <div className="flex items-center gap-2 min-w-0">
-          {/* Mobile sidebar toggle — visible only on small screens */}
+          {/* Mobile sidebar toggle - visible only on small screens */}
           <button
             onClick={() => setIsSidebarOpen(true)}
             className="md:hidden p-1.5 text-slate-400 hover:text-white border border-white/5 rounded-lg bg-white/3 shrink-0 mr-1"
@@ -262,9 +262,7 @@ function SupportChatPage() {
                 key={key}
                 onClick={() => setSelectedChannel(key as typeof selectedChannel)}
                 className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded-md transition flex items-center gap-1 shrink-0 ${
-                  selectedChannel === key
-                    ? activeClass
-                    : "bg-white/5 text-white hover:bg-white/10"
+                  selectedChannel === key ? activeClass : "bg-white/5 text-white hover:bg-white/10"
                 }`}
               >
                 {icon}
@@ -489,12 +487,12 @@ function SupportChatPage() {
                 Stay / Continue Chatting
               </button>
               <Link to="/" className="w-full sm:flex-1">
-              <button
-                onClick={handleConfirmCloseChat}
-                className="w-full sm:flex-1 text-xs font-bold bg-rose-500 hover:bg-rose-600 text-white py-2.5 rounded-xl transition shadow-lg shadow-rose-500/10"
-              >
-                Confirm & Close
-              </button>
+                <button
+                  onClick={handleConfirmCloseChat}
+                  className="w-full sm:flex-1 text-xs font-bold bg-rose-500 hover:bg-rose-600 text-white py-2.5 rounded-xl transition shadow-lg shadow-rose-500/10"
+                >
+                  Confirm & Close
+                </button>
               </Link>
             </div>
           </div>

@@ -199,7 +199,7 @@ export function TrackingDashboard() {
         .leaflet-node-tip{background:transparent!important;border:none!important;box-shadow:none!important;padding:0!important;}
         .leaflet-tooltip-right::before{display:none;}
         .leaflet-container{background:#07090e!important;}
-        /* Leaflet internal panes — keep them BELOW the app sidebar */
+        /* Leaflet internal panes - keep them BELOW the app sidebar */
         .leaflet-pane { z-index: 1 !important; }
         .leaflet-tile-pane { z-index: 1 !important; }
         .leaflet-overlay-pane { z-index: 2 !important; }
@@ -212,7 +212,7 @@ export function TrackingDashboard() {
         .node-scroll::-webkit-scrollbar-thumb{background:#1c2330;border-radius:2px;}
       `}</style>
 
-      {/* ── MAP PANE — z-0 so it never escapes its stacking context ── */}
+      {/* ── MAP PANE - z-0 so it never escapes its stacking context ── */}
       <div className="relative z-0 h-[42vh] lg:h-full lg:flex-1 shrink-0 overflow-hidden">
         <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
 
@@ -229,7 +229,7 @@ export function TrackingDashboard() {
           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 bg-rose-500/10 backdrop-blur-sm border border-rose-500/30 rounded-lg px-3 py-1.5 whitespace-nowrap">
             <AlertTriangle className="h-3 w-3 text-rose-400 shrink-0" />
             <span className="text-[10px] font-bold text-rose-400 font-mono">
-              {selectedNode.id} — {selectedNode.telemetry.detailValue}
+              {selectedNode.id} - {selectedNode.telemetry.detailValue}
             </span>
           </div>
         )}

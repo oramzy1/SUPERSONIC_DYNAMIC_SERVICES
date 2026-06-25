@@ -30,8 +30,13 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as UserRouteImport } from './routes/_user'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShopIndexRouteImport } from './routes/shop.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as ShopCheckoutRouteImport } from './routes/shop.checkout'
+import { Route as ShopCartRouteImport } from './routes/shop.cart'
+import { Route as ShopAccountRouteImport } from './routes/shop.account'
+import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as DashboardQuotesRouteImport } from './routes/dashboard.quotes'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
@@ -49,6 +54,13 @@ import { Route as AuthAdmininvoicesRouteImport } from './routes/_auth.admininvoi
 import { Route as AuthAdmindashboardRouteImport } from './routes/_auth.admindashboard'
 import { Route as AuthAdmincustomersRouteImport } from './routes/_auth.admincustomers'
 import { Route as AuthAdminanalyticsRouteImport } from './routes/_auth.adminanalytics'
+import { Route as ShopAccountIndexRouteImport } from './routes/shop.account.index'
+import { Route as ShopAccountsAddressesRouteImport } from './routes/shop.accounts.addresses'
+import { Route as ShopAccountTransactionsRouteImport } from './routes/shop.account.transactions'
+import { Route as ShopAccountSettingsRouteImport } from './routes/shop.account.settings'
+import { Route as ShopAccountSavedRouteImport } from './routes/shop.account.saved'
+import { Route as ShopAccountOrdersRouteImport } from './routes/shop.account.orders'
+import { Route as ShopAccountOrdersIdRouteImport } from './routes/shop.account.orders.$id'
 
 const VacanciesRoute = VacanciesRouteImport.update({
   id: '/vacancies',
@@ -153,6 +165,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShopRoute,
+} as any)
 const ServicesIndexRoute = ServicesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -162,6 +179,26 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const ShopCheckoutRoute = ShopCheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopCartRoute = ShopCartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopAccountRoute = ShopAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopSlugRoute = ShopSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ShopRoute,
 } as any)
 const ServicesSlugRoute = ServicesSlugRouteImport.update({
   id: '/$slug',
@@ -248,6 +285,41 @@ const AuthAdminanalyticsRoute = AuthAdminanalyticsRouteImport.update({
   path: '/adminanalytics',
   getParentRoute: () => AuthRoute,
 } as any)
+const ShopAccountIndexRoute = ShopAccountIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShopAccountRoute,
+} as any)
+const ShopAccountsAddressesRoute = ShopAccountsAddressesRouteImport.update({
+  id: '/accounts/addresses',
+  path: '/accounts/addresses',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopAccountTransactionsRoute = ShopAccountTransactionsRouteImport.update({
+  id: '/transactions',
+  path: '/transactions',
+  getParentRoute: () => ShopAccountRoute,
+} as any)
+const ShopAccountSettingsRoute = ShopAccountSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ShopAccountRoute,
+} as any)
+const ShopAccountSavedRoute = ShopAccountSavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => ShopAccountRoute,
+} as any)
+const ShopAccountOrdersRoute = ShopAccountOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => ShopAccountRoute,
+} as any)
+const ShopAccountOrdersIdRoute = ShopAccountOrdersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ShopAccountOrdersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -264,7 +336,7 @@ export interface FileRoutesByFullPath {
   '/quotesuccess': typeof QuotesuccessRoute
   '/schedulecall': typeof SchedulecallRoute
   '/services': typeof ServicesRouteWithChildren
-  '/shop': typeof ShopRoute
+  '/shop': typeof ShopRouteWithChildren
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/ticket': typeof TicketRoute
@@ -286,8 +358,20 @@ export interface FileRoutesByFullPath {
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/shop/account': typeof ShopAccountRouteWithChildren
+  '/shop/cart': typeof ShopCartRoute
+  '/shop/checkout': typeof ShopCheckoutRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/shop/': typeof ShopIndexRoute
+  '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
+  '/shop/account/saved': typeof ShopAccountSavedRoute
+  '/shop/account/settings': typeof ShopAccountSettingsRoute
+  '/shop/account/transactions': typeof ShopAccountTransactionsRoute
+  '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/shop/account/': typeof ShopAccountIndexRoute
+  '/shop/account/orders/$id': typeof ShopAccountOrdersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -302,7 +386,6 @@ export interface FileRoutesByTo {
   '/quoteprocessing': typeof QuoteprocessingRoute
   '/quotesuccess': typeof QuotesuccessRoute
   '/schedulecall': typeof SchedulecallRoute
-  '/shop': typeof ShopRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/ticket': typeof TicketRoute
@@ -324,8 +407,19 @@ export interface FileRoutesByTo {
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/shop/cart': typeof ShopCartRoute
+  '/shop/checkout': typeof ShopCheckoutRoute
   '/dashboard': typeof DashboardIndexRoute
   '/services': typeof ServicesIndexRoute
+  '/shop': typeof ShopIndexRoute
+  '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
+  '/shop/account/saved': typeof ShopAccountSavedRoute
+  '/shop/account/settings': typeof ShopAccountSettingsRoute
+  '/shop/account/transactions': typeof ShopAccountTransactionsRoute
+  '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/shop/account': typeof ShopAccountIndexRoute
+  '/shop/account/orders/$id': typeof ShopAccountOrdersIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -345,7 +439,7 @@ export interface FileRoutesById {
   '/quotesuccess': typeof QuotesuccessRoute
   '/schedulecall': typeof SchedulecallRoute
   '/services': typeof ServicesRouteWithChildren
-  '/shop': typeof ShopRoute
+  '/shop': typeof ShopRouteWithChildren
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
   '/ticket': typeof TicketRoute
@@ -367,8 +461,20 @@ export interface FileRoutesById {
   '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/quotes': typeof DashboardQuotesRoute
   '/services/$slug': typeof ServicesSlugRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/shop/account': typeof ShopAccountRouteWithChildren
+  '/shop/cart': typeof ShopCartRoute
+  '/shop/checkout': typeof ShopCheckoutRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
+  '/shop/': typeof ShopIndexRoute
+  '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
+  '/shop/account/saved': typeof ShopAccountSavedRoute
+  '/shop/account/settings': typeof ShopAccountSettingsRoute
+  '/shop/account/transactions': typeof ShopAccountTransactionsRoute
+  '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/shop/account/': typeof ShopAccountIndexRoute
+  '/shop/account/orders/$id': typeof ShopAccountOrdersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -409,8 +515,20 @@ export interface FileRouteTypes {
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/services/$slug'
+    | '/shop/$slug'
+    | '/shop/account'
+    | '/shop/cart'
+    | '/shop/checkout'
     | '/dashboard/'
     | '/services/'
+    | '/shop/'
+    | '/shop/account/orders'
+    | '/shop/account/saved'
+    | '/shop/account/settings'
+    | '/shop/account/transactions'
+    | '/shop/accounts/addresses'
+    | '/shop/account/'
+    | '/shop/account/orders/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -425,7 +543,6 @@ export interface FileRouteTypes {
     | '/quoteprocessing'
     | '/quotesuccess'
     | '/schedulecall'
-    | '/shop'
     | '/support'
     | '/terms'
     | '/ticket'
@@ -447,8 +564,19 @@ export interface FileRouteTypes {
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/services/$slug'
+    | '/shop/$slug'
+    | '/shop/cart'
+    | '/shop/checkout'
     | '/dashboard'
     | '/services'
+    | '/shop'
+    | '/shop/account/orders'
+    | '/shop/account/saved'
+    | '/shop/account/settings'
+    | '/shop/account/transactions'
+    | '/shop/accounts/addresses'
+    | '/shop/account'
+    | '/shop/account/orders/$id'
   id:
     | '__root__'
     | '/'
@@ -489,8 +617,20 @@ export interface FileRouteTypes {
     | '/dashboard/invoices'
     | '/dashboard/quotes'
     | '/services/$slug'
+    | '/shop/$slug'
+    | '/shop/account'
+    | '/shop/cart'
+    | '/shop/checkout'
     | '/dashboard/'
     | '/services/'
+    | '/shop/'
+    | '/shop/account/orders'
+    | '/shop/account/saved'
+    | '/shop/account/settings'
+    | '/shop/account/transactions'
+    | '/shop/accounts/addresses'
+    | '/shop/account/'
+    | '/shop/account/orders/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -510,7 +650,7 @@ export interface RootRouteChildren {
   QuotesuccessRoute: typeof QuotesuccessRoute
   SchedulecallRoute: typeof SchedulecallRoute
   ServicesRoute: typeof ServicesRouteWithChildren
-  ShopRoute: typeof ShopRoute
+  ShopRoute: typeof ShopRouteWithChildren
   SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
   TicketRoute: typeof TicketRoute
@@ -666,6 +806,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shop/': {
+      id: '/shop/'
+      path: '/'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof ShopRoute
+    }
     '/services/': {
       id: '/services/'
       path: '/'
@@ -679,6 +826,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/shop/checkout': {
+      id: '/shop/checkout'
+      path: '/checkout'
+      fullPath: '/shop/checkout'
+      preLoaderRoute: typeof ShopCheckoutRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/cart': {
+      id: '/shop/cart'
+      path: '/cart'
+      fullPath: '/shop/cart'
+      preLoaderRoute: typeof ShopCartRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/account': {
+      id: '/shop/account'
+      path: '/account'
+      fullPath: '/shop/account'
+      preLoaderRoute: typeof ShopAccountRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/$slug': {
+      id: '/shop/$slug'
+      path: '/$slug'
+      fullPath: '/shop/$slug'
+      preLoaderRoute: typeof ShopSlugRouteImport
+      parentRoute: typeof ShopRoute
     }
     '/services/$slug': {
       id: '/services/$slug'
@@ -799,6 +974,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminanalyticsRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/shop/account/': {
+      id: '/shop/account/'
+      path: '/'
+      fullPath: '/shop/account/'
+      preLoaderRoute: typeof ShopAccountIndexRouteImport
+      parentRoute: typeof ShopAccountRoute
+    }
+    '/shop/accounts/addresses': {
+      id: '/shop/accounts/addresses'
+      path: '/accounts/addresses'
+      fullPath: '/shop/accounts/addresses'
+      preLoaderRoute: typeof ShopAccountsAddressesRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/account/transactions': {
+      id: '/shop/account/transactions'
+      path: '/transactions'
+      fullPath: '/shop/account/transactions'
+      preLoaderRoute: typeof ShopAccountTransactionsRouteImport
+      parentRoute: typeof ShopAccountRoute
+    }
+    '/shop/account/settings': {
+      id: '/shop/account/settings'
+      path: '/settings'
+      fullPath: '/shop/account/settings'
+      preLoaderRoute: typeof ShopAccountSettingsRouteImport
+      parentRoute: typeof ShopAccountRoute
+    }
+    '/shop/account/saved': {
+      id: '/shop/account/saved'
+      path: '/saved'
+      fullPath: '/shop/account/saved'
+      preLoaderRoute: typeof ShopAccountSavedRouteImport
+      parentRoute: typeof ShopAccountRoute
+    }
+    '/shop/account/orders': {
+      id: '/shop/account/orders'
+      path: '/orders'
+      fullPath: '/shop/account/orders'
+      preLoaderRoute: typeof ShopAccountOrdersRouteImport
+      parentRoute: typeof ShopAccountRoute
+    }
+    '/shop/account/orders/$id': {
+      id: '/shop/account/orders/$id'
+      path: '/$id'
+      fullPath: '/shop/account/orders/$id'
+      preLoaderRoute: typeof ShopAccountOrdersIdRouteImport
+      parentRoute: typeof ShopAccountOrdersRoute
+    }
   }
 }
 
@@ -876,6 +1100,57 @@ const ServicesRouteWithChildren = ServicesRoute._addFileChildren(
   ServicesRouteChildren,
 )
 
+interface ShopAccountOrdersRouteChildren {
+  ShopAccountOrdersIdRoute: typeof ShopAccountOrdersIdRoute
+}
+
+const ShopAccountOrdersRouteChildren: ShopAccountOrdersRouteChildren = {
+  ShopAccountOrdersIdRoute: ShopAccountOrdersIdRoute,
+}
+
+const ShopAccountOrdersRouteWithChildren =
+  ShopAccountOrdersRoute._addFileChildren(ShopAccountOrdersRouteChildren)
+
+interface ShopAccountRouteChildren {
+  ShopAccountOrdersRoute: typeof ShopAccountOrdersRouteWithChildren
+  ShopAccountSavedRoute: typeof ShopAccountSavedRoute
+  ShopAccountSettingsRoute: typeof ShopAccountSettingsRoute
+  ShopAccountTransactionsRoute: typeof ShopAccountTransactionsRoute
+  ShopAccountIndexRoute: typeof ShopAccountIndexRoute
+}
+
+const ShopAccountRouteChildren: ShopAccountRouteChildren = {
+  ShopAccountOrdersRoute: ShopAccountOrdersRouteWithChildren,
+  ShopAccountSavedRoute: ShopAccountSavedRoute,
+  ShopAccountSettingsRoute: ShopAccountSettingsRoute,
+  ShopAccountTransactionsRoute: ShopAccountTransactionsRoute,
+  ShopAccountIndexRoute: ShopAccountIndexRoute,
+}
+
+const ShopAccountRouteWithChildren = ShopAccountRoute._addFileChildren(
+  ShopAccountRouteChildren,
+)
+
+interface ShopRouteChildren {
+  ShopSlugRoute: typeof ShopSlugRoute
+  ShopAccountRoute: typeof ShopAccountRouteWithChildren
+  ShopCartRoute: typeof ShopCartRoute
+  ShopCheckoutRoute: typeof ShopCheckoutRoute
+  ShopIndexRoute: typeof ShopIndexRoute
+  ShopAccountsAddressesRoute: typeof ShopAccountsAddressesRoute
+}
+
+const ShopRouteChildren: ShopRouteChildren = {
+  ShopSlugRoute: ShopSlugRoute,
+  ShopAccountRoute: ShopAccountRouteWithChildren,
+  ShopCartRoute: ShopCartRoute,
+  ShopCheckoutRoute: ShopCheckoutRoute,
+  ShopIndexRoute: ShopIndexRoute,
+  ShopAccountsAddressesRoute: ShopAccountsAddressesRoute,
+}
+
+const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
@@ -893,7 +1168,7 @@ const rootRouteChildren: RootRouteChildren = {
   QuotesuccessRoute: QuotesuccessRoute,
   SchedulecallRoute: SchedulecallRoute,
   ServicesRoute: ServicesRouteWithChildren,
-  ShopRoute: ShopRoute,
+  ShopRoute: ShopRouteWithChildren,
   SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
   TicketRoute: TicketRoute,

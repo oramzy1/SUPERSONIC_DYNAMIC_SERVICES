@@ -34,7 +34,7 @@ export default defineConfig({
           "/faqs",
           "/terms",
           "/privacy",
-          "/shop",
+          "/shop/",
         ],
       }),
     ],

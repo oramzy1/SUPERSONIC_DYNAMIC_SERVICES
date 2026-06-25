@@ -106,7 +106,7 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
           </div>
         </div>
 
-        {/* HELP — hidden on very small screens */}
+        {/* HELP - hidden on very small screens */}
         <button
           className="hidden sm:grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-colors focus:outline-none"
           aria-label="Help"

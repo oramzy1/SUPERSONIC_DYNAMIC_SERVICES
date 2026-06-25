@@ -13,6 +13,8 @@ import { LoadingProvider } from "@/contexts/LoadingContext";
 import PageLoader from "@/components/PageLoader";
 import { CookieBanner } from "@/components/shared/CookieBanner";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
+import { Toaster } from "@/components/ui/sonner";
+import { CartProvider } from "@/lib/shop/cart";
 
 function NotFoundComponent() {
   return (
@@ -165,10 +167,13 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LoadingProvider>
+        <CartProvider>
         <CookieConsentProvider>
           <PageLoader />
+          <Toaster richColors position="top-right" />
           <Outlet />
         </CookieConsentProvider>
+        </CartProvider>
       </LoadingProvider>
     </QueryClientProvider>
   );
