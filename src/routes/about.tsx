@@ -68,8 +68,8 @@ const FOUNDER_DATA = {
     name: "Mr. NWEZE WIEGI EMI CHUKWUDI",
     role: "CEO & FOUNDER",
     education: [
-      "B.Eng. in Chemical Engineering — Niger Delta University, Bayelsa State, Nigeria",
-      "M.Sc. in Advanced Chemical Engineering — University of Aberdeen, Scotland, United Kingdom",
+      "B.Eng. in Chemical Engineering - Niger Delta University, Bayelsa State, Nigeria",
+      "M.Sc. in Advanced Chemical Engineering - University of Aberdeen, Scotland, United Kingdom",
     ],
     bio: [
       "Mr. Nweze Wiengi Emi Chukwudi; is the Founder and Chief Executive Officer of SUPERSONIC DYNAMIC SERVICES B.V. He is a skilled international expert from Nigeria who have lived and integrated into the Dutch culture and society with his family for about 5 years now. He is an experienced engineering and business professional with international expertise in logistics, supply chain management, and strategic business development and operations across the United Kingdom and the Netherlands. He holds a Bachelor's Degree in Chemical Engineering from Niger Delta University, Nigeria, and a Master's Degree in Advanced Chemical Engineering from the University of Aberdeen, United Kingdom. With several years of hands-on experience in logistics and relocation services, combined with specialized training in entrepreneurship, leadership, and business management, he brings a strong operational and commercial perspective to the company. Mr. Chukwudi founded SUPERSONIC DYNAMIC SERVICES B.V. with the vision of delivering innovative, reliable, sustainable and customer-focused moving services and freight haulage solutions that create sustainable value for clients, generate employment opportunities and contribute to the Netherlands transition toward a greener and more sustainable economy by leveraging digital innovation and operational excellence.",
@@ -79,10 +79,10 @@ const FOUNDER_DATA = {
     name: "Mr. HENRY OBI NDUBISI",
     role: "CO-FOUNDER & COO",
     education: [
-      "B.Sc. in Accounting and Finance — University of Port-Harcourt, Rivers State, Nigeria",
-      "B.A. in International Business — Guangdong Polytechnic Normal University, Guangzhou, China",
-      "M.Sc. in International Marketing — Jönköping University, Jönköping, Sweden",
-      "MBA — University of Maastricht, Limburg, Netherlands",
+      "B.Sc. in Accounting and Finance - University of Port-Harcourt, Rivers State, Nigeria",
+      "B.A. in International Business - Guangdong Polytechnic Normal University, Guangzhou, China",
+      "M.Sc. in International Marketing - Jönköping University, Jönköping, Sweden",
+      "MBA - University of Maastricht, Limburg, Netherlands",
     ],
     bio: [
       "Mr. Henry Ndubisi Obi is a Co-Founder and the Chief Operating Officer of SUPERSONIC DYNAMIC SERVICES B.V. He is an international business and marketing professional with more than 25 years of leadership experience across the construction, catering, and technology sectors. Originally from Nigeria and now fully integrated into Dutch society, he combines a strong multicultural background with advanced academic qualifications, including degrees in Accounting & Finance, International Business, International Marketing (MSc), and an MBA from Maastricht University. As a Co-founder of SUPERSONIC DYNAMIC SERVICES B.V., Henry together with the SUPERSONIC DYNAMIC SERVICES B.V. team, are focused on contributing and strengthening the Netherlands’ transition toward a greener and more sustainable economy by transforming the Dutch moving-services and freight haulage services market through a technology-driven, customer-centric, and environmentally sustainable business model which leverages on digital innovation and operational excellence.",

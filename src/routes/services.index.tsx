@@ -10,15 +10,15 @@ import { SERVICES } from "@/lib/services-data";
 export const Route = createFileRoute("/services/")({
   component: Services,
   head: () => ({
-  meta: [
-    { title: "Moving & Freight Haulage Services - Supersonic Dynamic Services B.V." },
-    {
-      name: "description",
-      content:
-        "Explore our full range of moving services in the Netherlands — residential, student, enterprise, storage and waste removal. Eco-friendly, technology-powered relocation.",
-    },
-  ],
-}),
+    meta: [
+      { title: "Moving & Freight Haulage Services - Supersonic Dynamic Services B.V." },
+      {
+        name: "description",
+        content:
+          "Explore our full range of moving services in the Netherlands - residential, student, enterprise, storage and waste removal. Eco-friendly, technology-powered relocation.",
+      },
+    ],
+  }),
 });
 
 function Services() {
@@ -28,15 +28,20 @@ function Services() {
         <Pill variant="primary">Supersonic Dynamic Services B.V</Pill>
         <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">Our Service Modules</h1>
         <p className="mt-4 max-w-2xl text-muted-foreground">
-          At SUPERSONIC DYNAMIC SERVICES, we redefine student and micro-moving with a
-          seamless, technology-driven and eco-responsible approach. Our mission is simple: to
-          make your move smooth, efficient, and completely stress-free.
+          At SUPERSONIC DYNAMIC SERVICES, we redefine student and micro-moving with a seamless,
+          technology-driven and eco-responsible approach. Our mission is simple: to make your move
+          smooth, efficient, and completely stress-free.
         </p>
 
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s) => (
             <SurfaceCard key={s.slug} padded={false} className="overflow-hidden flex flex-col">
-              <img src={s.image} alt={s.heroTitle} loading="lazy" className="h-44 w-full object-cover" />
+              <img
+                src={s.image}
+                alt={s.heroTitle}
+                loading="lazy"
+                className="h-44 w-full object-cover"
+              />
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-lg font-semibold">{s.heroTitle}</h3>
                 <p className="mt-3 rounded-lg bg-black/30 p-3 text-xs leading-relaxed text-muted-foreground">
@@ -67,4 +72,3 @@ function Services() {
     </SiteLayout>
   );
 }
-

@@ -164,6 +164,18 @@ export function Footer() {
 
       {/* FIXED CONTROLS WRAPPER: Fixed positioning container */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-9999 flex flex-col items-end gap-3 select-none">
+         {/* FLOATING SUPPORT TRIGGER ICON */}
+          <button
+            type="button"
+            onClick={() => setShowSupportCard(!showSupportCard)}
+            className={`grid h-12 w-12 place-items-center rounded-xl text-slate-900 transition shadow-xl hover:opacity-95 active:scale-95 ${
+              showSupportCard ? "bg-white text-slate-900" : "bg-[#8EA7FF]"
+            }`}
+            style={{ backgroundColor: !showSupportCard ? "var(--primary)" : undefined }}
+            aria-label="Toggle support channel options"
+          >
+            {showSupportCard ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
+          </button>
         {/* CHAT SUPPORT FLOATING SLIDEOUT CARD */}
         {showSupportCard && (
           <div className="w-[calc(100vw-2rem)] sm:w-72 rounded-2xl border border-white/10 bg-[#0F161E]/95 p-4 text-white backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
@@ -239,6 +251,8 @@ export function Footer() {
           </div>
         )}
 
+      </div>
+      <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-9999 flex flex-col items-end gap-3 select-none">
         <div className="flex flex-col items-center gap-3">
           {/* SEAMLESS SCROLL TO TOP ARROW BUTTON */}
           {showScrollTop && (
@@ -251,21 +265,8 @@ export function Footer() {
               <ChevronUp className="h-5 w-5" />
             </button>
           )}
-
-          {/* FLOATING SUPPORT TRIGGER ICON */}
-          <button
-            type="button"
-            onClick={() => setShowSupportCard(!showSupportCard)}
-            className={`grid h-12 w-12 place-items-center rounded-xl text-slate-900 transition shadow-xl hover:opacity-95 active:scale-95 ${
-              showSupportCard ? "bg-white text-slate-900" : "bg-[#8EA7FF]"
-            }`}
-            style={{ backgroundColor: !showSupportCard ? "var(--primary)" : undefined }}
-            aria-label="Toggle support channel options"
-          >
-            {showSupportCard ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
-          </button>
         </div>
-      </div>
+        </div>
     </footer>
   );
 }

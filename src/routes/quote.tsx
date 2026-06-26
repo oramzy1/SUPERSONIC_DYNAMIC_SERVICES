@@ -262,7 +262,7 @@ function Quote() {
           evaluate your submission metrics before final commitment.
         </p>
 
-        {/* Sticky progress bar — sticks just below the navbar */}
+        {/* Sticky progress bar - sticks just below the navbar */}
         <div className="sticky top-(--navbar-height,64px) z-30 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-3 bg-background/90 backdrop-blur-md border-b border-white/5">
           <div className="max-w-7xl mx-auto">
             <div className="mb-1.5 flex items-center justify-between text-xs sm:text-sm">
@@ -1129,9 +1129,9 @@ function Quote() {
 
                       <div className="grid gap-2 grid-cols-1 sm:grid-cols-2">
                         <Row label="Name" value={getValues("name")} />
-                        <Row label="Company Name" value={getValues("company") || "—"} />
-                        <Row label="E-mail address" value={getValues("email") || "—"} />
-                        <Row label="Telephone" value={getValues("phone") || "—"} />
+                        <Row label="Company Name" value={getValues("company") || "-"} />
+                        <Row label="E-mail address" value={getValues("email") || "-"} />
+                        <Row label="Telephone" value={getValues("phone") || "-"} />
 
                         {getValues("residentAddress") && (
                           <Row
@@ -1191,7 +1191,7 @@ function Quote() {
                                   ? "Desired date of Freight Pick-Up."
                                   : "Desired Date of Moving"
                           }
-                          value={getValues("date") || "—"}
+                          value={getValues("date") || "-"}
                         />
 
                         {isFreightSelected && getValues("deliveryDate") && (
@@ -1285,7 +1285,7 @@ function Quote() {
             </div>
           </form>
 
-          {/* Sticky sidebar — image + contact strips */}
+          {/* Sticky sidebar - image + contact strips */}
           {step === 1 && (
             <aside className="self-start sticky top-[calc(var(--navbar-height,64px)+52px+8px)] h-fit w-full space-y-3 sm:space-y-4 max-h-[calc(100vh-var(--navbar-height,64px)-52px-24px)] overflow-y-auto custom-scrollbar">
               <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface shadow-xl">
@@ -1429,7 +1429,7 @@ function Row({ label, value }: { label: string; value?: string }) {
     <div className="flex items-center justify-between rounded-lg bg-black/20 px-3 py-2.5 text-xs gap-3 border border-white/2">
       <span className="text-muted-foreground shrink-0">{label}</span>
       <span className="font-medium truncate max-w-45 text-right text-foreground">
-        {value || "—"}
+        {value || "-"}
       </span>
     </div>
   );

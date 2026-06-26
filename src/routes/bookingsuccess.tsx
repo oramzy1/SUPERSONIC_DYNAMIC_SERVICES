@@ -5,7 +5,7 @@ type BookingSuccessSearch = {
   date?: number;
   time?: string;
   month?: string;
-  year?: number; 
+  year?: number;
 };
 
 export const Route = createFileRoute("/bookingsuccess")({
@@ -98,7 +98,7 @@ function RouteComponent() {
                 {month} {date}, {year}
               </h2>
               <p className="text-sm font-semibold text-gray-400 mt-1">
-                {time} — {getEndTime(time || "10:30 AM")}
+                {time} - {getEndTime(time || "10:30 AM")}
               </p>
             </div>
 
@@ -147,7 +147,7 @@ function RouteComponent() {
               <span className="text-gray-500 block text-[10px] font-bold uppercase tracking-wide">
                 Briefing Lead
               </span>
-              <strong className="text-gray-200 font-semibold">Hillary Nweze</strong> — Director of
+              <strong className="text-gray-200 font-semibold">Hillary Nweze</strong> - Director of
               Sustainability
             </p>
           </div>

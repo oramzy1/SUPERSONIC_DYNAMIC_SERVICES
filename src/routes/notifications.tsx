@@ -452,7 +452,7 @@ function RouteComponent() {
               </div>
             </>
           ) : (
-            /* Empty state when nothing selected — only visible on mobile if somehow open */
+            /* Empty state when nothing selected - only visible on mobile if somehow open */
             <div className="flex-1 flex flex-col items-center justify-center gap-3 p-8 text-center">
               <div className="w-12 h-12 rounded-xl bg-[#8EA7FF]/10 border border-[#8EA7FF]/20 flex items-center justify-center text-[#8EA7FF]">
                 <SlidersHorizontal className="h-5 w-5" />
