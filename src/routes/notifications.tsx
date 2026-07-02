@@ -32,68 +32,9 @@ interface Notification {
   unread: boolean;
 }
 
-const INITIAL_LOGS: Notification[] = [
-  {
-    id: "ntf-101",
-    category: "fleet",
-    title: "Moving Crew En Route",
-    message: "Your primary moving truck for order #SDS-9821 has left the Amsterdam hub.",
-    detailedContent:
-      "Driver: Lars Bakker\nVehicle: Mercedes-Benz Actros (License: V-391-XX)\nETA: 08:30 CEST\nRoute Note: Moving crew has collected all heavy-duty packing crates and is navigating via the A4 highway detour.",
-    time: "4 mins ago",
-    unread: true,
-  },
-  {
-    id: "ntf-102",
-    category: "quotes",
-    title: "New Custom Moving Quote Ready",
-    message: "Your relocation request from Rotterdam to Utrecht has been itemized.",
-    detailedContent:
-      "Quote Reference: #Q-2026-892\nEstimated volume: 42 m³\nPremium Packing: Included\nTotal Calculated Fee: €1,450.00 (incl. BTW)\nThis rate is locked until June 25th, 2026.",
-    time: "25 mins ago",
-    unread: true,
-  },
-  {
-    id: "ntf-103",
-    category: "updates",
-    title: "iDEAL Invoice Settlement Verified",
-    message: "Payment confirmation successful for order balance #INV-004821.",
-    detailedContent:
-      "Transaction ID: TRX-99210481\nAmount Received: €850.00\nPayment Method: iDEAL (Rabobank)\nStatus: Fully settled. Digital transport clearance token pushed to driver manifest.",
-    time: "42 mins ago",
-    unread: true,
-  },
-  {
-    id: "ntf-104",
-    category: "messages",
-    title: "Support Chat: Packing Assistance",
-    message: "Support agent Sophie added a comment regarding fragile antique handling.",
-    detailedContent:
-      'Message text:\n"Hi! I\'ve updated your booking profile to flag the 19th-century grandfather clock. Our specialized fine-arts packing team will bring custom timber bracing on Friday morning."',
-    time: "2 hours ago",
-    unread: false,
-  },
-  {
-    id: "ntf-105",
-    category: "fleet",
-    title: "Route Optimization Completed",
-    message: "Our routing system has updated your cross-provincial transit schedule.",
-    detailedContent:
-      "Operational update: Rerouted from A2 highway due to multi-vehicle collision near Den Bosch. New route planned via the A27 corridor. Transit duration variance: +12 minutes total.",
-    time: "3 hours ago",
-    unread: false,
-  },
-  {
-    id: "ntf-106",
-    category: "security",
-    title: "Account Authorized via New Device",
-    message: "A successful session login was processed from an unknown terminal near Utrecht.",
-    detailedContent:
-      "IP Address: 145.15.22.109\nBrowser: Chrome v144 / Windows 11\nTimestamp: 2026-06-17 00:14:11 CEST\nIf this was not you, please immediately cycle your access tokens in the Profile Settings.",
-    time: "1 day ago",
-    unread: false,
-  },
-];
+// No data yet — wire this up to your notifications API/subscription.
+// Shape is already defined above; just populate this array (or fetch into state).
+const INITIAL_LOGS: Notification[] = [];
 
 function RouteComponent() {
   const [notifications, setNotifications] = useState<Notification[]>(INITIAL_LOGS);
@@ -137,8 +78,8 @@ function RouteComponent() {
       case "fleet":
         return {
           icon: <Truck className="h-3.5 w-3.5" />,
-          bg: "bg-[#8EA7FF]/10 text-[#8EA7FF]",
-          dot: "bg-[#8EA7FF]",
+          bg: "bg-primary/10 text-primary",
+          dot: "bg-primary",
           label: "Fleet",
         };
       case "quotes":
@@ -158,15 +99,15 @@ function RouteComponent() {
       case "messages":
         return {
           icon: <MessageSquare className="h-3.5 w-3.5" />,
-          bg: "bg-blue-500/10 text-blue-400",
-          dot: "bg-blue-400",
+          bg: "bg-slate-400/10 text-slate-300",
+          dot: "bg-slate-300",
           label: "Messages",
         };
       case "security":
         return {
           icon: <ShieldAlert className="h-3.5 w-3.5" />,
-          bg: "bg-violet-500/10 text-violet-400",
-          dot: "bg-violet-400",
+          bg: "bg-rose-500/10 text-rose-400",
+          dot: "bg-rose-400",
           label: "Security",
         };
     }
@@ -190,14 +131,14 @@ function RouteComponent() {
             <span className="text-[11px] font-black tracking-tight text-primary uppercase leading-tight">
               Supersonic <span>Dynamic Services B.V.</span>
             </span>
-            <span className="text-[9px] text-slate-200-500 tracking-widest uppercase hidden sm:block mt-0.5">
+            <span className="text-[9px] text-slate-500 tracking-widest uppercase hidden sm:block mt-0.5">
               Operations Terminal · Live Customer Updates
             </span>
           </div>
         </div>
         <Link
           to={"/" as any}
-          className="text-[11px] font-semibold text-slate-400 hover:text-[#8EA7FF] flex items-center gap-1.5 transition-colors shrink-0 ml-4"
+          className="text-[11px] font-semibold text-slate-400 hover:text-primary flex items-center gap-1.5 transition-colors shrink-0 ml-4"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           Back
@@ -213,14 +154,14 @@ function RouteComponent() {
           }`}
         >
           {/* Panel header */}
-          <div className=" border-b border-white/6 px-5 pt-5 pb-0 shrink-0">
+          <div className="border-b border-white/6 px-5 pt-5 pb-0 shrink-0">
             <div className="flex items-center gap-2.5 mb-1">
-              <Bell className="h-4 w-4 text-[#8EA7FF]" />
+              <Bell className="h-4 w-4 text-primary" />
               <h1 className="text-sm font-bold text-white tracking-tight">
                 Control Terminal Notifications
               </h1>
               {unreadCount > 0 && (
-                <span className=" border border-[#8EA7FF]/20 text-[#8EA7FF] text-[10px] font-bold px-2 py-0.5 rounded-full font-mono tracking-wide">
+                <span className="border border-primary/20 bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full font-mono tracking-wide">
                   {unreadCount} New
                 </span>
               )}
@@ -247,14 +188,14 @@ function RouteComponent() {
                     }}
                     className={`relative px-3 py-2 text-[11px] font-semibold rounded-t-lg flex items-center gap-1.5 shrink-0 whitespace-nowrap transition-all duration-150 ${
                       isActive
-                        ? "bg-[#8EA7FF]/10 text-[#8EA7FF] border-t border-x border-[#8EA7FF]/20 border-b-transparent -mb-px pb-2.25"
+                        ? "bg-primary/10 text-primary border-t border-x border-primary/20 border-b-transparent -mb-px pb-2.25"
                         : "text-slate-400 hover:text-slate-200 hover:bg-white/3 border border-transparent"
                     }`}
                   >
                     {tab.label}
                     <span
                       className={`text-[10px] px-1.5 py-px rounded font-mono ${
-                        isActive ? "bg-[#8EA7FF]/20 text-[#8EA7FF]" : "bg-white/5 text-slate-500"
+                        isActive ? "bg-primary/20 text-primary" : "bg-white/5 text-slate-500"
                       }`}
                     >
                       {count}
@@ -275,7 +216,7 @@ function RouteComponent() {
                 <button
                   type="button"
                   onClick={markAllAsRead}
-                  className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 hover:text-[#8EA7FF] transition-colors"
+                  className="flex items-center gap-1.5 text-[10px] font-semibold text-slate-400 hover:text-primary transition-colors"
                 >
                   <CheckSquare className="h-3 w-3" />
                   Mark all as read
@@ -296,15 +237,15 @@ function RouteComponent() {
                     onClick={() => handleRowClick(log)}
                     className={`group relative flex items-start gap-3.5 px-5 py-4 cursor-pointer transition-all duration-100 ${
                       isFocused
-                        ? "bg-[#8EA7FF]/6"
+                        ? "bg-primary/6"
                         : log.unread
-                          ? "bg-[#8EA7FF]/2 hover:bg-[#8EA7FF]/4"
+                          ? "bg-primary/2 hover:bg-primary/4"
                           : "hover:bg-white/1.5"
                     }`}
                   >
                     {/* Unread accent */}
                     {log.unread && (
-                      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#8EA7FF] rounded-r" />
+                      <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary rounded-r" />
                     )}
 
                     {/* Icon */}
@@ -363,9 +304,9 @@ function RouteComponent() {
                   <Inbox className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-slate-300 mb-1">Category Feed Clear</p>
+                  <p className="text-xs font-semibold text-slate-300 mb-1">No notifications yet</p>
                   <p className="text-[11px] text-slate-500 max-w-xs">
-                    No matching events logged under the current category layer.
+                    You're all caught up. New activity in this category will appear here.
                   </p>
                 </div>
               </div>
@@ -406,7 +347,7 @@ function RouteComponent() {
               <div className="flex-1 overflow-y-auto p-5 space-y-5">
                 {/* ID + Title block */}
                 <div className="space-y-2">
-                  <span className="inline-block bg-[#8EA7FF]/10 border border-[#8EA7FF]/20 text-[#8EA7FF] text-[10px] font-bold tracking-[0.08em] px-2 py-0.5 rounded-[5px] font-mono uppercase">
+                  <span className="inline-block bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold tracking-[0.08em] px-2 py-0.5 rounded-[5px] font-mono uppercase">
                     {selectedNotification.id}
                   </span>
                   <h2 className="text-[15px] font-bold text-white leading-snug tracking-tight">
@@ -454,7 +395,7 @@ function RouteComponent() {
           ) : (
             /* Empty state when nothing selected - only visible on mobile if somehow open */
             <div className="flex-1 flex flex-col items-center justify-center gap-3 p-8 text-center">
-              <div className="w-12 h-12 rounded-xl bg-[#8EA7FF]/10 border border-[#8EA7FF]/20 flex items-center justify-center text-[#8EA7FF]">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
                 <SlidersHorizontal className="h-5 w-5" />
               </div>
               <div>

@@ -67,8 +67,9 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 md:grid-cols-4 md:px-8">
         <div>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Leading the transition to carbon-neutral logistics in the Netherlands. We combine
-            precision engineering with premium moving experiences.
+            Driving the energy transition vision of the Netherlands through our combined
+            sustainability and technology powered business approach. We combine precision
+            engineering with premium moving experiences.
           </p>
           <div className="mt-6 flex items-center gap-3">
             {[Facebook, Instagram, Linkedin, Share2].map((Icon, i) => (
@@ -137,8 +138,8 @@ export function Footer() {
       <div className="border-t border-white/5">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-8">
           <div className="space-y-1">
-            <div>KvK: 40415533</div>
-            <div>BTW-NUMBER: NL804884870B01</div>
+            <div>KvK: 12xxxx78</div>
+            <div>BTW-NUMBER: NLxxxxxxxxxxxxx01</div>
             <div>SUPERSONIC DYNAMIC SERVICES B.V. © 2026</div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -164,18 +165,18 @@ export function Footer() {
 
       {/* FIXED CONTROLS WRAPPER: Fixed positioning container */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-9999 flex flex-col items-end gap-3 select-none">
-         {/* FLOATING SUPPORT TRIGGER ICON */}
-          <button
-            type="button"
-            onClick={() => setShowSupportCard(!showSupportCard)}
-            className={`grid h-12 w-12 place-items-center rounded-xl text-slate-900 transition shadow-xl hover:opacity-95 active:scale-95 ${
-              showSupportCard ? "bg-white text-slate-900" : "bg-[#8EA7FF]"
-            }`}
-            style={{ backgroundColor: !showSupportCard ? "var(--primary)" : undefined }}
-            aria-label="Toggle support channel options"
-          >
-            {showSupportCard ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
-          </button>
+        {/* FLOATING SUPPORT TRIGGER ICON */}
+        <button
+          type="button"
+          onClick={() => setShowSupportCard(!showSupportCard)}
+          className={`grid h-12 w-12 place-items-center rounded-xl text-slate-900 transition shadow-xl hover:opacity-95 active:scale-95 ${
+            showSupportCard ? "bg-white text-slate-900" : "bg-[#8EA7FF]"
+          }`}
+          style={{ backgroundColor: !showSupportCard ? "var(--primary)" : undefined }}
+          aria-label="Toggle support channel options"
+        >
+          {showSupportCard ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
+        </button>
         {/* CHAT SUPPORT FLOATING SLIDEOUT CARD */}
         {showSupportCard && (
           <div className="w-[calc(100vw-2rem)] sm:w-72 rounded-2xl border border-white/10 bg-[#0F161E]/95 p-4 text-white backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
@@ -250,7 +251,6 @@ export function Footer() {
             </div>
           </div>
         )}
-
       </div>
       <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-9999 flex flex-col items-end gap-3 select-none">
         <div className="flex flex-col items-center gap-3">
@@ -266,7 +266,7 @@ export function Footer() {
             </button>
           )}
         </div>
-        </div>
+      </div>
     </footer>
   );
 }

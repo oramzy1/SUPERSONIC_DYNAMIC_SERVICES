@@ -24,7 +24,7 @@ export function Pill({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border bg-transparent px-3 py-1 text-xs font-medium uppercase tracking-[0.08em]",
+        "inline-flex items-center gap-2 rounded-full border bg-transparent px-3 py-1 text-xs uppercase tracking-[0.07em]",
         styles[variant],
         className,
       )}

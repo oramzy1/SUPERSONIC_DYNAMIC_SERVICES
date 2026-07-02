@@ -28,8 +28,7 @@ function Services() {
         <Pill variant="primary">Supersonic Dynamic Services B.V</Pill>
         <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">Our Service Modules</h1>
         <p className="mt-4 max-w-2xl text-muted-foreground">
-          At SUPERSONIC DYNAMIC SERVICES, we redefine student and micro-moving with a seamless,
-          technology-driven and eco-responsible approach. Our mission is simple: to make your move
+          At SUPERSONIC DYNAMIC SERVICES, Our mission is simple: to make our customers journey
           smooth, efficient, and completely stress-free.
         </p>
 
