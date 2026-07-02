@@ -68,63 +68,34 @@ const SERVICE_OPTIONS = [
 
 const SERVICE_DETAILS: Record<string, { title: string; features: string[]; specs: string }> = {
   "student-moving": {
-    title: "Micro-Logistics & Student Moving Framework",
-    features: [
-      "Flexible room-to-room loading setups",
-      "Optimized micro-van transit patterns",
-      "Affordable modular pricing scales",
-    ],
-    specs: "Ideal for swift single-room apartments, flatshares, and fast campus relocations.",
+    title: "Student Moving and Micro-Moving With Supersonic",
+    features: [],
+    specs: "",
   },
   "residential-moving": {
-    title: "Full-Scale Family Residential Relocation",
-    features: [
-      "All-inclusive heavy furniture wrapping",
-      "Tailgate lift loading mechanisms",
-      "Multi-room routing options",
-    ],
-    specs:
-      "Full transit coverage for detached houses, complex family estates, and high-floor apartments.",
+    title: "Residential Moving Local and Long Range",
+    features: [],
+    specs: "",
   },
   "enterprise-moving": {
-    title: "Commercial Asset & Office Migration",
-    features: [
-      "Server array and IT asset protective cages",
-      "Off-hours operations minimize downtime",
-      "Detailed workspace item tagging",
-    ],
-    specs:
-      "Tailored to high-value equipment, document management, and fast corporate facility transitions.",
+    title: "Enterprise and Commercial Asset Moving",
+    features: [],
+    specs: "",
   },
   "smart-storage": {
-    title: "Dynamic Smart Storage Container Vaults",
-    features: [
-      "24/7 climate-controlled environments",
-      "Full digital asset inventory logging",
-      "Seamless pickup and return routing",
-    ],
-    specs:
-      "Perfect secure holding framework for seasonal assets, dynamic stock overflows, or interim transit items.",
+    title: "Dynamic Smart Storage Solutions",
+    features: [],
+    specs: "",
   },
   "sustainable-waste": {
-    title: "Eco-Responsible & Certified Waste Clearance",
-    features: [
-      "Validated sorting and recycling protocols",
-      "Green municipal landfill diversion goals",
-      "Heavy breakdown handling arrays",
-    ],
-    specs:
-      "Comprehensive processing of broken fixtures, old office furniture, and non-hazardous building debris.",
+    title: "Sustainable Waste Removal Services",
+    features: [],
+    specs: "",
   },
   "freight-haulage": {
-    title: "Heavy Haulage & Industrial Freight Solutions",
-    features: [
-      "Palletized cross-docking tracking systems",
-      "High-capacity payload transport options",
-      "Strict deadline-focused delivery frameworks",
-    ],
-    specs:
-      "Engineered specifically for high-volume commercial items, material handling supplies, and distribution networks.",
+    title: "Reliable Freight Haulage Services",
+    features: [],
+    specs: "",
   },
 };
 
@@ -249,34 +220,40 @@ function Quote() {
   return (
     <SiteLayout>
       <section className="mx-auto max-w-7xl px-4 sm:px-6 py-10 md:px-8 md:py-20">
-        {/* Page header (non-sticky, scrolls normally) */}
-        <Pill variant="cyan" dot>
+        {/* <Pill variant="cyan" dot>
           Supersonic Dynamic Services B.V
-        </Pill>
+        </Pill> */}
 
-        <h1 className="mt-4 font-display text-3xl font-bold sm:text-4xl md:text-6xl">
+        <h1 className="mt-3 font-display text-3xl font-bold sm:text-4xl md:text-6xl">
           {step === 2 ? "Review & Confirm Details" : "Request a Quote"}
         </h1>
-        <p className="mt-3 max-w-2xl text-sm sm:text-base text-muted-foreground leading-relaxed">
-          Fill out the functional operations configuration data parameters below and accurately
-          evaluate your submission metrics before final commitment.
+        <p className="mt-3 mb-3 max-w-2xl text-sm sm:text-base text-muted-foreground leading-5">
+          Fill out the quote form below to get your journey stated with supersonic dynamic service
         </p>
 
         {/* Sticky progress bar - sticks just below the navbar */}
-        <div className="sticky top-(--navbar-height,64px) z-30 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-3 bg-background/90 backdrop-blur-md border-b border-white/5">
+        <div className="sticky top-(--navbar-height,64px) z-30 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-4 bg-background/80 backdrop-blur-xl border-b border-white/5">
           <div className="max-w-7xl mx-auto">
-            <div className="mb-1.5 flex items-center justify-between text-xs sm:text-sm">
-              <span className="text-primary font-semibold">Step {step} of 2</span>
-              <span className="text-muted-foreground">
-                {step === 1 ? "Information Collection" : "Final Verification Dashboard"}
+            <div className="mb-2.5 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 border border-primary/25 text-[10px] font-semibold text-primary tabular-nums">
+                  {step}
+                </span>
+                <span className="text-xs sm:text-sm font-medium text-white tracking-tight">
+                  {step === 1 ? "Information Collection" : "Final Verification"}
+                </span>
+              </div>
+              <span className="text-[11px] font-medium tracking-wide text-slate-500 uppercase">
+                Step {step} of 2
               </span>
             </div>
-            <div className="h-1 w-full rounded-full bg-white/5">
+
+            <div className="relative h-0.75 w-full rounded-full bg-white/5 overflow-hidden">
               <motion.div
-                className="h-full rounded-full bg-primary"
+                className="absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-primary/60 to-primary"
                 initial={false}
                 animate={{ width: `${(step / 2) * 100}%` }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
               />
             </div>
           </div>
@@ -401,10 +378,11 @@ function Quote() {
                   <AnimatePresence>
                     {isMovingSelected && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.25 }}
+                        className="mt-6 grid gap-4 md:grid-cols-2"
                       >
                         <Field
                           icon={<User className="h-4 w-4" />}
@@ -556,10 +534,11 @@ function Quote() {
                   <AnimatePresence>
                     {isStorageSelected && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.25 }}
+                        className="mt-6 grid gap-4 md:grid-cols-2"
                       >
                         <Field
                           icon={<User className="h-4 w-4" />}
@@ -746,10 +725,11 @@ function Quote() {
                   <AnimatePresence>
                     {isWasteSelected && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.25 }}
+                        className="mt-6 grid gap-4 md:grid-cols-2"
                       >
                         <Field
                           icon={<User className="h-4 w-4" />}
@@ -861,10 +841,11 @@ function Quote() {
                   <AnimatePresence>
                     {isFreightSelected && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="mt-6 grid gap-4 md:grid-cols-2 overflow-hidden"
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.25 }}
+                        className="mt-6 grid gap-4 md:grid-cols-2"
                       >
                         <Field
                           icon={<User className="h-4 w-4" />}
@@ -1036,14 +1017,14 @@ function Quote() {
                             ? "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS TO BE STORED):"
                             : "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS WE NEED TO MOVE):"
                         }
-                        body="Show us the items for a precision quote"
+                        body=""
                         fileState={videoFile}
                         onFileChange={(name) => setVideoFile(name)}
                       />
                       <PreviewBox
                         icon={<FileText className="h-5 w-5" />}
                         title="CLICK HERE TO UPLOAD( A DETAILED ASSIGNMENT DESCRIPTION OF THE JOB):"
-                        body="Provide the specific dynamic service instructions parameters"
+                        body=""
                         fileState={descFile}
                         onFileChange={(name) => setDescFile(name)}
                       />
@@ -1061,55 +1042,12 @@ function Quote() {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="font-display text-xl font-semibold">Documentation & Preview</h3>
+                  <h3 className="font-display text-xl font-semibold">Final Preview</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Help us understand your setup requirements accurately with files and written
-                    instructions.
+                    preview all inputed information
                   </p>
 
                   <div className="mt-6 space-y-4">
-                    <div className="rounded-xl border border-dashed border-white/15 bg-black/20 p-8 text-center relative">
-                      <Upload className="mx-auto h-7 w-7 text-primary" />
-                      <p className="mt-3 font-medium uppercase tracking-wide text-xs px-2 text-foreground">
-                        {isStorageSelected
-                          ? "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS TO BE STORED):"
-                          : "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS WE NEED TO MOVE):"}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">MP4 / MOV up to 200MB</p>
-                      <input
-                        type="file"
-                        accept="video/*"
-                        onChange={(e) =>
-                          e.target.files?.[0] && setVideoFile(e.target.files[0].name)
-                        }
-                        className="mt-4 mx-auto block text-xs text-muted-foreground"
-                      />
-                      {videoFile && (
-                        <p className="mt-2 text-xs text-primary font-mono truncate">
-                          Attached Video: {videoFile}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="rounded-xl border border-dashed border-white/15 bg-black/20 p-8 text-center relative">
-                      <FileText className="mx-auto h-7 w-7 text-primary" />
-                      <p className="mt-3 font-medium uppercase tracking-wide text-xs px-2 text-foreground">
-                        CLICK HERE TO UPLOAD( A DETAILED ASSIGNMENT DESCRIPTION OF THE JOB):
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">PDF / DOCX up to 20MB</p>
-                      <input
-                        type="file"
-                        accept=".pdf,.docx,.doc,.txt"
-                        onChange={(e) => e.target.files?.[0] && setDescFile(e.target.files[0].name)}
-                        className="mt-4 mx-auto block text-xs text-muted-foreground"
-                      />
-                      {descFile && (
-                        <p className="mt-2 text-xs text-primary font-mono truncate">
-                          Attached Description File: {descFile}
-                        </p>
-                      )}
-                    </div>
-
                     {isWasteSelected && (
                       <div className="mb-3">
                         <span className="mb-1 block text-[10px] font-semibold uppercase tracking-widest text-primary">
@@ -1304,7 +1242,7 @@ function Quote() {
                       <p className="uppercase tracking-[0.18em] text-muted-foreground">
                         Efficiency Rate
                       </p>
-                      <p className="font-semibold">99.8%</p>
+                      <p className="font-semibold">100%</p>
                     </div>
                   </div>
                 </div>

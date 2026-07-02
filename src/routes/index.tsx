@@ -13,7 +13,7 @@ import homePricing from "@/assets/images/home-pricing.jpg";
 import homeTech from "@/assets/images/home-tech.jpg";
 import homeHandling from "@/assets/images/home-handling.jpg";
 import localVan from "@/assets/images/local-van.png";
-import homeTeam from "@/assets/images/home-team.jpg"; 
+import homeTeam from "@/assets/images/home-team.jpg";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -23,32 +23,32 @@ const STEPS = [
   {
     n: 1,
     title: "Request a Free Quote",
-    body: "To access our service, fill out our online questionnaire to upload your video, photos, written request, or schedule a virtual home visit.",
+    body: "To access our service, select your desired service and fill out our online quote form providing every neccessary information requested.",
   },
   {
     n: 2,
     title: "Receive Personalized Quote",
-    body: "Our team reviews your request and prepares a transparent, no-obligation quote tailored to your move and preferences.",
+    body: "Our team reviews your request and prepares a transparent, no-obligation quote tailored to your request.",
   },
   {
     n: 3,
-    title: "Confirm & Schedule Your Move",
-    body: "Accept your quote digitally and receive a convenient day, system, and resource confirmation linked to our tracking app.",
+    title: "Confirm & Schedule Your Requested Service",
+    body: "Review accept and confirm your quote digitally and receive a convenient day for the job execution .",
   },
   {
     n: 4,
-    title: "We Handle the Move",
-    body: "Our certified movers arrive fully prepared with eco precision-led safety, efficient handling, and a passion drive to make every move a top-tier experience.",
+    title: "We Handle the Job",
+    body: "Our certified team arrive fully prepared to execute the job with top tier precision",
   },
   {
     n: 5,
-    title: "Track, Pay & Relax",
-    body: "Monitor your move progress in real time on our digital tracker, pay one-time via secure online portal, and relax knowing your move is in safe hands.",
+    title: "Relax, Track & Pay",
+    body: "Relax knowing your job is in safe hands, Monitor your job progress in real time on our digital tracker, once completed pay via our online secure payment portal",
   },
   {
     n: 6,
-    title: "Move Completed Successfully",
-    body: "Once your move is complete, we send your customer satisfaction report - and thank you, your business helps us build a sustainable, cleaner future.",
+    title: "Job Completed Successfully",
+    body: "Once your job is complete, we send you a customer review report - and thank you, your business helps us build a sustainable, cleaner future.",
   },
 ];
 
@@ -58,8 +58,8 @@ const FEATURE_CARDS = [
     title: "Eco-Friendly Moving Services in Netherlands.",
     body: "Our zero-emission electric vans and reusable crate systems minimize your carbon footprint without compromising on speed.",
     tags: [
-      "Low CO₂ Output",
-      "Reusable Moving Crates & Cartons",
+      "Zero CO₂ Output",
+      "Reusable Moving Crates & Materials",
       "Sustainable Logistics Operations",
       "Efficient Route Planning",
     ],
@@ -69,20 +69,20 @@ const FEATURE_CARDS = [
     image: homePricing,
     title: "Transparent Pricing With No Hidden Fees.",
     body: "Clear and upfront pricing you can trust from start to finish. No surprise charges or unexpected costs during your move.",
-    tags: ["Upfront Quote", "Fixed Pricing", "No Surprises", "Clear Invoices"],
+    tags: ["Upfront Quote", "Transparent Pricing", "No Surprises", "Clear Invoices"],
     object: "object-cover",
   },
   {
     image: homeTeam,
-    title: "Professional, Trained and Courteous Movers.",
-    body: "Experienced movers dedicated to safe and reliable service. Our team ensures every relocation is handled professionally and respectfully.",
+    title: "Professional, Trained and Courteous Team.",
+    body: "Experienced team dedicated to safe and reliable service. Our team ensures every job executed & handled professionally and respectfully.",
     tags: ["Vetted Team", "Safe Handling", "Reliable Service", "Friendly Support"],
     object: "object-cover",
   },
   {
     image: homeTech,
-    title: "Technology-Powered Booking and Move Tracking.",
-    body: "Book and monitor your move easily through our digital platform. Stay updated in real time from request to final delivery.",
+    title: "Technology-Powered Booking and Job Tracking.",
+    body: "Book and monitor your job easily through our digital platform. Stay updated in real time from request to final delivery.",
     tags: ["Smart Booking", "Live Tracking", "Digital Updates", "Fast Receipts"],
     object: "object-cover",
   },
@@ -96,8 +96,8 @@ const FEATURE_CARDS = [
   {
     image: localVan,
     title: "Local and nationwide moving coverage.",
-    body: "Reliable moving services across cities and regions in the Netherlands. Whether nearby or long-distance, we ensure smooth relocation support.",
-    tags: ["City Expertise", "Nationwide Move", "Cross-Country Service", "Regional Coverage"],
+    body: "Reliable services across cities and regions in the Netherlands. Whether nearby or long-distance, we ensure smooth services & support to our client.",
+    tags: ["Limburg province", "North Brabant province", "Utrecht province"],
     object: "object-cover",
   },
 ];
@@ -244,108 +244,101 @@ function Home() {
       </section>
 
       {/* MOVING ESSENTIALS */}
-<section className="py-20">
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
-      <SurfaceCard className="overflow-hidden">
-        <div className="grid md:grid-cols-2">
-          <div className="p-4">
-            <Pill>
-              <Zap className="h-3.5 w-3.5" />
-              Moving Essentials
-            </Pill>
+      <section className="py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
+            <SurfaceCard className="overflow-hidden">
+              <div className="grid md:grid-cols-2">
+                <div className="p-4">
+                  <Pill>
+                    <Zap className="h-3.5 w-3.5" />
+                    Moving Essentials
+                  </Pill>
 
-            <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white">
-              Need packing supplies before your move?
-            </h2>
+                  <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white">
+                    Need packing supplies before your move?
+                  </h2>
 
-            <p className="mt-4 text-base leading-relaxed text-white/70">
-              Browse our collection of reusable moving crates, bubble wrap,
-              storage solutions and eco-friendly packing materials designed
-              to make every relocation smoother, safer and more sustainable.
-            </p>
+                  <p className="mt-4 text-base leading-relaxed text-white/70">
+                    Browse our collection of reusable moving crates, bubble wrap, storage solutions
+                    and eco-friendly packing materials designed to make every relocation smoother,
+                    safer and more sustainable.
+                  </p>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              {[
-                "Reusable Crates",
-                "Bubble Wrap",
-                "Storage Solutions",
-                "Eco-Friendly Materials",
-              ].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70"
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {[
+                      "Reusable Crates",
+                      "Bubble Wrap",
+                      "Storage Solutions",
+                      "Eco-Friendly Materials",
+                    ].map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-8">
+                    <Link to="/shop">
+                      <CTAButton>
+                        Visit Store
+                        <ArrowRight className="h-4 w-4" />
+                      </CTAButton>
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="relative hidden md:block">
+                  <img src={crates} alt="Moving supplies" className="h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-linear-to-r from-background via-background/20 to-transparent" />
+                </div>
+              </div>
+            </SurfaceCard>
+            <SurfaceCard className="p-8">
+              <div className="flex h-full flex-col">
+                <span className="text-sm text-primary">Available Online</span>
+
+                <h3 className="mt-3 text-xl font-semibold text-white">
+                  Sustainable packing products delivered across the Netherlands.
+                </h3>
+
+                <p className="mt-4 text-sm leading-relaxed text-white/70">
+                  Rent reusable moving crates, order protective packaging, and prepare your move
+                  with tools trusted by our professional moving teams.
+                </p>
+
+                {/* Fills the visual gap */}
+                <div className="mt-6 space-y-3">
+                  {[
+                    "Reusable Moving Crates",
+                    "Eco-Friendly Bubble Wrap",
+                    "Flexible Storage Solutions",
+                  ].map((item) => (
+                    <div
+                      key={item}
+                      className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                    >
+                      <div className="h-2 w-2 rounded-full bg-primary" />
+                      <span className="text-sm text-white/80">{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <Link
+                  to="/shop"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80"
                 >
-                  {item}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-8">
-              <Link to="/shop">
-                <CTAButton>
-                  Visit Store
-                  <ArrowRight className="h-4 w-4" />
-                </CTAButton>
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative hidden md:block">
-            <img
-              src={crates}
-              alt="Moving supplies"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/20 to-transparent" />
+                  Explore the shop
+                  <ArrowUpRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </SurfaceCard>
           </div>
         </div>
-      </SurfaceCard>
-<SurfaceCard className="p-8">
-  <div className="flex h-full flex-col">
-    <span className="text-sm text-primary">
-      Available Online
-    </span>
-
-    <h3 className="mt-3 text-xl font-semibold text-white">
-      Sustainable packing products delivered across the Netherlands.
-    </h3>
-
-    <p className="mt-4 text-sm leading-relaxed text-white/70">
-      Rent reusable moving crates, order protective packaging,
-      and prepare your move with tools trusted by our professional
-      moving teams.
-    </p>
-
-    {/* Fills the visual gap */}
-    <div className="mt-6 space-y-3">
-      {[
-        "Reusable Moving Crates",
-        "Eco-Friendly Bubble Wrap",
-        "Flexible Storage Solutions",
-      ].map((item) => (
-        <div
-          key={item}
-          className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
-        >
-          <div className="h-2 w-2 rounded-full bg-primary" />
-          <span className="text-sm text-white/80">{item}</span>
-        </div>
-      ))}
-    </div>
-
-    <Link
-      to="/shop"
-      className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80"
-    >
-      Explore the shop
-      <ArrowUpRight className="h-4 w-4" />
-    </Link>
-  </div>
-</SurfaceCard>
-    </div>
-  </div>
-</section>
+      </section>
 
       <RequestQuoteBanner />
     </SiteLayout>
@@ -359,13 +352,14 @@ export function RequestQuoteBanner() {
         {/* Grid adapts perfectly from single column mobile to 2 columns on desktop */}
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
           <div>
-            <h3 className="font-display text-2xl font-bold sm:text-3xl md:text-4xl">
-              Request Your Free <br className="hidden sm:inline" /> Moving Quote:
+            <h3 className="font-display mt-2 text-3xl font-bold sm:text-3xl md:text-4xl">
+              Request Your Free Quote:
             </h3>
-            <p className="mt-4 max-w-md text-sm text-[#0E141A]/80 leading-relaxed">
-              Planning a move in the Netherlands? Let SUPERSONIC DYNAMIC SERVICES B.V. handle your
-              relocation with professionalism and care. Request your free, no-obligation quote today
-              and discover a smarter way to move.
+            <p className="mt-4 max-w-md text-xm text-[#0E141A]/80 leading-relaxed">
+             Planning a relocation or freight transport anywhere in the Netherlands? 
+             From student moves & family relocations, commercial 
+             logistics, and freight haulage, SUPERSONIC DYNAMIC SERVICES B.V. 
+             delivers safe, efficient, and technology-driven solutions tailored to your needs.
             </p>
             <Link to="/quote" className="mt-6 block w-full sm:w-auto">
               <CTAButton

@@ -42,8 +42,8 @@ function RouteComponent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [attachments, setAttachments] = useState<string[]>([]);
-  const [ticketId] = useState(() => Math.floor(Math.random() * 90000) + 10000);
+  const [attachments, setAttachments] = useState<File[]>([]);
+  const [ticketId, setTicketId] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -60,12 +60,15 @@ function RouteComponent() {
     setForm((prev) => ({ ...prev, priority: priority }));
   };
 
-  const handleSimulateAttachment = () => {
-    const mockFiles = ["moving_receipt.pdf", "address_confirmation.pdf", "damage_photo.jpg"];
-    const randomFile = mockFiles[Math.floor(Math.random() * mockFiles.length)];
-    if (attachments.length < 3) {
-      setAttachments((prev) => [...prev, `${Date.now().toString().slice(-4)}_${randomFile}`]);
-    }
+  const handleAttachClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFilesSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
+    setAttachments((prev) => [...prev, ...files].slice(0, 3));
+    e.target.value = "";
   };
 
   const handleRemoveAttachment = (indexToRemove: number) => {
@@ -80,10 +83,42 @@ function RouteComponent() {
     }
     setErrorMsg(null);
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    // Replace this with your real ticket-creation API call.
+    // Send `form` and `attachments` (as FormData) to your backend, then use
+    // the returned ticket ID below instead of this placeholder.
+    await new Promise((resolve) => setTimeout(resolve, 1400));
+    setTicketId(String(Math.floor(Math.random() * 90000) + 10000));
+
     setIsSubmitting(false);
     setIsSuccess(true);
   };
+
+  const DEPARTMENTS: {
+    key: DepartmentType;
+    label: string;
+    sub: string;
+    Icon: typeof Truck;
+  }[] = [
+    {
+      key: "fleet",
+      label: "Moving & fleet operations",
+      sub: "Route tracking, delays & delivery details",
+      Icon: Truck,
+    },
+    {
+      key: "ai",
+      label: "Automated support",
+      sub: "Digital platform & account access help",
+      Icon: Bot,
+    },
+    {
+      key: "billing",
+      label: "Invoices & payments",
+      sub: "Billing statements, iDEAL & receipts",
+      Icon: Zap,
+    },
+  ];
 
   return (
     <div className="min-h-dvh w-screen bg-[#0B0F14] text-white flex flex-col font-sans select-none">
@@ -91,62 +126,64 @@ function RouteComponent() {
       <header className="h-14 w-full bg-[#0F151C] border-b border-white/10 flex items-center justify-between px-4 sm:px-6 shrink-0 z-30 sticky top-0">
         <div className="flex flex-col min-w-0">
           <span className="text-xs sm:text-sm font-black tracking-wide text-white uppercase leading-tight">
-            Supersonic <span className="text-[#8EA7FF]">Dynamic Services B.V.</span>
+            Supersonic <span className="text-primary">Dynamic Services B.V.</span>
           </span>
           <span className="text-[9px] text-slate-500 tracking-wider uppercase hidden xs:block mt-0.5">
-            Customer Help Desk • Contact Support Team
+            Customer help desk
           </span>
         </div>
 
         <Link
           to="/support"
-          className="text-xs font-semibold text-slate-400 hover:text-[#8EA7FF] flex items-center gap-1.5 transition shrink-0 ml-3"
+          className="text-xs font-semibold text-slate-400 hover:text-primary flex items-center gap-1.5 transition shrink-0 ml-3"
         >
           <ArrowLeft className="h-4 w-4 shrink-0" />
-          <span className="hidden xs:inline">Return to Help Center</span>
+          <span className="hidden xs:inline">Return to help center</span>
           <span className="xs:hidden">Back</span>
         </Link>
       </header>
 
       {/* MAIN CONTENT AREA */}
-      <div className="flex-1 w-full bg-[#0B1015]/20 px-4 py-8 flex items-start justify-center overflow-y-auto">
-        <div className="w-full max-w-2xl bg-[#0F151C] border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+      <div className="flex-1 w-full bg-[#0B1015]/20 px-4 py-8 sm:py-12 flex items-start justify-center overflow-y-auto">
+        <div className="w-full max-w-2xl bg-[#0F151C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
           {isSuccess ? (
             /* SUCCESS SCREEN */
             <div className="p-6 sm:p-10 text-center space-y-6 animate-in fade-in zoom-in-95 duration-300">
-              <div className="mx-auto h-16 w-16 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full flex items-center justify-center">
+              <div className="mx-auto h-16 w-16 bg-primary/10 text-primary border border-primary/20 rounded-full flex items-center justify-center">
                 <CheckCircle2 className="h-9 w-9" />
               </div>
 
               <div className="space-y-2">
-                <h2 className="text-xl font-bold tracking-tight text-white">
-                  Help Request Received Successfully
+                <h2 className="text-xl font-semibold tracking-tight text-white">
+                  Your request has been received
                 </h2>
                 <p className="text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
-                  Your request has been logged. Our customer operations support team is reviewing
-                  your details and will reply shortly.
+                  We've logged your request. Our support team is reviewing the details and will get
+                  back to you shortly.
                 </p>
               </div>
 
               <div className="bg-[#141C25] border border-white/5 rounded-xl p-4 text-left max-w-md mx-auto text-xs text-slate-400 space-y-2.5">
                 <div className="flex justify-between border-b border-white/5 pb-2">
-                  <span className="text-slate-500 font-medium">REQUEST ID:</span>
-                  <span className="text-[#8EA7FF] font-mono">#SR-{ticketId}</span>
+                  <span className="text-slate-500 font-medium">Request ID</span>
+                  <span className="text-primary font-mono">#SR-{ticketId}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 font-medium">TEAM ASSIGNED:</span>
-                  <span className="text-white uppercase font-medium">{form.department} Group</span>
+                  <span className="text-slate-500 font-medium">Team assigned</span>
+                  <span className="text-white font-medium">
+                    {DEPARTMENTS.find((d) => d.key === form.department)?.label}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-500 font-medium">URGENCY:</span>
+                  <span className="text-slate-500 font-medium">Priority</span>
                   <span
-                    className={`font-bold uppercase ${
+                    className={`font-semibold capitalize ${
                       form.priority === "critical" || form.priority === "high"
                         ? "text-rose-400"
                         : "text-emerald-400"
                     }`}
                   >
-                    {form.priority}
+                    {form.priority === "critical" ? "Urgent" : form.priority}
                   </span>
                 </div>
               </div>
@@ -163,17 +200,18 @@ function RouteComponent() {
                       nodeIdentifier: "",
                     });
                     setAttachments([]);
+                    setTicketId(null);
                     setIsSuccess(false);
                   }}
                   className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-white/10 bg-white/5 text-xs font-semibold hover:bg-white/10 text-slate-200 transition"
                 >
-                  Send Another Request
+                  Send another request
                 </button>
                 <Link
                   to="/support"
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-primary text-slate-900 text-xs font-bold hover:opacity-90 text-center transition"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 text-center transition"
                 >
-                  Back to Help Center
+                  Back to help center
                 </Link>
               </div>
             </div>
@@ -182,14 +220,13 @@ function RouteComponent() {
             <form onSubmit={handleSubmitTicket} className="flex flex-col">
               {/* Form Header with Captions */}
               <div className="px-6 py-6 border-b border-white/5 bg-[#131A23]">
-                <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-[#8EA7FF] shrink-0" />
-                  Submit a Support Request
+                <h2 className="text-lg font-semibold text-white tracking-tight flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-primary shrink-0" />
+                  Submit a support request
                 </h2>
                 <p className="text-sm text-slate-400 mt-1.5 leading-relaxed">
-                  Experiencing an issue with your ongoing move, booking details, or invoice
-                  verification? Share the specifics here, and our customer operations group will
-                  resolve it promptly.
+                  Having an issue with a booking, an ongoing move, or an invoice? Share the details
+                  below and our team will follow up shortly.
                 </p>
               </div>
 
@@ -205,35 +242,10 @@ function RouteComponent() {
                 {/* Team Selection Cards */}
                 <div className="space-y-2">
                   <label className="text-xs font-semibold tracking-wide text-slate-400 block">
-                    Which support team do you need assistance from?
+                    Which team do you need help from?
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {[
-                      {
-                        key: "fleet" as DepartmentType,
-                        label: "Moving & Fleet Operations",
-                        sub: "Route tracking, delays & delivery details",
-                        Icon: Truck,
-                        activeCard: "bg-[#8EA7FF]/5 border-[#8EA7FF] shadow-[#8EA7FF]/5",
-                        activeIcon: "bg-[#8EA7FF]/20 text-[#8EA7FF]",
-                      },
-                      {
-                        key: "ai" as DepartmentType,
-                        label: "Automated Support",
-                        sub: "Digital platform & account access help",
-                        Icon: Bot,
-                        activeCard: "bg-purple-500/5 border-purple-500 shadow-purple-500/5",
-                        activeIcon: "bg-purple-500/20 text-purple-400",
-                      },
-                      {
-                        key: "billing" as DepartmentType,
-                        label: "Invoices & Payments",
-                        sub: "Billing statements, iDEAL & receipts",
-                        Icon: Zap,
-                        activeCard: "bg-amber-500/5 border-amber-500 shadow-amber-500/5",
-                        activeIcon: "bg-amber-500/20 text-amber-400",
-                      },
-                    ].map(({ key, label, sub, Icon, activeCard, activeIcon }) => {
+                    {DEPARTMENTS.map(({ key, label, sub, Icon }) => {
                       const isActive = form.department === key;
                       return (
                         <button
@@ -243,19 +255,19 @@ function RouteComponent() {
                           onClick={() => handleSelectDepartment(key)}
                           className={`p-3 rounded-xl border text-left transition-all flex items-start gap-3 ${
                             isActive
-                              ? `${activeCard} text-white shadow-md`
+                              ? "bg-primary/5 border-primary text-white shadow-sm"
                               : "bg-[#11161D] border-white/5 text-slate-400 hover:border-white/10 hover:bg-[#151B24]"
                           }`}
                         >
                           <div
                             className={`p-2 rounded-lg shrink-0 transition-colors mt-0.5 ${
-                              isActive ? activeIcon : "bg-white/5 text-slate-400"
+                              isActive ? "bg-primary/15 text-primary" : "bg-white/5 text-slate-400"
                             }`}
                           >
                             <Icon className="h-4 w-4" />
                           </div>
                           <div className="min-w-0">
-                            <h4 className="text-xs font-bold text-white tracking-tight leading-snug">
+                            <h4 className="text-xs font-semibold text-white tracking-tight leading-snug">
                               {label}
                             </h4>
                             <p className="text-[11px] text-slate-500 mt-1 leading-normal line-clamp-2">
@@ -272,7 +284,7 @@ function RouteComponent() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label htmlFor="subject" className="text-xs font-semibold text-slate-400 block">
-                      Short Summary of Issue
+                      Short summary of your issue
                     </label>
                     <input
                       id="subject"
@@ -283,7 +295,7 @@ function RouteComponent() {
                       value={form.subject}
                       onChange={handleInputChange}
                       placeholder="e.g., Update delivery destination address"
-                      className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 px-3 text-xs text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/10"
+                      className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 px-3 text-xs text-white placeholder-slate-600 outline-none transition focus:border-primary focus:bg-white/10"
                     />
                   </div>
 
@@ -292,8 +304,8 @@ function RouteComponent() {
                       htmlFor="nodeIdentifier"
                       className="text-xs font-semibold text-slate-400 block"
                     >
-                      Order / Move Reference ID{" "}
-                      <span className="text-slate-600 font-normal">(Optional)</span>
+                      Order / move reference{" "}
+                      <span className="text-slate-600 font-normal">(optional)</span>
                     </label>
                     <input
                       id="nodeIdentifier"
@@ -303,7 +315,7 @@ function RouteComponent() {
                       value={form.nodeIdentifier}
                       onChange={handleInputChange}
                       placeholder="e.g., BRK-90210"
-                      className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 px-3 text-xs text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/10 uppercase"
+                      className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 px-3 text-xs text-white placeholder-slate-600 outline-none transition focus:border-primary focus:bg-white/10 uppercase"
                     />
                   </div>
                 </div>
@@ -311,7 +323,7 @@ function RouteComponent() {
                 {/* Urgency Selection */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-400 block">
-                    Select Urgency Level
+                    How urgent is this?
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {(["low", "medium", "high", "critical"] as PriorityType[]).map((prio) => {
@@ -321,14 +333,15 @@ function RouteComponent() {
 
                       if (isSelected) {
                         if (prio === "low")
-                          styleClass = "border-slate-400 bg-white/5 text-white font-bold";
+                          styleClass = "border-slate-400 bg-white/5 text-white font-semibold";
                         if (prio === "medium")
-                          styleClass = "border-[#8EA7FF] bg-[#8EA7FF]/5 text-white font-bold";
+                          styleClass = "border-primary bg-primary/5 text-white font-semibold";
                         if (prio === "high")
-                          styleClass = "border-amber-500 bg-amber-500/5 text-amber-300 font-bold";
+                          styleClass =
+                            "border-amber-500 bg-amber-500/5 text-amber-300 font-semibold";
                         if (prio === "critical")
                           styleClass =
-                            "border-rose-500 bg-rose-500/5 text-rose-400 font-bold tracking-wide";
+                            "border-rose-500 bg-rose-500/5 text-rose-400 font-semibold tracking-wide";
                       }
 
                       return (
@@ -339,7 +352,7 @@ function RouteComponent() {
                           onClick={() => handleSelectPriority(prio)}
                           className={`py-2 px-3 border text-center rounded-lg text-xs uppercase tracking-wide transition ${styleClass}`}
                         >
-                          {prio === "critical" ? "Urgent/Critical" : prio}
+                          {prio === "critical" ? "Urgent" : prio}
                         </button>
                       );
                     })}
@@ -352,7 +365,7 @@ function RouteComponent() {
                     htmlFor="description"
                     className="text-xs font-semibold text-slate-400 block"
                   >
-                    Detailed Explanation
+                    Detailed explanation
                   </label>
                   <textarea
                     id="description"
@@ -362,49 +375,56 @@ function RouteComponent() {
                     disabled={isSubmitting}
                     value={form.description}
                     onChange={handleInputChange}
-                    placeholder="Provide details about your query here so our staff can give you an accurate resolution..."
-                    className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 px-3 text-xs text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/10 resize-none leading-relaxed"
+                    placeholder="Share as much detail as you can so our team can help quickly..."
+                    className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 px-3 text-xs text-white placeholder-slate-600 outline-none transition focus:border-primary focus:bg-white/10 resize-none leading-relaxed"
                   />
                 </div>
 
                 {/* Attachments Section */}
                 <div className="space-y-2">
                   <label className="text-xs font-semibold text-slate-400 block">
-                    Supporting Documents & Uploads{" "}
-                    <span className="text-slate-600 font-normal">
-                      (Optional, up to 3 attachments)
-                    </span>
+                    Supporting documents{" "}
+                    <span className="text-slate-600 font-normal">(optional, up to 3 files)</span>
                   </label>
+
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept=".pdf,.csv,.jpg,.jpeg,.png"
+                    className="hidden"
+                    onChange={handleFilesSelected}
+                  />
 
                   <div className="flex flex-wrap gap-3 items-center">
                     <button
                       type="button"
                       disabled={isSubmitting || attachments.length >= 3}
-                      onClick={handleSimulateAttachment}
+                      onClick={handleAttachClick}
                       className="flex items-center gap-2 border border-dashed border-white/10 hover:border-white/20 bg-white/2 hover:bg-white/5 px-4 py-2 rounded-lg text-xs text-slate-400 hover:text-slate-300 transition shrink-0 disabled:opacity-40 disabled:pointer-events-none"
                     >
                       <Paperclip className="h-4 w-4 shrink-0" />
-                      <span>Attach Invoice, Bill or Document</span>
+                      <span>Attach invoice, bill, or document</span>
                     </button>
 
                     <span className="text-[11px] text-slate-500 italic">
                       {attachments.length === 3
-                        ? "Maximum file threshold met"
-                        : "PDF, CSV, or Image formats allowed"}
+                        ? "Maximum of 3 files reached"
+                        : "PDF, CSV, or image files"}
                     </span>
                   </div>
 
                   {attachments.length > 0 && (
                     <div className="pt-1 flex flex-col gap-2">
-                      {attachments.map((fileName, index) => (
+                      {attachments.map((file, index) => (
                         <div
-                          key={index}
+                          key={`${file.name}-${index}`}
                           className="flex items-center justify-between bg-[#11161D] border border-white/5 rounded-lg px-3 py-2 animate-in slide-in-from-top-1 duration-150"
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <FileText className="h-4 w-4 text-[#8EA7FF] shrink-0" />
+                            <FileText className="h-4 w-4 text-primary shrink-0" />
                             <span className="truncate text-xs font-mono text-slate-400">
-                              {fileName}
+                              {file.name}
                             </span>
                           </div>
                           <button
@@ -426,8 +446,8 @@ function RouteComponent() {
               {/* Action Footer */}
               <div className="px-6 py-4 border-t border-white/5 bg-[#090F15]/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-2 text-xs text-slate-500 shrink-0">
-                  <ShieldCheck className="h-4 w-4 text-[#8EA7FF] shrink-0" />
-                  <span>Secure Submission Platform</span>
+                  <ShieldCheck className="h-4 w-4 text-primary shrink-0" />
+                  <span>Secure submission</span>
                 </div>
 
                 <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -442,16 +462,15 @@ function RouteComponent() {
                     variant="primary"
                     type="submit"
                     disabled={isSubmitting}
-                    style={{ backgroundColor: "var(--primary)" }}
-                    className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-slate-900 font-bold transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+                    className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-primary-foreground font-semibold transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="h-4 w-4 animate-spin text-slate-900 shrink-0" />
-                        <span>Sending Request...</span>
+                        <Loader2 className="h-4 w-4 animate-spin shrink-0" />
+                        <span>Sending request...</span>
                       </>
                     ) : (
-                      <span>Send Request</span>
+                      <span>Send request</span>
                     )}
                   </CTAButton>
                 </div>

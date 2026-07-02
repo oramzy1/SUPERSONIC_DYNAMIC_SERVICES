@@ -30,7 +30,7 @@ export const SERVICES: ServiceDetail[] = [
     ],
     expertise:
       "Private and family household relocations, Senior and elderly home transitions, Care home and assisted living moves, Full or partial house clearances.",
-    tags: ["Tech Innovation", "Eco-Centric", "Global Scale"],
+    tags: [""],
     benefits: [
       "Transparent pricing with no hidden costs",
       "Professional, trained and courteous movers.",
@@ -54,7 +54,7 @@ export const SERVICES: ServiceDetail[] = [
     ],
     expertise:
       "Private and family household relocations, Senior and elderly home transitions, Care home and assisted living moves, Full or partial house clearances.",
-    tags: ["Tech Innovation", "Eco-Centric", "Global Scale"],
+    tags: [""],
     benefits: [
       "Transparent pricing with no hidden costs",
       "Professional, trained and courteous movers.",
@@ -77,7 +77,7 @@ export const SERVICES: ServiceDetail[] = [
       "From multi-site corporate headquarters and warehouse consolidations to nursing home transfers, supermarket chains, and institutional relocations, we deploy scalable teams and specialized equipment to manage even the most demanding projects while adhering to safety standards, compliance regulations, professional best practices and your operational objectives.",
     ],
     expertise: "",
-    tags: ["Tech Innovation", "Eco-Centric", "Global Scale"],
+    tags: [""],
     benefits: [
       "Dedicated move Project managers and Professional, trained and courteous movers.",
       "Detailed pre-move audits & operational planning site visit.",
@@ -99,7 +99,7 @@ export const SERVICES: ServiceDetail[] = [
     ],
     expertise:
       "Short-term and long-term storage solutions for household goods, business and commercial goods, furniture and appliances, temporary storage during relocation or renovation.",
-    tags: ["Tech Innovation", "Eco-Centric", "Global Scale"],
+    tags: [""],
     benefits: [
       "Secure and monitored storage facilities",
       "Flexible storage durations to suit your needs",
@@ -122,7 +122,7 @@ export const SERVICES: ServiceDetail[] = [
     ],
     expertise:
       "Household waste removal, Furniture and bulky item disposal, Renovation and construction debris removal, Garden and outdoor waste removal, Office and commercial clean-outs, Full property and estate clearances.",
-    tags: ["Tech Innovation", "Eco-Centric", "Global Scale"],
+    tags: [""],
     benefits: [
       "Fast response and same-day or scheduled pickups.",
       "Responsible waste disposal and recycling practices.",
@@ -145,7 +145,7 @@ export const SERVICES: ServiceDetail[] = [
     ],
     expertise:
       "Local freight distribution, Regional and cross-region transportation, Long-distance haulage operations, Commercial and industrial item distribution, Retail inventory shipments, Bulk logistics consignment handlings.",
-    tags: ["Tech Innovation", "Eco-Centric", "Global Scale"],
+    tags: [""],
     benefits: [
       "Reliable and timely delivery services.",
       "Safe handling and secure transportation of goods.",
