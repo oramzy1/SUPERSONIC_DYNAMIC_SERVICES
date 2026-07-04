@@ -13,6 +13,12 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import TrustPilotWidget from "../shared/TrustPilotWidget";
+import ideal from "@/assets/images/logo-ideal.png";
+import master from "@/assets/images/logo-mscard.jpg";
+import visa from "@/assets/images/logo-visa.jpg";
+import paypal from "@/assets/images/logo-paypal.png";
+import erkende from "@/assets/images/logo-erkende.jpg";
+import tvm from "@/assets/images/logo-tvm.png";
 
 const HOURS = [
   ["Monday", "8:30 - 17:30", true],
@@ -142,20 +148,73 @@ export function Footer() {
             <div>BTW-NUMBER: NLxxxxxxxxxxxxx01</div>
             <div>SUPERSONIC DYNAMIC SERVICES B.V. © 2026</div>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+
+          <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400 font-medium">
             <span>Secure Payments:</span>
-            <span className="rounded bg-white/10 px-2 py-1 text-foreground/90">iDEAL</span>
-            <span className="rounded bg-white/10 px-2 py-1 text-foreground/90">MC</span>
-            <span className="rounded bg-white/10 px-2 py-1 text-foreground/90">VISA</span>
-            <span className="rounded bg-white/10 px-2 py-1 text-foreground/90">PayPal</span>
+
+            <div className="flex flex-wrap items-center gap-2.5">
+              {/* iDEAL */}
+              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+                <img
+                  src={ideal}
+                  alt="iDEAL"
+                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                />
+              </div>
+
+              {/* Mastercard */}
+              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+                <img
+                  src={master}
+                  alt="Mastercard"
+                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                />
+              </div>
+
+              {/* VISA */}
+              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+                <img
+                  src={visa}
+                  alt="VISA"
+                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                />
+              </div>
+
+              {/* PayPal */}
+              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+                <img
+                  src={paypal}
+                  alt="PayPal"
+                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+
+          <div className="flex flex-col items-start gap-2 text-sm text-slate-400 font-medium">
             <span>Certified Movers Mark</span>
-            <span className="rounded bg-white/10 px-2 py-1 text-foreground/90">
-              Erkende Verhuizers
-            </span>
-            <span className="rounded bg-white/10 px-2 py-1 text-foreground/90">TVM</span>
+
+            <div className="flex flex-wrap items-center gap-2.5">
+              {/* Erkende Verhuizers */}
+              <div className="h-6 sm:h-7 w-15 sm:w-32 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
+                <img
+                  src={erkende}
+                  alt="Erkende Verhuizers"
+                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                />
+              </div>
+
+              {/* TVM */}
+              <div className="h-6 sm:h-7 w-12 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
+                <img
+                  src={tvm}
+                  alt="TVM"
+                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                />
+              </div>
+            </div>
           </div>
+          
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary">Status: All Systems Operational</span>
