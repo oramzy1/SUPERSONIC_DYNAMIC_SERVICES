@@ -29,7 +29,7 @@ export function ShopLayout({ children }: { children: ReactNode }) {
             <span className="hidden sm:inline">
               Carbon-neutral delivery across the Netherlands ·
             </span>{" "}
-            Free shipping on orders over €75
+            Delivery to all cities in the provinces of Limburg, North Brabant, Utrecht, and North Holland.
           </p>
           <p className="hidden text-muted-foreground md:block">
             Supersonic Dynamic Services B.V. · Rotterdam, NL
@@ -37,7 +37,7 @@ export function ShopLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      {/* Header */}
+      {/* Header */}  
       <header className="sticky top-0 z-40 border-b border-white/8 bg-background/75 backdrop-blur-md">
         <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 md:flex md:justify-between md:px-6">
           {/* LOGO */}

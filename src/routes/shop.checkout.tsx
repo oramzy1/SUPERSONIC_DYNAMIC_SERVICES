@@ -278,7 +278,7 @@ function CheckoutPage() {
                     },
                     {
                       id: "pickup",
-                      label: "Pickup at Rotterdam depot",
+                      label: "Pickup at business address",
                       hint: "Always free",
                       price: 0,
                     },

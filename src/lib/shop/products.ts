@@ -1,7 +1,7 @@
 import type { Product } from "./types";
-import alcCrates from "@/assets/shop/alc-crates.jpg";
-import crateGrey from "@/assets/shop/crate-grey.jpg";
-import cratesLifestyle from "@/assets/shop/crates-lifestyle.jpg";
+import alcCrates from "@/assets/shop/movingcrate.webp";
+import crateGrey from "@/assets/shop/movingcrate2.webp";
+import cratesLifestyle from "@/assets/shop/movingcreate1.webp";
 import bubbleWrap from "@/assets/shop/bubble-wrap.jpg";
 import bubbleWrapSmall from "@/assets/shop/bubble-wrap-small.jpg";
 
@@ -27,13 +27,13 @@ export const PRODUCTS: Product[] = [
     unit: "/ crate / day",
     rental: true,
     rentalDurations: [1, 3, 7, 14, 30],
-    colors: [
-      { id: "grey", name: "Grey", hex: "#9CA3AF" },
-      { id: "blue", name: "Blue", hex: "#2563EB" },
-      { id: "red", name: "Red", hex: "#DC2626" },
-      { id: "green", name: "Green", hex: "#16A34A" },
-      { id: "yellow", name: "Yellow", hex: "#EAB308" },
-    ],
+    // colors: [
+    //   { id: "grey", name: "Grey", hex: "#9CA3AF" },
+    //   { id: "blue", name: "Blue", hex: "#2563EB" },
+    //   { id: "red", name: "Red", hex: "#DC2626" },
+    //   { id: "green", name: "Green", hex: "#16A34A" },
+    //   { id: "yellow", name: "Yellow", hex: "#EAB308" },
+    // ],
     images: [alcCrates, crateGrey, cratesLifestyle],
     badges: ["eco", "best-seller", "rental", "discount"],
     stock: 980,
@@ -58,8 +58,8 @@ export const PRODUCTS: Product[] = [
       "Closed-loop pickup & sanitisation",
     ],
     shipping: [
-      "Free delivery in NL on orders ≥ 20 crates",
-      "Next-day delivery available",
+      "Delivery withing 1-3 working days",
+      // "Next-day delivery available",
       "Free pickup at end of rental",
     ],
     pickupAvailable: true,
@@ -74,7 +74,7 @@ export const PRODUCTS: Product[] = [
       },
       {
         q: "What happens if a crate is damaged?",
-        a: "Normal wear is included. Significant damage is charged at the replacement cost listed in our rental agreement.",
+        a: "Normal wear is included. Significant damage is charged at the original cost of the crate.",
       },
     ],
   },
@@ -112,7 +112,7 @@ export const PRODUCTS: Product[] = [
     ],
     shipping: [
       "Ships within 24h from NL warehouse",
-      "Free delivery on orders over €75",
+      "Dlivery to all our locations",
       "Pickup available at our depot",
     ],
     pickupAvailable: true,
@@ -145,7 +145,7 @@ export const PRODUCTS: Product[] = [
     ],
     features: ["Perfect top-up size", "Anti-static surface", "Tear perforations", "Reusable"],
     sustainability: ["Made with ≥ 30% recycled content", "Fully recyclable in PE waste streams"],
-    shipping: ["Ships within 24h from NL warehouse", "Free delivery on orders over €75"],
+    shipping: ["Ships within 24h from NL warehouse", "Delivery to all our locations"],
     pickupAvailable: true,
     faqs: [
       {
