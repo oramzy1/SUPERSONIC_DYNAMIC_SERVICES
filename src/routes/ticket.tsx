@@ -134,7 +134,7 @@ function RouteComponent() {
         </div>
 
         <Link
-          to="/support"
+          to="/"
           className="text-xs font-semibold text-slate-400 hover:text-primary flex items-center gap-1.5 transition shrink-0 ml-3"
         >
           <ArrowLeft className="h-4 w-4 shrink-0" />
