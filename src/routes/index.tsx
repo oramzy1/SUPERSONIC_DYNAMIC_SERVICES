@@ -355,7 +355,7 @@ export function RequestQuoteBanner() {
             <h3 className="font-display mt-2 text-3xl font-bold sm:text-3xl md:text-4xl">
               Request Your Free Quote:
             </h3>
-            <p className="mt-4 max-w-md text-xm text-[#0E141A]/80 leading-relaxed">
+            <p className="mt-4 max-w-md text-sm text-[#0E141A]/80 leading-relaxed">
              Planning a relocation or freight transport anywhere in the Netherlands? 
              From student moves & family relocations, commercial 
              logistics, and freight haulage, SUPERSONIC DYNAMIC SERVICES B.V. 

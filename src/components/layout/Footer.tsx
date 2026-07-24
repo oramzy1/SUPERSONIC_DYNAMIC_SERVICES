@@ -269,9 +269,6 @@ export function Footer() {
                     <div className="font-semibold text-slate-200 group-hover:text-white">
                       Live Chat Support
                     </div>
-                    <div className="text-[10px] text-slate-500">
-                      Instant setup with support squad
-                    </div>
                   </div>
                 </div>
               </Link>
@@ -284,10 +281,7 @@ export function Footer() {
                   </div>
                   <div>
                     <div className="font-semibold text-slate-200 group-hover:text-white">
-                      Submit Tech Ticket
-                    </div>
-                    <div className="text-[10px] text-slate-500">
-                      Logistics pipeline & cargo claims
+                      Submit a Ticket
                     </div>
                   </div>
                 </div>
@@ -301,9 +295,8 @@ export function Footer() {
                   </div>
                   <div>
                     <div className="font-semibold text-slate-200 group-hover:text-white">
-                      Contact HQ Division
+                      Contact Us
                     </div>
-                    <div className="text-[10px] text-slate-500">Direct dial telemetry lines</div>
                   </div>
                 </div>
               </Link>

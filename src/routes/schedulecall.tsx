@@ -71,6 +71,12 @@ function RouteComponent() {
     { day: 22, currentMonth: true },
     { day: 23, currentMonth: true },
     { day: 24, currentMonth: true },
+    { day: 25, currentMonth: true },
+    { day: 26, currentMonth: true },
+    { day: 27, currentMonth: true },
+    { day: 28, currentMonth: true },
+    { day: 29, currentMonth: true },
+    { day: 30, currentMonth: true },
   ];
 
   const handlePrevMonth = () => {
@@ -100,7 +106,7 @@ function RouteComponent() {
           date: selectedDate,
           time: selectedTime,
           month: monthsList[currentMonthIndex],
-          year: currentYear, // Passing the exact selected state value over the wire
+          year: currentYear,
         },
       });
     }, 1800);
@@ -111,10 +117,8 @@ function RouteComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] font-sans selection:bg-blue-500 selection:text-white">
-      {/* ── Main Layout ── */}
+    <div className="min-h-screen text-[#f8fafc] font-sans selection:bg-blue-500 selection:text-white">
       <main className="max-w-300 mx-auto px-6 py-12">
-        {/* Back Navigation Trigger */}
         <div className="mb-6">
           <button
             onClick={handleBack}
@@ -129,13 +133,12 @@ function RouteComponent() {
           <span className="text-[10px] font-bold tracking-[0.15em] text-gray-400 uppercase">
             Supersonic Operations
           </span>
-          <h1 className="text-4xl font-bold tracking-tight mt-1 text-white">Schedule a Briefing</h1>
+          <h1 className="text-4xl font-bold tracking-tight mt-1 text-white">Schedule a Meeting</h1>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           {/* ── Left Column: Details & Calendar Combo Card ── */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 bg-[#111622] border border-gray-800/70 rounded-2xl overflow-hidden shadow-2xl">
-            {/* Briefing Specs */}
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 bg-surface border border-gray-800/70 rounded-2xl overflow-hidden shadow-2xl">
             <div className="p-8 border-b md:border-b-0 md:border-r border-gray-800/70 flex flex-col justify-between min-h-115">
               <div>
                 <span className="inline-flex items-center gap-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase mb-6">
@@ -144,11 +147,11 @@ function RouteComponent() {
                 </span>
 
                 <h2 className="text-2xl font-bold leading-tight mb-4 tracking-tight">
-                  30-Minute Operational Strategy Briefing
+                  Schedule Your Free Consultation
                 </h2>
-                <p className="text-sm text-gray-400 leading-relaxed font-normal">
-                  Coordinate with our high-speed logistics architects to optimize your fleet's
-                  carbon-neutral trajectory and digital intelligence routing.
+                <p className="text-xs text-gray-400 leading-relaxed font-normal mb-5">
+                  Meet with our experienced team to plan your move, explore the best options for
+                  your relocation, and get a personalized solution that fits your needs.
                 </p>
 
                 <div className="mt-8 space-y-4">
@@ -195,7 +198,7 @@ function RouteComponent() {
             </div>
 
             {/* Interactive Calendar Grid */}
-            <div className="p-8 bg-[#111622]">
+            <div className="p-8 bg-surface">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-base font-bold text-gray-200">
                   {monthsList[currentMonthIndex]} {currentYear}
@@ -250,7 +253,7 @@ function RouteComponent() {
           </div>
 
           {/* ── Right Column: Slots Container ── */}
-          <div className="bg-[#111622] border border-gray-800/70 rounded-2xl p-6 shadow-2xl flex flex-col justify-between min-h-115">
+          <div className="bg-surface border border-gray-800/70 rounded-2xl p-6 shadow-2xl flex flex-col justify-between min-h-115">
             <div>
               <header className="mb-6">
                 <span className="text-[10px] font-bold tracking-wider text-blue-400 uppercase block">

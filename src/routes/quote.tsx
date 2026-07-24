@@ -1405,7 +1405,7 @@ function Quote() {
                   onClick={handleNextStep}
                   disabled={!isAnyServiceSelected}
                 >
-                  Preview Parameters <ArrowRight className="h-4 w-4" />
+                  Next Steps <ArrowRight className="h-4 w-4" />
                 </CTAButton>
               ) : (
                 <Link to="/quoteprocessing" className="w-full sm:w-auto">

@@ -8,10 +8,10 @@ export const Route = createFileRoute("/quoteprocessing")({
 });
 
 const PROCESSING_STEPS = [
-  "Validating shipment details",
-  "Calculating carbon-neutral fleet options",
-  "Optimizing regional transit routing",
-  "Finalizing your rate",
+  "Checking your relocation details",
+  "Matching you with the best moving solution",
+  "Calculating your personalized quote",
+  "Your quote is almost ready",
 ];
 
 function RouteComponent() {
