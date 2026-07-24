@@ -13,12 +13,12 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import TrustPilotWidget from "../shared/TrustPilotWidget";
-import ideal from "@/assets/images/logo-ideal.png";
-import master from "@/assets/images/logo-mscard.jpg";
-import visa from "@/assets/images/logo-visa.jpg";
-import paypal from "@/assets/images/logo-paypal.png";
-import erkende from "@/assets/images/logo-erkende.jpg";
-import tvm from "@/assets/images/logo-tvm.png";
+import ideal from "@/assets/images/ideal-logo.png";
+import master from "@/assets/images/mastercard-logo.png";
+import visa from "@/assets/images/visa-logo.png";
+import paypal from "@/assets/images/paypal-logo.png";
+import erkende from "@/assets/images/erkende-Logo.png";
+import tvm from "@/assets/images/tvm-logo.png";
 
 const HOURS = [
   ["Monday", "8:30 - 17:30", true],
@@ -142,7 +142,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/5">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-3">
           <div className="space-y-1">
             <div>KvK: 12xxxx78</div>
             <div>BTW-NUMBER: NLxxxxxxxxxxxxx01</div>
@@ -154,7 +154,7 @@ export function Footer() {
 
             <div className="flex flex-wrap items-center gap-2.5">
               {/* iDEAL */}
-              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-6 sm:h-8 w-10 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
                 <img
                   src={ideal}
                   alt="iDEAL"
@@ -163,7 +163,7 @@ export function Footer() {
               </div>
 
               {/* Mastercard */}
-              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-6 sm:h-8 w-10 sm:w-15 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
                 <img
                   src={master}
                   alt="Mastercard"
@@ -172,7 +172,7 @@ export function Footer() {
               </div>
 
               {/* VISA */}
-              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-6  sm:h-8 w-10 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
                 <img
                   src={visa}
                   alt="VISA"
@@ -181,7 +181,7 @@ export function Footer() {
               </div>
 
               {/* PayPal */}
-              <div className="h-6 sm:h-7 w-10 sm:w-12 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-6  sm:h-8 w-10 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
                 <img
                   src={paypal}
                   alt="PayPal"
@@ -196,7 +196,7 @@ export function Footer() {
 
             <div className="flex flex-wrap items-center gap-2.5">
               {/* Erkende Verhuizers */}
-              <div className="h-6 sm:h-7 w-15 sm:w-32 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
+              <div className="h-6 sm:h-10 w-15 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
                 <img
                   src={erkende}
                   alt="Erkende Verhuizers"
@@ -205,7 +205,7 @@ export function Footer() {
               </div>
 
               {/* TVM */}
-              <div className="h-6 sm:h-7 w-12 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
+              <div className="h-6 sm:h-10 w-12 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
                 <img
                   src={tvm}
                   alt="TVM"

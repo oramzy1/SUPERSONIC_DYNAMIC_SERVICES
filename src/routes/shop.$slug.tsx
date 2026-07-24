@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2,
   ChevronLeft,
+  ChevronDown,
   Heart,
   Leaf,
   Maximize2,
@@ -13,7 +14,7 @@ import {
   Truck,
   X,
 } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Badges } from "@/components/shop/Badges";
 import { ProductCard } from "@/components/shop/ProductCard";
@@ -71,10 +72,38 @@ function ProductDetail() {
   const [activeImage, setActiveImage] = useState(0);
   const [color, setColor] = useState<ProductColor | undefined>(product.colors?.[0]);
   const [quantity, setQuantity] = useState(1);
-  const [duration, setDuration] = useState<number>(product.rentalDurations?.[0] ?? 1);
+  // const [duration, setDuration] = useState<number>(product.rentalDurations?.[0] ?? 1);
   const [zoom, setZoom] = useState({ active: false, x: 50, y: 50 });
   const [lightbox, setLightbox] = useState(false);
   const imgRef = useRef<HTMLDivElement>(null);
+
+  const DURATION_PERIODS = [
+    { id: "days", label: "Days", toDays: 1 },
+    { id: "weeks", label: "Weeks", toDays: 7 },
+    { id: "months", label: "Months", toDays: 30 },
+  ] as const;
+  type DurationPeriod = (typeof DURATION_PERIODS)[number]["id"];
+
+  const [durationCount, setDurationCount] = useState<number>(product.rentalDurations?.[0] ?? 1);
+  const [durationPeriod, setDurationPeriod] = useState<DurationPeriod>("days");
+  const [durationOpen, setDurationOpen] = useState(false);
+  const durationRef = useRef<HTMLDivElement>(null);
+
+  const durationDays = useMemo(
+    () => durationCount * DURATION_PERIODS.find((p) => p.id === durationPeriod)!.toDays,
+    [durationCount, durationPeriod],
+  );
+
+  useEffect(() => {
+    if (!durationOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (durationRef.current && !durationRef.current.contains(e.target as Node)) {
+        setDurationOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [durationOpen]);
 
   const saved = isSaved(product.slug);
 
@@ -85,10 +114,17 @@ function ProductDetail() {
         unitPrice: product.price,
         bulkPrice: product.bulkPrice,
         bulkThreshold: product.bulkThreshold,
-        durationDays: duration,
+        durationDays,
         rental: product.rental,
       }),
-    [quantity, duration, product.price, product.bulkPrice, product.bulkThreshold, product.rental],
+    [
+      quantity,
+      durationDays,
+      product.price,
+      product.bulkPrice,
+      product.bulkThreshold,
+      product.rental,
+    ],
   );
 
   const effectiveUnit =
@@ -105,7 +141,7 @@ function ProductDetail() {
   };
 
   const buildCartItem = () => ({
-    id: `${product.slug}|${color?.id ?? "default"}|${product.rental ? duration : "x"}`,
+    id: `${product.slug}|${color?.id ?? "default"}|${product.rental ? durationDays : "x"}`,
     slug: product.slug,
     name: product.name,
     image: product.images[0],
@@ -115,7 +151,7 @@ function ProductDetail() {
     unit: product.unit,
     quantity,
     rental: product.rental,
-    durationDays: product.rental ? duration : undefined,
+    durationDays: product.rental ? durationDays : undefined,
     color,
   });
 
@@ -300,27 +336,94 @@ function ProductDetail() {
               <p className="mt-1 text-[11px] text-muted-foreground">{product.stock} in stock</p>
             </div>
 
-            {product.rental && product.rentalDurations && (
-              <div>
+            {product.rental && (
+              <div ref={durationRef} className="relative">
                 <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
                   Rental duration
                 </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {product.rentalDurations.map((d) => (
-                    <button
-                      key={d}
-                      onClick={() => setDuration(d)}
-                      className={cn(
-                        "rounded-full border px-3 py-1.5 text-xs font-semibold transition",
-                        duration === d
-                          ? "border-primary/40 bg-primary/10 text-primary"
-                          : "border-white/10 text-muted-foreground hover:text-foreground",
-                      )}
+                <button
+                  onClick={() => setDurationOpen((o) => !o)}
+                  className={cn(
+                    "mt-3 flex h-11 w-full items-center justify-between rounded-full border bg-surface px-4 text-sm font-semibold transition sm:w-56",
+                    durationOpen
+                      ? "border-primary/40 text-primary"
+                      : "border-white/10 text-foreground hover:border-white/20",
+                  )}
+                >
+                  <span>
+                    {durationCount} {DURATION_PERIODS.find((p) => p.id === durationPeriod)?.label}
+                  </span>
+                  <ChevronDown
+                    className={cn("h-4 w-4 transition-transform", durationOpen && "rotate-180")}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {durationOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                      transition={{ duration: 0.16, ease: "easeOut" }}
+                      className="absolute z-20 mt-2 flex w-full origin-top overflow-hidden rounded-2xl border border-white/8 bg-surface shadow-xl shadow-black/30 sm:w-56"
                     >
-                      {d} {d === 1 ? "day" : "days"}
-                    </button>
-                  ))}
-                </div>
+                      {/* Count column */}
+                      <div className="flex w-1/2 flex-1 flex-col border-r border-white/8">
+                        <button
+                          onClick={() => setDurationCount((c) => Math.min(90, c + 1))}
+                          className="grid h-9 place-items-center text-muted-foreground hover:text-foreground"
+                          aria-label="Increase duration"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </button>
+                        <input
+                          value={durationCount}
+                          onChange={(e) => {
+                            const raw = e.target.value.replace(/[^0-9]/g, "");
+                            if (raw === "") {
+                              setDurationCount(0);
+                              return;
+                            }
+                            setDurationCount(Math.min(90, Number(raw)));
+                          }}
+                          onBlur={() => setDurationCount((c) => Math.max(1, c))}
+                          onFocus={(e) => e.target.select()}
+                          inputMode="numeric"
+                          className="h-10 border-y border-white/8 bg-transparent text-center text-sm font-semibold focus:outline-none"
+                          aria-label="Duration count"
+                        />
+                        <button
+                          onClick={() => setDurationCount((c) => Math.max(1, c - 1))}
+                          className="grid h-9 place-items-center text-muted-foreground hover:text-foreground"
+                          aria-label="Decrease duration"
+                        >
+                          <Minus className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+
+                      {/* Period column */}
+                      <div className="flex w-1/2 flex-1 flex-col">
+                        {DURATION_PERIODS.map((p) => (
+                          <button
+                            key={p.id}
+                            onClick={() => {
+                              setDurationPeriod(p.id);
+                              setDurationOpen(false);
+                            }}
+                            className={cn(
+                              "flex h-9 items-center justify-center px-3 text-xs font-semibold transition",
+                              durationPeriod === p.id
+                                ? "bg-primary/10 text-primary"
+                                : "text-muted-foreground hover:bg-white/5 hover:text-foreground",
+                            )}
+                          >
+                            {p.label}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
           </div>
@@ -330,7 +433,13 @@ function ProductDetail() {
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
                 {quantity} × {formatEUR(effectiveUnit)}
-                {product.rental ? ` × ${duration} ${duration === 1 ? "day" : "days"}` : ""}
+                {product.rental
+                  ? ` × ${durationCount} ${DURATION_PERIODS.find((p) => p.id === durationPeriod)?.label.toLowerCase()}${
+                      durationPeriod !== "days"
+                        ? ` (${durationDays} ${durationDays === 1 ? "day" : "days"})`
+                        : ""
+                    }`
+                  : ""}
               </p>
               <p className="font-display text-xl font-bold text-primary">{formatEUR(lineTotal)}</p>
             </div>
@@ -371,7 +480,7 @@ function ProductDetail() {
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <InfoChip icon={<Truck className="h-4 w-4" />} label="Free delivery > €75" />
+            <InfoChip icon={<Truck className="h-4 w-4" />} label="Fast Delivery" />
             <InfoChip icon={<Leaf className="h-4 w-4" />} label="Carbon neutral" />
             <InfoChip icon={<ShieldCheck className="h-4 w-4" />} label="VAT invoice" />
           </div>
@@ -411,7 +520,7 @@ function ProductDetail() {
               {product.pickupAvailable && (
                 <li className="flex items-start gap-2 text-sm text-muted-foreground">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#79FF5B]" />
-                  Pickup available at our Rotterdam depot
+                  Pickup available at our business address
                 </li>
               )}
             </ul>
