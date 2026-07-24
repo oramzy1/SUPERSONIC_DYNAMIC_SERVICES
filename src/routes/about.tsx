@@ -28,7 +28,7 @@ const ADVANTAGES = [
   {
     image: ecoVan,
     title: "Eco-Friendly Fleet",
-    body: "Our primary strength lies in our 100% electric delivery infrastructure. By leveraging the latest European EV technology, we reduce urban emissions in the Netherlands with even fully precision and minimal noise pollution, ensuring a cleaner future for every neighbourhood we serve.",
+    body: "Your move deserves a service that's both reliable and environmentally responsible. Our electric fleet allows us to transport your belongings safely and efficiently while reducing our environmental impact, helping create a greener Netherlands for everyone.",
   },
   {
     image: tracking,
@@ -47,19 +47,19 @@ const TESTIMONIALS = [
     quote:
       "Moving was such a stressful thing, but Supersonic made it easy. Their team was professional, courteous and ensured every box was visible. Highly recommend to anyone looking for a reliable mover.",
     name: "Marie van den Berg",
-    role: "Family Move • Utrecht",
+    role: "Family Move • Netherlands",
   },
   {
     quote:
       "Honestly one of the most professional client services I've worked with. Quick to respond and follow-ups were spot-on and very thorough. Exceptional service.",
     name: "Marc Joorbema",
-    role: "Business Owner • Amsterdam",
+    role: "Business Owner • Netherlands",
   },
   {
     quote:
       "Excellent experience from start to finish. The pricing was transparent, the team was friendly and respectful. They handled all my belongings with care. Highly recommend.",
     name: "Luca Meyer",
-    role: "Student • Rotterdam",
+    role: "Student • Netherlands",
   },
 ];
 

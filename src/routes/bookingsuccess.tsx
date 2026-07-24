@@ -49,30 +49,30 @@ function RouteComponent() {
   const objectives = [
     {
       id: "01",
-      title: "Fleet Decarbonization Audit",
+      title: "Discuss Your Moving Needs",
       description:
-        "Analysis of the Q3 carbon offset metrics and electric vehicle deployment efficiency across the Northern corridor.",
+        "Tell us about your relocation plans, including your moving date, destination, and any special requirements you may have.",
     },
     {
       id: "02",
-      title: "Supersonic Route Optimization",
+      title: "Explore the Best Moving Option",
       description:
-        "Review of the new AI-driven trajectory models designed to reduce energy consumption by 14% during peak hours.",
+        "We'll recommend the most suitable moving service based on your budget, timeline, and the size of your move.",
     },
     {
       id: "03",
-      title: "Resource Allocation",
+      title: "Get Expert Guidance",
       description:
-        "Strategic planning for the transition to 100% renewable energy at the Amsterdam logistics hub.",
+        "Ask questions, receive professional advice, and learn what to expect before, during, and after your move.",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] font-sans selection:bg-blue-500 selection:text-white flex flex-col justify-between py-12 px-6">
+    <div className="min-h-screen text-[#f8fafc] font-sans selection:bg-blue-500 selection:text-white flex flex-col justify-between py-12 px-6">
       {/* ── Main Content Container ── */}
       <div className="max-w-210 w-full mx-auto my-auto flex flex-col items-center text-center">
         {/* Animated Checkmark Badge */}
-        <div className="h-16 w-16 bg-[#1e293b] border border-gray-700/60 rounded-full flex items-center justify-center mb-6 shadow-xl">
+        <div className="h-16 w-16  border border-gray-700/60 rounded-full flex items-center justify-center mb-6 shadow-xl">
           <div className="h-10 w-10 bg-[#313d4f] rounded-full flex items-center justify-center text-white border border-gray-600/40">
             <Check className="h-5 w-5 stroke-3" />
           </div>
@@ -88,8 +88,7 @@ function RouteComponent() {
 
         {/* ── Info Split Layout ── */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 w-full text-left items-stretch mb-8">
-          {/* Left Panel: Schedule Metadata */}
-          <div className="md:col-span-2 bg-[#111622] border border-gray-800/70 rounded-2xl p-6 flex flex-col justify-between min-h-55">
+          <div className="md:col-span-2 bg-surface border border-gray-800/70 rounded-2xl p-6 flex flex-col justify-between min-h-55">
             <div>
               <span className="text-[9px] font-bold tracking-wider text-gray-500 uppercase block mb-1">
                 Scheduled Schedule
@@ -109,7 +108,7 @@ function RouteComponent() {
           </div>
 
           {/* Right Panel: Briefing Objectives */}
-          <div className="md:col-span-3 bg-[#111622] border border-gray-800/70 rounded-2xl p-6">
+          <div className="md:col-span-3 bg-surface border border-gray-800/70 rounded-2xl p-6">
             <div className="flex items-center gap-2 border-b border-gray-800/80 pb-4 mb-4">
               <BarChart3 className="h-4 w-4 text-gray-400" />
               <h3 className="text-xs font-bold tracking-wider text-white uppercase">
@@ -136,7 +135,7 @@ function RouteComponent() {
         </div>
 
         {/* ── Inline Footer Metadata Row ── */}
-        <div className="w-full bg-[#111622]/40 border border-gray-800/50 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-full bg-surface border-gray-800/50 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&auto=format&fit=crop&q=80"

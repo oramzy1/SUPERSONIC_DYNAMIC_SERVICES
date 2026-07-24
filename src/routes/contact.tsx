@@ -107,15 +107,15 @@ function Contact() {
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <Field label="Full Name" error={errors.fullName?.message}>
                 <input
-                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
-                  placeholder="e.g. Alex Chen"
+                  className="field w-full rounded-lg px-3 py-3.5 text-xs"
+                  placeholder="your full name"
                   {...register("fullName")}
                 />
               </Field>
               <Field label="Company">
                 <input
-                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
-                  placeholder="Global Logistics Inc."
+                  className="field w-full rounded-lg px-3 py-3.5 text-xs"
+                  placeholder="your company name"
                   {...register("company")}
                 />
               </Field>
@@ -123,8 +123,8 @@ function Contact() {
             <div className="mt-4">
               <Field label="Email Address" error={errors.email?.message}>
                 <input
-                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
-                  placeholder="alex@company.com"
+                  className="field w-full rounded-lg px-3 py-3.5 text-xs"
+                  placeholder="name@company.com"
                   {...register("email")}
                 />
               </Field>
@@ -132,7 +132,7 @@ function Contact() {
             <div className="mt-4">
               <Field label="Subject of Inquiry">
                 <select
-                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                  className="field w-full rounded-lg px-3 py-3.5 text-xs field  text-white border cursor-pointer pr-10"
                   {...register("subject")}
                 >
                   <option>General Inquiry</option>

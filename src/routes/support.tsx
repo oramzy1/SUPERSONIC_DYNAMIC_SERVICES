@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import {
   MessageSquare,
@@ -18,6 +18,7 @@ import {
   X,
   LogOut,
   Inbox,
+  LocateIcon,
 } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
 
@@ -37,7 +38,7 @@ interface ChatSession {
   id: string;
   title: string;
   subtitle: string;
-  type: "fleet" | "billing" | "ai";
+  type: "fleet" | "billing" | "move";
   status: "active" | "resolved";
   time: string;
   agentName?: string;
@@ -48,7 +49,7 @@ function SupportChatPage() {
   // No sessions yet — wire this up to your support/chat API and populate on load.
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeSession, setActiveSession] = useState<string>("");
-  const [selectedChannel, setSelectedChannel] = useState<"ALL" | "fleet" | "ai" | "billing">("ALL");
+  const [selectedChannel, setSelectedChannel] = useState<"ALL" | "fleet" | "move" | "billing">("ALL");
   const [inputMessage, setInputMessage] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
@@ -56,9 +57,9 @@ function SupportChatPage() {
 
   // No messages yet — load the active session's thread from your backend here.
   const [messages, setMessages] = useState<Message[]>([]);
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -78,7 +79,7 @@ function SupportChatPage() {
         id: sessionId,
         title: "New conversation",
         subtitle: "Direct message",
-        type: "ai",
+        type: "move",
         status: "active",
         time: "Just now",
         agentName: "Support Agent",
@@ -107,6 +108,8 @@ function SupportChatPage() {
 
   const handleConfirmCloseChat = () => {
     setShowCloseModal(false);
+    navigate({ to: "/" });
+
     // Hook up session-close call to your backend here.
   };
 
@@ -118,7 +121,7 @@ function SupportChatPage() {
 
   const channelIcon = (type: ChatSession["type"], className: string) => {
     if (type === "fleet") return <Truck className={className} />;
-    if (type === "ai") return <Bot className={className} />;
+    if (type === "move") return <Bot className={className} />;
     return <Zap className={className} />;
   };
 
@@ -150,7 +153,7 @@ function SupportChatPage() {
         <div className="hidden lg:flex items-center gap-6 text-xs text-slate-400">
           <div className="flex items-center gap-2 border-r border-white/5 pr-6">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-mono text-[11px]">System status: Nominal</span>
+            <span className="font-mono text-[11px]">Secure support: Chat</span>
           </div>
         </div>
 
@@ -240,9 +243,9 @@ function SupportChatPage() {
                 activeClass: "bg-primary text-primary-foreground",
               },
               {
-                key: "ai",
-                label: "AI",
-                icon: <Bot className="h-2.5 w-2.5" />,
+                key: "move",
+                label: "Move",
+                icon: <LocateIcon className="h-2.5 w-2.5" />,
                 activeClass: "bg-purple-500 text-white",
               },
               {
@@ -290,7 +293,7 @@ function SupportChatPage() {
                           `h-3.5 w-3.5 shrink-0 ${
                             session.type === "fleet"
                               ? "text-primary"
-                              : session.type === "ai"
+                              : session.type === "move"
                                 ? "text-purple-400"
                                 : "text-amber-400"
                           }`,
@@ -358,13 +361,6 @@ function SupportChatPage() {
                 </p>
               </div>
             </div>
-
-            <Link
-              to="/ticket"
-              className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider border border-white/10 hover:border-white/20 bg-white/4 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl transition text-slate-300 hover:text-white shrink-0 whitespace-nowrap"
-            >
-              File ticket
-            </Link>
           </div>
 
           {/* Scrolling Messages Stream */}
