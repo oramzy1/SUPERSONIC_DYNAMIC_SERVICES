@@ -158,7 +158,7 @@ function RouteComponent() {
             <div className="flex items-center gap-2.5 mb-1">
               <Bell className="h-4 w-4 text-primary" />
               <h1 className="text-sm font-bold text-white tracking-tight">
-                Control Terminal Notifications
+                System Notifications
               </h1>
               {unreadCount > 0 && (
                 <span className="border border-primary/20 bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full font-mono tracking-wide">
@@ -167,7 +167,7 @@ function RouteComponent() {
               )}
             </div>
             <p className="text-[11px] text-slate-500 mb-4">
-              Real-time status shifts, dispatch tracking, receipts, and account actions.
+              Real-time status, dispatch tracking, receipts, & account actions.
             </p>
 
             {/* Tabs */}
