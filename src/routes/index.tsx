@@ -197,7 +197,7 @@ function Home() {
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((s, i) => (
-            <SurfaceCard coloredBorder key={s.n} transition={{ delay: i * 0.05, duration: 0.45 }}>
+            <SurfaceCard key={s.n} transition={{ delay: i * 0.05, duration: 0.45 }}>
               <div className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-[#2F353C] text-white font-display text-lg font-bold">
                 {s.n}
               </div>

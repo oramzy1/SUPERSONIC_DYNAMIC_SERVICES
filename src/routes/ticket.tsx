@@ -208,10 +208,10 @@ function RouteComponent() {
                   Send another request
                 </button>
                 <Link
-                  to="/support"
+                  to="/"
                   className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:opacity-90 text-center transition"
                 >
-                  Back to help center
+                  Close
                 </Link>
               </div>
             </div>
