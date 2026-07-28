@@ -144,8 +144,8 @@ export function Footer() {
       <div className="border-t border-white/5">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-3">
           <div className="space-y-1">
-            <div>KvK: 12xxxx78</div>
-            <div>BTW-NUMBER: NLxxxxxxxxxxxxx01</div>
+            <div>KvK: 42113033</div>
+            <div>BTW-NUMBER: NL869789491B01</div>
             <div>SUPERSONIC DYNAMIC SERVICES B.V. © 2026</div>
           </div>
 
@@ -192,26 +192,26 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col items-start gap-2 text-sm text-slate-400 font-medium">
-            <span>Certified Movers Mark</span>
+            <span>Certified Quality Mark</span>
 
             <div className="flex flex-wrap items-center gap-2.5">
               {/* Erkende Verhuizers */}
-              <div className="h-6 sm:h-10 w-15 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
+              {/* <div className="h-6 sm:h-10 w-15 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
                 <img
                   src={erkende}
                   alt="Erkende Verhuizers"
                   className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
                 />
-              </div>
+              </div> */}
 
               {/* TVM */}
-              <div className="h-6 sm:h-10 w-12 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
+              {/* <div className="h-6 sm:h-10 w-12 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
                 <img
                   src={tvm}
                   alt="TVM"
                   className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           
