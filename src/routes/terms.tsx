@@ -85,7 +85,7 @@ const ARTICLES = [
 function Terms() {
   return (
     <SiteLayout>
-      <section className="mx-auto max-w-6xl px-6 py-14 md:px-8 md:py-20">
+      <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 md:py-20">
         <Pill variant="primary" dot>Regulatory Compliance</Pill>
         <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">General Terms <br /> & Conditions</h1>
         <div className="mt-4 h-1 w-32 rounded-full bg-primary" />

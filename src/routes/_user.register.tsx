@@ -349,7 +349,7 @@ function UserRegisterPage() {
               Creating Account
             </h3>
             <p className="text-xs text-slate-500 max-w-60 mx-auto">
-              Provisioning secure ledger and preparing cryptographic telemetry pipelines...
+              please hold on, we are creating your account, you will bw rediredted to the logi page...
             </p>
           </div>
         </div>
@@ -366,7 +366,7 @@ function UserRegisterPage() {
               Confirm Your Email
             </h2>
             <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
-              We have dispatched a 6-digit verification security token to{" "}
+              We have sent a 6-digit verification security code to{" "}
               <span className="text-white font-medium">{formData.email || "your email"}</span>.
             </p>
           </div>
@@ -406,10 +406,10 @@ function UserRegisterPage() {
 
           <div className="mt-6 text-center text-xs space-y-2">
             <p className="text-slate-500">
-              Didn't receive the email token?{" "}
+              Didn't receive the email code?{" "}
               <button
                 type="button"
-                onClick={() => console.log("Re-dispatching OTP bundle")}
+                onClick={() => console.log("Re-dispatching OTP code")}
                 className="text-[#8EA7FF] hover:underline font-medium"
               >
                 Resend Code

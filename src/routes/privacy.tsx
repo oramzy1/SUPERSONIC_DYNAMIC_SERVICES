@@ -25,12 +25,9 @@ function Privacy() {
     <SiteLayout marquee={false}>
       {/* HERO */}
       <section className="relative overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 bg-linear-to-br from-[#0E141A] via-[#0b1a3a]/40 to-[#0E141A]" />
+        <div className="absolute inset-0 bg-linear-to-br" />
         <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-24">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">
-            Regulatory Framework
-          </p>
-          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] md:text-6xl">
+          <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] md:text-6xl">
             Privacy & <br /> Data Ethics
           </h1>
           <div className="mt-8 flex items-end justify-between border-b border-white/10 pb-6">
