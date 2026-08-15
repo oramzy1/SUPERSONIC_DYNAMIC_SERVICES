@@ -188,7 +188,7 @@ function Home() {
           <h2 className="mt-4 font-display text-balance text-4xl font-extrabold md:text-5xl">
             Quick Steps On How It works.
           </h2>
-          <p className="mx-auto mt-3 max-w-1xl text-balance text-sm text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">
             At SUPERSONIC DYNAMIC SERVICES, we redefine moving and freight haulage with a seamless,
             technology-driven, and eco-responsible approach. Our mission is simple: to make your
             move smooth, efficient and completely stress-free.
