@@ -452,7 +452,7 @@ function RouteComponent() {
 
                 <div className="flex items-center gap-2 w-full sm:w-auto">
                   <Link
-                    to="/support"
+                    to="/"
                     className="flex-1 sm:flex-none px-4 py-2.5 text-center text-xs font-semibold border border-white/10 hover:border-white/20 text-slate-400 hover:text-white rounded-lg transition"
                   >
                     Cancel

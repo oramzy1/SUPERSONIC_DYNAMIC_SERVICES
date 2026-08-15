@@ -8,7 +8,7 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import heroVan from "@/assets/images/hero-van.png";
 import heroBg from "@/assets/images/hero-bg.png";
 import homeEco from "@/assets/images/home-eco.png";
-import crates from "@/assets/shop/crates-lifestyle.jpg";
+// import crates from "@/assets/shop/crates-lifestyle.jpg";
 import homePricing from "@/assets/images/home-pricing.jpg";
 import homeTech from "@/assets/images/home-tech.jpg";
 import homeHandling from "@/assets/images/home-handling.jpg";
@@ -121,7 +121,7 @@ function Home() {
             <Pill variant="primary" dot>
               Netherlands
             </Pill>
-            <h1 className="mt-4 font-display text-4xl font-bold leading-[1.1] text-foreground md:text-6xl">
+            <h1 className="mt-4 font-display text-4xl text-balance font-bold leading-[1.1] text-foreground md:text-6xl">
               The Next-Generation <br /> Moving & Freight <br />
               <span className="text-foreground/80">Haulage Service.</span>
             </h1>
@@ -185,10 +185,10 @@ function Home() {
       <section className="mx-auto max-w-7xl px-6 py-20 md:px-8">
         <div className="mb-12 text-center">
           <Pill variant="primary">How it works</Pill>
-          <h2 className="mt-4 font-display text-3xl font-bold md:text-5xl">
-            Quick Steps On How It works
+          <h2 className="mt-4 font-display text-balance text-4xl font-extrabold md:text-5xl">
+            Quick Steps On How It works.
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-1xl text-balance text-sm text-muted-foreground">
             At SUPERSONIC DYNAMIC SERVICES, we redefine moving and freight haulage with a seamless,
             technology-driven, and eco-responsible approach. Our mission is simple: to make your
             move smooth, efficient and completely stress-free.
@@ -246,23 +246,23 @@ function Home() {
       {/* MOVING ESSENTIALS */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
+          <div className="grid gap-8">
             <SurfaceCard className="overflow-hidden">
               <div className="grid md:grid-cols-2">
                 <div className="p-4">
                   <Pill>
                     <Zap className="h-3.5 w-3.5" />
-                    Moving Essentials
+                    Logistics Essentials & Consumable
                   </Pill>
 
-                  <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white">
-                    Need packing supplies before your move?
+                  <h2 className="mt-5 text-4xl text-balance md:text-5xl font-bold tracking-tight text-white">
+                    Need reliable logistics essentials and consumables?
                   </h2>
 
                   <p className="mt-4 text-base leading-relaxed text-white/70">
-                    Browse our collection of reusable moving crates, bubble wrap, storage solutions
-                    and eco-friendly packing materials designed to make every relocation smoother,
-                    safer and more sustainable.
+                    Browse our collection of reliable logistics essentials and consumables, 
+                    from packaging and storage solutions to essential supplies designed to make 
+                    every journey smoother, safer, and more efficient.
                   </p>
 
                   <div className="mt-6 flex flex-wrap gap-2">
@@ -292,12 +292,12 @@ function Home() {
                 </div>
 
                 <div className="relative hidden md:block">
-                  <img src={crates} alt="Moving supplies" className="h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-linear-to-r from-background via-background/20 to-transparent" />
+                  <img src={localVan} alt="Moving supplies" className="h-full w-full rounded-2xl object-cover" />
+                  <div className="absolute inset-0 bg-linear-to-r from-background rounded-2xl via-background/20 to-transparent" />
                 </div>
               </div>
             </SurfaceCard>
-            <SurfaceCard className="p-8">
+            {/* <SurfaceCard className="p-8">
               <div className="flex h-full flex-col">
                 <span className="text-sm text-primary">Available Online</span>
 
@@ -310,7 +310,6 @@ function Home() {
                   with tools trusted by our professional moving teams.
                 </p>
 
-                {/* Fills the visual gap */}
                 <div className="mt-6 space-y-3">
                   {[
                     "Reusable Moving Crates",
@@ -335,7 +334,7 @@ function Home() {
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
-            </SurfaceCard>
+            </SurfaceCard> */}
           </div>
         </div>
       </section>
@@ -356,10 +355,10 @@ export function RequestQuoteBanner() {
               Request Your Free Quote:
             </h3>
             <p className="mt-4 max-w-md text-sm text-[#0E141A]/80 leading-relaxed">
-             Planning a relocation or freight transport anywhere in the Netherlands? 
-             From student moves & family relocations, commercial 
-             logistics, and freight haulage, SUPERSONIC DYNAMIC SERVICES B.V. 
-             delivers safe, efficient, and technology-driven solutions tailored to your needs.
+              Planning a relocation or freight transport anywhere in the Netherlands? From student
+              moves & family relocations, commercial logistics, and freight haulage, SUPERSONIC
+              DYNAMIC SERVICES B.V. delivers safe, efficient, and technology-driven solutions
+              tailored to your needs.
             </p>
             <Link to="/quote" className="mt-6 block w-full sm:w-auto">
               <CTAButton
