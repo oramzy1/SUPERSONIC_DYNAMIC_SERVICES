@@ -267,8 +267,8 @@ function Home() {
 
                   <div className="mt-6 flex flex-wrap gap-2">
                     {[
-                      "Reusable Crates",
-                      "Bubble Wrap",
+                      "Logistics Consumables",
+                      "Logistics Supplies",
                       "Storage Solutions",
                       "Eco-Friendly Materials",
                     ].map((item) => (
