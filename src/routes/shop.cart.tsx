@@ -3,7 +3,7 @@ import { Minus, Plus, ShoppingBag, Tag, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useCart } from "@/lib/shop/cart";
-import { computeLineTotal, formatEUR } from "@/lib/shop/format";
+import { computeLineTotal, effectiveUnitPrice, formatEUR } from "@/lib/shop/format";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/shop/cart")({
@@ -57,12 +57,9 @@ function CartPage() {
           <ul className="space-y-3">
             {items.map((item) => {
               const line = computeLineTotal(item);
-              const effectiveUnit =
-                item.bulkPrice != null &&
-                item.bulkThreshold != null &&
-                item.quantity >= item.bulkThreshold
-                  ? item.bulkPrice
-                  : item.unitPrice;
+              const effectiveUnit = effectiveUnitPrice(item);
+              const baseUnit = item.mode === "buy" ? (item.buyPrice ?? item.unitPrice) : item.unitPrice;
+                
               return (
                 <li
                   key={item.id}
@@ -88,7 +85,7 @@ function CartPage() {
                         <p className="mt-0.5 text-xs text-muted-foreground">
                           {item.color?.name && `${item.color.name} · `}
                           {formatEUR(effectiveUnit)} {item.unit}
-                          {effectiveUnit < item.unitPrice && (
+                          {effectiveUnit < baseUnit && (
                             <span className="ml-2 rounded-full bg-[#79FF5B]/15 px-1.5 py-0.5 text-[10px] font-semibold text-[#79FF5B]">
                               Bulk price applied
                             </span>
@@ -121,7 +118,7 @@ function CartPage() {
                         </button>
                       </div>
 
-                      {item.rental && (
+                      {item.mode === 'rent' && (
                         <label className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                           Rental days
                           <input

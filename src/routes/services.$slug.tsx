@@ -132,13 +132,42 @@ function ServiceDetail() {
           </div>
         </div>
 
-        <div className="mt-10">
-          <Link to="/quote">
-            <CTAButton variant="primary" className="rounded-xl px-8 py-4 text-base">
-              Request Your Free Quote
-            </CTAButton>
-          </Link>
-        </div>
+       <div className="mt-10 grid gap-6 md:grid-cols-2 md:items-start">
+  <div>
+    <Link to="/quote">
+      <CTAButton variant="primary" className="rounded-xl px-8 py-4 text-base">
+        Request Your Free Quote
+      </CTAButton>
+    </Link>
+    {service.quoteGuidance && (
+      <p className="mt-4 max-w-md text-xs leading-relaxed text-muted-foreground">
+        {service.quoteGuidance.primary}
+      </p>
+    )}
+  </div>
+
+ {service.quoteGuidance && (
+  <div className="rounded-2xl border border-white/8 bg-surface p-6">
+    <p className="text-sm leading-relaxed text-foreground/85">
+      {service.quoteGuidance.contactLead}{" "}
+      <a
+        href="mailto:info@supersonicdynamicservices.nl"
+        className="font-semibold text-primary underline underline-offset-2 hover:text-primary/80"
+      >
+        info@supersonicdynamicservices.nl
+      </a>{" "}
+      {service.quoteGuidance.contactTrail}{" "}
+      <a
+        href="tel:+31684336600"
+        className="font-semibold text-primary underline underline-offset-2 hover:text-primary/80"
+      >
+        +31 06 84 336 600
+      </a>{" "}
+      to schedule a pre-move audit & operational planning site visit.
+    </p>
+  </div>
+)}
+</div>
 
         {/* RELATED */}
         <div className="mt-20">

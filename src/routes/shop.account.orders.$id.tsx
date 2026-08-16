@@ -153,7 +153,7 @@ function OrderDetail() {
                 <p className="truncate text-sm font-semibold">{i.name}</p>
                 <p className="text-[11px] text-muted-foreground">
                   Qty {i.quantity}
-                  {i.rental && ` · ${i.durationDays}d rental`}
+                  {i.mode === 'rent' && ` · ${i.durationDays}d rental`}
                   {i.color?.name && ` · ${i.color.name}`}
                 </p>
               </div>

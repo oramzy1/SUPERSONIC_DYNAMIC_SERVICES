@@ -110,7 +110,7 @@ export function CartDrawer({
                       </div>
                       <p className="mt-0.5 text-[11px] text-muted-foreground">
                         {item.color?.name ? `${item.color.name} · ` : ""}
-                        {item.rental
+                        {item.mode === "rent"
                           ? `${item.durationDays}-day rental`
                           : formatEUR(item.unitPrice) + " " + item.unit}
                       </p>

@@ -68,7 +68,7 @@ const INITIAL_SERVICES: ServiceDetail[] = [
   },
   {
     slug: "enterprise-moving",
-    image: enterprise,
+    image: enterprise, 
     heroTitle: "Enterprise & Commercial Moving",
     title: "Enterprise & Commercial Moving (Local & Long-Distance)",
     intro:
