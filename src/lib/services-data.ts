@@ -16,7 +16,8 @@ export type ServiceDetail = {
   tags: string[];
   quoteGuidance?: {
     primary: string;   // shown to whoever the button IS for
-    contact: string;   // shown to whoever should reach out instead
+    contactLead: string;   // text before the email
+    contactTrail: string;
   };
   benefits: string[];
 };
@@ -81,11 +82,13 @@ export const SERVICES: ServiceDetail[] = [
       "From multi-site corporate headquarters and warehouse consolidations to nursing home transfers, supermarket chains, and institutional relocations, we deploy scalable teams and specialized equipment to manage even the most demanding projects while adhering to safety standards, compliance regulations, professional best practices and your operational objectives.",
     ],
     quoteGuidance: {
-    primary:
-      "For small businesses seeking relocation services that combine reliability, structure, sustainability, and innovation, SUPERSONIC DYNAMIC SERVICES B.V sets the benchmark for enterprise commercial moving in the Netherlands. Please hit the request quote button below to get a free, non-obligation quote.",
-    contact:
-      "For medium and large business organizations seeking relocation services that combine reliability, structure, sustainability, and innovation, SUPERSONIC DYNAMIC SERVICES B.V sets the benchmark for enterprise commercial moving in the Netherlands. Please reach out to us via e-mail at info@supersonicdynamicservices.nl or by telephone on +31 06 84 336 600 to schedule a pre-move audit & operational planning site visit.",
-  },
+  primary:
+    "For small businesses seeking relocation services that combine reliability, structure, sustainability, and innovation, SUPERSONIC DYNAMIC SERVICES B.V sets the benchmark for enterprise commercial moving in the Netherlands. Please hit the request quote button below to get a free, non-obligation quote.",
+  contactLead:
+    "For medium and large business organizations seeking relocation services that combine reliability, structure, sustainability, and innovation, SUPERSONIC DYNAMIC SERVICES B.V sets the benchmark for enterprise commercial moving in the Netherlands. Please reach out to us via e-mail at",
+  contactTrail:
+    "or via telephone on",
+},
     expertise: "",
     tags: [""],
     benefits: [
