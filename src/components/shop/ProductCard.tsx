@@ -8,29 +8,32 @@ import { formatEUR } from "@/lib/shop/format";
 import type { Product } from "@/lib/shop/types";
 import { cn } from "@/lib/utils";
 
+
 export function ProductCard({ product }: { product: Product }) {
   const { addItem, toggleSaved, isSaved } = useCart();
   const saved = isSaved(product.slug);
+  const defaultMode: "rent" | "buy" = product.rental ? "rent" : "buy";
 
   const onQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     const defaultColor = product.colors?.[0];
-    const defaultDuration = product.rental
-      ? (product.rentalDurations?.[0] ?? 1)
-      : undefined;
+   const defaultDuration = defaultMode === "rent" ? (product.rentalDurations?.[0] ?? 1) : undefined;
     addItem({
-      id: `${product.slug}|${defaultColor?.id ?? "default"}|${defaultDuration ?? "x"}`,
-      slug: product.slug,
-      name: product.name,
-      image: product.images[0],
-      unitPrice: product.price,
-      bulkPrice: product.bulkPrice,
-      bulkThreshold: product.bulkThreshold,
-      unit: product.unit,
-      quantity: 1,
-      rental: product.rental,
-      durationDays: defaultDuration,
-      color: defaultColor,
+      id: `${product.slug}|${defaultColor?.id ?? "default"}|${defaultMode}|${defaultDuration ?? "x"}`,
+    slug: product.slug,
+    name: product.name,
+    image: product.images[0],
+    unitPrice: product.price,
+    bulkPrice: product.bulkPrice,
+    bulkThreshold: product.bulkThreshold,
+    buyPrice: product.buyPrice,
+    buyBulkPrice: product.buyBulkPrice,
+    buyBulkThreshold: product.buyBulkThreshold,
+    unit: defaultMode === "rent" ? product.unit : (product.buyUnit ?? product.unit),
+    quantity: 1,
+    mode: defaultMode,
+    durationDays: defaultDuration,
+    color: defaultColor,
     });
     toast.success(`${product.name} added to cart`);
   };
@@ -56,7 +59,7 @@ export function ProductCard({ product }: { product: Product }) {
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
-            <Badges badges={product.badges.slice(0, 2)} />
+            {/* <Badges badges={product.badges.slice(0, 2)} /> */}
             <button
               type="button"
               onClick={(e) => {
@@ -110,6 +113,11 @@ export function ProductCard({ product }: { product: Product }) {
                   {product.bulkThreshold}+
                 </p>
               )}
+              {product.buyPrice != null && (
+  <p className="text-[11px] text-muted-foreground">
+    or buy from {formatEUR(product.buyPrice)} {product.buyUnit ?? ""}
+  </p>
+)}
             </div>
             <span className="text-[11px] text-muted-foreground">
               In stock

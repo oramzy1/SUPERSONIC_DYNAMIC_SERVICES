@@ -430,7 +430,7 @@ function CheckoutPage() {
                       <li key={i.id} className="flex items-center justify-between gap-3 py-2">
                         <span className="min-w-0 truncate">
                           {i.quantity} × {i.name}
-                          {i.rental && ` (${i.durationDays}d)`}
+                          {i.mode === 'rent' && ` (${i.durationDays}d)`}
                         </span>
                         <span className="font-semibold">{formatEUR(computeLineTotal(i))}</span>
                       </li>
@@ -478,7 +478,7 @@ function CheckoutPage() {
                   <p className="truncate font-medium">{i.name}</p>
                   <p className="text-[11px] text-muted-foreground">
                     Qty {i.quantity}
-                    {i.rental && ` · ${i.durationDays}d`}
+                    {i.mode === 'rent' && ` · ${i.durationDays}d`}
                   </p>
                 </div>
                 <span className="text-xs font-semibold">{formatEUR(computeLineTotal(i))}</span>

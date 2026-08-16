@@ -72,12 +72,11 @@ function ShopIndex() {
               <Leaf className="h-3 w-3" /> Built for the circular economy
             </span>
             <h1 className="mt-5 font-display text-4xl leading-[1.05] font-bold tracking-tight md:text-6xl">
-              Premium eco moving supplies.
+              Premium eco moving & logistics supplies and consumables.
               <span className="block text-primary">Engineered for reuse.</span>
             </h1>
             <p className="mt-5 max-w-xl text-base text-muted-foreground">
-              Rent recyclable ALC crates, source sustainable packaging, and run every move with the
-              transparency of a professional logistics operator.
+              Purchase or Rent premium eco-friendly Moving and Logistics Supplies & Consumables. Access a wide range of recyclable and sustainable packaging materials designed to make every move more efficient, reliable, and reusable.
             </p>
           </motion.div>
         </div>

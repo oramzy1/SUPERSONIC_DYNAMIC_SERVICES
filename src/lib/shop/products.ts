@@ -6,17 +6,16 @@ import bubbleWrap from "@/assets/shop/bubble-wrap.jpg";
 import bubbleWrapSmall from "@/assets/shop/bubble-wrap-small.jpg";
 
 export const CATEGORIES: { id: Product["category"]; label: string }[] = [
-  { id: "crates", label: "Crates & Containers" },
-  { id: "packaging", label: "Packaging" },
-  { id: "accessories", label: "Accessories" },
+  { id: "supplies", label: "Logistics Supplies" },
+  { id: "consumables", label: "Logistics Consumables" },
 ];
 
 export const PRODUCTS: Product[] = [
   {
     slug: "alc-recyclable-moving-crate",
     name: "ALC Recyclable Moving Crate",
-    category: "crates",
-    categoryLabel: "Crates & Containers",
+    category: "supplies",
+    categoryLabel: "Logistics Supplies",
     shortDescription:
       "Rentable, stackable, 100% recyclable moving crate. Replaces 6+ cardboard boxes.",
     description:
@@ -27,6 +26,11 @@ export const PRODUCTS: Product[] = [
     unit: "/ crate / day",
     rental: true,
     rentalDurations: [1, 3, 7, 14, 30],
+     buyPrice: 18,
+  buyBulkPrice: 15,
+  buyBulkThreshold: 20,
+  buyUnit: "/ crate",
+
     // colors: [
     //   { id: "grey", name: "Grey", hex: "#9CA3AF" },
     //   { id: "blue", name: "Blue", hex: "#2563EB" },
@@ -58,31 +62,35 @@ export const PRODUCTS: Product[] = [
       "Closed-loop pickup & sanitisation",
     ],
     shipping: [
-      "Delivery withing 1-3 working days",
-      // "Next-day delivery available",
-      "Free pickup at end of rental",
-    ],
+    { text: "Delivery within 1-3 working days" },
+    { text: "Free pickup at end of rental", modes: ["rent"] },
+    { text: "Ships flat-packed, ready to use on arrival", modes: ["buy"] },
+  ],
     pickupAvailable: true,
     faqs: [
       {
         q: "How does the rental work?",
         a: "Select your crate count and rental days at checkout. We deliver clean, sanitised crates to your address and collect them when you're done.",
+        modes: ["rent"],
       },
       {
         q: "Do I get a discount for bulk orders?",
         a: "Yes - 20 crates or more drops the price to €1 per crate per day, automatically applied in your cart.",
+        modes: ["rent"],
       },
       {
         q: "What happens if a crate is damaged?",
         a: "Normal wear is included. Significant damage is charged at the original cost of the crate.",
+        modes: ["rent"],
       },
+      { q: "Can I return a purchased crate?", a: "Unused crates in original condition can be returned within 14 days.", modes: ["buy"] },
     ],
   },
   {
     slug: "bubble-wrap-cushion-roll-large",
     name: "Bubble Wrap Cushion Roll - 1m × 10m",
-    category: "packaging",
-    categoryLabel: "Packaging",
+    category: "consumables",
+    categoryLabel: "Logistics Consumables",
     shortDescription:
       "Large protective cushion roll for furniture, art, and oversized fragile items.",
     description:
@@ -126,8 +134,8 @@ export const PRODUCTS: Product[] = [
   {
     slug: "bubble-wrap-cushion-roll-small",
     name: "Bubble Wrap Cushion Roll - 0.5m × 5m",
-    category: "packaging",
-    categoryLabel: "Packaging",
+    category: "consumables",
+    categoryLabel: "Logistics Consumables",
     shortDescription: "Compact cushion roll for kitchenware, electronics, and small fragile items.",
     description:
       "The same high-quality recycled-content bubble film in a compact roll, sized for top-ups and small moves. Easy to store and re-use.",

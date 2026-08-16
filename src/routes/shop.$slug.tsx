@@ -88,6 +88,19 @@ function ProductDetail() {
   const [durationPeriod, setDurationPeriod] = useState<DurationPeriod>("days");
   const [durationOpen, setDurationOpen] = useState(false);
   const durationRef = useRef<HTMLDivElement>(null);
+  const [mode, setMode] = useState<"rent" | "buy">(product.rental ? "rent" : "buy");
+const canRent = !!product.rental;
+const canBuy = !product.rental || product.buyPrice != null;
+
+const activePrice = mode === "buy" && product.buyPrice != null ? product.buyPrice : product.price;
+const activeBulkPrice = mode === "buy" ? product.buyBulkPrice : product.bulkPrice;
+const activeBulkThreshold = mode === "buy" ? product.buyBulkThreshold : product.bulkThreshold;
+const activeUnit = mode === "buy" ? (product.buyUnit ?? product.unit) : product.unit;
+
+const effectiveUnit =
+  activeBulkPrice != null && activeBulkThreshold != null && quantity >= activeBulkThreshold
+    ? activeBulkPrice
+    : activePrice;
 
   const durationDays = useMemo(
     () => durationCount * DURATION_PERIODS.find((p) => p.id === durationPeriod)!.toDays,
@@ -107,30 +120,26 @@ function ProductDetail() {
 
   const saved = isSaved(product.slug);
 
-  const lineTotal = useMemo(
-    () =>
-      computeLineTotal({
-        quantity,
-        unitPrice: product.price,
-        bulkPrice: product.bulkPrice,
-        bulkThreshold: product.bulkThreshold,
-        durationDays,
-        rental: product.rental,
-      }),
-    [
+const lineTotal = useMemo(
+  () =>
+    computeLineTotal({
+      mode,
       quantity,
+      unitPrice: product.price,
+      bulkPrice: product.bulkPrice,
+      bulkThreshold: product.bulkThreshold,
+      buyPrice: product.buyPrice,
+      buyBulkPrice: product.buyBulkPrice,
+      buyBulkThreshold: product.buyBulkThreshold,
       durationDays,
-      product.price,
-      product.bulkPrice,
-      product.bulkThreshold,
-      product.rental,
-    ],
-  );
+    }),
+  [mode, quantity, durationDays, product],
+);
 
-  const effectiveUnit =
-    product.bulkPrice != null && product.bulkThreshold != null && quantity >= product.bulkThreshold
-      ? product.bulkPrice
-      : product.price;
+  // const effectiveUnit =
+  //   product.bulkPrice != null && product.bulkThreshold != null && quantity >= product.bulkThreshold
+  //     ? product.bulkPrice
+  //     : product.price;
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (!imgRef.current) return;
@@ -140,20 +149,23 @@ function ProductDetail() {
     setZoom({ active: true, x, y });
   };
 
-  const buildCartItem = () => ({
-    id: `${product.slug}|${color?.id ?? "default"}|${product.rental ? durationDays : "x"}`,
-    slug: product.slug,
-    name: product.name,
-    image: product.images[0],
-    unitPrice: product.price,
-    bulkPrice: product.bulkPrice,
-    bulkThreshold: product.bulkThreshold,
-    unit: product.unit,
-    quantity,
-    rental: product.rental,
-    durationDays: product.rental ? durationDays : undefined,
-    color,
-  });
+const buildCartItem = () => ({
+  id: `${product.slug}|${color?.id ?? "default"}|${mode}|${mode === "rent" ? durationDays : "x"}`,
+  slug: product.slug,
+  name: product.name,
+  image: product.images[0],
+  unitPrice: product.price,
+  bulkPrice: product.bulkPrice,
+  bulkThreshold: product.bulkThreshold,
+  buyPrice: product.buyPrice,
+  buyBulkPrice: product.buyBulkPrice,
+  buyBulkThreshold: product.buyBulkThreshold,
+  unit: activeUnit,
+  quantity,
+  mode,
+  durationDays: mode === "rent" ? durationDays : undefined,
+  color,
+});
 
   const onAdd = () => {
     addItem(buildCartItem());
@@ -260,20 +272,19 @@ function ProductDetail() {
             <span className="font-display text-3xl font-bold text-primary">
               {formatEUR(effectiveUnit)}
             </span>
-            <span className="text-sm text-muted-foreground">{product.unit}</span>
-            {effectiveUnit < product.price && (
-              <span className="text-sm text-muted-foreground line-through">
-                {formatEUR(product.price)}
-              </span>
-            )}
+  <span className="text-sm text-muted-foreground">{activeUnit}</span>
+{effectiveUnit < activePrice && (
+  <span className="text-sm text-muted-foreground line-through">
+    {formatEUR(activePrice)}
+  </span>
+)}
           </div>
-          {product.bulkPrice != null && (
-            <p className="mt-1 text-sm text-[#79FF5B]">
-              Bulk pricing: {formatEUR(product.bulkPrice)} {product.unit} for{" "}
-              {product.bulkThreshold}+ units
-            </p>
-          )}
-
+          {activeBulkPrice != null && (
+  <p className="mt-1 text-sm text-[#79FF5B]">
+    Bulk pricing: {formatEUR(activeBulkPrice)} {activeUnit} for{" "}
+    {activeBulkThreshold}+ units
+  </p>
+)}
           <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
             {product.description}
           </p>
@@ -303,6 +314,23 @@ function ProductDetail() {
               </div>
             </div>
           )}
+
+           {canRent && canBuy && (
+  <div className="mt-6 inline-flex rounded-full border border-white/10 bg-surface p-1">
+    {(["rent", "buy"] as const).map((m) => (
+      <button
+        key={m}
+        onClick={() => setMode(m)}
+        className={cn(
+          "rounded-full px-4 py-1.5 text-xs font-semibold capitalize transition",
+          mode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground",
+        )}
+      >
+        {m}
+      </button>
+    ))}
+  </div>
+)}
 
           {/* Quantity + duration */}
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -336,7 +364,7 @@ function ProductDetail() {
               <p className="mt-1 text-[11px] text-muted-foreground">{product.stock} in stock</p>
             </div>
 
-            {product.rental && (
+            {mode === 'rent' && (
               <div ref={durationRef} className="relative">
                 <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
                   Rental duration
@@ -433,13 +461,11 @@ function ProductDetail() {
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
                 {quantity} × {formatEUR(effectiveUnit)}
-                {product.rental
-                  ? ` × ${durationCount} ${DURATION_PERIODS.find((p) => p.id === durationPeriod)?.label.toLowerCase()}${
-                      durationPeriod !== "days"
-                        ? ` (${durationDays} ${durationDays === 1 ? "day" : "days"})`
-                        : ""
-                    }`
-                  : ""}
+               {mode === "rent"
+  ? ` × ${durationCount} ${DURATION_PERIODS.find((p) => p.id === durationPeriod)?.label.toLowerCase()}${
+      durationPeriod !== "days" ? ` (${durationDays} ${durationDays === 1 ? "day" : "days"})` : ""
+    }`
+  : ""}
               </p>
               <p className="font-display text-xl font-bold text-primary">{formatEUR(lineTotal)}</p>
             </div>
@@ -510,21 +536,23 @@ function ProductDetail() {
               ))}
             </dl>
           </Card>
-          <Card title="Shipping & pickup">
-            <ul className="space-y-2">
-              {product.shipping.map((s) => (
-                <li key={s} className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <Truck className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {s}
-                </li>
-              ))}
-              {product.pickupAvailable && (
-                <li className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#79FF5B]" />
-                  Pickup available at our business address
-                </li>
-              )}
-            </ul>
-          </Card>
+         <Card title="Shipping & pickup">
+  <ul className="space-y-2">
+    {product.shipping
+      .filter((s) => !s.modes || s.modes.includes(mode))
+      .map((s) => (
+        <li key={s.text} className="flex items-start gap-2 text-sm text-muted-foreground">
+          <Truck className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> {s.text}
+        </li>
+      ))}
+    {product.pickupAvailable && (
+      <li className="flex items-start gap-2 text-sm text-muted-foreground">
+        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#79FF5B]" />
+        Pickup available at our business address
+      </li>
+    )}
+  </ul>
+</Card>
           <Card title="Sustainability impact">
             <ul className="space-y-2">
               {product.sustainability.map((s) => (
@@ -541,7 +569,7 @@ function ProductDetail() {
       <div className="mx-auto max-w-7xl px-6 pb-16">
         <h2 className="font-display text-2xl font-bold">Frequently asked questions</h2>
         <div className="mt-4 divide-y divide-white/8 overflow-hidden rounded-2xl border border-white/8 bg-surface">
-          {product.faqs.map((f, i) => (
+          {product.faqs.filter((f) => !f.modes || f.modes.includes(mode)).map((f, i) => (
             <details key={i} className="group p-5">
               <summary className="flex cursor-pointer items-center justify-between gap-3 text-sm font-semibold">
                 {f.q}

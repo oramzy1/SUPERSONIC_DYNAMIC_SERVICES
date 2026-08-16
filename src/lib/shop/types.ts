@@ -5,7 +5,7 @@ export type ProductBadge =
   | "new"
   | "discount";
 
-export type ProductCategory = "crates" | "packaging" | "accessories";
+export type ProductCategory = "supplies" | "consumables";
 
 export interface ProductColor {
   id: string;
@@ -23,6 +23,8 @@ export interface ProductFAQ {
   a: string;
 }
 
+export type PurchaseMode = "rent" | "buy";
+
 export interface Product {
   slug: string;
   name: string;
@@ -38,6 +40,10 @@ export interface Product {
   /** Display unit, e.g. "/ crate / day", "/ roll" */
   unit: string;
   rental: boolean;
+  buyPrice?: number;         // set on rentable products to unlock "Buy" mode
+  buyBulkPrice?: number;
+  buyBulkThreshold?: number;
+  buyUnit?: string;
   /** Rental presets (days) */
   rentalDurations?: number[];
   colors?: ProductColor[];
@@ -47,9 +53,9 @@ export interface Product {
   specs: ProductSpec[];
   features: string[];
   sustainability: string[];
-  shipping: string[];
+  shipping: { text: string; modes?: PurchaseMode[] }[];
   pickupAvailable: boolean;
-  faqs: ProductFAQ[];
+  faqs: { q: string; a: string; modes?: PurchaseMode[] }[];
 }
 
 export interface CartItem {
@@ -58,11 +64,14 @@ export interface CartItem {
   name: string;
   image: string;
   unitPrice: number;
+  mode: PurchaseMode;
   bulkPrice?: number;
+  buyPrice?: number;
+  buyBulkPrice?: number;
+  buyBulkThreshold?: number;
   bulkThreshold?: number;
   unit: string;
   quantity: number;
-  rental: boolean;
   durationDays?: number;
   color?: ProductColor;
 }
