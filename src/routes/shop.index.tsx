@@ -172,6 +172,37 @@ function ShopIndex() {
         )}
       </section>
 
+        <section className="mx-auto max-w-7xl px-6 py-10">
+  <div className="rounded-2xl border border-white/8 bg-primary/1 p-6 md:p-8">
+    <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+      <div>
+        <h2 className="font-display text-lg font-semibold md:text-xl">
+          Can't find what you're looking for?
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          Are you a small, medium, or large business organisation seeking procurement and
+          supply of any range of supplies and consumables? SUPERSONIC DYNAMIC SERVICES B.V
+          is a trusted, efficient partner that handles procurement through delivery to your
+          business location. Reach out with your request via{" "}
+          <a href="mailto:info@supersonicdynamicservices.nl" className="text-primary underline underline-offset-2">
+            info@supersonicdynamicservices.nl
+          </a>{" "}
+          or call{" "}
+          <a href="tel:+31684336600" className="text-primary underline underline-offset-2">
+            +31 06 84 336 600
+          </a>{" "}
+          and we'll handle it to the best standard.
+        </p>
+      </div>
+      <a
+        href="mailto:info@supersonicdynamicservices.nl"
+        className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
+      >
+        Request procurement
+      </a>
+    </div>
+  </div>
+</section>
       <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="relative overflow-hidden rounded-3xl border border-white/8 bg-linear-to-br from-secondary/40 via-surface to-surface p-8 md:p-12">
           <div className="absolute top-0 right-0 h-40 w-40 -translate-y-1/4 translate-x-1/4 rounded-full bg-primary/30 blur-3xl" />

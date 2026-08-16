@@ -132,13 +132,28 @@ function ServiceDetail() {
           </div>
         </div>
 
-        <div className="mt-10">
-          <Link to="/quote">
-            <CTAButton variant="primary" className="rounded-xl px-8 py-4 text-base">
-              Request Your Free Quote
-            </CTAButton>
-          </Link>
-        </div>
+       <div className="mt-10 grid gap-6 md:grid-cols-2 md:items-start">
+  <div>
+    <Link to="/quote">
+      <CTAButton variant="primary" className="rounded-xl px-8 py-4 text-base">
+        Request Your Free Quote
+      </CTAButton>
+    </Link>
+    {service.quoteGuidance && (
+      <p className="mt-4 max-w-md text-xs leading-relaxed text-muted-foreground">
+        {service.quoteGuidance.primary}
+      </p>
+    )}
+  </div>
+
+  {service.quoteGuidance && (
+    <div className="rounded-2xl border border-white/8 bg-surface p-6">
+      <p className="text-sm leading-relaxed text-foreground/85">
+        {service.quoteGuidance.contact}
+      </p>
+    </div>
+  )}
+</div>
 
         {/* RELATED */}
         <div className="mt-20">

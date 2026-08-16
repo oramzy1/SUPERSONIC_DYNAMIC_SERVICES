@@ -14,6 +14,10 @@ export type ServiceDetail = {
   body: string[];
   expertise: string;
   tags: string[];
+  quoteGuidance?: {
+    primary: string;   // shown to whoever the button IS for
+    contact: string;   // shown to whoever should reach out instead
+  };
   benefits: string[];
 };
 
@@ -76,6 +80,12 @@ export const SERVICES: ServiceDetail[] = [
       "We specialize in delivering structured, high-performance moving solutions for corporate enterprises, educational institutions, healthcare facilities, logistics operators, retail chains, industrial sites, and large event infrastructures. We understand that enterprise relocation is a strategic operation - where precision, compliance, risk management, and operational continuity are non-negotiable. Our approach combines advanced planning, experienced project leadership, and technology-driven execution to ensure minimal disruption and maximum efficiency.",
       "From multi-site corporate headquarters and warehouse consolidations to nursing home transfers, supermarket chains, and institutional relocations, we deploy scalable teams and specialized equipment to manage even the most demanding projects while adhering to safety standards, compliance regulations, professional best practices and your operational objectives.",
     ],
+    quoteGuidance: {
+    primary:
+      "For small businesses seeking relocation services that combine reliability, structure, sustainability, and innovation, SUPERSONIC DYNAMIC SERVICES B.V sets the benchmark for enterprise commercial moving in the Netherlands. Please hit the request quote button below to get a free, non-obligation quote.",
+    contact:
+      "For medium and large business organizations seeking relocation services that combine reliability, structure, sustainability, and innovation, SUPERSONIC DYNAMIC SERVICES B.V sets the benchmark for enterprise commercial moving in the Netherlands. Please reach out to us via e-mail at info@supersonicdynamicservices.nl or by telephone on +31 06 84 336 600 to schedule a pre-move audit & operational planning site visit.",
+  },
     expertise: "",
     tags: [""],
     benefits: [
