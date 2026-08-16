@@ -241,7 +241,7 @@ export function AdminDashboardTopbar() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/6 bg-[#0d111a]/40 px-4 sm:px-6 lg:px-8 py-4 backdrop-blur-xl gap-4 w-full box-border">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/6 bg-surface px-4 sm:px-6 lg:px-8 py-4 backdrop-blur-xl gap-4 w-full box-border">
       <button
         onClick={handleOpenMobileSidebar}
         className="mobile-sidebar-toggle-btn flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/2 border border-white/6 text-slate-400 hover:text-slate-200 md:hidden transition focus:outline-none"

@@ -145,7 +145,7 @@ function RouteComponent() {
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 w-full bg-[#0B1015]/20 px-4 py-8 sm:py-12 flex items-center justify-center overflow-y-auto">
-        <div className="w-full max-w-5xl bg-[#0F151C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-150">
+        <div className="w-full max-w-6xl bg-[#0F151C] border border-white/10 rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-150">
           
           {/* LEFT PANEL: HERO IMAGE & HIGHLIGHTS */}
           <div className="lg:col-span-5 relative bg-linear-to-b from-[#131A23] to-[#0A0E13] p-6 sm:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-white/10 overflow-hidden">
@@ -358,7 +358,7 @@ function RouteComponent() {
                           value={form.subject}
                           onChange={handleInputChange}
                           placeholder="e.g., Update delivery address"
-                          className="w-full rounded-lg border border-white/10 bg-white/5 py-2 px-3 text-xs text-white placeholder-slate-500 outline-none transition focus:border-primary focus:bg-white/10"
+                          className="w-full rounded-lg border border-white/10 bg-white/5 py-3 px-3 text-xs text-white placeholder-slate-500 outline-none transition focus:border-primary focus:bg-white/10"
                         />
                       </div>
 
@@ -377,7 +377,7 @@ function RouteComponent() {
                           value={form.nodeIdentifier}
                           onChange={handleInputChange}
                           placeholder="e.g., BRK-90210"
-                          className="w-full rounded-lg border border-white/10 bg-white/5 py-2 px-3 text-xs text-white placeholder-slate-500 outline-none transition focus:border-primary focus:bg-white/10 uppercase"
+                          className="w-full rounded-lg border border-white/10 bg-white/5 py-3 px-3 text-xs text-white placeholder-slate-500 outline-none transition focus:border-primary focus:bg-white/10 uppercase"
                         />
                       </div>
                     </div>

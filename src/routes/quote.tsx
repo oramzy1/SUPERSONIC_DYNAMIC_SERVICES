@@ -390,14 +390,14 @@ function Quote() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Johndoe Alenn"
                             {...register("name")}
                           />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -408,7 +408,7 @@ function Quote() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="johndoe@email.com"
                             {...register("email")}
                           />
@@ -419,7 +419,7 @@ function Quote() {
                           error={errors.phone?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="+31 (123) 456 789"
                             {...register("phone")}
                           />
@@ -430,7 +430,7 @@ function Quote() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Moving out of address"
                             {...register("residentAddress")}
                           />
@@ -441,14 +441,14 @@ function Quote() {
                           error={errors.destinationAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Moving into address"
                             {...register("destinationAddress")}
                           />
                         </Field>
                         <Field label="Current Post Code" error={errors.currentPostCode?.message}>
                           <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -458,7 +458,7 @@ function Quote() {
                           error={errors.destinationPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
                             placeholder="5678CD"
                             {...register("destinationPostCode")}
                           />
@@ -470,7 +470,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -601,14 +601,14 @@ function Quote() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Johndoe Alenn"
                             {...register("name")}
                           />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -619,7 +619,7 @@ function Quote() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="johndoe@email.com"
                             {...register("email")}
                           />
@@ -630,7 +630,7 @@ function Quote() {
                           error={errors.phone?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="+31 (123) 456 789"
                             {...register("phone")}
                           />
@@ -641,14 +641,14 @@ function Quote() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Storage Address"
                             {...register("residentAddress")}
                           />
                         </Field>
                         <Field label="Post Code" error={errors.currentPostCode?.message}>
                           <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -660,7 +660,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -671,7 +671,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -681,7 +681,7 @@ function Quote() {
                         >
                           <div className="relative w-full">
                             <select
-                              className="field w-full rounded-lg px-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                              className="field w-full rounded-lg px-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
                               {...register("storageSize")}
                             >
                               <option value="" className="bg-[#0E141A] text-muted-foreground">
@@ -847,14 +847,14 @@ function Quote() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Johndoe Alenn"
                             {...register("name")}
                           />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -865,7 +865,7 @@ function Quote() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="johndoe@email.com"
                             {...register("email")}
                           />
@@ -876,7 +876,7 @@ function Quote() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Collection address location"
                             {...register("residentAddress")}
                           />
@@ -886,7 +886,7 @@ function Quote() {
                           error={errors.currentPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -898,7 +898,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1004,14 +1004,14 @@ function Quote() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Johndoe Alenn"
                             {...register("name")}
                           />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -1022,7 +1022,7 @@ function Quote() {
                           error={errors.phone?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="+31 (123) 456 789"
                             {...register("phone")}
                           />
@@ -1033,7 +1033,7 @@ function Quote() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Pick up origin address"
                             {...register("residentAddress")}
                           />
@@ -1044,7 +1044,7 @@ function Quote() {
                           error={errors.destinationAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Drop off arrival address"
                             {...register("destinationAddress")}
                           />
@@ -1054,7 +1054,7 @@ function Quote() {
                           error={errors.currentPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -1064,7 +1064,7 @@ function Quote() {
                           error={errors.destinationPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
                             placeholder="5678CD"
                             {...register("destinationPostCode")}
                           />
@@ -1076,7 +1076,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1087,7 +1087,7 @@ function Quote() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-2.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("deliveryDate")}
                           />
                         </Field>
@@ -1096,7 +1096,7 @@ function Quote() {
                           error={errors.freightWeight?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
                             placeholder="e.g. 1500 kg"
                             {...register("freightWeight")}
                           />
