@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  TrendingUp,
-  Users,
-  BarChart3,
-  Leaf,
-  Download,
-  ArrowUpRight,
-  ChevronRight,
-} from "lucide-react";
+import { Users, BarChart3, Leaf, Download, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/_auth/adminanalytics")({
   component: AnalyticsDashboard,
 });
+
+interface RevenuePoint {
+  label: string;
+  value: string;
+  x: number;
+  y: number;
+}
+
+interface FunnelSegment {
+  segment: string;
+  qty: string;
+  width: string;
+  delay: string;
+}
+
+interface ServiceVolume {
+  label: string;
+  value: string;
+  pct: string;
+  delay: string;
+}
 
 interface TopCrew {
   id: string;
@@ -34,50 +47,44 @@ export function AnalyticsDashboard() {
     return () => clearTimeout(timer);
   }, []);
 
-  const mainChartData = [
-    { label: "May 1", value: "$1.1M", x: 50, y: 140 },
-    { label: "May 3", value: "$2.4M", x: 130, y: 100 },
-    { label: "May 5", value: "$1.8M", x: 210, y: 115 },
-    { label: "May 8", value: "$3.1M", x: 290, y: 75 },
-    { label: "May 11", value: "$1.5M", x: 370, y: 125 },
-    { label: "May 15", value: "$3.8M", x: 450, y: 55 },
-    { label: "May 20", value: "$4.2M", x: 530, y: 40 },
+  // ── Placeholder data (all zeroed / empty until backend is connected) ────
+  // Baseline y (170) keeps the spline flat at $0 until real values come in.
+  const BASELINE_Y = 170;
+
+  const mainChartData: RevenuePoint[] = [
+    { label: "Day 1", value: "$0", x: 50, y: BASELINE_Y },
+    { label: "Day 2", value: "$0", x: 130, y: BASELINE_Y },
+    { label: "Day 3", value: "$0", x: 210, y: BASELINE_Y },
+    { label: "Day 4", value: "$0", x: 290, y: BASELINE_Y },
+    { label: "Day 5", value: "$0", x: 370, y: BASELINE_Y },
+    { label: "Day 6", value: "$0", x: 450, y: BASELINE_Y },
+    { label: "Day 7", value: "$0", x: 530, y: BASELINE_Y },
   ];
 
-  const topCrews: TopCrew[] = [
-    {
-      id: "Alpha-09",
-      region: "NA-East",
-      efficiency: "98.4%",
-      onTime: "99.1%",
-      statusColor: "bg-[#e2a54a]",
-      onTimeColor: "text-[#4ade80]",
-    },
-    {
-      id: "Delta-42",
-      region: "EU-Central",
-      efficiency: "96.7%",
-      onTime: "98.2%",
-      statusColor: "bg-[#e2a54a]",
-      onTimeColor: "text-[#4ade80]",
-    },
-    {
-      id: "Bravo-11",
-      region: "APAC-South",
-      efficiency: "94.2%",
-      onTime: "95.5%",
-      statusColor: "bg-[#e2a54a]",
-      onTimeColor: "text-[#4ade80]",
-    },
-    {
-      id: "Echo-03",
-      region: "NA-West",
-      efficiency: "92.8%",
-      onTime: "91.0%",
-      statusColor: "bg-[#626d7c]",
-      onTimeColor: "text-[#e2a54a]",
-    },
+  const revenueTotal = "$0";
+  const revenueChange = "0%";
+
+  const newClients = 0;
+  const newClientsChange = "0%";
+
+  const acquisitionFunnel: FunnelSegment[] = [
+    { segment: "Leads (Top)", qty: "0", width: "0%", delay: "0.3s" },
+    { segment: "Qualified (Mid)", qty: "0", width: "0%", delay: "0.4s" },
+    { segment: "Closed (Bottom)", qty: "0", width: "0%", delay: "0.5s" },
   ];
+
+  const serviceVolume: ServiceVolume[] = [
+    { label: "Freight Forwarding", value: "0 jobs", pct: "0%", delay: "0.2s" },
+    { label: "Last Mile Delivery", value: "0 jobs", pct: "0%", delay: "0.3s" },
+    { label: "Warehousing", value: "0 jobs", pct: "0%", delay: "0.4s" },
+    { label: "Customs Clearance", value: "0 jobs", pct: "0%", delay: "0.5s" },
+  ];
+
+  const topCrews: TopCrew[] = [];
+
+  const co2Reduced = "0 MT";
+  const evFleetUsage = "0%";
+  const goalProgress = "0%";
 
   return (
     <div className="w-full max-w-7xl mx-auto text-[#626d7c] font-sans antialiased space-y-6">
@@ -112,9 +119,7 @@ export function AnalyticsDashboard() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Analytics Overview</h1>
-          <p className="text-xs text-[#626d7c] mt-1">
-            Comprehensive performance metrics for Q3 2024
-          </p>
+          <p className="text-xs text-[#626d7c] mt-1">Performance metrics for the current period</p>
         </div>
 
         <div className="flex items-center gap-3 self-stretch sm:self-auto justify-between sm:justify-end">
@@ -153,11 +158,10 @@ export function AnalyticsDashboard() {
                 className="text-3xl font-bold text-[#e2a54a] tracking-tight animate-stat-pop"
                 style={{ animationDelay: "0.1s" }}
               >
-                $4.2M
+                {revenueTotal}
               </div>
-              <div className="text-[11px] text-[#e2a54a] flex items-center justify-end gap-1 mt-1 font-medium">
-                <TrendingUp className="h-3 w-3 inline" />
-                <span>+12.4%</span>
+              <div className="text-[11px] text-[#626d7c] flex items-center justify-end gap-1 mt-1 font-medium">
+                <span>{revenueChange}</span>
                 <span className="text-[#626d7c]">vs last quarter</span>
               </div>
             </div>
@@ -181,37 +185,32 @@ export function AnalyticsDashboard() {
 
               {/* Chart Left Data Boundary Labels */}
               <text x="5" y="34" fill="#2d3643" className="text-[10px] font-medium font-mono">
-                4.22M
+                0
               </text>
               <text x="5" y="64" fill="#2d3643" className="text-[10px] font-medium font-mono">
-                2.22M
+                0
               </text>
               <text x="5" y="94" fill="#2d3643" className="text-[10px] font-medium font-mono">
-                1.55M
+                0
               </text>
               <text x="5" y="124" fill="#2d3643" className="text-[10px] font-medium font-mono">
-                700k
+                0
               </text>
               <text x="5" y="154" fill="#2d3643" className="text-[10px] font-medium font-mono">
-                500k
+                0
               </text>
               <text x="5" y="174" fill="#2d3643" className="text-[10px] font-medium font-mono">
-                50k
+                0
               </text>
 
-              {/* Gradient-Filled Area Spline Component */}
+              {/* Flat baseline spline — no revenue data yet */}
               <path
-                d="M 50,170 Q 90,130 130,100 Q 170,80 210,115 Q 250,165 290,75 Q 330,15 370,125 Q 410,175 450,55 Q 490,15 530,40 L 530,170 Z"
-                fill="url(#revenue-gradient)"
-                className="opacity-0 animate-area-fade"
-              />
-
-              {/* Master SVG Stroked Vector Path Line */}
-              <path
-                d="M 50,170 Q 90,130 130,100 Q 170,80 210,115 Q 250,165 290,75 Q 330,15 370,125 Q 410,175 450,55 Q 490,15 530,40"
+                d={`M 50,${BASELINE_Y} L 530,${BASELINE_Y}`}
                 fill="none"
                 stroke="#e2a54a"
                 strokeWidth="1.5"
+                strokeDasharray="4 4"
+                opacity="0.3"
                 className="animate-draw-line"
               />
 
@@ -253,6 +252,11 @@ export function AnalyticsDashboard() {
                 {mainChartData[hoveredDataIndex].value}
               </div>
             )}
+
+            {/* Empty-state label */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <p className="text-[11px] font-medium text-[#2d3643]">No revenue data yet</p>
+            </div>
           </div>
 
           {/* X Axis Bottom Timestamps Label Metrics Row */}
@@ -280,20 +284,16 @@ export function AnalyticsDashboard() {
               className="text-4xl font-bold text-white tracking-tight animate-stat-pop"
               style={{ animationDelay: "0.2s" }}
             >
-              128
+              {newClients}
             </div>
-            <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] bg-[#4ade80]/10 text-[#4ade80] font-bold mt-1 font-mono">
-              <ArrowUpRight className="h-2.5 w-2.5 stroke-3" /> 8%
+            <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] bg-white/5 text-[#626d7c] font-bold mt-1 font-mono">
+              {newClientsChange}
             </span>
           </div>
 
           {/* Horizontal Funnel Segment Stack */}
           <div className="space-y-4 mt-6">
-            {[
-              { segment: "Leads (Top)", qty: "4,500", width: "100%", delay: "0.3s" },
-              { segment: "Qualified (Mid)", qty: "1,200", width: "45%", delay: "0.4s" },
-              { segment: "Closed (Bottom)", qty: "128", width: "15%", delay: "0.5s" },
-            ].map((item, index) => (
+            {acquisitionFunnel.map((item, index) => (
               <div key={index}>
                 <div className="flex justify-between text-[11px] font-medium mb-1.5">
                   <span className="text-[#626d7c]">{item.segment}</span>
@@ -329,12 +329,7 @@ export function AnalyticsDashboard() {
           </div>
 
           <div className="space-y-4">
-            {[
-              { label: "Freight Forwarding", value: "8,420 jobs", pct: "85%", delay: "0.2s" },
-              { label: "Last Mile Delivery", value: "6,105 jobs", pct: "62%", delay: "0.3s" },
-              { label: "Warehousing", value: "3,890 jobs", pct: "38%", delay: "0.4s" },
-              { label: "Customs Clearance", value: "1,240 jobs", pct: "18%", delay: "0.5s" },
-            ].map((item, idx) => (
+            {serviceVolume.map((item, idx) => (
               <div key={idx}>
                 <div className="flex justify-between text-[11px] font-medium mb-1.5">
                   <span className="text-white">{item.label}</span>
@@ -380,24 +375,40 @@ export function AnalyticsDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#161b22]/40">
-                {topCrews.map((crew, idx) => (
-                  <tr
-                    key={idx}
-                    className="text-xs hover:bg-[#1c2330]/20 transition-colors duration-150"
-                  >
-                    <td className="py-3.5 font-bold text-white font-mono flex items-center gap-2">
-                      <span className={`w-1.5 h-1.5 rounded-full ${crew.statusColor}`}></span>
-                      {crew.id}
-                    </td>
-                    <td className="py-3.5 text-[#626d7c] font-medium">{crew.region}</td>
-                    <td className="py-3.5 text-right text-white font-bold font-mono">
-                      {crew.efficiency}
-                    </td>
-                    <td className={`py-3.5 text-right font-bold font-mono ${crew.onTimeColor}`}>
-                      {crew.onTime}
+                {topCrews.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="py-10">
+                      <div className="flex flex-col items-center justify-center gap-2 text-center">
+                        <div className="p-2.5 bg-white/2 rounded-lg border border-[#161b22] text-[#626d7c] mb-1">
+                          <Users className="w-4 h-4" />
+                        </div>
+                        <p className="text-sm font-medium text-white">No crew data yet</p>
+                        <p className="text-[11px] text-[#626d7c] max-w-2xs">
+                          Performance rankings will appear once jobs start completing.
+                        </p>
+                      </div>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  topCrews.map((crew, idx) => (
+                    <tr
+                      key={idx}
+                      className="text-xs hover:bg-[#1c2330]/20 transition-colors duration-150"
+                    >
+                      <td className="py-3.5 font-bold text-white font-mono flex items-center gap-2">
+                        <span className={`w-1.5 h-1.5 rounded-full ${crew.statusColor}`}></span>
+                        {crew.id}
+                      </td>
+                      <td className="py-3.5 text-[#626d7c] font-medium">{crew.region}</td>
+                      <td className="py-3.5 text-right text-white font-bold font-mono">
+                        {crew.efficiency}
+                      </td>
+                      <td className={`py-3.5 text-right font-bold font-mono ${crew.onTimeColor}`}>
+                        {crew.onTime}
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -414,7 +425,7 @@ export function AnalyticsDashboard() {
             <h3 className="text-base font-semibold text-white tracking-wide">
               Carbon Offset Tracking
             </h3>
-            <p className="text-xs text-[#626d7c] mt-0.5">Enterprise sustainability goals Q3</p>
+            <p className="text-xs text-[#626d7c] mt-0.5">Enterprise sustainability goals</p>
           </div>
         </div>
 
@@ -427,7 +438,7 @@ export function AnalyticsDashboard() {
               className="text-base font-bold text-[#4ade80] font-mono mt-0.5 block animate-stat-pop"
               style={{ animationDelay: "0.4s" }}
             >
-              4,250 MT
+              {co2Reduced}
             </span>
           </div>
           <div className="h-8 w-px bg-[#161b22]"></div>
@@ -439,7 +450,7 @@ export function AnalyticsDashboard() {
               className="text-base font-bold text-white font-mono mt-0.5 block animate-stat-pop"
               style={{ animationDelay: "0.5s" }}
             >
-              34.2%
+              {evFleetUsage}
             </span>
           </div>
           <div className="h-8 w-px bg-[#161b22]"></div>
@@ -451,7 +462,7 @@ export function AnalyticsDashboard() {
               className="text-base font-bold text-[#e2a54a] font-mono mt-0.5 block animate-stat-pop"
               style={{ animationDelay: "0.6s" }}
             >
-              85%
+              {goalProgress}
             </span>
           </div>
         </div>

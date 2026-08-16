@@ -10,88 +10,74 @@ import {
   Calendar,
   MapPin,
   UserPlus,
+  PackageSearch,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_auth/adminjobs")({
   component: RouteComponent,
 });
 
-// High-Level Assignment Metrics Data
-const summaryMetrics = [
+// ── Types ────────────────────────────────────────────────────────────────
+// Mirrors what the backend is expected to return once it's wired up.
+
+interface SummaryMetric {
+  title: string;
+  value: string;
+  change?: string;
+  isPositive?: boolean;
+  subtext?: string;
+  progress?: number;
+  isAlert?: boolean;
+  icon: React.ElementType;
+}
+
+interface ActiveJob {
+  id: string;
+  status: string;
+  statusType: "transit" | "loading" | "assigned";
+  client: string;
+  timestamp: string;
+  origin: string;
+  originSub: string;
+  dest: string;
+  destSub: string;
+  progressLabel: string;
+  progressPercent: number;
+  hasTruckIcon: boolean;
+  lineStyle: "solid-active" | "dashed" | "dotted-dim";
+  crewCount: number;
+}
+
+// ── Placeholder data (all zeroed / empty until backend is connected) ──────
+
+const summaryMetrics: SummaryMetric[] = [
   {
     title: "JOBS TODAY",
-    value: "142",
-    change: "12%",
+    value: "0",
+    change: "0%",
     isPositive: true,
     icon: Briefcase,
   },
   {
     title: "ACTIVE FLEET CAPACITY",
-    value: "86%",
+    value: "0%",
     subtext: "Utilized",
-    progress: 86,
+    progress: 0,
     icon: Truck,
   },
   {
     title: "CRITICAL DELAYS",
-    value: "3",
+    value: "0",
     subtext: "Requires attention",
-    isAlert: true,
+    isAlert: false,
     icon: AlertTriangle,
   },
 ];
 
-// Live Operations Operations/Assignment List Data
-const activeJobs = [
-  {
-    id: "#JOB-A8942",
-    status: "IN TRANSIT",
-    statusType: "transit",
-    client: "Global Tech Industries",
-    timestamp: "Oct 24, 14:30 EST",
-    origin: "SEATTLE, WA",
-    originSub: "PORT 4A",
-    dest: "DENVER, CO",
-    destSub: "HUB DIST.",
-    progressLabel: "Est. Arrival: 18:45",
-    progressPercent: 60,
-    hasTruckIcon: true,
-    lineStyle: "solid-active",
-    crewCount: 2,
-  },
-  {
-    id: "#JOB-B3102",
-    status: "LOADING",
-    statusType: "loading",
-    client: "Apex Manufacturing",
-    timestamp: "Oct 24, 15:00 EST",
-    origin: "CHICAGO, IL",
-    originSub: "WAREHOUSE B",
-    dest: "AUSTIN, TX",
-    destSub: "TECH PARK",
-    progressLabel: "Loading Progress",
-    progressPercent: 25,
-    hasTruckIcon: false,
-    lineStyle: "dashed",
-    crewCount: 1,
-  },
-  {
-    id: "#JOB-C9011",
-    status: "ASSIGNED",
-    statusType: "assigned",
-    client: "Nexus Distribution",
-    timestamp: "Oct 25, 08:00 EST",
-    origin: "MIAMI, FL",
-    originSub: "DOCK 7",
-    dest: "ATLANTA, GA",
-    destSub: "MAIN HUB",
-    progressLabel: "Pending Dispatch",
-    progressPercent: 0,
-    hasTruckIcon: false,
-    lineStyle: "dotted-dim",
-    crewCount: 0,
-  },
-];
+const activeJobs: ActiveJob[] = [];
+
+const driversDispatched = 0;
+const driversAvailable = 0;
 
 function RouteComponent() {
   return (
@@ -120,6 +106,7 @@ function RouteComponent() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
         {summaryMetrics.map((card, idx) => {
           const Icon = card.icon;
+          const isNeutral = card.change === "0%";
           return (
             <div
               key={idx}
@@ -144,8 +131,14 @@ function RouteComponent() {
                     {card.value}
                   </h3>
                   {card.change && (
-                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/5 px-1.5 py-0.5 rounded">
-                      ↗ {card.change}
+                    <span
+                      className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                        isNeutral
+                          ? "text-slate-500 bg-white/4"
+                          : "text-emerald-400 bg-emerald-500/5"
+                      }`}
+                    >
+                      {isNeutral ? card.change : `↗ ${card.change}`}
                     </span>
                   )}
                   {card.subtext && !card.progress && (
@@ -155,7 +148,7 @@ function RouteComponent() {
                   )}
                 </div>
 
-                {card.progress ? (
+                {card.progress !== undefined ? (
                   <div className="w-full mt-3">
                     <div className="w-full h-1 bg-white/8 rounded-full overflow-hidden">
                       <div
@@ -189,145 +182,157 @@ function RouteComponent() {
         </div>
 
         {/* ASSIGNMENTS LIST LOOP STACK */}
-        <div className="flex flex-col gap-3">
-          {activeJobs.map((job, idx) => (
-            <div
-              key={idx}
-              className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-6 hover:bg-white/2 transition duration-150"
-            >
-              {/* Left Block: Client metadata */}
-              <div className="flex flex-col min-w-52.5">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-[#E2A54A]">{job.id}</span>
-                  <span
-                    className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-extrabold tracking-wider ${
-                      job.statusType === "transit"
-                        ? "bg-blue-500/10 text-blue-400 border border-blue-500/10"
-                        : job.statusType === "loading"
-                          ? "bg-amber-500/10 text-[#E2A54A] border border-[#E2A54A]/10"
-                          : "bg-white/6 text-slate-400 border border-white/4"
-                    }`}
-                  >
-                    {job.statusType === "transit" && (
-                      <span className="w-1 h-1 bg-blue-400 rounded-full mr-1 animate-pulse" />
-                    )}
-                    {job.statusType === "loading" && (
-                      <span className="w-1 h-1 bg-[#E2A54A] rounded-full mr-1" />
-                    )}
-                    {job.status}
-                  </span>
-                </div>
-                <h4 className="text-sm font-bold text-white mt-2 tracking-tight">{job.client}</h4>
-                <span className="text-xs font-medium text-slate-500 mt-1 flex items-center gap-1.5">
-                  <Calendar className="w-3 h-3 text-slate-600" /> {job.timestamp}
-                </span>
-              </div>
-
-              {/* Middle Block: Route Line Vector Design */}
-              <div className="flex-1 flex items-center justify-center min-w-65 px-2 py-4 lg:py-0">
-                <div className="flex items-center justify-between w-full relative">
-                  {/* Origin Node */}
-                  <div className="flex flex-col items-center text-center z-10">
-                    <div
-                      className={`w-5 h-5 rounded-full bg-[#0d111a] border-2 flex items-center justify-center ${job.statusType !== "assigned" ? "border-[#E2A54A]" : "border-white/12"}`}
-                    >
-                      <div
-                        className={`w-1.5 h-1.5 rounded-full ${job.statusType !== "assigned" ? "bg-[#E2A54A]" : "bg-white/12"}`}
-                      />
-                    </div>
-                    <span className="text-[10px] font-bold text-slate-400 mt-2 tracking-wide">
-                      {job.origin}
-                    </span>
-                    <span className="text-[9px] font-mono font-medium text-slate-600 mt-0.5">
-                      {job.originSub}
-                    </span>
-                  </div>
-
-                  {/* Connection Route Line vector tracking node */}
-                  <div className="absolute left-0 right-0 top-2.5 h-px z-0 px-6">
-                    <div
-                      className={`w-full h-full relative flex items-center justify-center ${
-                        job.lineStyle === "solid-active"
-                          ? "border-t border-[#E2A54A]/60"
-                          : job.lineStyle === "dashed"
-                            ? "border-t border-dashed border-white/6"
-                            : "border-t border-dotted border-white/4"
+        {activeJobs.length === 0 ? (
+          <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl py-16 px-5 flex flex-col items-center justify-center gap-2 text-center">
+            <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-slate-500 mb-1">
+              <PackageSearch className="w-4 h-4" />
+            </div>
+            <p className="text-sm font-medium text-slate-300">No active assignments yet</p>
+            <p className="text-xs text-slate-500 max-w-xs">
+              New jobs will show up here as soon as they're dispatched to a crew.
+            </p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {activeJobs.map((job, idx) => (
+              <div
+                key={idx}
+                className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-6 hover:bg-white/2 transition duration-150"
+              >
+                {/* Left Block: Client metadata */}
+                <div className="flex flex-col min-w-52.5">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs font-bold text-[#E2A54A]">{job.id}</span>
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-extrabold tracking-wider ${
+                        job.statusType === "transit"
+                          ? "bg-blue-500/10 text-blue-400 border border-blue-500/10"
+                          : job.statusType === "loading"
+                            ? "bg-amber-500/10 text-[#E2A54A] border border-[#E2A54A]/10"
+                            : "bg-white/6 text-slate-400 border border-white/4"
                       }`}
                     >
-                      {job.hasTruckIcon && (
-                        <div className="absolute left-[55%] -top-2.5 bg-[#0d111a] border border-white/6 rounded px-1 text-[#E2A54A]">
-                          <Truck className="w-4 h-4" />
-                        </div>
+                      {job.statusType === "transit" && (
+                        <span className="w-1 h-1 bg-blue-400 rounded-full mr-1 animate-pulse" />
                       )}
-                    </div>
-                  </div>
-
-                  {/* Destination Node */}
-                  <div className="flex flex-col items-center text-center z-10">
-                    <div className="w-5 h-5 rounded-full bg-[#0d111a] border-2 border-white/12 flex items-center justify-center">
-                      <MapPin className="w-3 h-3 text-slate-600" />
-                    </div>
-                    <span className="text-[10px] font-bold text-slate-500 mt-2 tracking-wide">
-                      {job.dest}
-                    </span>
-                    <span className="text-[9px] font-mono font-medium text-slate-600 mt-0.5">
-                      {job.destSub}
+                      {job.statusType === "loading" && (
+                        <span className="w-1 h-1 bg-[#E2A54A] rounded-full mr-1" />
+                      )}
+                      {job.status}
                     </span>
                   </div>
+                  <h4 className="text-sm font-bold text-white mt-2 tracking-tight">{job.client}</h4>
+                  <span className="text-xs font-medium text-slate-500 mt-1 flex items-center gap-1.5">
+                    <Calendar className="w-3 h-3 text-slate-600" /> {job.timestamp}
+                  </span>
                 </div>
-              </div>
 
-              {/* Right Block: Progress Status Metric Gauge and Crew Profile Tokens */}
-              <div className="flex items-center gap-6 justify-between lg:justify-end min-w-60">
-                <div className="flex flex-col flex-1 max-w-35">
-                  {job.progressPercent > 0 ? (
-                    <>
-                      <div className="flex justify-between text-[10px] font-bold tracking-wide mb-1.5">
-                        <span className="text-slate-400 font-medium">{job.progressLabel}</span>
-                        <span className="text-white font-mono">{job.progressPercent}%</span>
-                      </div>
-                      <div className="w-full h-1 bg-white/8 rounded-full overflow-hidden">
+                {/* Middle Block: Route Line Vector Design */}
+                <div className="flex-1 flex items-center justify-center min-w-65 px-2 py-4 lg:py-0">
+                  <div className="flex items-center justify-between w-full relative">
+                    {/* Origin Node */}
+                    <div className="flex flex-col items-center text-center z-10">
+                      <div
+                        className={`w-5 h-5 rounded-full bg-[#0d111a] border-2 flex items-center justify-center ${job.statusType !== "assigned" ? "border-[#E2A54A]" : "border-white/12"}`}
+                      >
                         <div
-                          className="h-full bg-[#E2A54A] rounded-full"
-                          style={{ width: `${job.progressPercent}%` }}
+                          className={`w-1.5 h-1.5 rounded-full ${job.statusType !== "assigned" ? "bg-[#E2A54A]" : "bg-white/12"}`}
                         />
                       </div>
-                    </>
-                  ) : (
-                    <span className="text-xs font-mono font-bold text-slate-600 tracking-wide">
-                      {job.progressLabel}
-                    </span>
-                  )}
+                      <span className="text-[10px] font-bold text-slate-400 mt-2 tracking-wide">
+                        {job.origin}
+                      </span>
+                      <span className="text-[9px] font-mono font-medium text-slate-600 mt-0.5">
+                        {job.originSub}
+                      </span>
+                    </div>
+
+                    {/* Connection Route Line vector tracking node */}
+                    <div className="absolute left-0 right-0 top-2.5 h-px z-0 px-6">
+                      <div
+                        className={`w-full h-full relative flex items-center justify-center ${
+                          job.lineStyle === "solid-active"
+                            ? "border-t border-[#E2A54A]/60"
+                            : job.lineStyle === "dashed"
+                              ? "border-t border-dashed border-white/6"
+                              : "border-t border-dotted border-white/4"
+                        }`}
+                      >
+                        {job.hasTruckIcon && (
+                          <div className="absolute left-[55%] -top-2.5 bg-[#0d111a] border border-white/6 rounded px-1 text-[#E2A54A]">
+                            <Truck className="w-4 h-4" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Destination Node */}
+                    <div className="flex flex-col items-center text-center z-10">
+                      <div className="w-5 h-5 rounded-full bg-[#0d111a] border-2 border-white/12 flex items-center justify-center">
+                        <MapPin className="w-3 h-3 text-slate-600" />
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-500 mt-2 tracking-wide">
+                        {job.dest}
+                      </span>
+                      <span className="text-[9px] font-mono font-medium text-slate-600 mt-0.5">
+                        {job.destSub}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Crew Avatars Stack Container */}
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center -space-x-1.5">
-                    {job.crewCount > 0 ? (
-                      Array(job.crewCount)
-                        .fill(0)
-                        .map((_, i) => (
+                {/* Right Block: Progress Status Metric Gauge and Crew Profile Tokens */}
+                <div className="flex items-center gap-6 justify-between lg:justify-end min-w-60">
+                  <div className="flex flex-col flex-1 max-w-35">
+                    {job.progressPercent > 0 ? (
+                      <>
+                        <div className="flex justify-between text-[10px] font-bold tracking-wide mb-1.5">
+                          <span className="text-slate-400 font-medium">{job.progressLabel}</span>
+                          <span className="text-white font-mono">{job.progressPercent}%</span>
+                        </div>
+                        <div className="w-full h-1 bg-white/8 rounded-full overflow-hidden">
                           <div
-                            key={i}
-                            className="w-6 h-6 rounded-full bg-white/4 border border-white/8 flex items-center justify-center text-[9px] font-bold text-slate-400"
-                          >
-                            {i === 0 ? "JD" : "MS"}
-                          </div>
-                        ))
+                            className="h-full bg-[#E2A54A] rounded-full"
+                            style={{ width: `${job.progressPercent}%` }}
+                          />
+                        </div>
+                      </>
                     ) : (
-                      <button className="w-6 h-6 rounded-full border border-dashed border-white/12 flex items-center justify-center text-slate-500 hover:text-slate-400 transition-colors">
-                        <UserPlus className="w-3 h-3" />
-                      </button>
+                      <span className="text-xs font-mono font-bold text-slate-600 tracking-wide">
+                        {job.progressLabel}
+                      </span>
                     )}
                   </div>
-                  <button className="text-slate-600 hover:text-slate-400 transition-colors">
-                    <MoreVertical className="w-4 h-4" />
-                  </button>
+
+                  {/* Crew Avatars Stack Container */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center -space-x-1.5">
+                      {job.crewCount > 0 ? (
+                        Array(job.crewCount)
+                          .fill(0)
+                          .map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-6 h-6 rounded-full bg-white/4 border border-white/8 flex items-center justify-center text-[9px] font-bold text-slate-400"
+                            >
+                              {i === 0 ? "JD" : "MS"}
+                            </div>
+                          ))
+                      ) : (
+                        <button className="w-6 h-6 rounded-full border border-dashed border-white/12 flex items-center justify-center text-slate-500 hover:text-slate-400 transition-colors">
+                          <UserPlus className="w-3 h-3" />
+                        </button>
+                      )}
+                    </div>
+                    <button className="text-slate-600 hover:text-slate-400 transition-colors">
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* MEANINGFUL BOTTOM DATA CARD DETAIL BLOCK */}
@@ -335,14 +340,16 @@ function RouteComponent() {
         <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-slate-500 font-medium">
           <span>
             System Fleet Health Sync Status:{" "}
-            <span className="text-emerald-400 font-semibold ml-1">100% Calibrated</span>
+            <span className="text-slate-400 font-semibold ml-1">Awaiting first sync</span>
           </span>
-          <span className="text-[11px] font-mono text-slate-600">Last run: Just now</span>
+          <span className="text-[11px] font-mono text-slate-600">Last run: —</span>
         </div>
         <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-slate-500 font-medium">
           <span>
             Active Drivers Dispatched:{" "}
-            <span className="text-white font-mono font-bold ml-1">18 / 24 Available</span>
+            <span className="text-white font-mono font-bold ml-1">
+              {driversDispatched} / {driversAvailable} Available
+            </span>
           </span>
           <span className="text-xs text-[#E2A54A] hover:underline cursor-pointer">
             View Schedule

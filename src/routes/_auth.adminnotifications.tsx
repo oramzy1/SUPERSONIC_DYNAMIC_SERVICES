@@ -31,67 +31,12 @@ interface NotificationItem {
   metaId?: string;
 }
 
+// ── Placeholder data (empty until backend is connected) ────────────────────
+// Real alerts and messages will populate this list once the feed is wired up.
+const INITIAL_NOTIFICATIONS: NotificationItem[] = [];
+
 function RouteComponent() {
-  const [notifications, setNotifications] = useState<NotificationItem[]>([
-    {
-      id: "NT-8942",
-      type: "alert",
-      title: "High Priority Moving Request",
-      sender: "System Dispatcher",
-      preview:
-        "New residential moving quote request submitted for Route ID #9082. Dispatched to regional operators.",
-      timestamp: "5 mins ago",
-      isRead: false,
-      priority: "high",
-      metaId: "REQ-9082",
-    },
-    {
-      id: "MSG-1049",
-      type: "message",
-      title: "Client Route Alteration Note",
-      sender: "Marcus Vance",
-      preview:
-        "Can we adjust the drop-off time window for tomorrow's assignment to 2:00 PM instead of noon?",
-      timestamp: "24 mins ago",
-      isRead: false,
-      priority: "medium",
-      metaId: "QUOTE-4410",
-    },
-    {
-      id: "NT-8940",
-      type: "info",
-      title: "System Update Complete",
-      sender: "DevOps Automated",
-      preview:
-        "Geofencing tracking databases successfully re-indexed. Zero latency abnormalities recorded.",
-      timestamp: "1 hour ago",
-      isRead: true,
-      priority: "low",
-    },
-    {
-      id: "MSG-1042",
-      type: "message",
-      title: "Corporate Account Inquiry",
-      sender: "Sarah Jenkins (Logistics Corp)",
-      preview: "Requested dynamic pricing models for multi-state continuous operations contracts.",
-      timestamp: "3 hours ago",
-      isRead: true,
-      priority: "high",
-      metaId: "CORP-981",
-    },
-    {
-      id: "NT-8931",
-      type: "alert",
-      title: "Driver Delay Warning",
-      sender: "Fleet Telematics",
-      preview:
-        "Vehicle #12 reports heavy route delays due to flash accident on Interstate 95 North.",
-      timestamp: "Yesterday",
-      isRead: true,
-      priority: "medium",
-      metaId: "VEH-12",
-    },
-  ]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
 
   const [activeTab, setActiveTab] = useState<"all" | "unread" | "alerts" | "messages">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -294,10 +239,14 @@ function RouteComponent() {
                           <Filter className="w-5 h-5" />
                         </div>
                         <p className="text-sm font-semibold text-slate-300">
-                          No communication data found
+                          {notifications.length === 0
+                            ? "No notifications yet"
+                            : "No communication data found"}
                         </p>
                         <p className="text-xs text-slate-500 mt-1">
-                          Try modifying your filter query or clearing the selected tab.
+                          {notifications.length === 0
+                            ? "System alerts and messages will show up here as they come in."
+                            : "Try modifying your filter query or clearing the selected tab."}
                         </p>
                       </div>
                     </td>

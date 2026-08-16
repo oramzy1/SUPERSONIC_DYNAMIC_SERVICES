@@ -33,51 +33,9 @@ interface ActiveNode {
   telemetry: NodeTelemetry;
 }
 
-const NODES: ActiveNode[] = [
-  {
-    id: "AMS-442",
-    status: "MAINTENANCE",
-    label: "ALERT",
-    telemetry: {
-      route: "RTM Hub → AMS Port",
-      eta: "Delayed 45m",
-      crewName: "V. van Dijk",
-      detailLabel: "Engine Temp",
-      detailValue: "104°C",
-      isAlert: true,
-      lat: 52.3676,
-      lng: 4.9041,
-    },
-  },
-  {
-    id: "TRK-711B",
-    status: "EN ROUTE",
-    label: "85 km/h",
-    telemetry: {
-      route: "UTC City → EHV Campus",
-      eta: "14:30 On Time",
-      crewName: "D. de Jong",
-      detailLabel: "Vehicle Health",
-      detailValue: "Optimal",
-      lat: 52.0907,
-      lng: 5.1214,
-    },
-  },
-  {
-    id: "VHT-309X",
-    status: "IDLE",
-    label: "Depot",
-    telemetry: {
-      route: "APD Depot Center",
-      eta: "ETA: N/A",
-      crewName: "Unassigned",
-      detailLabel: "Fuel Level",
-      detailValue: "98%",
-      lat: 52.2112,
-      lng: 5.9699,
-    },
-  },
-];
+// ── Placeholder data (empty until backend is connected) ────────────────────
+// Real units will populate this array once the fleet feed is wired up.
+const NODES: ActiveNode[] = [];
 
 const STATUS_CONFIG = {
   MAINTENANCE: {
@@ -99,11 +57,15 @@ const STATUS_CONFIG = {
 
 export function TrackingDashboard() {
   const [filter, setFilter] = useState<"ALL" | "IN TRANSIT" | "ALERTS">("ALL");
-  const [selectedNodeId, setSelectedNodeId] = useState<string>("AMS-442");
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
 
   const selectedNode = NODES.find((n) => n.id === selectedNodeId);
+
+  const alertCount = NODES.filter(
+    (node) => node.status === "MAINTENANCE" || node.telemetry.isAlert,
+  ).length;
 
   const filteredNodes = NODES.filter((node) => {
     if (filter === "IN TRANSIT") return node.status === "EN ROUTE";
@@ -279,6 +241,18 @@ export function TrackingDashboard() {
             </div>
           </div>
         )}
+
+        {/* No units yet — empty state overlay on the map itself */}
+        {NODES.length === 0 && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+            <div className="bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-xl px-4 py-3 text-center">
+              <p className="text-xs font-semibold text-slate-300">No fleet units on the map yet</p>
+              <p className="text-[11px] text-slate-500 mt-0.5">
+                Units will appear here once vehicles are connected.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ── RIGHT PANEL ── */}
@@ -289,7 +263,7 @@ export function TrackingDashboard() {
             <div>
               <h2 className="text-base font-bold text-white tracking-tight">Fleet Nodes</h2>
               <p className="text-[11px] text-slate-600 mt-0.5">
-                {NODES.length} units tracked · 1 alert
+                {NODES.length} units tracked · {alertCount} alert{alertCount === 1 ? "" : "s"}
               </p>
             </div>
             <div className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-2.5 py-1">
@@ -315,7 +289,7 @@ export function TrackingDashboard() {
                   ? `All (${NODES.length})`
                   : tab === "IN TRANSIT"
                     ? "Transit"
-                    : "Alerts (1)"}
+                    : `Alerts (${alertCount})`}
               </button>
             ))}
           </div>
@@ -419,8 +393,14 @@ export function TrackingDashboard() {
           {filteredNodes.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <Radio className="h-8 w-8 text-slate-700 mb-3" />
-              <p className="text-sm text-slate-500 font-medium">No units match this filter</p>
-              <p className="text-xs text-slate-700 mt-1">Try switching to All</p>
+              <p className="text-sm text-slate-500 font-medium">
+                {NODES.length === 0 ? "No fleet units yet" : "No units match this filter"}
+              </p>
+              <p className="text-xs text-slate-700 mt-1">
+                {NODES.length === 0
+                  ? "Units will appear here once vehicles are connected."
+                  : "Try switching to All"}
+              </p>
             </div>
           )}
         </div>
