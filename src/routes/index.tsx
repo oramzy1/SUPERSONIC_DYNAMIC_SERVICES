@@ -8,7 +8,7 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import heroVan from "@/assets/images/hero-van.png";
 import heroBg from "@/assets/images/hero-bg.png";
 import homeEco from "@/assets/images/home-eco.png";
-// import crates from "@/assets/shop/crates-lifestyle.jpg";
+import crates from "@/assets/shop/crates-lifestyle.jpg";
 import homePricing from "@/assets/images/home-pricing.jpg";
 import homeTech from "@/assets/images/home-tech.jpg";
 import homeHandling from "@/assets/images/home-handling.jpg";
@@ -292,7 +292,7 @@ function Home() {
                 </div>
 
                 <div className="relative hidden md:block">
-                  <img src={localVan} alt="Moving supplies" className="h-full w-full rounded-2xl object-cover" />
+                  <img src={crates} alt="Moving supplies" className="h-full w-full rounded-2xl object-cover" />
                   <div className="absolute inset-0 bg-linear-to-r from-background rounded-2xl via-background/20 to-transparent" />
                 </div>
               </div>
