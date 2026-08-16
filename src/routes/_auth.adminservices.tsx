@@ -239,7 +239,7 @@ export function RouteComponent() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">Service Modules</h1>
           <p className="text-sm text-slate-400 mt-1">
-            Manage available logistics services, configure pricing parameters, and control
+            Manage available logistics services, configure pricing, and control
             operational status across all regions.
           </p>
         </div>

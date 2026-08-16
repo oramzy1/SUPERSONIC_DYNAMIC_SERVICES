@@ -8,47 +8,66 @@ import {
   ChevronLeft,
   ChevronRight,
   Download,
+  FileSearch,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_auth/adminquotes")({
   component: RouteComponent,
 });
 
-// Metrics Cards Data Structure matching Design Exactly
-const metrics = [
+// ── Types ────────────────────────────────────────────────────────────────
+// Mirrors what the backend is expected to return once it's wired up.
+
+interface MetricCard {
+  title: string;
+  value: string;
+  change?: string;
+  subtext: string;
+  progress?: number;
+  icon: React.ElementType;
+}
+
+interface QuoteRow {
+  id: string;
+  customer: string;
+  initials: string;
+  serviceType: string;
+  date: string;
+  value: string;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+}
+
+// ── Placeholder data (all zeroed / empty until backend is connected) ──────
+
+const metrics: MetricCard[] = [
   {
     title: "TOTAL PENDING",
-    value: "42",
-    change: "+12%",
+    value: "0",
+    change: "0%",
     subtext: "Requiring immediate review",
     icon: FileClock,
   },
   {
     title: "APPROVAL RATE",
-    value: "78%",
+    value: "0%",
     subtext: "avg",
-    progress: 78,
+    progress: 0,
     icon: CheckSquare,
   },
   {
     title: "EST. MONTHLY VALUE",
-    value: "$1.2M",
-    change: "+5%",
+    value: "$0",
+    change: "0%",
     subtext: "Based on approved quotes",
     icon: Banknote,
   },
 ];
 
-// Quotes Table Rows Data (Matching the recurring pattern in the design)
-const quotesData = Array(8).fill({
-  id: "#Q-8942",
-  customer: "Acme Corp",
-  initials: "A",
-  serviceType: "Enterprise",
-  date: "Oct 24, 2023",
-  value: "$45,000",
-  status: "PENDING",
-});
+const quotesData: QuoteRow[] = [];
+
+const totalEntries = 0;
+const rangeStart = 0;
+const rangeEnd = 0;
 
 function RouteComponent() {
   return (
@@ -79,6 +98,7 @@ function RouteComponent() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
         {metrics.map((card, idx) => {
           const Icon = card.icon;
+          const isNeutral = card.change === "0%";
           return (
             <div
               key={idx}
@@ -99,7 +119,13 @@ function RouteComponent() {
                     {card.value}
                   </h3>
                   {card.change && (
-                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-500/5 px-1.5 py-0.5 rounded">
+                    <span
+                      className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                        isNeutral
+                          ? "text-slate-500 bg-white/4"
+                          : "text-emerald-400 bg-emerald-500/5"
+                      }`}
+                    >
                       {card.change}
                     </span>
                   )}
@@ -109,7 +135,7 @@ function RouteComponent() {
                 </div>
 
                 {/* Render standard descriptive subtext OR approval progress bar conditional metrics */}
-                {card.progress ? (
+                {card.progress !== undefined ? (
                   <div className="w-full mt-3">
                     <div className="w-full h-1.5 bg-white/8 rounded-full overflow-hidden">
                       <div
@@ -178,51 +204,67 @@ function RouteComponent() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/2">
-              {quotesData.map((row, idx) => (
-                <tr key={idx} className="hover:bg-white/2 transition duration-150 group">
-                  {/* Quote unique identifier */}
-                  <td className="py-3.5 px-6 font-mono font-bold text-[#E2A54A]/80 text-xs">
-                    {row.id}
-                  </td>
-
-                  {/* Customer Token Representation */}
-                  <td className="py-3.5 px-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-full bg-white/4 border border-white/8 flex items-center justify-center text-xs font-bold text-slate-400 font-sans shadow-sm">
-                        {row.initials}
+              {quotesData.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-12 px-6">
+                    <div className="flex flex-col items-center justify-center gap-2 text-center">
+                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-slate-500 mb-1">
+                        <FileSearch className="w-4 h-4" />
                       </div>
-                      <span className="text-xs font-semibold text-slate-200">{row.customer}</span>
+                      <p className="text-sm font-medium text-slate-300">No quotes to review yet</p>
+                      <p className="text-xs text-slate-500 max-w-xs">
+                        New requests from customers will land here for you to approve or decline.
+                      </p>
                     </div>
                   </td>
-
-                  {/* Logistic Tier Classification */}
-                  <td className="py-3.5 px-6 text-xs font-medium text-slate-400">
-                    {row.serviceType}
-                  </td>
-
-                  {/* Processing Timestamp Date */}
-                  <td className="py-3.5 px-6 text-xs font-medium text-slate-400">{row.date}</td>
-
-                  {/* Financial Valuations */}
-                  <td className="py-3.5 px-6 text-xs font-mono font-bold text-slate-200">
-                    {row.value}
-                  </td>
-
-                  {/* Badge Operational Status Flag */}
-                  <td className="py-3.5 px-6">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded bg-[#E2A54A]/5 border border-[#E2A54A]/10 text-[#E2A54A] text-[9px] font-bold tracking-wider uppercase">
-                      {row.status}
-                    </span>
-                  </td>
-
-                  {/* Targeted Deep View Context trigger button */}
-                  <td className="py-3.5 px-6 text-right">
-                    <button className="px-3 py-1 bg-transparent border border-[#E2A54A]/20 hover:border-[#E2A54A] text-[#E2A54A] text-[10px] font-bold rounded-md tracking-wide uppercase transition duration-150">
-                      View Details
-                    </button>
-                  </td>
                 </tr>
-              ))}
+              ) : (
+                quotesData.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-white/2 transition duration-150 group">
+                    {/* Quote unique identifier */}
+                    <td className="py-3.5 px-6 font-mono font-bold text-[#E2A54A]/80 text-xs">
+                      {row.id}
+                    </td>
+
+                    {/* Customer Token Representation */}
+                    <td className="py-3.5 px-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-full bg-white/4 border border-white/8 flex items-center justify-center text-xs font-bold text-slate-400 font-sans shadow-sm">
+                          {row.initials}
+                        </div>
+                        <span className="text-xs font-semibold text-slate-200">{row.customer}</span>
+                      </div>
+                    </td>
+
+                    {/* Logistic Tier Classification */}
+                    <td className="py-3.5 px-6 text-xs font-medium text-slate-400">
+                      {row.serviceType}
+                    </td>
+
+                    {/* Processing Timestamp Date */}
+                    <td className="py-3.5 px-6 text-xs font-medium text-slate-400">{row.date}</td>
+
+                    {/* Financial Valuations */}
+                    <td className="py-3.5 px-6 text-xs font-mono font-bold text-slate-200">
+                      {row.value}
+                    </td>
+
+                    {/* Badge Operational Status Flag */}
+                    <td className="py-3.5 px-6">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded bg-[#E2A54A]/5 border border-[#E2A54A]/10 text-[#E2A54A] text-[9px] font-bold tracking-wider uppercase">
+                        {row.status}
+                      </span>
+                    </td>
+
+                    {/* Targeted Deep View Context trigger button */}
+                    <td className="py-3.5 px-6 text-right">
+                      <button className="px-3 py-1 bg-transparent border border-[#E2A54A]/20 hover:border-[#E2A54A] text-[#E2A54A] text-[10px] font-bold rounded-md tracking-wide uppercase transition duration-150">
+                        View Details
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -230,8 +272,11 @@ function RouteComponent() {
         {/* PAGINATION DATA METRIC CONTROLS FOOTER */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-white/6 bg-white/1">
           <span className="text-xs text-slate-500 font-medium">
-            Showing <span className="text-slate-400 font-semibold">1 to 5</span> of{" "}
-            <span className="text-slate-400 font-semibold">42</span> entries
+            Showing{" "}
+            <span className="text-slate-400 font-semibold">
+              {rangeStart} to {rangeEnd}
+            </span>{" "}
+            of <span className="text-slate-400 font-semibold">{totalEntries}</span> entries
           </span>
 
           {/* Interactive Multi-page triggers */}
@@ -245,14 +290,10 @@ function RouteComponent() {
             <button className="px-2.5 py-1 text-xs font-bold font-mono rounded bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/20">
               1
             </button>
-            <button className="px-2.5 py-1 text-xs font-bold font-mono rounded border border-white/6 text-slate-500 hover:text-slate-300 transition-colors">
-              2
-            </button>
-            <button className="px-2.5 py-1 text-xs font-bold font-mono rounded border border-white/6 text-slate-500 hover:text-slate-300 transition-colors">
-              3
-            </button>
-            <span className="text-slate-600 text-xs px-1 font-bold">...</span>
-            <button className="p-1.5 rounded-md border border-white/6 text-slate-400 hover:text-slate-200 hover:bg-white/2 transition-colors">
+            <button
+              className="p-1.5 rounded-md border border-white/6 text-slate-600 hover:text-slate-400 hover:bg-white/2 disabled:opacity-30 transition-colors"
+              disabled
+            >
               <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
