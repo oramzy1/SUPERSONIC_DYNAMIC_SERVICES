@@ -32,7 +32,7 @@ export function ShopLayout({ children }: { children: ReactNode }) {
             Delivery to all cities in the provinces of Limburg, North Brabant, Utrecht, and North Holland.
           </p>
           <p className="hidden text-muted-foreground md:block">
-            Supersonic Dynamic Services B.V. · Rotterdam, NL
+            Supersonic Dynamic Services B.V. NL
           </p>
         </div>
       </div>
