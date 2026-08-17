@@ -76,7 +76,7 @@ const FOUNDER_DATA = {
     ],
   },
   henry: {
-    name: "Mr. HENRY OBI NDUBISI",
+    name: "Mr. HENRY O. N.",
     role: "CO-FOUNDER & COO",
     education: [
       "B.Sc. in Accounting and Finance - University of Port-Harcourt, Rivers State, Nigeria",
@@ -163,7 +163,7 @@ function About() {
               </p>
 
               <h2 className="font-display text-2xl font-bold leading-[1.2] text-white sm:text-3xl md:text-[40px]">
-                Founded by Mr. Nweze W. Chukwudi & Henry Obi Ndubuisi
+                Founded by Mr. Nweze W. Chukwudi & Henry O. N.
               </h2>
 
               <div className="flex gap-4">
