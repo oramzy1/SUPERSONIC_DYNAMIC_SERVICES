@@ -140,7 +140,7 @@ function ServiceDetail() {
               </p>
             )}
             <Link to="/quote">
-              <CTAButton variant="primary" className="rounded-xl px-14 py-3 tracking-tight mt-5 text-base">
+              <CTAButton variant="primary" className="rounded-xl px-12 py-3 tracking-tight mt-5 text-base">
                 Request Your Free Quote
               </CTAButton>
             </Link>
