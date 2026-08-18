@@ -515,7 +515,7 @@ function RouteComponent() {
                   <div className="flex items-center gap-2 w-full sm:w-auto">
                     <Link
                       to="/"
-                      className="flex-1 sm:flex-none px-4 py-2 text-center text-xs font-semibold border border-white/10 hover:border-white/20 text-slate-300 hover:text-white rounded-lg transition"
+                      className="flex-1 sm:flex-none px-4 py-3 text-center text-xs font-semibold border border-white/10 hover:border-white/20 text-slate-300 hover:text-white rounded-lg transition"
                     >
                       Cancel
                     </Link>
@@ -524,7 +524,7 @@ function RouteComponent() {
                       variant="primary"
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2 rounded-lg text-primary-foreground text-xs font-semibold transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+                      className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-primary-foreground text-xs font-semibold transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
                     >
                       {isSubmitting ? (
                         <>

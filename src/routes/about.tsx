@@ -184,14 +184,14 @@ function About() {
               <div className="pt-2 flex flex-wrap gap-3">
                 <CTAButton
                   variant="primary"
-                  className="rounded"
+                  className="rounded-lg"
                   onClick={() => setSelectedFounder("nweze")}
                 >
                   CEO Profile
                 </CTAButton>
                 <CTAButton
                   variant="secondary"
-                  className="rounded border border-white/10 bg-white/5 text-white hover:bg-white/10"
+                  className="rounded-lg border border-white/10 bg-white/5 text-white hover:bg-white/10"
                   onClick={() => setSelectedFounder("henry")}
                 >
                   COO Profile

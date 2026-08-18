@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { RequestQuoteBanner } from "./index";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { BookAlert, BookHeadphones } from "lucide-react";
 
 export const Route = createFileRoute("/faqs")({
   component: FAQs,
@@ -86,13 +87,14 @@ function FAQs() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link to="/schedulecall">
-              <CTAButton variant="white" className="rounded-xl px-6">
+              <CTAButton variant="white" className="rounded-lg px-6">
+              <BookHeadphones className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 Schedule a Call
               </CTAButton>
             </Link>
 
             <Link to="/contact">
-              <CTAButton variant="outline" className="rounded-xl px-6">
+              <CTAButton variant="outline" className="rounded-lg px-6">
                 Contact Us
               </CTAButton>
             </Link>

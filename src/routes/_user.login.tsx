@@ -88,7 +88,7 @@ function UserLoginPage() {
                     placeholder="operator@supersonic.pulse"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
                 </div>
               </div>
@@ -106,7 +106,7 @@ function UserLoginPage() {
                     placeholder="••••••••••••"
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
                   <button
                     type="button"
@@ -146,7 +146,7 @@ function UserLoginPage() {
                 variant="primary"
                 type="submit"
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-xl py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2"
+                className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2"
               >
                 SIGN IN <ArrowRight className="h-4 w-4 text-slate-900" />
               </CTAButton>

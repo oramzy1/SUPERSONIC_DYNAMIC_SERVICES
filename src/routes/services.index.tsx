@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
 import { SurfaceCard } from "@/components/shared/SurfaceCard";
@@ -58,8 +58,9 @@ function Services() {
                   ))}
                 </ul>
                 <Link to="/services/$slug" params={{ slug: s.slug }} className="mt-6 block">
-                  <CTAButton variant="primary" className="w-full rounded-xl">
+                  <CTAButton variant="primary" className="w-full rounded-lg">
                     See More Details
+                    <ArrowRight className="h-4 w-4" />
                   </CTAButton>
                 </Link>
               </div>

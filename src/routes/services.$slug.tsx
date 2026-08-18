@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CheckCircle2 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { getService, SERVICES } from "@/lib/services-data";
@@ -133,15 +133,16 @@ function ServiceDetail() {
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2 md:items-start">
-          <div className="rounded-2xl border border-white/8 bg-surface p-6 text-foreground/85">
+          <div className="rounded-2xl text-foreground/85">
             {service.quoteGuidance && (
-              <p className="mt-0 max-w-xl text-sm leading-relaxed ">
+              <p className="mt-0 max-w-xl bg-surface p-6 rounded-2xl border border-white/8 text-sm leading-relaxed ">
                 {service.quoteGuidance.primary}
               </p>
             )}
             <Link to="/quote">
-              <CTAButton variant="primary" className="rounded-xl px-12 py-3 tracking-tight mt-5 text-base">
+              <CTAButton variant="primary" className="rounded-lg px-12 mb-3 py-3 tracking-tight mt-4 text-base">
                 Request Your Free Quote
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </CTAButton>
             </Link>
           </div>
