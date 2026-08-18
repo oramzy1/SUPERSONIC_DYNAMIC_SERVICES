@@ -300,7 +300,7 @@ function RouteComponent() {
             <button
               onClick={handleConfirmBriefing}
               disabled={isSubmitting}
-              className="w-full bg-white hover:bg-gray-100 disabled:bg-gray-700 disabled:text-gray-400 text-[#0b0f19] font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-widest mt-6 transition-all duration-150 transform active:scale-[0.99] flex items-center justify-center gap-2"
+              className="w-full bg-white hover:bg-gray-100 disabled:bg-gray-700 disabled:text-gray-400 text-[#0b0f19] font-bold py-4 px-4 rounded-lg text-xs uppercase tracking-widest mt-6 transition-all duration-150 transform active:scale-[0.99] flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>

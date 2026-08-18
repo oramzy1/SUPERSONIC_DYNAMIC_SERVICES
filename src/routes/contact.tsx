@@ -152,7 +152,7 @@ function Contact() {
                 />
               </Field>
             </div>
-            <CTAButton variant="primary" className="mt-6 w-full rounded-xl py-3.5" type="submit">
+            <CTAButton variant="primary" className="mt-6 w-full rounded-lg py-3.5" type="submit">
               Send Now <Send className="h-4 w-4" />
             </CTAButton>
             {sent && (
@@ -175,13 +175,13 @@ function Contact() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link to="/schedulecall">
-              <CTAButton variant="white" className="rounded-xl px-6">
+              <CTAButton variant="white" className="rounded-lg px-6">
                 Schedule a Call
               </CTAButton>
             </Link>
 
             <Link to="/support">
-              <CTAButton variant="outline" className="rounded-xl px-6">
+              <CTAButton variant="outline" className="rounded-lg px-6">
                 Chat with our Support
               </CTAButton>
             </Link>

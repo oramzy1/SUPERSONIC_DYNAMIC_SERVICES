@@ -121,10 +121,10 @@ function UserRegisterPage() {
           {/* LEFT COLUMN: BRAND VALUE PROP SECTION */}
           <div className="space-y-8 max-w-xl">
             <div className="space-y-3">
-              <p className="text-[11px] mt-4 font-bold tracking-tight text-[#8EA7FF] uppercase">
+              <p className="text-[11px] mt-4 font-bold tracking-tight text-amber-400 uppercase">
                 Supersonic Dynamic Services B.V.
               </p>
-              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-balance font-extrabold tracking-tight leading-[1.1] text-white">
                 Next Gen <br />
                 <span className="text-white/90">Logistics.</span>
               </h1>
@@ -172,7 +172,7 @@ function UserRegisterPage() {
             <div className="rounded-[24px] border border-white/10 bg-white/2 p-6 sm:p-8 backdrop-blur-xl shadow-1xl">
               <form onSubmit={handleRegisterSubmit} className="space-y-4">
                 {errors && (
-                  <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl p-3 font-medium">
+                  <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium">
                     {errors}
                   </div>
                 )}
@@ -190,7 +190,7 @@ function UserRegisterPage() {
                         placeholder="John Doe"
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                       />
                     </div>
                   </div>
@@ -207,7 +207,7 @@ function UserRegisterPage() {
                         placeholder="+1 (555) 000-0000"
                         value={formData.phoneNumber}
                         onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                        className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                       />
                     </div>
                   </div>
@@ -225,7 +225,7 @@ function UserRegisterPage() {
                       placeholder="name@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                      className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                     />
                   </div>
                 </div>
@@ -243,7 +243,7 @@ function UserRegisterPage() {
                         placeholder="••••••••"
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                       />
                       <button
                         type="button"
@@ -273,7 +273,7 @@ function UserRegisterPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, confirmPassword: e.target.value })
                         }
-                        className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                       />
                       <button
                         type="button"
@@ -318,7 +318,7 @@ function UserRegisterPage() {
                   variant="primary"
                   type="submit"
                   style={{ backgroundColor: "var(--primary)" }}
-                  className="w-full rounded-xl py-3 text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-4"
+                  className="w-full rounded-lg py-3 text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-4"
                 >
                   Create Account <ArrowRight className="h-4 w-4 text-slate-900" />
                 </CTAButton>
@@ -373,7 +373,7 @@ function UserRegisterPage() {
 
           <form onSubmit={handleVerifySubmit} className="space-y-6">
             {errors && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl p-3 font-medium text-center">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium text-center">
                 {errors}
               </div>
             )}
@@ -389,7 +389,7 @@ function UserRegisterPage() {
                   value={digit}
                   onChange={(e) => handleCodeChange(e.target, index)}
                   onFocus={(e) => e.target.select()}
-                  className="w-11 h-12 text-center text-lg font-bold rounded-xl border border-white/10 bg-white/4 text-white placeholder-slate-700 outline-none transition focus:border-[#8EA7FF] focus:bg-white/8 focus:ring-1 focus:ring-[#8EA7FF]/30"
+                  className="w-11 h-12 text-center text-lg font-bold rounded-lg border border-white/10 bg-white/4 text-white placeholder-slate-700 outline-none transition focus:border-[#8EA7FF] focus:bg-white/8 focus:ring-1 focus:ring-[#8EA7FF]/30"
                 />
               ))}
             </div>
@@ -398,7 +398,7 @@ function UserRegisterPage() {
               variant="primary"
               type="submit"
               style={{ backgroundColor: "var(--primary)" }}
-              className="w-full rounded-xl py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
+              className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
             >
               Confirm Code <ArrowRight className="h-4 w-4 text-slate-900" />
             </CTAButton>

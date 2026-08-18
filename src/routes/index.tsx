@@ -134,7 +134,7 @@ function Home() {
               <Link to="/quote">
                 <CTAButton
                   variant="primary"
-                  className="rounded-md px-6 py-3.5 flex items-center justify-center gap-2"
+                  className="rounded-lg px-6 py-3.5 flex items-center justify-center gap-2"
                 >
                   <FileText className="h-4 w-4" />
                   <span>Request Your Free Quote</span>
@@ -143,7 +143,7 @@ function Home() {
               <Link to="/services">
                 <CTAButton
                   variant="outline"
-                  className="group rounded-md px-6 bg-[#2F353C] border-[#2F353C] py-3.5 flex items-center justify-center gap-2"
+                  className="group rounded-lg px-6 bg-[#2F353C] border-[#2F353C] py-3.5 flex items-center justify-center gap-2"
                 >
                   <span>View All Services</span>
                   <ArrowUpRight className="h-4 w-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -283,7 +283,7 @@ function Home() {
 
                   <div className="mt-8">
                     <Link to="/shop">
-                      <CTAButton>
+                      <CTAButton className="rounded-lg">
                         Visit Store
                         <ArrowRight className="h-4 w-4" />
                       </CTAButton>
@@ -363,7 +363,7 @@ export function RequestQuoteBanner() {
             <Link to="/quote" className="mt-6 block w-full sm:w-auto">
               <CTAButton
                 variant="secondary"
-                className="group rounded-md w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"
+                className="group rounded-lg w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"
               >
                 <span>Request Quote</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />

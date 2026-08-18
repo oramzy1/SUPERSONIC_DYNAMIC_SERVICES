@@ -67,7 +67,7 @@ function UserForgotPasswordPage() {
                     placeholder="name@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-lg border border-white/10 bg-white/4 py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
                   {/* Subtle right aligned text decoration placeholder element from original graphic placeholder */}
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-600 font-sans font-medium">
@@ -81,7 +81,7 @@ function UserForgotPasswordPage() {
                 variant="primary"
                 type="submit"
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-xl py-3 text-xs sm:text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
+                className="w-full rounded-lg py-3 text-xs sm:text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
               >
                 Send Reset Link <ArrowRight className="h-4 w-4 text-slate-900" />
               </CTAButton>
