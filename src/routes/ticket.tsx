@@ -165,7 +165,7 @@ function RouteComponent() {
               </div>
 
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
+                <h1 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
                   How can we assist your move today?
                 </h1>
                 <p className="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed">
