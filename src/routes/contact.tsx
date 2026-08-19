@@ -94,7 +94,9 @@ function Contact() {
               />
               <div className="p-4">
                 <p className="font-display text-base font-semibold">Netherlands</p>
-                <p className="text-xs text-muted-foreground">Dynamic Hub Delta-7, 3011 Rotterdam</p>
+                <p className="text-xs text-muted-foreground">De Lingestraat 23, 
+6467BK, Kerkrade.
+Zuid Limburg.</p>
               </div>
             </div>
           </div>
