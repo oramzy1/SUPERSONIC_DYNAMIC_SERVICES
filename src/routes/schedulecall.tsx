@@ -133,7 +133,7 @@ function RouteComponent() {
           <span className="text-[10px] font-bold tracking-[0.15em] text-gray-400 uppercase">
             Supersonic Operations
           </span>
-          <h1 className="text-4xl font-bold tracking-tight mt-1 text-white">Schedule a Meeting</h1>
+          <h1 className="font-display text-4xl font-bold tracking-tight mt-1 text-white">Schedule a Meeting</h1>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
@@ -146,7 +146,7 @@ function RouteComponent() {
                   Live Consultation
                 </span>
 
-                <h2 className="text-2xl font-bold leading-tight mb-4 tracking-tight">
+                <h2 className="font-display text-2xl font-bold leading-tight mb-4 tracking-tight">
                   Schedule Your Free Consultation
                 </h2>
                 <p className="text-xs text-gray-400 leading-relaxed font-normal mb-5">

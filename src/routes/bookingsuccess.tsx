@@ -82,7 +82,7 @@ function RouteComponent() {
           Transmission Successful
         </span>
 
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-12 max-w-xl leading-[1.15]">
+        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-12 max-w-xl leading-[1.15]">
           Operational Briefing Confirmed
         </h1>
 
