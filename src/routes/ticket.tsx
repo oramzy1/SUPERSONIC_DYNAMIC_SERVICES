@@ -176,7 +176,6 @@ function RouteComponent() {
               <div className="space-y-3 pt-2">
                 <div className="flex items-start gap-3 text-xs text-slate-300">
                   <div className="p-1 rounded bg-emerald-500/10 text-emerald-400 mt-0.5 shrink-0">
-                    <Clock className="h-3.5 w-3.5" />
                   </div>
                   <div>
                     <span className="font-semibold text-white block">Fast Response Times</span>
@@ -186,7 +185,6 @@ function RouteComponent() {
 
                 <div className="flex items-start gap-3 text-xs text-slate-300">
                   <div className="p-1 rounded bg-primary/10 text-primary mt-0.5 shrink-0">
-                    <ShieldCheck className="h-3.5 w-3.5" />
                   </div>
                   <div>
                     <span className="font-semibold text-white block">Dedicated Support Agents</span>

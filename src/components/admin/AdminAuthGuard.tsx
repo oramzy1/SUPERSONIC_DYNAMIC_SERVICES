@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ShieldCheck, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 
 interface AdminAuthGuardProps {
-  children: React.ReactNode; // Enabled structural wrapping compatibility
+  children: React.ReactNode;
   onSuccess?: () => void;
 }
 
@@ -98,7 +98,6 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
     // Simulate authorization processing handshake
     setTimeout(() => {
       setIsLoading(false);
-      // Persist to localStorage so layout doesn't lock up again upon hot reloads
       localStorage.setItem("supersonic_admin_authed", "true");
       setStep("SUCCESS");
     }, 1500);
@@ -139,7 +138,7 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
           <div className="h-12 w-12 rounded-xl bg-[#C8A24A]/10 border border-[#C8A24A]/20 flex items-center justify-center text-[#C8A24A] mb-4">
             <ShieldCheck className="h-6 w-6" />
           </div>
-          <h1 className="text-xl font-bold text-white tracking-tight">Supersonic Team Portal</h1>
+          <h1 className="text-xl font-bold text-white tracking-tight">Supersonic Admin Portal</h1>
           <p className="text-xs text-[#64748B] mt-1">
             Please log in to manage your moves, quotes, and schedules
           </p>
@@ -227,7 +226,7 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
                 />
               </div>
               <p className="text-[10px] text-[#64748B] mt-1.5">
-                Enter any 6-digit code combinations to confirm authentication.
+                Enter any 6-digit code to confirm authentication.
               </p>
               {passcodeError && (
                 <div className="flex items-center gap-1.5 text-rose-400 text-xs mt-2 font-medium">
@@ -279,7 +278,7 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
               Authentication Successful
             </h2>
             <p className="text-xs text-emerald-400 font-medium">
-              Redirecting to administrator console cluster metrics...
+              Redirecting to administrator dashboard...
             </p>
           </div>
         )}

@@ -71,7 +71,7 @@ function ShopIndex() {
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[#79FF5B]/30 bg-[#79FF5B]/10 px-3 py-1 text-[11px] font-semibold tracking-[0.18em] text-[#79FF5B] uppercase">
               <Leaf className="h-3 w-3" /> Built for the circular economy
             </span>
-            <h1 className="mt-5 font-display text-4xl leading-[1.05] font-bold tracking-tight md:text-6xl">
+            <h1 className="mt-5 font-display text-4xl text-balance leading-[1.05] font-bold tracking-tight md:text-6xl">
               Premium eco moving & logistics supplies and consumables.
               <span className="block text-primary">Engineered for reuse.</span>
             </h1>

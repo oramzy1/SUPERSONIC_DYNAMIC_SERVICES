@@ -9,6 +9,8 @@ import { RequestQuoteBanner } from "./index";
 import ecoVan from "@/assets/images/home-eco.jpg";
 import tracking from "@/assets/images/about-tracking.jpg";
 import packing from "@/assets/images/about-packing.jpg";
+import vanHero from "@/assets/images/hero-van.jpg";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/about")({
   component: About,
@@ -97,21 +99,25 @@ function About() {
 
   return (
     <SiteLayout>
-      <section className="py-10 md:py-20 overflow-x-hidden">
-        <header className="mx-auto max-w-7xl px-4 sm:px-6">
-          <Pill variant="primary" dot>
-            Supersonic Dynamic Services B.V.
-          </Pill>
-          <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold sm:text-4xl md:text-6xl">
-            About Supersonic Dynamic Services B.V.
-          </h1>
-          <p className="mt-5 max-w-3xl text-sm sm:text-base text-muted-foreground">
-            SUPERSONIC DYNAMIC SERVICES B.V. is the next-level game changer in the Dutch moving
-            services market. We pride in leveraging on our unique value proposition of continuously
-            investing in a strong commitment to driving technological innovation, environmental
-            sustainability - responsible and sustainable moving solutions.
-          </p>
-        </header>
+      <section className="relative overflow-hidden">
+        <div className="relative">
+          <img src={vanHero} alt="" className="h-105 w-full object-cover opacity-50" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#0E141A] via-[#0E141A]/70 to-[#0E141A]/20" />
+          <div className="absolute mt-5 inset-0 flex items-end">
+            <div className="mx-auto w-full max-w-7xl mt-3 px-6 pb-10 md:px-8">
+              <Pill variant="primary">Supersonic Dynamic Services B.V</Pill>
+              <h1 className="mt-4 max-w-3xl font-display text-3xl font-bold sm:text-4xl md:text-6xl">
+                About Supersonic Dynamic Services B.V.
+              </h1>
+              <p className="mt-3 max-w-4xl text-sm sm:text-base text-muted-foreground">
+                SUPERSONIC DYNAMIC SERVICES B.V. is the next-level game changer in the Dutch moving
+                services market. We pride in leveraging on our unique value proposition of
+                continuously investing in a strong commitment to driving technological innovation,
+                environmental sustainability - responsible and sustainable moving solutions.
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* Mission and Vision Grid Setup */}
         <div className="w-full bg-surface py-10 md:py-16 my-10">
@@ -275,7 +281,7 @@ function About() {
           </p>
         </div>
 
-        <div className="mt-8 grid mx-auto max-w-7xl px-4 sm:px-6 gap-5 grid-cols-1 md:grid-cols-3">
+        <div className="mt-8 grid mx-auto max-w-7xl mb-15 px-4 sm:px-6 gap-5 grid-cols-1 md:grid-cols-3">
           {TESTIMONIALS.map((t) => (
             <SurfaceCard key={t.name} className="p-6">
               <p className="text-3xl text-muted-foreground font-display leading-none">"</p>

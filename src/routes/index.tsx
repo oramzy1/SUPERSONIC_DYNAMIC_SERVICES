@@ -255,7 +255,7 @@ function Home() {
                     Logistics Essentials & Consumable
                   </Pill>
 
-                  <h2 className="mt-5 text-4xl text-balance md:text-5xl font-bold tracking-tight text-white">
+                  <h2 className="font-display mt-5 text-4xl text-balance md:text-5xl font-bold tracking-tight text-white">
                     Need reliable logistics essentials and consumables?
                   </h2>
 

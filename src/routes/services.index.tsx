@@ -6,6 +6,8 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { RequestQuoteBanner } from "./index";
 import { SERVICES } from "@/lib/services-data";
+import vanHero from "@/assets/images/hero-van.jpg";
+import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/services/")({
   component: Services,
@@ -24,22 +26,32 @@ export const Route = createFileRoute("/services/")({
 function Services() {
   return (
     <SiteLayout>
-      <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 md:py-20">
-        <Pill variant="primary">Supersonic Dynamic Services B.V</Pill>
-        <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">Our Service Modules</h1>
-        <p className="mt-4 max-w-2xl text-muted-foreground">
-          At SUPERSONIC DYNAMIC SERVICES, Our mission is simple: to make our customers journey
-          smooth, efficient, and completely stress-free.
-        </p>
+      <section className="relative overflow-hidden">
+        <div className="relative ">
+          <img src={vanHero} alt="" className="h-100 w-full object-cover opacity-50" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#0E141A] via-[#0E141A]/70 to-[#0E141A]/20" />
+          <div className="absolute inset-0 flex items-end">
+            <div className="mx-auto w-full max-w-7xl px-6 pb-12 md:px-8">
+              <Pill variant="primary">Supersonic Dynamic Services B.V</Pill>
+              <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">
+                Our Service Modules.
+              </h1>
+              <p className="mt-4 max-w-2xl text-muted-foreground">
+                At SUPERSONIC DYNAMIC SERVICES, Our mission is simple: to make our customers journey
+                smooth, efficient, and completely stress-free.
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 mb-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3 mx-auto max-w-7xl px-6 py-10 md:px-8">
           {SERVICES.map((s) => (
             <SurfaceCard key={s.slug} padded={false} className="overflow-hidden flex flex-col">
               <img
                 src={s.image}
                 alt={s.heroTitle}
                 loading="lazy"
-                className="h-44 w-full object-cover"
+                className="h-50 w-full object-cover"
               />
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display text-lg font-semibold">{s.heroTitle}</h3>
