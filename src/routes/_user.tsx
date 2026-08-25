@@ -69,7 +69,6 @@ function UserLayoutWrapper() {
 
           {/* Modal Content Window */}
           <div className="relative w-full max-w-md overflow-hidden rounded-[24px] border border-white/10 bg-[#0A0F15] p-6 sm:p-8 text-center shadow-2xl animate-in zoom-in-95 duration-200">
-            {/* Top Close Button */}
             <button
               onClick={() => setIsGateOpen(false)}
               className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition"
@@ -82,7 +81,6 @@ function UserLayoutWrapper() {
               <ShieldAlert className="h-6 w-6" />
             </div>
 
-            {/* Text Copy */}
             <h3 className="font-display text-xl font-bold text-white sm:text-2xl">
               Authentication Required
             </h3>

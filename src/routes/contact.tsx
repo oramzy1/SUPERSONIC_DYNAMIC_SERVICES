@@ -9,6 +9,7 @@ import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
 import { useState } from "react";
+import vanHero from "@/assets/images/hero-van.jpg";
 
 export const Route = createFileRoute("/contact")({
   component: Contact,
@@ -57,18 +58,26 @@ function Contact() {
 
   return (
     <SiteLayout>
-      <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 md:py-20">
-        <Pill variant="primary">Global Operations</Pill>
-        <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">
-          Need Help? <br /> Contact Us Now.
-        </h1>
-        <p className="mt-5 max-w-2xl text-muted-foreground">
-          Are you having trouble with any of our services or you have a question and would you like
-          to know more information about a potential collaboration? Please contact us using the
-          contact form below. We'll do our best to respond as quickly as possible.
-        </p>
+      <section className="relative overflow-hidden">
+        <div className="relative">
+          <img src={vanHero} alt="" className="h-105 w-full object-cover opacity-50" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#0E141A] via-[#0E141A]/70 to-[#0E141A]/20" />
+          <div className="absolute mt-5 inset-0 flex items-end">
+            <div className="mx-auto w-full max-w-7xl mt-3 px-6 pb-10 md:px-8">
+              <Pill variant="primary">Global Operations</Pill>
+              <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">
+                Need Help? <br /> Contact Us Now.
+              </h1>
+              <p className="mt-3 max-w-3xl text-sm sm:text-base text-muted-foreground">
+                Are you having trouble with any of our services or you have a question and would you
+                like to know more information about a potential collaboration? Please contact us
+                using the contact form below. We'll do our best to respond as quickly as possible.
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.4fr]">
+        <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.4fr] mx-auto max-w-7xl px-6 py-14 md:px-8">
           <div className="space-y-4">
             <div className="rounded-2xl bg-surface p-6 border border-white/5">
               <div className="flex items-center gap-3">
@@ -94,9 +103,9 @@ function Contact() {
               />
               <div className="p-4">
                 <p className="font-display text-base font-semibold">Netherlands</p>
-                <p className="text-xs text-muted-foreground">De Lingestraat 23, 
-6467BK, Kerkrade.
-Zuid Limburg.</p>
+                <p className="text-xs text-muted-foreground">
+                  De Lingestraat 23, 6467BK, Kerkrade. Zuid Limburg.
+                </p>
               </div>
             </div>
           </div>
@@ -167,27 +176,6 @@ Zuid Limburg.</p>
               </motion.p>
             )}
           </form>
-        </div>
-        <div className="mt-8 flex flex-col items-start justify-between gap-6 rounded-2xl bg-surface p-6 md:flex-row md:items-center md:p-10">
-          <div>
-            <h3 className="font-display text-2xl font-semibold">Have Any Issues?</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Our support team are ready to assist with help
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link to="/schedulecall">
-              <CTAButton variant="white" className="rounded-lg px-6">
-                Schedule a Call
-              </CTAButton>
-            </Link>
-
-            <Link to="/support">
-              <CTAButton variant="outline" className="rounded-lg px-6">
-                Chat with our Support
-              </CTAButton>
-            </Link>
-          </div>
         </div>
       </section>
     </SiteLayout>

@@ -20,10 +20,11 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-import { Pill } from "@/components/shared/Pill";
+// import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
 import vanHero from "@/assets/images/hero-van.png";
+import ecoVan from "@/assets/images/home-eco.jpg";
 
 export const Route = createFileRoute("/quote")({
   component: Quote,
@@ -1431,23 +1432,21 @@ function Quote() {
 
           {/* Sticky sidebar - image + contact strips */}
           {step === 1 && (
-            <aside className="self-start sticky top-[calc(var(--navbar-height,64px)+52px+8px)] h-fit w-full space-y-3 sm:space-y-4 max-h-[calc(100vh-var(--navbar-height,64px)-52px-24px)] overflow-y-auto custom-scrollbar">
-              <div className="overflow-hidden rounded-2xl border border-white/5 bg-surface shadow-xl">
+            <aside className="self-start sticky top-[calc(var(--navbar-height,64px)+52px+8px)] h-fit w-full space-y-3 sm:space-y-4 max-h-[calc(100vh-var(--navbar-height,64px)-52px-24px)]">
+              <div className="overflow-hidden rounded-lg border border-white/5 bg-surface shadow-xl">
                 <div className="relative">
                   <img
-                    src={vanHero}
+                    src={ecoVan}
                     alt="Supersonic Services Van"
-                    className="h-40 sm:h-44 w-full object-cover"
+                    className="h-40 sm:h-65 w-full object-cover"
                     loading="lazy"
                   />
-                  <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-full bg-black/60 px-3 py-1.5 backdrop-blur">
-                    <span className="grid h-6 w-6 place-items-center rounded-full bg-primary text-primary-foreground">
+                  <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-2xl bg-black/60 px-6 py-3 backdrop-blur">
+                    <span className="grid h-6 w-6 place-items-center rounded-2xl bg-primary text-primary-foreground">
                       <Zap className="h-3.5 w-3.5" />
                     </span>
-                    <div className="text-xs leading-tight">
-                      <p className="uppercase tracking-[0.18em] text-muted-foreground">
-                        Efficiency Rate
-                      </p>
+                    <div className="text-sm leading-tight">
+                      <p className="uppercase tracking-[0.18em]">Efficiency Rate</p>
                       <p className="font-semibold">100%</p>
                     </div>
                   </div>
