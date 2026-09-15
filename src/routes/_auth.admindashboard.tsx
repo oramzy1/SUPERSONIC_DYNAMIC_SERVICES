@@ -6,7 +6,6 @@ import {
   Truck,
   CheckCircle2,
   Clock,
-  DollarSign,
   Users,
   TrendingUp,
   TrendingDown,
