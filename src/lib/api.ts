@@ -317,7 +317,8 @@ import type {
   TicketResponse,
 } from "./api-types";
 
-const BASE = import.meta.env.VITE_API_BASE_URL as string;
+// const BASE = import.meta.env.VITE_API_BASE_URL as string;
+const BASE = "https://supersonic-dynamic-services-api-0zjh.onrender.com"
 
 // ─── Token helpers ──────────────────────────────────
 const ACCESS_KEY = "sds_access_token";
