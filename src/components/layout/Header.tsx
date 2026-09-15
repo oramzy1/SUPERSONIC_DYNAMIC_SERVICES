@@ -84,10 +84,10 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 md:px-8 md:py-4">
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img 
-            src={logo} 
-            alt="Supersonic Dynamic Services" 
-            className="h-12 w-auto rounded-md sm:rounded-md" 
+          <img
+            src={logo}
+            alt="Supersonic Dynamic Services"
+            className="h-12 w-auto rounded-md sm:rounded-md"
           />
         </Link>
 
@@ -285,7 +285,7 @@ export function Header() {
           </div>
 
           {/* REQUEST QUOTE CTA BUTTON */}
-          <Link to="/quote" className="hidden md:block">
+          <Link to="/quoterequest" className="hidden md:block">
             <CTAButton
               variant="primary"
               className="rounded-md px-5 py-2 text-sm tracking-wide shadow-lg shadow-(--primary)/10"
@@ -363,7 +363,7 @@ export function Header() {
                 >
                   <UserCircle2 className="h-4 w-4" /> {isLoggedIn ? "Dashboard" : "Sign In"}
                 </Link>
-                <Link to="/quote" onClick={() => setOpen(false)}>
+                <Link to="/quoterequest" onClick={() => setOpen(false)}>
                   <CTAButton
                     variant="primary"
                     className="w-full rounded-xl py-2.5 text-xs font-semibold"

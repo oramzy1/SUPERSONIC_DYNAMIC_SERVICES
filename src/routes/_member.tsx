@@ -3,9 +3,11 @@ import { useState, useEffect, createContext, useContext } from "react";
 import { X, ShieldAlert, UserPlus, LogIn } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useAuth } from "@/contexts/AuthContext";
+import { CrewDashboardSidebar } from "@/components/crew/CrewDashboardSidebar";
+import { CrewDashboardTopbar } from "@/components/crew/CrewDashboardTopbar";
 
 // 1. Create a lightweight Auth Intercept Context so any component on your site can trigger this popup
-const SecurityGuardContext = createContext<{
+const SecurityGuardContext = createContext<{ 
   triggerGate: (nextActionUrl?: string) => void;
 }>({
   triggerGate: () => {},
@@ -13,11 +15,11 @@ const SecurityGuardContext = createContext<{
 
 export const useSecurityGuard = () => useContext(SecurityGuardContext);
 
-export const Route = createFileRoute("/_user")({
-  component: UserLayoutWrapper,
+export const Route = createFileRoute("/_member")({
+  component: CrewLayoutWrapper,
 });
 
-function UserLayoutWrapper() {
+function CrewLayoutWrapper() {
   const navigate = useNavigate();
   const [isGateOpen, setIsGateOpen] = useState(false);
   const [redirectTarget, setRedirectTarget] = useState<string | null>(null);
@@ -46,7 +48,7 @@ function UserLayoutWrapper() {
     };
   }, [isGateOpen]);
 
-  const handleRedirect = (destination: "/register" | "/login") => {
+  const handleRedirect = (destination: "/crewregister" | "/login") => {
     setIsGateOpen(false);
     navigate({
       to: destination,
@@ -56,8 +58,19 @@ function UserLayoutWrapper() {
 
   return (
     <SecurityGuardContext.Provider value={{ triggerGate }}>
-      {/* Renders your public user authentication routes safely */}
-      <Outlet />
+       <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
+    <CrewDashboardSidebar />
+    <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
+      <CrewDashboardTopbar
+        onMenuToggle={() => window.dispatchEvent(new Event("toggle-admin-sidebar"))}
+      />
+      <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <Outlet />
+      </main>
+    </div>
+  </div>
+
+
 
       {/* PORTAL SECURITY MODAL OVERLAY */}
       {isGateOpen && (
@@ -93,7 +106,7 @@ function UserLayoutWrapper() {
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <CTAButton
                 variant="primary"
-                onClick={() => handleRedirect("/register")}
+                onClick={() => handleRedirect("/crewregister")}
                 className="w-full rounded-xl py-2.5 text-xs sm:text-sm flex items-center justify-center gap-2"
               >
                 <UserPlus className="h-4 w-4" /> Register Now

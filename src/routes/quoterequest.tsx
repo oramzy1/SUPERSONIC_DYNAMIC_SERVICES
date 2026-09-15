@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -17,44 +17,72 @@ import {
   Layers,
   Upload,
   FileText,
-  CheckCircle,
+  ChevronDown,
 } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
-// import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
 import vanHero from "@/assets/images/hero-van.png";
 import ecoVan from "@/assets/images/home-eco.jpg";
+import { useAuth } from "@/contexts/AuthContext";
+import { quotesApi } from "@/lib/api";
 
-export const Route = createFileRoute("/quote")({
-  component: Quote,
+export const Route = createFileRoute("/quoterequest")({
+  component: QuoteRequest,
 });
 
-const schema = z.object({
-  serviceType: z.enum([
-    "student-moving",
-    "residential-moving",
-    "enterprise-moving",
-    "smart-storage",
-    "sustainable-waste",
-    "freight-haulage",
-  ]),
-  name: z.string().min(2, "Required"),
-  company: z.string().optional(),
-  email: z.string().email("Invalid email").or(z.literal("")),
-  phone: z.string().optional(),
-  residentAddress: z.string().optional(),
-  destinationAddress: z.string().optional(),
-  currentPostCode: z.string().optional(),
-  destinationPostCode: z.string().optional(),
-  date: z.string().optional(),
-  storageSize: z.string().optional(),
-  freightWeight: z.string().optional(),
-  freightType: z.string().optional(),
-  additionalServices: z.string().optional(),
-  deliveryDate: z.string().optional(),
-  description: z.string().optional(),
-});
+const schema = z
+  .object({
+    serviceType: z.enum([
+      "student-moving",
+      "residential-moving",
+      "enterprise-moving",
+      "smart-storage",
+      "sustainable-waste",
+      "freight-haulage",
+    ]),
+    name: z.string().min(2, "Required"),
+    company: z.string().optional(),
+    email: z.string().email("Invalid email").or(z.literal("")),
+    phone: z.string().optional(),
+    residentAddress: z.string().optional(),
+    destinationAddress: z.string().optional(),
+    currentPostCode: z.string().optional(),
+    destinationPostCode: z.string().optional(),
+    date: z.string().optional(),
+    storageSize: z.string().optional(),
+    freightWeight: z.string().optional(),
+    freightType: z.string().optional(),
+    additionalServices: z.array(z.string()).optional(),
+    deliveryDate: z.string().optional(),
+    description: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    const isMoving = ["student-moving", "residential-moving", "enterprise-moving"].includes(
+      data.serviceType,
+    );
+    const isFreight = data.serviceType === "freight-haulage";
+    const isStorage = data.serviceType === "smart-storage";
+    const isWaste = data.serviceType === "sustainable-waste";
+
+    const addrFrom = [data.residentAddress, data.currentPostCode].filter(Boolean).join(", ");
+    if ((isMoving || isFreight || isStorage || isWaste) && addrFrom.length < 10) {
+      ctx.addIssue({
+        path: ["residentAddress"],
+        code: z.ZodIssueCode.custom,
+        message: "Please enter a more complete address (min 10 characters).",
+      });
+    }
+
+    const addrTo = [data.destinationAddress, data.destinationPostCode].filter(Boolean).join(", ");
+    if ((isMoving || isFreight) && addrTo.length < 10) {
+      ctx.addIssue({
+        path: ["destinationAddress"],
+        code: z.ZodIssueCode.custom,
+        message: "Please enter a more complete destination address (min 10 characters).",
+      });
+    }
+  });
 
 type QuoteFormData = z.infer<typeof schema>;
 
@@ -100,14 +128,43 @@ const SERVICE_DETAILS: Record<string, { title: string; features: string[]; specs
   },
 };
 
-function Quote() {
+function QuoteRequest() {
   const [step, setStep] = useState<1 | 2>(1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [docUrl, setDocUrl] = useState<string | null>(null);
   const [videoFile, setVideoFile] = useState<string>("");
   const [descFile, setDescFile] = useState<string>("");
   const { show, hide } = useLoading();
   const navigate = useNavigate();
+  const [error, setErrors] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (authLoading) return;
+    if (!isAuthenticated) {
+      sessionStorage.setItem("sds_quote_draft", JSON.stringify(getValues()));
+      navigate({ to: "/login" as any, search: { redirect: "/quoterequest" } });
+    }
+  }, [authLoading, isAuthenticated]);
+
+  useEffect(() => {
+    const draft = sessionStorage.getItem("sds_quote_draft");
+    if (draft) {
+      form.reset(JSON.parse(draft));
+      sessionStorage.removeItem("sds_quote_draft");
+    }
+  }, []);
+
+  useEffect(() => {
+    const err = sessionStorage.getItem("sds_quote_error");
+    if (err) {
+      setErrors(err);
+      sessionStorage.removeItem("sds_quote_error");
+    }
+  }, []);
 
   const form = useForm<QuoteFormData>({
     resolver: zodResolver(schema),
@@ -126,7 +183,7 @@ function Quote() {
       storageSize: "",
       freightWeight: "",
       freightType: "",
-      additionalServices: "",
+      additionalServices: [],
       deliveryDate: "",
       description: "",
     },
@@ -179,6 +236,7 @@ function Quote() {
         fieldsToValidate.push("email", "residentAddress", "currentPostCode", "date");
       } else if (isFreightSelected) {
         fieldsToValidate.push(
+          "email",
           "phone",
           "residentAddress",
           "destinationAddress",
@@ -205,15 +263,120 @@ function Quote() {
     }
   };
 
+  const handleFileSelect = async (file: File, kind: "video" | "document") => {
+    try {
+      const presigned = await quotesApi.getPresignedUrl(
+        file.name,
+        file.type || (kind === "video" ? "video/mp4" : "application/octet-stream"),
+      );
+      const putRes = await fetch(presigned.url, {
+        method: "PUT",
+        body: file,
+        headers: { "Content-Type": file.type || "application/octet-stream" },
+      });
+      if (!putRes.ok) {
+        throw new Error(`Upload failed with status ${putRes.status}`);
+      }
+      const cleanUrl = presigned.url.split("?")[0];
+      if (kind === "video") setVideoUrl(cleanUrl);
+      else setDocUrl(cleanUrl);
+    } catch (err: unknown) {
+      const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data
+        ?.detail;
+      console.error(`${kind} upload failed:`, detail ?? err);
+      setErrors(
+        Array.isArray(detail)
+          ? detail
+              .map((d: { msg?: string }) => d.msg)
+              .filter(Boolean)
+              .join(", ")
+          : `Failed to upload ${kind}. Please try again.`,
+      );
+    }
+  };
+  //   const onSubmit: SubmitHandler<QuoteFormData> = async (data) => {
+  //     if (step !== 2) return;
+  //     if (!isAuthenticated) {
+  //     sessionStorage.setItem("sds_quote_draft", JSON.stringify(data));
+  //     navigate({ to: "/login" as any, search: { redirect: "/quoterequest" } });
+  //     return;
+  //   }
+  //     try {
+  //       setIsSubmitting(true);
+  //       show("Processing your parameters…");
+
+  //       const moveType = data.serviceType;
+  //       const addressFrom = [data.residentAddress, data.currentPostCode].filter(Boolean).join(", ");
+  //       const addressTo = [data.destinationAddress, data.destinationPostCode].filter(Boolean).join(", ");
+  //       const description = [
+  //   data.description,
+  //   data.additionalServices,
+  //   data.company ? `Company: ${data.company}` : "",
+  //   docUrl ? `Assignment document: ${docUrl}` : "",
+  // ].filter(Boolean).join(". ") || `Quote request for ${moveType}`;
+
+  //       await quotesApi.createRequest({
+  //         move_type: moveType,
+  //         address_from: addressFrom,
+  //         address_to: addressTo || addressFrom,
+  //         description,
+  //         video_url: videoUrl || undefined,
+  //       });
+
+  //       navigate({ to: "/quotesuccess" });
+  //     } catch (err: unknown) {
+  //       const msg =
+  //         (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+  //         "Failed to submit quote request. Please try again.";
+  //       setErrors(msg);
+  //     } finally {
+  //       hide();
+  //       setIsSubmitting(false);
+  //     }
+  //   };
+
   const onSubmit: SubmitHandler<QuoteFormData> = async (data) => {
     if (step !== 2) return;
+    if (!isAuthenticated) {
+      sessionStorage.setItem("sds_quote_draft", JSON.stringify(data));
+      navigate({ to: "/login" as any, search: { redirect: "/quoterequest" } });
+      return;
+    }
+
+    setIsSubmitting(true); // only set once we're actually proceeding
     try {
-      setIsSubmitting(true);
-      show("Processing your parameters…");
-      await new Promise((r) => setTimeout(r, 1200));
-      navigate({ to: "/quotesuccess" });
-    } finally {
-      hide();
+      const moveType = data.serviceType;
+      const addressFrom = [data.residentAddress, data.currentPostCode].filter(Boolean).join(", ");
+      const addressTo = [data.destinationAddress, data.destinationPostCode]
+        .filter(Boolean)
+        .join(", ");
+      const description = data.description || `Quote request for ${moveType}`;
+
+      sessionStorage.setItem(
+        "sds_quote_payload",
+        JSON.stringify({
+          move_type: moveType,
+          address_from: addressFrom,
+          address_to: addressTo || addressFrom,
+          description: docUrl ? `${description} (Assignment doc: ${docUrl})` : description,
+          video_url: videoUrl || undefined,
+          contact_name: data.name || undefined,
+          company: data.company || undefined,
+          contact_email: data.email || undefined,
+          contact_phone: data.phone || undefined,
+          move_date: data.date || undefined,
+          delivery_date: data.deliveryDate || undefined,
+          storage_size: data.storageSize || undefined,
+          freight_weight: data.freightWeight || undefined,
+          additional_services: data.additionalServices?.length
+            ? data.additionalServices
+            : undefined,
+        }),
+      );
+
+      navigate({ to: "/quoteprocessing" });
+    } catch (err) {
+      setErrors("Something went wrong preparing your quote. Please try again.");
       setIsSubmitting(false);
     }
   };
@@ -264,7 +427,14 @@ function Quote() {
         <div className="mt-8 sm:mt-10 grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr] items-start">
           {/* Form column (scrolls freely) */}
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit, (formErrors) => {
+              const firstMessage = Object.values(formErrors)[0]?.message as string | undefined;
+              setErrors(
+                firstMessage
+                  ? `Please fix: ${firstMessage}`
+                  : "Some fields need attention. Go back to Step 1 to review.",
+              );
+            })}
             className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-6 md:p-8 relative h-fit"
           >
             <AnimatePresence mode="wait">
@@ -298,7 +468,7 @@ function Quote() {
                         transition={{ duration: 0.2 }}
                         className="text-muted-foreground text-[10px] absolute right-4 top-1/2 -translate-y-1/2"
                       >
-                        ▼
+                        <ChevronDown className="h-3 w-3" />
                       </motion.span>
                     </button>
 
@@ -1010,6 +1180,17 @@ function Quote() {
                             {...register("name")}
                           />
                         </Field>
+                        <Field
+                          icon={<User className="h-4 w-4" />}
+                          label="E-mail address"
+                          error={errors.email?.message}
+                        >
+                          <input
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            placeholder="johndoe@email.com"
+                            {...register("email")}
+                          />
+                        </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
                             className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
@@ -1224,16 +1405,20 @@ function Quote() {
                             ? "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS TO BE STORED):"
                             : "CLICK HERE TO UPLOAD( A SHORT DETAILED VIDEO OF THE ITEMS WE NEED TO MOVE):"
                         }
-                        body=""
+                        inputId="quote-video-upload"
+                        accept="video/*"
                         fileState={videoFile}
-                        onFileChange={(name) => setVideoFile(name)}
+                        onFileChange={setVideoFile}
+                        onFileSelect={(f) => handleFileSelect(f, "video")}
                       />
                       <PreviewBox
                         icon={<FileText className="h-5 w-5" />}
                         title="CLICK HERE TO UPLOAD( A DETAILED ASSIGNMENT DESCRIPTION OF THE JOB):"
-                        body=""
+                        inputId="quote-doc-upload"
+                        accept="application/pdf,.doc,.docx"
                         fileState={descFile}
-                        onFileChange={(name) => setDescFile(name)}
+                        onFileChange={setDescFile}
+                        onFileSelect={(f) => handleFileSelect(f, "document")}
                       />
                     </div>
                   </div>
@@ -1249,6 +1434,11 @@ function Quote() {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
                 >
+                  {error && (
+                    <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium">
+                      {error}
+                    </div>
+                  )}
                   <h3 className="font-display text-xl font-semibold">Final Preview</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     preview all inputed information
@@ -1363,10 +1553,10 @@ function Quote() {
                             value={getValues("freightWeight")}
                           />
                         )}
-                        {getValues("additionalServices") && (
+                        {getValues("additionalServices")?.length > 0 && (
                           <Row
                             label="Additional Services Selected"
-                            value={getValues("additionalServices")}
+                            value={getValues("additionalServices")!.join(", ")}
                           />
                         )}
                       </div>
@@ -1409,23 +1599,14 @@ function Quote() {
                   Next Steps <ArrowRight className="h-4 w-4" />
                 </CTAButton>
               ) : (
-                <Link to="/quoteprocessing" className="w-full sm:w-auto">
-                  <CTAButton
-                    type="button"
-                    variant="white"
-                    className="rounded-xl w-full inline-flex items-center justify-center gap-2"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-slate-800 border-t-transparent" />
-                        Processing Request...
-                      </>
-                    ) : (
-                      "Confirm & Submit Quote"
-                    )}
-                  </CTAButton>
-                </Link>
+                <CTAButton
+                  type="submit"
+                  variant="white"
+                  className="rounded-xl w-full inline-flex items-center justify-center gap-2"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Confirm & Submit Quote"}
+                </CTAButton>
               )}
             </div>
           </form>
@@ -1534,36 +1715,48 @@ function ContactStrip({
 function PreviewBox({
   icon,
   title,
-  body,
+  inputId,
   fileState,
+  accept,
   onFileChange,
+  onFileSelect,
 }: {
   icon: React.ReactNode;
   title: string;
-  body: string;
+  inputId: string;
   fileState: string;
+  accept: string;
   onFileChange: (name: string) => void;
+  onFileSelect: (file: File) => void | Promise<void>;
 }) {
   return (
-    <div className="rounded-xl border border-white/5 bg-black/40 p-4 flex flex-col justify-between text-left relative overflow-hidden min-h-35">
+    <label
+      htmlFor={inputId}
+      className="rounded-xl border border-white/5 bg-black/40 p-4 flex flex-col justify-between text-left relative overflow-hidden min-h-35 cursor-pointer"
+    >
       <div className="text-primary mb-2 shrink-0">{icon}</div>
-      <div>
-        <h4 className="text-[10px] font-bold uppercase tracking-wide text-foreground/90 leading-tight">
-          {title}
-        </h4>
-        <p className="text-[11px] text-muted-foreground mt-1 leading-normal">{body}</p>
-      </div>
+      <h4 className="text-[10px] font-bold uppercase tracking-wide text-foreground/90 leading-tight">
+        {title}
+      </h4>
       <input
+        id={inputId}
         type="file"
-        onChange={(e) => e.target.files?.[0] && onFileChange(e.target.files[0].name)}
-        className="absolute inset-0 opacity-0 cursor-pointer z-10"
+        accept={accept}
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            onFileChange(file.name);
+            onFileSelect(file);
+          }
+        }}
       />
       {fileState && (
         <div className="mt-2 text-[10px] text-primary font-mono truncate bg-primary/5 px-2 py-1 rounded border border-primary/10">
           Loaded: {fileState}
         </div>
       )}
-    </div>
+    </label>
   );
 }
 

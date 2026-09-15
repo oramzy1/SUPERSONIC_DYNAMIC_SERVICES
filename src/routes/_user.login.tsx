@@ -2,15 +2,35 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Route = createFileRoute("/_user/login")({
   component: UserLoginPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    redirect: typeof search.redirect === "string" ? search.redirect : undefined,
+  }),
 });
 
+function dashboardPathForRole(role?: string): string {
+  if (role === "crew") return "/crewdashboard";
+  if (role && ["admin", "dispatcher", "finance"].includes(role)) return "/admindashboard";
+  return "/dashboard";
+}
+
+function dashboardLabelForRole(role?: string): string {
+  if (role === "crew") return "Crew Dashboard (/crewdashboard)";
+  if (role && ["admin", "dispatcher", "finance"].includes(role)) return "Admin Dashboard (/admindashboard)";
+  return "Home Dashboard (/dashboard)";
+}
+
 function UserLoginPage() {
+  const search = Route.useSearch();
   const navigate = useNavigate();
+  const { login, isAuthenticated, user } = useAuth();
+  const isAdminRole = isAuthenticated && user && ["admin", "dispatcher", "crew", "finance"].includes(user.role);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -19,36 +39,47 @@ function UserLoginPage() {
     rememberMe: false,
   });
 
-  // Automated timing effect to mimic smooth routing redirect handover
-  useEffect(() => {
-    if (isSuccess) {
-      const redirectTimer = setTimeout(() => {
-        navigate({ to: "/" });
-      }, 2500); // 2.5s window to read the authenticating micro-card
-      return () => clearTimeout(redirectTimer);
-    }
-  }, [isSuccess, navigate]);
+useEffect(() => {
+  if (isAuthenticated) {
+    navigate({ to: (search.redirect ?? dashboardPathForRole(user?.role)) as any });
+  }
+}, [isAuthenticated, user, navigate, search.redirect]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+useEffect(() => {
+  if (isSuccess) {
+    const t = setTimeout(() => {
+      navigate({ to: (search.redirect ?? dashboardPathForRole(user?.role)) as any });
+    }, 2500);
+    return () => clearTimeout(t);
+  }
+}, [isSuccess, user, navigate, search.redirect]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors(null);
 
-    // Strict Email validation to filter spam/malformed entries
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
       setErrors("Please enter a valid email address.");
       return;
     }
-
     if (formData.password.length < 1) {
       setErrors("Password field cannot be empty.");
       return;
     }
 
-    console.log("Submitting validated login payload:", formData);
-
-    // Toggle success state to swap UI conditionally inside the card structure
-    setIsSuccess(true);
+    setIsSubmitting(true);
+    try {
+      await login({ email: formData.email, password: formData.password });
+      setIsSuccess(true);
+    } catch (err: unknown) {
+      const msg =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        "Invalid email or password. Please try again.";
+      setErrors(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -145,10 +176,19 @@ function UserLoginPage() {
               <CTAButton
                 variant="primary"
                 type="submit"
+                disabled={isSubmitting}
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2"
+                className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
               >
-                SIGN IN <ArrowRight className="h-4 w-4 text-slate-900" />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
+                  </>
+                ) : (
+                  <>
+                    SIGN IN <ArrowRight className="h-4 w-4 text-slate-900" />
+                  </>
+                )}
               </CTAButton>
             </form>
 
@@ -184,7 +224,7 @@ function UserLoginPage() {
                   Redirecting Destination
                 </span>
                 <span className="text-xs text-[#8EA7FF] font-mono font-medium">
-                  Home Dashboard (/)
+                  {dashboardLabelForRole(user?.role)}
                 </span>
               </div>
               <Loader2 className="h-4 w-4 text-[#8EA7FF] animate-spin shrink-0" />

@@ -203,7 +203,7 @@ export function AnalyticsDashboard() {
                 0
               </text>
 
-              {/* Flat baseline spline — no revenue data yet */}
+              {/* Flat baseline spline - no revenue data yet */}
               <path
                 d={`M 50,${BASELINE_Y} L 530,${BASELINE_Y}`}
                 fill="none"

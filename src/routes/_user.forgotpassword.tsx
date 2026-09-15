@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, ArrowRight, ArrowLeft, MailCheck } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { authApi } from "@/lib/api";
 
 export const Route = createFileRoute("/_user/forgotpassword")({
   component: UserForgotPasswordPage,
@@ -9,23 +10,33 @@ export const Route = createFileRoute("/_user/forgotpassword")({
 
 function UserForgotPasswordPage() {
   const [email, setEmail] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setErrorMsg(null);
 
-    // Strict Email validation sequence to filter spam inputs
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address.");
+      setErrorMsg("Please enter a valid email address.");
       return;
     }
 
-    // Process secure link dispatch
-    console.log("Requesting password reset payload for:", email);
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await authApi.forgotPassword({ email });
+      setIsSubmitted(true);
+    } catch (err: unknown) {
+      const msg =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        "Failed to send reset link. Please try again.";
+      setErrorMsg(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

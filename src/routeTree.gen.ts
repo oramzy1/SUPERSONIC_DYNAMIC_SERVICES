@@ -17,8 +17,8 @@ import { Route as ShopRouteImport } from './routes/shop'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SchedulecallRouteImport } from './routes/schedulecall'
 import { Route as QuotesuccessRouteImport } from './routes/quotesuccess'
+import { Route as QuoterequestRouteImport } from './routes/quoterequest'
 import { Route as QuoteprocessingRouteImport } from './routes/quoteprocessing'
-import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as FaqsRouteImport } from './routes/faqs'
@@ -28,38 +28,54 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BookingsuccessRouteImport } from './routes/bookingsuccess'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as UserRouteImport } from './routes/_user'
+import { Route as MemberRouteImport } from './routes/_member'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopIndexRouteImport } from './routes/shop.index'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as TrackingTokenRouteImport } from './routes/tracking.$token'
+import { Route as TalkAdminjobsRouteImport } from './routes/talk.adminjobs'
 import { Route as ShopCheckoutRouteImport } from './routes/shop.checkout'
 import { Route as ShopCartRouteImport } from './routes/shop.cart'
 import { Route as ShopAccountRouteImport } from './routes/shop.account'
 import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
-import { Route as DashboardQuotesRouteImport } from './routes/dashboard.quotes'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
 import { Route as UserSetnewpasswordRouteImport } from './routes/_user.setnewpassword'
 import { Route as UserRegisterRouteImport } from './routes/_user.register'
 import { Route as UserLoginRouteImport } from './routes/_user.login'
 import { Route as UserForgotpasswordRouteImport } from './routes/_user.forgotpassword'
+import { Route as UserCrewregisterRouteImport } from './routes/_user.crewregister'
 import { Route as AuthAdmintrackingRouteImport } from './routes/_auth.admintracking'
 import { Route as AuthAdminsettingsRouteImport } from './routes/_auth.adminsettings'
 import { Route as AuthAdminservicesRouteImport } from './routes/_auth.adminservices'
-import { Route as AuthAdminquotesRouteImport } from './routes/_auth.adminquotes'
 import { Route as AuthAdminnotificationsRouteImport } from './routes/_auth.adminnotifications'
-import { Route as AuthAdminjobsRouteImport } from './routes/_auth.adminjobs'
-import { Route as AuthAdmininvoicesRouteImport } from './routes/_auth.admininvoices'
 import { Route as AuthAdmindashboardRouteImport } from './routes/_auth.admindashboard'
-import { Route as AuthAdmincustomersRouteImport } from './routes/_auth.admincustomers'
 import { Route as AuthAdminanalyticsRouteImport } from './routes/_auth.adminanalytics'
 import { Route as ShopAccountIndexRouteImport } from './routes/shop.account.index'
+import { Route as DashboardQuotesIndexRouteImport } from './routes/dashboard.quotes.index'
+import { Route as DashboardJobsIndexRouteImport } from './routes/dashboard.jobs.index'
+import { Route as MemberCrewdashboardIndexRouteImport } from './routes/_member.crewdashboard.index'
+import { Route as AuthAdminquotesIndexRouteImport } from './routes/_auth.adminquotes.index'
+import { Route as AuthAdminjobsIndexRouteImport } from './routes/_auth.adminjobs.index'
+import { Route as AuthAdmininvoicesIndexRouteImport } from './routes/_auth.admininvoices.index'
+import { Route as AuthAdmincustomersIndexRouteImport } from './routes/_auth.admincustomers.index'
 import { Route as ShopAccountsAddressesRouteImport } from './routes/shop.accounts.addresses'
 import { Route as ShopAccountTransactionsRouteImport } from './routes/shop.account.transactions'
 import { Route as ShopAccountSettingsRouteImport } from './routes/shop.account.settings'
 import { Route as ShopAccountSavedRouteImport } from './routes/shop.account.saved'
 import { Route as ShopAccountOrdersRouteImport } from './routes/shop.account.orders'
+import { Route as DashboardQuotesQuoteIdRouteImport } from './routes/dashboard.quotes.$quoteId'
+import { Route as DashboardJobsJobIdRouteImport } from './routes/dashboard.jobs.$jobId'
+import { Route as MemberCrewdashboardProfileRouteImport } from './routes/_member.crewdashboard.profile'
+import { Route as MemberCrewdashboardJobRouteImport } from './routes/_member.crewdashboard.job'
+import { Route as MemberCrewdashboardJobIdRouteImport } from './routes/_member.crewdashboard.$jobId'
+import { Route as AuthAdminquotesQuoteIdRouteImport } from './routes/_auth.adminquotes.$quoteId'
+import { Route as AuthAdminjobsJobIdRouteImport } from './routes/_auth.adminjobs.$jobId'
+import { Route as AuthAdmininvoicesInvoiceIdRouteImport } from './routes/_auth.admininvoices.$invoiceId'
+import { Route as AuthAdmincustomersUserIdRouteImport } from './routes/_auth.admincustomers.$userId'
 import { Route as ShopAccountOrdersIdRouteImport } from './routes/shop.account.orders.$id'
 
 const VacanciesRoute = VacanciesRouteImport.update({
@@ -102,14 +118,14 @@ const QuotesuccessRoute = QuotesuccessRouteImport.update({
   path: '/quotesuccess',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuoterequestRoute = QuoterequestRouteImport.update({
+  id: '/quoterequest',
+  path: '/quoterequest',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuoteprocessingRoute = QuoteprocessingRouteImport.update({
   id: '/quoteprocessing',
   path: '/quoteprocessing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuoteRoute = QuoteRouteImport.update({
-  id: '/quote',
-  path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -156,6 +172,10 @@ const UserRoute = UserRouteImport.update({
   id: '/_user',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MemberRoute = MemberRouteImport.update({
+  id: '/_member',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
@@ -179,6 +199,16 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRoute,
+} as any)
+const TrackingTokenRoute = TrackingTokenRouteImport.update({
+  id: '/tracking/$token',
+  path: '/tracking/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TalkAdminjobsRoute = TalkAdminjobsRouteImport.update({
+  id: '/talk/adminjobs',
+  path: '/talk/adminjobs',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ShopCheckoutRoute = ShopCheckoutRouteImport.update({
   id: '/checkout',
@@ -205,9 +235,9 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
-const DashboardQuotesRoute = DashboardQuotesRouteImport.update({
-  id: '/quotes',
-  path: '/quotes',
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardInvoicesRoute = DashboardInvoicesRouteImport.update({
@@ -235,6 +265,11 @@ const UserForgotpasswordRoute = UserForgotpasswordRouteImport.update({
   path: '/forgotpassword',
   getParentRoute: () => UserRoute,
 } as any)
+const UserCrewregisterRoute = UserCrewregisterRouteImport.update({
+  id: '/crewregister',
+  path: '/crewregister',
+  getParentRoute: () => UserRoute,
+} as any)
 const AuthAdmintrackingRoute = AuthAdmintrackingRouteImport.update({
   id: '/admintracking',
   path: '/admintracking',
@@ -250,34 +285,14 @@ const AuthAdminservicesRoute = AuthAdminservicesRouteImport.update({
   path: '/adminservices',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthAdminquotesRoute = AuthAdminquotesRouteImport.update({
-  id: '/adminquotes',
-  path: '/adminquotes',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthAdminnotificationsRoute = AuthAdminnotificationsRouteImport.update({
   id: '/adminnotifications',
   path: '/adminnotifications',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthAdminjobsRoute = AuthAdminjobsRouteImport.update({
-  id: '/adminjobs',
-  path: '/adminjobs',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthAdmininvoicesRoute = AuthAdmininvoicesRouteImport.update({
-  id: '/admininvoices',
-  path: '/admininvoices',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthAdmindashboardRoute = AuthAdmindashboardRouteImport.update({
   id: '/admindashboard',
   path: '/admindashboard',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthAdmincustomersRoute = AuthAdmincustomersRouteImport.update({
-  id: '/admincustomers',
-  path: '/admincustomers',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthAdminanalyticsRoute = AuthAdminanalyticsRouteImport.update({
@@ -289,6 +304,42 @@ const ShopAccountIndexRoute = ShopAccountIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ShopAccountRoute,
+} as any)
+const DashboardQuotesIndexRoute = DashboardQuotesIndexRouteImport.update({
+  id: '/quotes/',
+  path: '/quotes/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardJobsIndexRoute = DashboardJobsIndexRouteImport.update({
+  id: '/jobs/',
+  path: '/jobs/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const MemberCrewdashboardIndexRoute =
+  MemberCrewdashboardIndexRouteImport.update({
+    id: '/crewdashboard/',
+    path: '/crewdashboard/',
+    getParentRoute: () => MemberRoute,
+  } as any)
+const AuthAdminquotesIndexRoute = AuthAdminquotesIndexRouteImport.update({
+  id: '/adminquotes/',
+  path: '/adminquotes/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminjobsIndexRoute = AuthAdminjobsIndexRouteImport.update({
+  id: '/adminjobs/',
+  path: '/adminjobs/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdmininvoicesIndexRoute = AuthAdmininvoicesIndexRouteImport.update({
+  id: '/admininvoices/',
+  path: '/admininvoices/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdmincustomersIndexRoute = AuthAdmincustomersIndexRouteImport.update({
+  id: '/admincustomers/',
+  path: '/admincustomers/',
+  getParentRoute: () => AuthRoute,
 } as any)
 const ShopAccountsAddressesRoute = ShopAccountsAddressesRouteImport.update({
   id: '/accounts/addresses',
@@ -315,6 +366,55 @@ const ShopAccountOrdersRoute = ShopAccountOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => ShopAccountRoute,
 } as any)
+const DashboardQuotesQuoteIdRoute = DashboardQuotesQuoteIdRouteImport.update({
+  id: '/quotes/$quoteId',
+  path: '/quotes/$quoteId',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardJobsJobIdRoute = DashboardJobsJobIdRouteImport.update({
+  id: '/jobs/$jobId',
+  path: '/jobs/$jobId',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const MemberCrewdashboardProfileRoute =
+  MemberCrewdashboardProfileRouteImport.update({
+    id: '/crewdashboard/profile',
+    path: '/crewdashboard/profile',
+    getParentRoute: () => MemberRoute,
+  } as any)
+const MemberCrewdashboardJobRoute = MemberCrewdashboardJobRouteImport.update({
+  id: '/crewdashboard/job',
+  path: '/crewdashboard/job',
+  getParentRoute: () => MemberRoute,
+} as any)
+const MemberCrewdashboardJobIdRoute =
+  MemberCrewdashboardJobIdRouteImport.update({
+    id: '/crewdashboard/$jobId',
+    path: '/crewdashboard/$jobId',
+    getParentRoute: () => MemberRoute,
+  } as any)
+const AuthAdminquotesQuoteIdRoute = AuthAdminquotesQuoteIdRouteImport.update({
+  id: '/adminquotes/$quoteId',
+  path: '/adminquotes/$quoteId',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminjobsJobIdRoute = AuthAdminjobsJobIdRouteImport.update({
+  id: '/adminjobs/$jobId',
+  path: '/adminjobs/$jobId',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdmininvoicesInvoiceIdRoute =
+  AuthAdmininvoicesInvoiceIdRouteImport.update({
+    id: '/admininvoices/$invoiceId',
+    path: '/admininvoices/$invoiceId',
+    getParentRoute: () => AuthRoute,
+  } as any)
+const AuthAdmincustomersUserIdRoute =
+  AuthAdmincustomersUserIdRouteImport.update({
+    id: '/admincustomers/$userId',
+    path: '/admincustomers/$userId',
+    getParentRoute: () => AuthRoute,
+  } as any)
 const ShopAccountOrdersIdRoute = ShopAccountOrdersIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -331,8 +431,8 @@ export interface FileRoutesByFullPath {
   '/faqs': typeof FaqsRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
-  '/quote': typeof QuoteRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
+  '/quoterequest': typeof QuoterequestRoute
   '/quotesuccess': typeof QuotesuccessRoute
   '/schedulecall': typeof SchedulecallRoute
   '/services': typeof ServicesRouteWithChildren
@@ -342,34 +442,49 @@ export interface FileRoutesByFullPath {
   '/ticket': typeof TicketRoute
   '/vacancies': typeof VacanciesRoute
   '/adminanalytics': typeof AuthAdminanalyticsRoute
-  '/admincustomers': typeof AuthAdmincustomersRoute
   '/admindashboard': typeof AuthAdmindashboardRoute
-  '/admininvoices': typeof AuthAdmininvoicesRoute
-  '/adminjobs': typeof AuthAdminjobsRoute
   '/adminnotifications': typeof AuthAdminnotificationsRoute
-  '/adminquotes': typeof AuthAdminquotesRoute
   '/adminservices': typeof AuthAdminservicesRoute
   '/adminsettings': typeof AuthAdminsettingsRoute
   '/admintracking': typeof AuthAdmintrackingRoute
+  '/crewregister': typeof UserCrewregisterRoute
   '/forgotpassword': typeof UserForgotpasswordRoute
   '/login': typeof UserLoginRoute
   '/register': typeof UserRegisterRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
-  '/dashboard/quotes': typeof DashboardQuotesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/account': typeof ShopAccountRouteWithChildren
   '/shop/cart': typeof ShopCartRoute
   '/shop/checkout': typeof ShopCheckoutRoute
+  '/talk/adminjobs': typeof TalkAdminjobsRoute
+  '/tracking/$token': typeof TrackingTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/admincustomers/$userId': typeof AuthAdmincustomersUserIdRoute
+  '/admininvoices/$invoiceId': typeof AuthAdmininvoicesInvoiceIdRoute
+  '/adminjobs/$jobId': typeof AuthAdminjobsJobIdRoute
+  '/adminquotes/$quoteId': typeof AuthAdminquotesQuoteIdRoute
+  '/crewdashboard/$jobId': typeof MemberCrewdashboardJobIdRoute
+  '/crewdashboard/job': typeof MemberCrewdashboardJobRoute
+  '/crewdashboard/profile': typeof MemberCrewdashboardProfileRoute
+  '/dashboard/jobs/$jobId': typeof DashboardJobsJobIdRoute
+  '/dashboard/quotes/$quoteId': typeof DashboardQuotesQuoteIdRoute
   '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
   '/shop/account/saved': typeof ShopAccountSavedRoute
   '/shop/account/settings': typeof ShopAccountSettingsRoute
   '/shop/account/transactions': typeof ShopAccountTransactionsRoute
   '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/admincustomers/': typeof AuthAdmincustomersIndexRoute
+  '/admininvoices/': typeof AuthAdmininvoicesIndexRoute
+  '/adminjobs/': typeof AuthAdminjobsIndexRoute
+  '/adminquotes/': typeof AuthAdminquotesIndexRoute
+  '/crewdashboard/': typeof MemberCrewdashboardIndexRoute
+  '/dashboard/jobs/': typeof DashboardJobsIndexRoute
+  '/dashboard/quotes/': typeof DashboardQuotesIndexRoute
   '/shop/account/': typeof ShopAccountIndexRoute
   '/shop/account/orders/$id': typeof ShopAccountOrdersIdRoute
 }
@@ -382,8 +497,8 @@ export interface FileRoutesByTo {
   '/faqs': typeof FaqsRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
-  '/quote': typeof QuoteRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
+  '/quoterequest': typeof QuoterequestRoute
   '/quotesuccess': typeof QuotesuccessRoute
   '/schedulecall': typeof SchedulecallRoute
   '/support': typeof SupportRoute
@@ -391,33 +506,48 @@ export interface FileRoutesByTo {
   '/ticket': typeof TicketRoute
   '/vacancies': typeof VacanciesRoute
   '/adminanalytics': typeof AuthAdminanalyticsRoute
-  '/admincustomers': typeof AuthAdmincustomersRoute
   '/admindashboard': typeof AuthAdmindashboardRoute
-  '/admininvoices': typeof AuthAdmininvoicesRoute
-  '/adminjobs': typeof AuthAdminjobsRoute
   '/adminnotifications': typeof AuthAdminnotificationsRoute
-  '/adminquotes': typeof AuthAdminquotesRoute
   '/adminservices': typeof AuthAdminservicesRoute
   '/adminsettings': typeof AuthAdminsettingsRoute
   '/admintracking': typeof AuthAdmintrackingRoute
+  '/crewregister': typeof UserCrewregisterRoute
   '/forgotpassword': typeof UserForgotpasswordRoute
   '/login': typeof UserLoginRoute
   '/register': typeof UserRegisterRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
-  '/dashboard/quotes': typeof DashboardQuotesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/cart': typeof ShopCartRoute
   '/shop/checkout': typeof ShopCheckoutRoute
+  '/talk/adminjobs': typeof TalkAdminjobsRoute
+  '/tracking/$token': typeof TrackingTokenRoute
   '/dashboard': typeof DashboardIndexRoute
   '/services': typeof ServicesIndexRoute
   '/shop': typeof ShopIndexRoute
+  '/admincustomers/$userId': typeof AuthAdmincustomersUserIdRoute
+  '/admininvoices/$invoiceId': typeof AuthAdmininvoicesInvoiceIdRoute
+  '/adminjobs/$jobId': typeof AuthAdminjobsJobIdRoute
+  '/adminquotes/$quoteId': typeof AuthAdminquotesQuoteIdRoute
+  '/crewdashboard/$jobId': typeof MemberCrewdashboardJobIdRoute
+  '/crewdashboard/job': typeof MemberCrewdashboardJobRoute
+  '/crewdashboard/profile': typeof MemberCrewdashboardProfileRoute
+  '/dashboard/jobs/$jobId': typeof DashboardJobsJobIdRoute
+  '/dashboard/quotes/$quoteId': typeof DashboardQuotesQuoteIdRoute
   '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
   '/shop/account/saved': typeof ShopAccountSavedRoute
   '/shop/account/settings': typeof ShopAccountSettingsRoute
   '/shop/account/transactions': typeof ShopAccountTransactionsRoute
   '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/admincustomers': typeof AuthAdmincustomersIndexRoute
+  '/admininvoices': typeof AuthAdmininvoicesIndexRoute
+  '/adminjobs': typeof AuthAdminjobsIndexRoute
+  '/adminquotes': typeof AuthAdminquotesIndexRoute
+  '/crewdashboard': typeof MemberCrewdashboardIndexRoute
+  '/dashboard/jobs': typeof DashboardJobsIndexRoute
+  '/dashboard/quotes': typeof DashboardQuotesIndexRoute
   '/shop/account': typeof ShopAccountIndexRoute
   '/shop/account/orders/$id': typeof ShopAccountOrdersIdRoute
 }
@@ -425,6 +555,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
+  '/_member': typeof MemberRouteWithChildren
   '/_user': typeof UserRouteWithChildren
   '/about': typeof AboutRoute
   '/bookingsuccess': typeof BookingsuccessRoute
@@ -434,8 +565,8 @@ export interface FileRoutesById {
   '/faqs': typeof FaqsRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
-  '/quote': typeof QuoteRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
+  '/quoterequest': typeof QuoterequestRoute
   '/quotesuccess': typeof QuotesuccessRoute
   '/schedulecall': typeof SchedulecallRoute
   '/services': typeof ServicesRouteWithChildren
@@ -445,34 +576,49 @@ export interface FileRoutesById {
   '/ticket': typeof TicketRoute
   '/vacancies': typeof VacanciesRoute
   '/_auth/adminanalytics': typeof AuthAdminanalyticsRoute
-  '/_auth/admincustomers': typeof AuthAdmincustomersRoute
   '/_auth/admindashboard': typeof AuthAdmindashboardRoute
-  '/_auth/admininvoices': typeof AuthAdmininvoicesRoute
-  '/_auth/adminjobs': typeof AuthAdminjobsRoute
   '/_auth/adminnotifications': typeof AuthAdminnotificationsRoute
-  '/_auth/adminquotes': typeof AuthAdminquotesRoute
   '/_auth/adminservices': typeof AuthAdminservicesRoute
   '/_auth/adminsettings': typeof AuthAdminsettingsRoute
   '/_auth/admintracking': typeof AuthAdmintrackingRoute
+  '/_user/crewregister': typeof UserCrewregisterRoute
   '/_user/forgotpassword': typeof UserForgotpasswordRoute
   '/_user/login': typeof UserLoginRoute
   '/_user/register': typeof UserRegisterRoute
   '/_user/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/invoices': typeof DashboardInvoicesRoute
-  '/dashboard/quotes': typeof DashboardQuotesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/account': typeof ShopAccountRouteWithChildren
   '/shop/cart': typeof ShopCartRoute
   '/shop/checkout': typeof ShopCheckoutRoute
+  '/talk/adminjobs': typeof TalkAdminjobsRoute
+  '/tracking/$token': typeof TrackingTokenRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/_auth/admincustomers/$userId': typeof AuthAdmincustomersUserIdRoute
+  '/_auth/admininvoices/$invoiceId': typeof AuthAdmininvoicesInvoiceIdRoute
+  '/_auth/adminjobs/$jobId': typeof AuthAdminjobsJobIdRoute
+  '/_auth/adminquotes/$quoteId': typeof AuthAdminquotesQuoteIdRoute
+  '/_member/crewdashboard/$jobId': typeof MemberCrewdashboardJobIdRoute
+  '/_member/crewdashboard/job': typeof MemberCrewdashboardJobRoute
+  '/_member/crewdashboard/profile': typeof MemberCrewdashboardProfileRoute
+  '/dashboard/jobs/$jobId': typeof DashboardJobsJobIdRoute
+  '/dashboard/quotes/$quoteId': typeof DashboardQuotesQuoteIdRoute
   '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
   '/shop/account/saved': typeof ShopAccountSavedRoute
   '/shop/account/settings': typeof ShopAccountSettingsRoute
   '/shop/account/transactions': typeof ShopAccountTransactionsRoute
   '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/_auth/admincustomers/': typeof AuthAdmincustomersIndexRoute
+  '/_auth/admininvoices/': typeof AuthAdmininvoicesIndexRoute
+  '/_auth/adminjobs/': typeof AuthAdminjobsIndexRoute
+  '/_auth/adminquotes/': typeof AuthAdminquotesIndexRoute
+  '/_member/crewdashboard/': typeof MemberCrewdashboardIndexRoute
+  '/dashboard/jobs/': typeof DashboardJobsIndexRoute
+  '/dashboard/quotes/': typeof DashboardQuotesIndexRoute
   '/shop/account/': typeof ShopAccountIndexRoute
   '/shop/account/orders/$id': typeof ShopAccountOrdersIdRoute
 }
@@ -488,8 +634,8 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/notifications'
     | '/privacy'
-    | '/quote'
     | '/quoteprocessing'
+    | '/quoterequest'
     | '/quotesuccess'
     | '/schedulecall'
     | '/services'
@@ -499,34 +645,49 @@ export interface FileRouteTypes {
     | '/ticket'
     | '/vacancies'
     | '/adminanalytics'
-    | '/admincustomers'
     | '/admindashboard'
-    | '/admininvoices'
-    | '/adminjobs'
     | '/adminnotifications'
-    | '/adminquotes'
     | '/adminservices'
     | '/adminsettings'
     | '/admintracking'
+    | '/crewregister'
     | '/forgotpassword'
     | '/login'
     | '/register'
     | '/setnewpassword'
     | '/dashboard/invoices'
-    | '/dashboard/quotes'
+    | '/dashboard/profile'
     | '/services/$slug'
     | '/shop/$slug'
     | '/shop/account'
     | '/shop/cart'
     | '/shop/checkout'
+    | '/talk/adminjobs'
+    | '/tracking/$token'
     | '/dashboard/'
     | '/services/'
     | '/shop/'
+    | '/admincustomers/$userId'
+    | '/admininvoices/$invoiceId'
+    | '/adminjobs/$jobId'
+    | '/adminquotes/$quoteId'
+    | '/crewdashboard/$jobId'
+    | '/crewdashboard/job'
+    | '/crewdashboard/profile'
+    | '/dashboard/jobs/$jobId'
+    | '/dashboard/quotes/$quoteId'
     | '/shop/account/orders'
     | '/shop/account/saved'
     | '/shop/account/settings'
     | '/shop/account/transactions'
     | '/shop/accounts/addresses'
+    | '/admincustomers/'
+    | '/admininvoices/'
+    | '/adminjobs/'
+    | '/adminquotes/'
+    | '/crewdashboard/'
+    | '/dashboard/jobs/'
+    | '/dashboard/quotes/'
     | '/shop/account/'
     | '/shop/account/orders/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -539,8 +700,8 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/notifications'
     | '/privacy'
-    | '/quote'
     | '/quoteprocessing'
+    | '/quoterequest'
     | '/quotesuccess'
     | '/schedulecall'
     | '/support'
@@ -548,39 +709,55 @@ export interface FileRouteTypes {
     | '/ticket'
     | '/vacancies'
     | '/adminanalytics'
-    | '/admincustomers'
     | '/admindashboard'
-    | '/admininvoices'
-    | '/adminjobs'
     | '/adminnotifications'
-    | '/adminquotes'
     | '/adminservices'
     | '/adminsettings'
     | '/admintracking'
+    | '/crewregister'
     | '/forgotpassword'
     | '/login'
     | '/register'
     | '/setnewpassword'
     | '/dashboard/invoices'
-    | '/dashboard/quotes'
+    | '/dashboard/profile'
     | '/services/$slug'
     | '/shop/$slug'
     | '/shop/cart'
     | '/shop/checkout'
+    | '/talk/adminjobs'
+    | '/tracking/$token'
     | '/dashboard'
     | '/services'
     | '/shop'
+    | '/admincustomers/$userId'
+    | '/admininvoices/$invoiceId'
+    | '/adminjobs/$jobId'
+    | '/adminquotes/$quoteId'
+    | '/crewdashboard/$jobId'
+    | '/crewdashboard/job'
+    | '/crewdashboard/profile'
+    | '/dashboard/jobs/$jobId'
+    | '/dashboard/quotes/$quoteId'
     | '/shop/account/orders'
     | '/shop/account/saved'
     | '/shop/account/settings'
     | '/shop/account/transactions'
     | '/shop/accounts/addresses'
+    | '/admincustomers'
+    | '/admininvoices'
+    | '/adminjobs'
+    | '/adminquotes'
+    | '/crewdashboard'
+    | '/dashboard/jobs'
+    | '/dashboard/quotes'
     | '/shop/account'
     | '/shop/account/orders/$id'
   id:
     | '__root__'
     | '/'
     | '/_auth'
+    | '/_member'
     | '/_user'
     | '/about'
     | '/bookingsuccess'
@@ -590,8 +767,8 @@ export interface FileRouteTypes {
     | '/faqs'
     | '/notifications'
     | '/privacy'
-    | '/quote'
     | '/quoteprocessing'
+    | '/quoterequest'
     | '/quotesuccess'
     | '/schedulecall'
     | '/services'
@@ -601,34 +778,49 @@ export interface FileRouteTypes {
     | '/ticket'
     | '/vacancies'
     | '/_auth/adminanalytics'
-    | '/_auth/admincustomers'
     | '/_auth/admindashboard'
-    | '/_auth/admininvoices'
-    | '/_auth/adminjobs'
     | '/_auth/adminnotifications'
-    | '/_auth/adminquotes'
     | '/_auth/adminservices'
     | '/_auth/adminsettings'
     | '/_auth/admintracking'
+    | '/_user/crewregister'
     | '/_user/forgotpassword'
     | '/_user/login'
     | '/_user/register'
     | '/_user/setnewpassword'
     | '/dashboard/invoices'
-    | '/dashboard/quotes'
+    | '/dashboard/profile'
     | '/services/$slug'
     | '/shop/$slug'
     | '/shop/account'
     | '/shop/cart'
     | '/shop/checkout'
+    | '/talk/adminjobs'
+    | '/tracking/$token'
     | '/dashboard/'
     | '/services/'
     | '/shop/'
+    | '/_auth/admincustomers/$userId'
+    | '/_auth/admininvoices/$invoiceId'
+    | '/_auth/adminjobs/$jobId'
+    | '/_auth/adminquotes/$quoteId'
+    | '/_member/crewdashboard/$jobId'
+    | '/_member/crewdashboard/job'
+    | '/_member/crewdashboard/profile'
+    | '/dashboard/jobs/$jobId'
+    | '/dashboard/quotes/$quoteId'
     | '/shop/account/orders'
     | '/shop/account/saved'
     | '/shop/account/settings'
     | '/shop/account/transactions'
     | '/shop/accounts/addresses'
+    | '/_auth/admincustomers/'
+    | '/_auth/admininvoices/'
+    | '/_auth/adminjobs/'
+    | '/_auth/adminquotes/'
+    | '/_member/crewdashboard/'
+    | '/dashboard/jobs/'
+    | '/dashboard/quotes/'
     | '/shop/account/'
     | '/shop/account/orders/$id'
   fileRoutesById: FileRoutesById
@@ -636,6 +828,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
+  MemberRoute: typeof MemberRouteWithChildren
   UserRoute: typeof UserRouteWithChildren
   AboutRoute: typeof AboutRoute
   BookingsuccessRoute: typeof BookingsuccessRoute
@@ -645,8 +838,8 @@ export interface RootRouteChildren {
   FaqsRoute: typeof FaqsRoute
   NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
-  QuoteRoute: typeof QuoteRoute
   QuoteprocessingRoute: typeof QuoteprocessingRoute
+  QuoterequestRoute: typeof QuoterequestRoute
   QuotesuccessRoute: typeof QuotesuccessRoute
   SchedulecallRoute: typeof SchedulecallRoute
   ServicesRoute: typeof ServicesRouteWithChildren
@@ -655,6 +848,8 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TicketRoute: typeof TicketRoute
   VacanciesRoute: typeof VacanciesRoute
+  TalkAdminjobsRoute: typeof TalkAdminjobsRoute
+  TrackingTokenRoute: typeof TrackingTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -715,18 +910,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotesuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quoterequest': {
+      id: '/quoterequest'
+      path: '/quoterequest'
+      fullPath: '/quoterequest'
+      preLoaderRoute: typeof QuoterequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quoteprocessing': {
       id: '/quoteprocessing'
       path: '/quoteprocessing'
       fullPath: '/quoteprocessing'
       preLoaderRoute: typeof QuoteprocessingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quote': {
-      id: '/quote'
-      path: '/quote'
-      fullPath: '/quote'
-      preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -792,6 +987,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_member': {
+      id: '/_member'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MemberRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -826,6 +1028,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/tracking/$token': {
+      id: '/tracking/$token'
+      path: '/tracking/$token'
+      fullPath: '/tracking/$token'
+      preLoaderRoute: typeof TrackingTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/talk/adminjobs': {
+      id: '/talk/adminjobs'
+      path: '/talk/adminjobs'
+      fullPath: '/talk/adminjobs'
+      preLoaderRoute: typeof TalkAdminjobsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/shop/checkout': {
       id: '/shop/checkout'
@@ -862,11 +1078,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
-    '/dashboard/quotes': {
-      id: '/dashboard/quotes'
-      path: '/quotes'
-      fullPath: '/dashboard/quotes'
-      preLoaderRoute: typeof DashboardQuotesRouteImport
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/invoices': {
@@ -904,6 +1120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserForgotpasswordRouteImport
       parentRoute: typeof UserRoute
     }
+    '/_user/crewregister': {
+      id: '/_user/crewregister'
+      path: '/crewregister'
+      fullPath: '/crewregister'
+      preLoaderRoute: typeof UserCrewregisterRouteImport
+      parentRoute: typeof UserRoute
+    }
     '/_auth/admintracking': {
       id: '/_auth/admintracking'
       path: '/admintracking'
@@ -925,13 +1148,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminservicesRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/adminquotes': {
-      id: '/_auth/adminquotes'
-      path: '/adminquotes'
-      fullPath: '/adminquotes'
-      preLoaderRoute: typeof AuthAdminquotesRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/adminnotifications': {
       id: '/_auth/adminnotifications'
       path: '/adminnotifications'
@@ -939,32 +1155,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminnotificationsRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/adminjobs': {
-      id: '/_auth/adminjobs'
-      path: '/adminjobs'
-      fullPath: '/adminjobs'
-      preLoaderRoute: typeof AuthAdminjobsRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/admininvoices': {
-      id: '/_auth/admininvoices'
-      path: '/admininvoices'
-      fullPath: '/admininvoices'
-      preLoaderRoute: typeof AuthAdmininvoicesRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/admindashboard': {
       id: '/_auth/admindashboard'
       path: '/admindashboard'
       fullPath: '/admindashboard'
       preLoaderRoute: typeof AuthAdmindashboardRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/admincustomers': {
-      id: '/_auth/admincustomers'
-      path: '/admincustomers'
-      fullPath: '/admincustomers'
-      preLoaderRoute: typeof AuthAdmincustomersRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/adminanalytics': {
@@ -980,6 +1175,55 @@ declare module '@tanstack/react-router' {
       fullPath: '/shop/account/'
       preLoaderRoute: typeof ShopAccountIndexRouteImport
       parentRoute: typeof ShopAccountRoute
+    }
+    '/dashboard/quotes/': {
+      id: '/dashboard/quotes/'
+      path: '/quotes'
+      fullPath: '/dashboard/quotes/'
+      preLoaderRoute: typeof DashboardQuotesIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/jobs/': {
+      id: '/dashboard/jobs/'
+      path: '/jobs'
+      fullPath: '/dashboard/jobs/'
+      preLoaderRoute: typeof DashboardJobsIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_member/crewdashboard/': {
+      id: '/_member/crewdashboard/'
+      path: '/crewdashboard'
+      fullPath: '/crewdashboard/'
+      preLoaderRoute: typeof MemberCrewdashboardIndexRouteImport
+      parentRoute: typeof MemberRoute
+    }
+    '/_auth/adminquotes/': {
+      id: '/_auth/adminquotes/'
+      path: '/adminquotes'
+      fullPath: '/adminquotes/'
+      preLoaderRoute: typeof AuthAdminquotesIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminjobs/': {
+      id: '/_auth/adminjobs/'
+      path: '/adminjobs'
+      fullPath: '/adminjobs/'
+      preLoaderRoute: typeof AuthAdminjobsIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admininvoices/': {
+      id: '/_auth/admininvoices/'
+      path: '/admininvoices'
+      fullPath: '/admininvoices/'
+      preLoaderRoute: typeof AuthAdmininvoicesIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admincustomers/': {
+      id: '/_auth/admincustomers/'
+      path: '/admincustomers'
+      fullPath: '/admincustomers/'
+      preLoaderRoute: typeof AuthAdmincustomersIndexRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/shop/accounts/addresses': {
       id: '/shop/accounts/addresses'
@@ -1016,6 +1260,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopAccountOrdersRouteImport
       parentRoute: typeof ShopAccountRoute
     }
+    '/dashboard/quotes/$quoteId': {
+      id: '/dashboard/quotes/$quoteId'
+      path: '/quotes/$quoteId'
+      fullPath: '/dashboard/quotes/$quoteId'
+      preLoaderRoute: typeof DashboardQuotesQuoteIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/jobs/$jobId': {
+      id: '/dashboard/jobs/$jobId'
+      path: '/jobs/$jobId'
+      fullPath: '/dashboard/jobs/$jobId'
+      preLoaderRoute: typeof DashboardJobsJobIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/_member/crewdashboard/profile': {
+      id: '/_member/crewdashboard/profile'
+      path: '/crewdashboard/profile'
+      fullPath: '/crewdashboard/profile'
+      preLoaderRoute: typeof MemberCrewdashboardProfileRouteImport
+      parentRoute: typeof MemberRoute
+    }
+    '/_member/crewdashboard/job': {
+      id: '/_member/crewdashboard/job'
+      path: '/crewdashboard/job'
+      fullPath: '/crewdashboard/job'
+      preLoaderRoute: typeof MemberCrewdashboardJobRouteImport
+      parentRoute: typeof MemberRoute
+    }
+    '/_member/crewdashboard/$jobId': {
+      id: '/_member/crewdashboard/$jobId'
+      path: '/crewdashboard/$jobId'
+      fullPath: '/crewdashboard/$jobId'
+      preLoaderRoute: typeof MemberCrewdashboardJobIdRouteImport
+      parentRoute: typeof MemberRoute
+    }
+    '/_auth/adminquotes/$quoteId': {
+      id: '/_auth/adminquotes/$quoteId'
+      path: '/adminquotes/$quoteId'
+      fullPath: '/adminquotes/$quoteId'
+      preLoaderRoute: typeof AuthAdminquotesQuoteIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminjobs/$jobId': {
+      id: '/_auth/adminjobs/$jobId'
+      path: '/adminjobs/$jobId'
+      fullPath: '/adminjobs/$jobId'
+      preLoaderRoute: typeof AuthAdminjobsJobIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admininvoices/$invoiceId': {
+      id: '/_auth/admininvoices/$invoiceId'
+      path: '/admininvoices/$invoiceId'
+      fullPath: '/admininvoices/$invoiceId'
+      preLoaderRoute: typeof AuthAdmininvoicesInvoiceIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admincustomers/$userId': {
+      id: '/_auth/admincustomers/$userId'
+      path: '/admincustomers/$userId'
+      fullPath: '/admincustomers/$userId'
+      preLoaderRoute: typeof AuthAdmincustomersUserIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/shop/account/orders/$id': {
       id: '/shop/account/orders/$id'
       path: '/$id'
@@ -1028,33 +1335,59 @@ declare module '@tanstack/react-router' {
 
 interface AuthRouteChildren {
   AuthAdminanalyticsRoute: typeof AuthAdminanalyticsRoute
-  AuthAdmincustomersRoute: typeof AuthAdmincustomersRoute
   AuthAdmindashboardRoute: typeof AuthAdmindashboardRoute
-  AuthAdmininvoicesRoute: typeof AuthAdmininvoicesRoute
-  AuthAdminjobsRoute: typeof AuthAdminjobsRoute
   AuthAdminnotificationsRoute: typeof AuthAdminnotificationsRoute
-  AuthAdminquotesRoute: typeof AuthAdminquotesRoute
   AuthAdminservicesRoute: typeof AuthAdminservicesRoute
   AuthAdminsettingsRoute: typeof AuthAdminsettingsRoute
   AuthAdmintrackingRoute: typeof AuthAdmintrackingRoute
+  AuthAdmincustomersUserIdRoute: typeof AuthAdmincustomersUserIdRoute
+  AuthAdmininvoicesInvoiceIdRoute: typeof AuthAdmininvoicesInvoiceIdRoute
+  AuthAdminjobsJobIdRoute: typeof AuthAdminjobsJobIdRoute
+  AuthAdminquotesQuoteIdRoute: typeof AuthAdminquotesQuoteIdRoute
+  AuthAdmincustomersIndexRoute: typeof AuthAdmincustomersIndexRoute
+  AuthAdmininvoicesIndexRoute: typeof AuthAdmininvoicesIndexRoute
+  AuthAdminjobsIndexRoute: typeof AuthAdminjobsIndexRoute
+  AuthAdminquotesIndexRoute: typeof AuthAdminquotesIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAdminanalyticsRoute: AuthAdminanalyticsRoute,
-  AuthAdmincustomersRoute: AuthAdmincustomersRoute,
   AuthAdmindashboardRoute: AuthAdmindashboardRoute,
-  AuthAdmininvoicesRoute: AuthAdmininvoicesRoute,
-  AuthAdminjobsRoute: AuthAdminjobsRoute,
   AuthAdminnotificationsRoute: AuthAdminnotificationsRoute,
-  AuthAdminquotesRoute: AuthAdminquotesRoute,
   AuthAdminservicesRoute: AuthAdminservicesRoute,
   AuthAdminsettingsRoute: AuthAdminsettingsRoute,
   AuthAdmintrackingRoute: AuthAdmintrackingRoute,
+  AuthAdmincustomersUserIdRoute: AuthAdmincustomersUserIdRoute,
+  AuthAdmininvoicesInvoiceIdRoute: AuthAdmininvoicesInvoiceIdRoute,
+  AuthAdminjobsJobIdRoute: AuthAdminjobsJobIdRoute,
+  AuthAdminquotesQuoteIdRoute: AuthAdminquotesQuoteIdRoute,
+  AuthAdmincustomersIndexRoute: AuthAdmincustomersIndexRoute,
+  AuthAdmininvoicesIndexRoute: AuthAdmininvoicesIndexRoute,
+  AuthAdminjobsIndexRoute: AuthAdminjobsIndexRoute,
+  AuthAdminquotesIndexRoute: AuthAdminquotesIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface MemberRouteChildren {
+  MemberCrewdashboardJobIdRoute: typeof MemberCrewdashboardJobIdRoute
+  MemberCrewdashboardJobRoute: typeof MemberCrewdashboardJobRoute
+  MemberCrewdashboardProfileRoute: typeof MemberCrewdashboardProfileRoute
+  MemberCrewdashboardIndexRoute: typeof MemberCrewdashboardIndexRoute
+}
+
+const MemberRouteChildren: MemberRouteChildren = {
+  MemberCrewdashboardJobIdRoute: MemberCrewdashboardJobIdRoute,
+  MemberCrewdashboardJobRoute: MemberCrewdashboardJobRoute,
+  MemberCrewdashboardProfileRoute: MemberCrewdashboardProfileRoute,
+  MemberCrewdashboardIndexRoute: MemberCrewdashboardIndexRoute,
+}
+
+const MemberRouteWithChildren =
+  MemberRoute._addFileChildren(MemberRouteChildren)
+
 interface UserRouteChildren {
+  UserCrewregisterRoute: typeof UserCrewregisterRoute
   UserForgotpasswordRoute: typeof UserForgotpasswordRoute
   UserLoginRoute: typeof UserLoginRoute
   UserRegisterRoute: typeof UserRegisterRoute
@@ -1062,6 +1395,7 @@ interface UserRouteChildren {
 }
 
 const UserRouteChildren: UserRouteChildren = {
+  UserCrewregisterRoute: UserCrewregisterRoute,
   UserForgotpasswordRoute: UserForgotpasswordRoute,
   UserLoginRoute: UserLoginRoute,
   UserRegisterRoute: UserRegisterRoute,
@@ -1072,14 +1406,22 @@ const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
 
 interface DashboardRouteChildren {
   DashboardInvoicesRoute: typeof DashboardInvoicesRoute
-  DashboardQuotesRoute: typeof DashboardQuotesRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardJobsJobIdRoute: typeof DashboardJobsJobIdRoute
+  DashboardQuotesQuoteIdRoute: typeof DashboardQuotesQuoteIdRoute
+  DashboardJobsIndexRoute: typeof DashboardJobsIndexRoute
+  DashboardQuotesIndexRoute: typeof DashboardQuotesIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardInvoicesRoute: DashboardInvoicesRoute,
-  DashboardQuotesRoute: DashboardQuotesRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardJobsJobIdRoute: DashboardJobsJobIdRoute,
+  DashboardQuotesQuoteIdRoute: DashboardQuotesQuoteIdRoute,
+  DashboardJobsIndexRoute: DashboardJobsIndexRoute,
+  DashboardQuotesIndexRoute: DashboardQuotesIndexRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
@@ -1154,6 +1496,7 @@ const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
+  MemberRoute: MemberRouteWithChildren,
   UserRoute: UserRouteWithChildren,
   AboutRoute: AboutRoute,
   BookingsuccessRoute: BookingsuccessRoute,
@@ -1163,8 +1506,8 @@ const rootRouteChildren: RootRouteChildren = {
   FaqsRoute: FaqsRoute,
   NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
-  QuoteRoute: QuoteRoute,
   QuoteprocessingRoute: QuoteprocessingRoute,
+  QuoterequestRoute: QuoterequestRoute,
   QuotesuccessRoute: QuotesuccessRoute,
   SchedulecallRoute: SchedulecallRoute,
   ServicesRoute: ServicesRouteWithChildren,
@@ -1173,6 +1516,8 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TicketRoute: TicketRoute,
   VacanciesRoute: VacanciesRoute,
+  TalkAdminjobsRoute: TalkAdminjobsRoute,
+  TrackingTokenRoute: TrackingTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

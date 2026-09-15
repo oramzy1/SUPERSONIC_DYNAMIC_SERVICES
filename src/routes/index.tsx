@@ -131,7 +131,7 @@ function Home() {
               services in the Netherlands.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/quote">
+              <Link to="/quoterequest">
                 <CTAButton
                   variant="primary"
                   className="rounded-lg px-6 py-3.5 flex items-center justify-center gap-2"
@@ -260,9 +260,9 @@ function Home() {
                   </h2>
 
                   <p className="mt-4 text-base leading-relaxed text-white/70">
-                    Browse our collection of reliable logistics essentials and consumables, 
-                    from packaging and storage solutions to essential supplies designed to make 
-                    every journey smoother, safer, and more efficient.
+                    Browse our collection of reliable logistics essentials and consumables, from
+                    packaging and storage solutions to essential supplies designed to make every
+                    journey smoother, safer, and more efficient.
                   </p>
 
                   <div className="mt-6 flex flex-wrap gap-2">
@@ -292,7 +292,11 @@ function Home() {
                 </div>
 
                 <div className="relative hidden md:block">
-                  <img src={crates} alt="Moving supplies" className="h-full w-full rounded-2xl object-cover" />
+                  <img
+                    src={crates}
+                    alt="Moving supplies"
+                    className="h-full w-full rounded-2xl object-cover"
+                  />
                   <div className="absolute inset-0 bg-linear-to-r from-background rounded-2xl via-background/20 to-transparent" />
                 </div>
               </div>
@@ -360,7 +364,7 @@ export function RequestQuoteBanner() {
               DYNAMIC SERVICES B.V. delivers safe, efficient, and technology-driven solutions
               tailored to your needs.
             </p>
-            <Link to="/quote" className="mt-6 block w-full sm:w-auto">
+            <Link to="/quoterequest" className="mt-6 block w-full sm:w-auto">
               <CTAButton
                 variant="secondary"
                 className="group rounded-lg w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"

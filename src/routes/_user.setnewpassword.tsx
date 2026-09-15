@@ -2,9 +2,14 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Lock, ShieldCheck, ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { authApi } from "@/lib/api";
+import { useSearch } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_user/setnewpassword")({
   component: UserSetNewPasswordPage,
+  validateSearch: (search: Record<string, unknown>) => ({
+    token: (search.token as string) || "",
+  }),
 });
 
 function UserSetNewPasswordPage() {
@@ -13,6 +18,9 @@ function UserSetNewPasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const { token } = Route.useSearch();
 
   // Password validation checklist tracking states
   const [validation, setValidation] = useState({
@@ -32,25 +40,40 @@ function UserSetNewPasswordPage() {
     });
   }, [password]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setErrorMsg(null);
 
-    // Verify all cryptographic criteria states pass green light status
     const allCriteriaMet = Object.values(validation).every(Boolean);
     if (!allCriteriaMet) {
-      setError("Please fulfill all security criteria below before proceeding.");
+      setErrorMsg("Please fulfill all security criteria below before proceeding.");
       return;
     }
-
-    // Verify confirmation string equality match
     if (password !== confirmPassword) {
-      setError("Passwords do not match. Please re-enter.");
+      setErrorMsg("Passwords do not match. Please re-enter.");
+      return;
+    }
+    if (!token) {
+      setErrorMsg("Invalid or missing reset token. Please request a new link.");
       return;
     }
 
-    console.log("Password updated successfully.");
-    setIsSuccess(true);
+    setIsSubmitting(true);
+    try {
+      await authApi.resetPassword({
+        token,
+        new_password: password,
+        password_confirmation: confirmPassword,
+      });
+      setIsSuccess(true);
+    } catch (err: unknown) {
+      const msg =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        "Failed to reset password. The token may have expired.";
+      setErrorMsg(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

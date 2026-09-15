@@ -14,7 +14,14 @@ import {
   MoreVertical,
   Inbox,
   Radar,
+  AlertTriangle,
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { adminApi } from "@/lib/api";
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
+}
 
 export const Route = createFileRoute("/_auth/admindashboard")({
   head: () => ({
@@ -52,6 +59,13 @@ interface TrackingRow {
   eta: string;
 }
 
+function mapJobStatus(status: string): "In Progress" | "Completed" | "Scheduled" | "Delayed" {
+  if (status === "completed") return "Completed";
+  if (status === "overdue") return "Delayed";
+  if (status === "in_progress") return "In Progress";
+  return "Completed";
+}
+
 interface QuoteRow {
   id: string;
   company: string;
@@ -59,25 +73,77 @@ interface QuoteRow {
   amount: string;
 }
 
-// ── Placeholder data (all zeroed / empty until backend is connected) ──────
-
-const metrics: MetricItem[] = [
-  { title: "Total Quotes", value: "0", change: "0%", isPositive: true, icon: FileText },
-  { title: "Active Jobs", value: "0", change: "0%", isPositive: true, icon: Truck },
-  { title: "Completed", value: "0", change: "0%", isPositive: true, icon: CheckCircle2 },
-  { title: "Pending Pay", value: "0", change: "0%", isPositive: true, icon: Clock },
-  { title: "Revenue", value: "$0", change: "0%", isPositive: true, icon: DollarSign },
-  { title: "Customers", value: "0", change: "0%", isPositive: true, icon: Users },
-];
-
-const liveTrackingData: TrackingRow[] = [];
-
-const recentQuotes: QuoteRow[] = [];
-
-const totalVolume = "$0";
-const totalVolumeChange = "0%";
-
 function RouteComponent() {
+  const { data: dash } = useQuery({
+    queryKey: ["admin", "dashboard"],
+    queryFn: () => adminApi.dashboard(),
+  });
+
+  const allJobs = [
+    ...(dash?.today_jobs ?? []),
+    ...(dash?.upcoming_jobs ?? []),
+    ...(dash?.overdue_jobs ?? []),
+  ];
+
+  const liveTrackingData: TrackingRow[] = allJobs.slice(0, 8).map((j) => ({
+    id: `JOB-${j.id}`,
+    client: j.customer_name,
+    origin: j.address_from ?? "-",
+    dest: j.address_to ?? "-",
+    crew: j.status === "in_progress" ? "Dispatched" : "Not assigned",
+    crewInitials: j.status === "in_progress" ? "DR" : "?",
+    status: mapJobStatus(j.status),
+    eta: j.scheduled_start ? formatDate(j.scheduled_start) : "-",
+  }));
+
+  const metrics: MetricItem[] = [
+    {
+      title: "Total Quotes",
+      value: String(allJobs.length),
+      change: "0%",
+      isPositive: true,
+      icon: FileText,
+    },
+    {
+      title: "Active Jobs",
+      value: String(dash?.total_active ?? 0),
+      change: "0%",
+      isPositive: true,
+      icon: Truck,
+    },
+    {
+      title: "Completed",
+      value: String(allJobs.filter((j) => j.status === "completed").length),
+      change: "0%",
+      isPositive: true,
+      icon: CheckCircle2,
+    },
+    {
+      title: "In Progress",
+      value: String(allJobs.filter((j) => j.status === "in_progress").length),
+      change: "0%",
+      isPositive: true,
+      icon: Clock,
+    },
+    {
+      title: "Overdue",
+      value: String(allJobs.filter((j) => j.status === "overdue").length),
+      change: "0%",
+      isPositive: true,
+      icon: AlertTriangle,
+    },
+    {
+      title: "Customers",
+      value: String(dash?.total_active ?? 0),
+      change: "0%",
+      isPositive: true,
+      icon: Users,
+    },
+  ];
+
+  const recentQuotes: QuoteRow[] = [];
+  const totalVolume = "$0";
+  const totalVolumeChange = "0%";
   return (
     <div className="w-full text-slate-200 select-none pb-12">
       {/* HEADER CONTROLS BAR */}

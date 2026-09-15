@@ -2,15 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { Bell, HelpCircle, Search, X, Menu } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
-import { useAuth } from "@/contexts/AuthContext";
 
 interface TopbarProps {
   onMenuToggle: () => void;
 }
 
-export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
+export function CrewDashboardTopbar({ onMenuToggle }: TopbarProps) {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
 
@@ -31,8 +29,7 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
     localStorage.removeItem("supersonic_admin_authed");
     localStorage.clear();
     sessionStorage.clear();
@@ -145,29 +142,29 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
                   alt="User Thumbnail"
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="text-slate-200 text-sm font-medium truncate capitalize">{user?.full_name || "Admin"}</p>
-                  <p className="text-slate-500 text-xs truncate">{user?.email || "admin@supersonicdynamicservices.nl"}</p>
-                  <span className="text-[10px] text-[#E2A54A] font-semibold mt-0.5 block capitalize">
-                    {user?.role || "Admin"}
+                  <p className="text-slate-200 text-sm font-medium truncate">Admin User</p>
+                  <p className="text-slate-500 text-xs truncate">admin@supersonic.com</p>
+                  <span className="text-[10px] text-[#E2A54A] font-semibold mt-0.5 block">
+                    Super Admin
                   </span>
                 </div>
               </div>
 
               {/* Actions */}
               <div className="mt-2 flex flex-col text-sm">
-                {/* <button
+                <button
                   onClick={() => setOpenProfile(false)}
                   className="text-left px-3 py-2 hover:bg-[#16191c] rounded-md text-slate-300 cursor-pointer transition-colors focus:outline-none"
                 >
                   View Profile
-                </button> */}
-                <Link
+                </button>
+                {/* <Link
                   to={"/adminsettings" as any}
                   onClick={() => setOpenProfile(false)}
                   className="text-left px-3 py-2 hover:bg-[#16191c] rounded-md text-slate-300 block transition-colors"
                 >
                   Account Settings
-                </Link>
+                </Link> */}
                 <button
                   onClick={handleLogout}
                   className="text-left px-3 py-2 hover:bg-rose-500/10 text-rose-400 rounded-md mt-1 cursor-pointer font-semibold transition-colors focus:outline-none"
@@ -185,6 +182,6 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
 
 export const ProtectedAdminTopbar = (props: TopbarProps) => (
   <AdminAuthGuard>
-    <AdminDashboardTopbar {...props} />
+    <CrewDashboardTopbar {...props} />
   </AdminAuthGuard>
 );

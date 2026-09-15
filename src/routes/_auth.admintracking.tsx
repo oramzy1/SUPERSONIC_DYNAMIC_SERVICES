@@ -242,7 +242,7 @@ export function TrackingDashboard() {
           </div>
         )}
 
-        {/* No units yet — empty state overlay on the map itself */}
+        {/* No units yet - empty state overlay on the map itself */}
         {NODES.length === 0 && (
           <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
             <div className="bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-xl px-4 py-3 text-center">

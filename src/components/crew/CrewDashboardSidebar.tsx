@@ -24,20 +24,19 @@ import logo from "@/assets/images/logo.png";
 import Logo from "../shared/Logo";
 import { useAuth } from "@/contexts/AuthContext";
 
+
+function isNavActive(pathname: string, to: string) {
+  if (pathname === to) return true;
+  // avoid matching partial segments, e.g. "/crewdashboard-old"
+  return pathname.startsWith(to + "/");
+}
+
 const NAV = [
-  { to: "/admindashboard", label: "Dashboard", icon: LayoutGrid },
-  { to: "/adminquotes", label: "Quotes", icon: FileText },
-  { to: "/adminjobs", label: "Jobs", icon: Briefcase },
-  { to: "/admincustomers", label: "Customers", icon: Users },
-  { to: "/admininvoices", label: "Invoices", icon: Receipt },
-  { to: "/adminservices", label: "Services", icon: Wrench },
-  { to: "/admintracking", label: "Tracking", icon: MapPin },
-  { to: "/adminanalytics", label: "Analytics", icon: BarChart3 },
-  { to: "/adminnotifications", label: "Notifications", icon: Bell },
-  { to: "/adminsettings", label: "Settings", icon: Settings },
+  { to: "/crewdashboard", label: "Dashboard", icon: LayoutGrid },
+  { to: "/crewdashboard/job", label: "Jobs", icon: Briefcase },
 ] as const;
 
-export function AdminDashboardSidebar() {
+export function CrewDashboardSidebar() {
   const { location } = useRouterState();
   const { logout, user } = useAuth();
   const navigate = useNavigate();
@@ -81,6 +80,10 @@ export function AdminDashboardSidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen, isMobileOpen]);
 
+  const activeTo = [...NAV]
+  .sort((a, b) => b.to.length - a.to.length)
+  .find((n) => isNavActive(location.pathname, n.to))?.to;
+
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem("supersonic_admin_authed");
@@ -108,13 +111,13 @@ export function AdminDashboardSidebar() {
 
         <nav className="flex flex-col gap-1 px-3 flex-1 overflow-y-auto hidden-scrollbar w-full">
           {NAV.map((n) => {
-            const active = location.pathname.startsWith(n.to);
+            const active = n.to === activeTo;
             const Icon = n.icon;
 
             return (
               <Link
                 key={n.to}
-                to={n.to}
+                to={n.to as any}
                 className={cn(
                   "relative flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition duration-200 group w-full",
                   active
@@ -145,22 +148,23 @@ export function AdminDashboardSidebar() {
       >
         {isMenuOpen && (
           <div className="absolute bottom-full left-3 right-3 mb-2 z-60 flex flex-col gap-1 bg-[#0d111a] border border-white/8 backdrop-blur-xl rounded-xl p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150 max-w-full overflow-hidden">
-            {/* <button
+            <Link
+            to={"/crewdashboard/profile" as any}
               onClick={() => setIsMenuOpen(false)}
               className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate focus:outline-none"
             >
               <User className="h-4 w-4 shrink-0 text-slate-500" />
               <span className="truncate">View Profile</span>
-            </button> */}
+            </Link>
 
-            <Link
+            {/* <Link
               to={"/adminsettings" as any}
               onClick={() => setIsMenuOpen(false)}
               className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate"
             >
               <Settings className="h-4 w-4 shrink-0 text-slate-500" />
               <span className="truncate">Account Settings</span>
-            </Link>
+            </Link> */}
 
             <div className="h-px bg-white/6 my-1 mx-1" />
 
@@ -191,7 +195,7 @@ export function AdminDashboardSidebar() {
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-[#0d111a] rounded-full" />
             </div>
 
-            <div className="flex flex-col truncate min-w-0">
+ <div className="flex flex-col truncate min-w-0">
               <span className="text-xs font-semibold text-slate-200 truncate capitalize leading-tight">
                {user?.full_name || "Admin"}
               </span>

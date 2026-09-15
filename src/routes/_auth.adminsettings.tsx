@@ -16,6 +16,7 @@ import {
   Key,
 } from "lucide-react";
 import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
+import { useProfileSettings } from "@/hooks/useProfileSettings";
 
 type SettingsTab = "profile" | "security" | "notifications" | "api";
 
@@ -38,6 +39,27 @@ export function AdminSettingsDashboard() {
   const [isSaving, setIsSaving] = useState(false);
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [copiedKey, setCopiedKey] = useState<"public" | "secret" | null>(null);
+  const {
+    user,
+    fullName,
+    setFullName,
+    phone,
+    setPhone,
+    avatarUrl,
+    uploadingAvatar,
+    handleAvatarFile,
+    savingProfile,
+    saveProfile,
+    currentPassword,
+    setCurrentPassword,
+    newPassword,
+    setNewPassword,
+    confirmPassword,
+    setConfirmPassword,
+    savingPassword,
+    savePassword,
+    toast: profileToast,
+  } = useProfileSettings();
 
   const [profile, setProfile] = useState({
     fullName: "Alex Mercer",
@@ -54,8 +76,8 @@ export function AdminSettingsDashboard() {
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
-    twoFactorEnabled: true,
   });
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
 
   const [notifications, setNotifications] = useState({
     alertCritical: true,
@@ -119,51 +141,27 @@ export function AdminSettingsDashboard() {
 
   const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSaving(true);
-
-    if (activeTab === "security") {
-      if (security.newPassword || security.currentPassword || security.confirmPassword) {
-        if (!security.currentPassword) {
-          setToast({
-            type: "error",
-            message: "Current authorization password token missing verification.",
-          });
-          setIsSaving(false);
-          return;
-        }
-        if (security.newPassword.length < 8) {
-          setToast({
-            type: "error",
-            message: "New Master security string requires 8 characters minimum.",
-          });
-          setIsSaving(false);
-          return;
-        }
-        if (security.newPassword !== security.confirmPassword) {
-          setToast({
-            type: "error",
-            message: "Input validation mismatch: New credentials do not match.",
-          });
-          setIsSaving(false);
-          return;
-        }
-      }
+    if (activeTab === "profile") {
+      saveProfile(e);
+      return;
     }
-
+    if (activeTab === "security") {
+      if (currentPassword || newPassword || confirmPassword) {
+        savePassword(e);
+      } else {
+        setToast({ type: "success", message: "No password changes to save." });
+      }
+      return;
+    }
+    // Notifications / API tabs: no backend endpoints exist for these yet —
+    // this remains a simulated save, unchanged from before.
+    setIsSaving(true);
     setTimeout(() => {
       setIsSaving(false);
       setToast({
         type: "success",
         message: "System configuration matrix safely compiled and active.",
       });
-      if (activeTab === "security") {
-        setSecurity((prev) => ({
-          ...prev,
-          currentPassword: "",
-          newPassword: "",
-          confirmPassword: "",
-        }));
-      }
     }, 1000);
   };
 
@@ -196,6 +194,18 @@ export function AdminSettingsDashboard() {
         </div>
       )}
 
+      {profileToast && (
+        <div
+          className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border transition-all ${
+            profileToast.type === "success"
+              ? "bg-[#0c1017] border-emerald-500/30 text-emerald-400"
+              : "bg-[#0c1017] border-rose-500/30 text-rose-400"
+          }`}
+        >
+          {profileToast.message}
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 px-4 sm:px-0 border-b border-[#161b22]">
@@ -208,28 +218,46 @@ export function AdminSettingsDashboard() {
           <button
             type="submit"
             form="settings-matrix-form"
-            disabled={isSaving}
+            disabled={
+              activeTab === "profile"
+                ? savingProfile
+                : activeTab === "security"
+                  ? savingPassword
+                  : isSaving
+            }
             className="bg-[#e2a54a] hover:bg-[#cb923c] disabled:bg-slate-800 text-[#07090e] disabled:text-slate-500 font-bold text-xs tracking-wide px-5 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 uppercase disabled:cursor-not-allowed"
           >
-            {isSaving ? (
+            {(
+              activeTab === "profile"
+                ? savingProfile
+                : activeTab === "security"
+                  ? savingPassword
+                  : isSaving
+            ) ? (
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />
             ) : (
               <Save className="h-3.5 w-3.5" />
             )}
-            {isSaving ? "Syncing..." : "Save Changes"}
+            {(
+              activeTab === "profile"
+                ? savingProfile
+                : activeTab === "security"
+                  ? savingPassword
+                  : isSaving
+            )
+              ? "Syncing..."
+              : "Save Changes"}
           </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
           {/* Sidebar Tabs */}
           <div className="flex flex-col space-y-1 bg-[#0c1017] p-2 sm:rounded-xl border-y sm:border border-[#161b22]">
-            {(["profile", "security", "notifications", "api"] as SettingsTab[]).map((t) => {
-              const icons = { profile: User, security: Shield, notifications: Bell, api: Cpu };
+            {(["profile", "security"] as SettingsTab[]).map((t) => {
+              const icons = { profile: User, security: Shield };
               const labels = {
                 profile: "Admin Profile",
                 security: "Authentication",
-                notifications: "Routing Alerts",
-                api: "API Interfacing",
               };
               const Icon = icons[t];
               return (
@@ -267,13 +295,13 @@ export function AdminSettingsDashboard() {
                     <div className="relative h-16 w-16 rounded-full overflow-hidden border border-slate-700 bg-slate-900 shrink-0">
                       {profile.avatarUrl ? (
                         <img
-                          src={profile.avatarUrl}
+                          src={avatarUrl}
                           alt="Avatar Preview"
                           className="h-full w-full object-cover"
                         />
                       ) : (
                         <div className="h-full w-full flex items-center justify-center text-slate-600 font-mono text-xl uppercase">
-                          {profile.fullName.substring(0, 2)}
+                          {fullName.substring(0, 2) || user?.full_name?.substring(0, 2)}
                         </div>
                       )}
                     </div>
@@ -284,9 +312,15 @@ export function AdminSettingsDashboard() {
                         <input
                           type="file"
                           accept="image/*"
-                          onChange={handleAvatarChange}
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleAvatarFile(f);
+                          }}
                           className="hidden"
                         />
+                        {uploadingAvatar && (
+                          <p className="text-[10px] text-slate-500">Uploading...</p>
+                        )}
                       </label>
                       <p className="text-[10px] text-slate-500">Supports PNG or JPEG up to 2MB.</p>
                     </div>
@@ -297,22 +331,22 @@ export function AdminSettingsDashboard() {
                         Account Handle
                       </label>
                       <input
-                        type="text"
-                        required
-                        value={profile.fullName}
-                        onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
+                       type="text"
+  required
+  value={fullName}
+  onChange={(e) => setFullName(e.target.value)}
                         className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#e2a54a]/60 font-medium transition"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                       <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
-                        System Routing Address
+                        Email Address
                       </label>
                       <input
                         type="text"
                         required
-                        value={profile.email}
-                        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                        value={user?.email ?? ""}
+                        disabled
                         className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#e2a54a]/60 font-medium transition"
                       />
                     </div>
@@ -322,25 +356,22 @@ export function AdminSettingsDashboard() {
                       </label>
                       <input
                         type="text"
-                        value={profile.role}
+                        value={user?.role ?? ""}
                         disabled
-                        className="bg-[#07090e]/50 border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-slate-500 font-mono cursor-not-allowed"
+                        className="capitalize bg-[#07090e]/50 border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-slate-500 font-mono cursor-not-allowed"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
-                        Operational Timezone Matrix
+                     <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                        Account Handle
                       </label>
-                      <select
-                        value={profile.timezone}
-                        onChange={(e) => setProfile({ ...profile, timezone: e.target.value })}
-                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#e2a54a]/60 font-medium transition appearance-none cursor-pointer"
-                      >
-                        <option value="UTC -05:00 (EST)">UTC -05:00 (EST)</option>
-                        <option value="UTC +00:00 (GMT)">UTC +00:00 (GMT)</option>
-                        <option value="UTC +01:00 (WAT)">UTC +01:00 (WAT)</option>
-                        <option value="UTC -08:00 (PST)">UTC -08:00 (PST)</option>
-                      </select>
+                      <input
+                       type="text"
+  required
+  value={phone}
+  onChange={(e) => setPhone(e.target.value)}
+                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#e2a54a]/60 font-medium transition"
+                      />
                     </div>
                   </div>
                 </div>
@@ -364,10 +395,8 @@ export function AdminSettingsDashboard() {
                     <div className="relative w-full">
                       <input
                         type={showCurrentPassword ? "text" : "password"}
-                        value={security.currentPassword}
-                        onChange={(e) =>
-                          setSecurity({ ...security, currentPassword: e.target.value })
-                        }
+                        value={currentPassword}
+onChange={(e) => setCurrentPassword(e.target.value)}
                         className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 pr-10 transition"
                       />
                       <button
@@ -391,10 +420,8 @@ export function AdminSettingsDashboard() {
                       <div className="relative w-full">
                         <input
                           type={showNewPassword ? "text" : "password"}
-                          value={security.newPassword}
-                          onChange={(e) =>
-                            setSecurity({ ...security, newPassword: e.target.value })
-                          }
+                          value={newPassword}
+onChange={(e) => setNewPassword(e.target.value)}
                           className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 pr-10 transition"
                         />
                         <button
@@ -416,16 +443,14 @@ export function AdminSettingsDashboard() {
                       </label>
                       <input
                         type="password"
-                        value={security.confirmPassword}
-                        onChange={(e) =>
-                          setSecurity({ ...security, confirmPassword: e.target.value })
-                        }
+                        value={confirmPassword}
+onChange={(e) => setConfirmPassword(e.target.value)}
                         className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 transition"
                       />
                     </div>
                   </div>
                   <div className="h-px bg-[#161b22]" />
-                  <div className="flex items-center justify-between p-4 bg-[#07090e] border border-[#161b22] rounded-xl gap-4">
+                  {/* <div className="flex items-center justify-between p-4 bg-[#07090e] border border-[#161b22] rounded-xl gap-4">
                     <div className="flex items-start gap-3">
                       <Lock className="h-5 w-5 text-[#e2a54a] mt-0.5 shrink-0" />
                       <div>
@@ -469,155 +494,7 @@ export function AdminSettingsDashboard() {
                         THIS UNIT
                       </span>
                     </div>
-                  </div>
-                </div>
-              )}
-
-              {/* NOTIFICATIONS TAB */}
-              {activeTab === "notifications" && (
-                <div className="space-y-6">
-                  <div>
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1 font-mono">
-                      Event Threshold Routing
-                    </h3>
-                    <p className="text-[11px] text-slate-500">
-                      Configure system diagnostic monitoring endpoints.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    {[
-                      {
-                        key: "alertCritical" as const,
-                        title: "Critical Telemetry Violations",
-                        desc: "Broadcast active warnings when metrics breach threshold zones.",
-                      },
-                      {
-                        key: "alertMaintenance" as const,
-                        title: "Scheduled Maintenance Flags",
-                        desc: "Receive pushes when micro-nodes disconnect for maintenance pipelines.",
-                      },
-                      {
-                        key: "weeklyReport" as const,
-                        title: "Weekly Fleet Compilation Matrix",
-                        desc: "Compile logistical optimization summaries into encrypted emails.",
-                      },
-                    ].map(({ key, title, desc }) => (
-                      <div
-                        key={key}
-                        className="flex items-center justify-between p-3.5 bg-[#07090e]/60 rounded-lg border border-[#161b22] gap-4"
-                      >
-                        <div className="min-w-0">
-                          <p className="text-xs font-bold text-white">{title}</p>
-                          <p className="text-[10px] text-slate-500 mt-0.5">{desc}</p>
-                        </div>
-                        <input
-                          type="checkbox"
-                          checked={notifications[key]}
-                          onChange={(e) =>
-                            setNotifications({ ...notifications, [key]: e.target.checked })
-                          }
-                          className="accent-[#e2a54a] h-4 w-4 rounded bg-[#07090e] border-[#161b22] shrink-0 cursor-pointer"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex flex-col space-y-1.5">
-                    <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
-                      Slack Infrastructure Webhook Pipe
-                    </label>
-                    <input
-                      type="url"
-                      value={notifications.slackWebhook}
-                      onChange={(e) =>
-                        setNotifications({ ...notifications, slackWebhook: e.target.value })
-                      }
-                      className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 transition"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* API TAB */}
-              {activeTab === "api" && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between gap-4 border-b border-[#161b22] pb-3">
-                    <div>
-                      <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-                        Gateway API Authorization
-                      </h3>
-                      <p className="text-[11px] text-slate-500 mt-0.5">
-                        Control web services token signatures securely.
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={regenerateApiKeys}
-                      className="text-[10px] bg-slate-900 border border-[#161b22] hover:border-[#e2a54a] text-white font-bold px-3 py-1.5 rounded transition-colors font-mono flex items-center gap-1.5 shrink-0"
-                    >
-                      <Key className="h-3.5 w-3.5" /> RECOMPILE KEYS
-                    </button>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
-                        Live Client Identifiers (Public Key)
-                      </label>
-                      <div className="relative flex items-center bg-[#07090e] border border-[#161b22] rounded-lg focus-within:border-[#e2a54a]/60 overflow-hidden pr-2 transition">
-                        <input
-                          type="text"
-                          readOnly
-                          value={apiConfig.publicKey}
-                          className="w-full bg-transparent px-4 py-2.5 text-xs text-white font-mono focus:outline-none select-all"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => handleCopyClipboard(apiConfig.publicKey, "public")}
-                          className="p-1.5 text-slate-500 hover:text-slate-300 transition shrink-0"
-                        >
-                          {copiedKey === "public" ? (
-                            <Check className="h-3.5 w-3.5 text-emerald-400" />
-                          ) : (
-                            <Copy className="h-3.5 w-3.5" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                    <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
-                        Live Client Secret Key
-                      </label>
-                      <div className="relative flex items-center bg-[#07090e] border border-[#161b22] rounded-lg focus-within:border-[#e2a54a]/60 overflow-hidden pr-2 transition">
-                        <input
-                          type={showApiKey ? "text" : "password"}
-                          readOnly
-                          value={apiConfig.secretKey}
-                          className="w-full bg-transparent px-4 py-2.5 text-xs text-white font-mono focus:outline-none select-all"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setShowApiKey(!showApiKey)}
-                          className="p-1.5 text-slate-500 hover:text-slate-300 transition shrink-0 mr-1"
-                        >
-                          {showApiKey ? (
-                            <EyeOff className="h-3.5 w-3.5" />
-                          ) : (
-                            <Eye className="h-3.5 w-3.5" />
-                          )}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleCopyClipboard(apiConfig.secretKey, "secret")}
-                          className="p-1.5 text-slate-500 hover:text-slate-300 transition shrink-0"
-                        >
-                          {copiedKey === "secret" ? (
-                            <Check className="h-3.5 w-3.5 text-emerald-400" />
-                          ) : (
-                            <Copy className="h-3.5 w-3.5" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </form>

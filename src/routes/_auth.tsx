@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_auth")({
 });
 
 function AuthLayout() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
 
   return (
     <AdminAuthGuard>

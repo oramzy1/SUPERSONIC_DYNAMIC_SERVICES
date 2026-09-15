@@ -17,6 +17,7 @@ import {
   Check,
 } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { supportApi } from "@/lib/api";
 
 export const Route = createFileRoute("/ticket")({
   component: RouteComponent,
@@ -80,18 +81,34 @@ function RouteComponent() {
 
   const handleSubmitTicket = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.subject.trim() || !form.description.trim()) {
-      setErrorMsg("Please tell us what you need help with and provide a short description.");
+    setErrorMsg(null);
+
+    if (!form.subject || !form.description) {
+      setErrorMsg("Subject and description are required.");
       return;
     }
-    setErrorMsg(null);
+    if (form.description.length < 10) {
+      setErrorMsg("Description must be at least 10 characters.");
+      return;
+    }
+
     setIsSubmitting(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 1400));
-    setTicketId(String(Math.floor(Math.random() * 90000) + 10000));
-
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    try {
+      const res = await supportApi.createTicket({
+        email: form.nodeIdentifier || "anonymous@supersonicdynamic.com",
+        subject: form.subject,
+        message: `[${form.department.toUpperCase()}] [${form.priority.toUpperCase()}] ${form.description}`,
+      });
+      setTicketId(String(res.id));
+      setIsSuccess(true);
+    } catch (err: unknown) {
+      const msg =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        "Failed to submit ticket. Please try again.";
+      setErrorMsg(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const DEPARTMENTS: {

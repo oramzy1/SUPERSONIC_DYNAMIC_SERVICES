@@ -15,6 +15,7 @@ import { CookieBanner } from "@/components/shared/CookieBanner";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/lib/shop/cart";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 function NotFoundComponent() {
   return (
@@ -166,7 +167,8 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <LoadingProvider>
+      <AuthProvider>
+        <LoadingProvider>
         <CartProvider>
         <CookieConsentProvider>
           <PageLoader />
@@ -175,6 +177,7 @@ function RootComponent() {
         </CookieConsentProvider>
         </CartProvider>
       </LoadingProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
