@@ -24,12 +24,19 @@ import logo from "@/assets/images/logo.png";
 import Logo from "../shared/Logo";
 import { useAuth } from "@/contexts/AuthContext";
 
+function isNavActive(pathname: string, to: string) {
+  if (pathname === to) return true;
+  return pathname.startsWith(to + "/");
+}
+
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutGrid },
   { to: "/dashboard/quotes", label: "Quotes", icon: FileText },
   { to: "/dashboard/jobs", label: "Jobs", icon: Briefcase },
   { to: "/dashboard/invoices", label: "Invoices", icon: Receipt },
 ] as const;
+
+
 
 export function DashboardSidebar() {
   const { location } = useRouterState();
@@ -75,6 +82,11 @@ export function DashboardSidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen, isMobileOpen]);
 
+  const activeTo = [...NAV]
+  .sort((a, b) => b.to.length - a.to.length)
+  .find((n) => isNavActive(location.pathname, n.to))?.to;
+
+
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem("supersonic_admin_authed");
@@ -102,7 +114,7 @@ export function DashboardSidebar() {
 
         <nav className="flex flex-col gap-1 px-3 flex-1 overflow-y-auto hidden-scrollbar w-full">
           {NAV.map((n) => {
-            const active = location.pathname.startsWith(n.to);
+            const active = n.to === activeTo;
             const Icon = n.icon;
 
             return (

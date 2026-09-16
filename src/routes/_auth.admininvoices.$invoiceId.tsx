@@ -92,6 +92,17 @@ function InvoiceDetailPage() {
         <div><p className="text-[10px] text-slate-500 uppercase mb-1">Status</p><p className="text-slate-200 uppercase text-xs font-bold">{invoice.status}</p></div>
         <div><p className="text-[10px] text-slate-500 uppercase mb-1">Type</p><p className="text-slate-200 capitalize">{invoice.invoice_type}</p></div>
         <div><p className="text-[10px] text-slate-500 uppercase mb-1">Created</p><p className="text-slate-200">{formatDate(invoice.created_at)}</p></div>
+        {invoice.quote_number && (
+  <div><p className="text-[10px] text-slate-500 uppercase mb-1">Quote</p><p className="text-slate-200">{invoice.quote_number}</p></div>
+)}
+{invoice.job_id && (
+  <div>
+    <p className="text-[10px] text-slate-500 uppercase mb-1">Job</p>
+    <Link to="/adminjobs/$jobId" params={{ jobId: String(invoice.job_id) }} className="text-[#E2A54A] hover:underline">
+      Job #{invoice.job_id}
+    </Link>
+  </div>
+)}
       </div>
     </div>
   );

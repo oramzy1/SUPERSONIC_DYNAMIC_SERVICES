@@ -18,6 +18,7 @@ import {
   ChevronsUpDown,
   Menu,
   X,
+  Signature,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/images/logo.png";
@@ -28,6 +29,7 @@ const NAV = [
   { to: "/admindashboard", label: "Dashboard", icon: LayoutGrid },
   { to: "/adminquotes", label: "Quotes", icon: FileText },
   { to: "/adminjobs", label: "Jobs", icon: Briefcase },
+  { to: "/admincontracts", label: "Contracts", icon: Signature },
   { to: "/admincustomers", label: "Customers", icon: Users },
   { to: "/admininvoices", label: "Invoices", icon: Receipt },
   { to: "/adminservices", label: "Services", icon: Wrench },

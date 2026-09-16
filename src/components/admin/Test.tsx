@@ -2,10 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MapPin, Loader2, Wand2, XCircle, ArrowLeftRight, CheckCircle2, Truck, FileSignature, Receipt } from "lucide-react";
-import { accountApi, quotesApi } from "@/lib/api";
+import { quotesApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { GenerateQuoteModal } from "@/components/admin/GeneralQuoteModal";
-import { CounterOfferModal } from "@/components/admin/CounterOfferModal";
 
 export const Route = createFileRoute("/_auth/adminquotes/$quoteId")({
   component: QuoteDetailPage,
@@ -37,7 +36,6 @@ function QuoteDetailPage() {
   const queryClient = useQueryClient();
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [generating, setGenerating] = useState(false);
-const [countering, setCountering] = useState(false);
 
   const { data: requests = [], isLoading: requestsLoading } = useQuery({
     queryKey: ["admin", "quotes", "all"],
@@ -53,12 +51,6 @@ const [countering, setCountering] = useState(false);
     queryFn: () => quotesApi.get(id),
     retry: false,
   });
-
-  const { data: me } = useQuery({
-  queryKey: ["account", "me"],
-  queryFn: () => accountApi.getProfile(),
-  staleTime: 5 * 60_000,
-});
 
   const generateMutation = useMutation({
     mutationFn: ({ amount, days }: { amount: string; days: number }) =>
@@ -80,31 +72,6 @@ const [countering, setCountering] = useState(false);
     },
     onError: (err) => setToast({ type: "error", message: errMsg(err) }),
   });
-
-  const counterMutation = useMutation({
-  mutationFn: ({ amount, message }: { amount: string; message?: string }) =>
-    quotesApi.counterOffer(id, { amount, message }),
-  onSuccess: () => {
-    setCountering(false);
-    queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
-    queryClient.invalidateQueries({ queryKey: ["admin", "quote-detail", id] });
-    setToast({ type: "success", message: "Counter sent — awaiting customer response." });
-  },
-  onError: (err) => setToast({ type: "error", message: errMsg(err) }),
-});
-
-  const acceptMutation = useMutation({
-  mutationFn: () => quotesApi.accept(id),
-  onSuccess: (res) => {
-    queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
-    queryClient.invalidateQueries({ queryKey: ["admin", "quote-detail", id] });
-    setToast({
-      type: "success",
-      message: `Counter offer accepted — contract #${res.contract_id} (${res.contract_status}).`,
-    });
-  },
-  onError: (err) => setToast({ type: "error", message: errMsg(err) }),
-});
 
   if (requestsLoading || quoteLoading) {
     return (
@@ -136,18 +103,9 @@ const [countering, setCountering] = useState(false);
   }
 
   const status = row?.status ?? quote?.status ?? "";
-  const latestCounter = quote?.counter_offers?.length
-  ? quote.counter_offers[quote.counter_offers.length - 1]
-  : null;
-
-// The admin only acts when the last move wasn't theirs.
-const awaitingAdmin =
-  status === "counter_offered" && !!latestCounter && latestCounter.offered_by !== me?.id;
-
-const canGenerate = status === "pending";   // first price only
-const canCounter = awaitingAdmin;
-const canAccept = awaitingAdmin;
-const canReject = status === "pending" || status === "quoted" || awaitingAdmin;
+  const canGenerate = status === "pending" || status === "quoted" || status === "counter_offered";
+  const canReject = canGenerate;
+  const latestCounter = quote?.counter_offers?.length ? quote.counter_offers[quote.counter_offers.length - 1] : null;
   const modalTitle = status === "counter_offered" ? "Send New Quote" : status === "quoted" ? "Re-quote" : "Generate Quote";
 
   return (
@@ -178,18 +136,6 @@ const canReject = status === "pending" || status === "quoted" || awaitingAdmin;
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          {canAccept && (
-  <button onClick={() => acceptMutation.mutate()} disabled={acceptMutation.isPending}
-    className="flex items-center gap-1.5 px-3 py-1.5 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-md hover:bg-emerald-500/10 transition duration-150 disabled:opacity-50">
-    <CheckCircle2 className="w-3 h-3" /> Accept €{latestCounter?.amount}
-  </button>
-)}
-{canCounter && (
-  <button onClick={() => setCountering(true)}
-    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E2A54A] text-slate-950 text-[10px] font-bold rounded-md hover:bg-[#d4963b] transition duration-150">
-    <ArrowLeftRight className="w-3 h-3" /> Counter
-  </button>
-)}
           {canReject && (
             <button onClick={() => rejectMutation.mutate()} disabled={rejectMutation.isPending}
               className="flex items-center gap-1.5 px-3 py-1.5 border border-rose-500/20 text-rose-400 text-[10px] font-bold rounded-md hover:bg-rose-500/10 transition duration-150 disabled:opacity-50">
@@ -231,26 +177,24 @@ const canReject = status === "pending" || status === "quoted" || awaitingAdmin;
         </div>
       )}
 
- {status === "counter_offered" && latestCounter && (
-  <div className="mb-6 rounded-xl border border-violet-500/20 bg-violet-500/5 p-5">
-    <div className="flex items-center gap-2 text-violet-400 mb-1">
-      <ArrowLeftRight className="w-4 h-4" />
-      <h3 className="text-xs font-bold uppercase tracking-wider">
-        {latestCounter.offered_by === me?.id ? "Your Counter Offer — awaiting customer" : "Customer Counter Offer"}
-      </h3>
-    </div>
-    <p className="text-2xl font-bold font-mono text-white">€{latestCounter.amount}</p>
-    <p className="text-xs text-slate-500 mt-1">
-      {latestCounter.offered_by_name || `User #${latestCounter.offered_by}`} · {formatDate(latestCounter.created_at)}
-    </p>
-    {latestCounter.message && <p className="text-sm text-slate-300 mt-2 leading-relaxed">{latestCounter.message}</p>}
-    {latestCounter.offered_by !== me?.id && quote && (
-      <p className="text-xs text-slate-500 mt-3 border-t border-white/5 pt-3">
-        Your last quoted price: <span className="text-slate-300 font-semibold">€{quote.total_price}</span>
-      </p>
-    )}
-  </div>
-)}
+      {status === "counter_offered" && latestCounter && (
+        <div className="mb-6 rounded-xl border border-violet-500/20 bg-violet-500/5 p-5">
+          <div className="flex items-center gap-2 text-violet-400 mb-1">
+            <ArrowLeftRight className="w-4 h-4" />
+            <h3 className="text-xs font-bold uppercase tracking-wider">Customer Counter Offer</h3>
+          </div>
+          <p className="text-2xl font-bold font-mono text-white">€{latestCounter.amount}</p>
+          <p className="text-xs text-slate-500 mt-1">
+            {latestCounter.offered_by_name || `User #${latestCounter.offered_by}`} · {formatDate(latestCounter.created_at)}
+          </p>
+          {latestCounter.message && <p className="text-sm text-slate-300 mt-2 leading-relaxed">{latestCounter.message}</p>}
+          {quote && (
+            <p className="text-xs text-slate-500 mt-3 border-t border-white/5 pt-3">
+              Your last quoted price: <span className="text-slate-300 font-semibold">€{quote.total_price}</span>
+            </p>
+          )}
+        </div>
+      )}
 
       {row && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -321,15 +265,6 @@ const canReject = status === "pending" || status === "quoted" || awaitingAdmin;
           onSubmit={(amount, days) => generateMutation.mutate({ amount, days })}
         />
       )}
-
-      {countering && (
-  <CounterOfferModal
-    currentAmount={quote?.total_price}
-    busy={counterMutation.isPending}
-    onClose={() => setCountering(false)}
-    onSubmit={(amount, message) => counterMutation.mutate({ amount, message })}
-  />
-)}
     </div>
   );
 }

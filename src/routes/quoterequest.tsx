@@ -159,6 +159,13 @@ function QuoteRequest() {
   }, []);
 
   useEffect(() => {
+  if (user) {
+    setValue("name", user.full_name);
+    setValue("email", user.email);
+  }
+}, [user]);
+
+  useEffect(() => {
     const err = sessionStorage.getItem("sds_quote_error");
     if (err) {
       setErrors(err);
@@ -561,8 +568,9 @@ function QuoteRequest() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
                             placeholder="Johndoe Alenn"
+                            disabled
                             {...register("name")}
                           />
                         </Field>
@@ -579,8 +587,9 @@ function QuoteRequest() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
                             placeholder="johndoe@email.com"
+                            disabled
                             {...register("email")}
                           />
                         </Field>

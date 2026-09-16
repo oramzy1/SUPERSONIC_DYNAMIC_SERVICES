@@ -41,8 +41,8 @@ import { Route as ShopCartRouteImport } from './routes/shop.cart'
 import { Route as ShopAccountRouteImport } from './routes/shop.account'
 import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
+import { Route as PaymentSuccessRouteImport } from './routes/payment.success'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
-import { Route as DashboardInvoicesRouteImport } from './routes/dashboard.invoices'
 import { Route as UserSetnewpasswordRouteImport } from './routes/_user.setnewpassword'
 import { Route as UserRegisterRouteImport } from './routes/_user.register'
 import { Route as UserLoginRouteImport } from './routes/_user.login'
@@ -57,18 +57,23 @@ import { Route as AuthAdminanalyticsRouteImport } from './routes/_auth.adminanal
 import { Route as ShopAccountIndexRouteImport } from './routes/shop.account.index'
 import { Route as DashboardQuotesIndexRouteImport } from './routes/dashboard.quotes.index'
 import { Route as DashboardJobsIndexRouteImport } from './routes/dashboard.jobs.index'
+import { Route as DashboardInvoicesIndexRouteImport } from './routes/dashboard.invoices.index'
 import { Route as MemberCrewdashboardIndexRouteImport } from './routes/_member.crewdashboard.index'
 import { Route as AuthAdminquotesIndexRouteImport } from './routes/_auth.adminquotes.index'
 import { Route as AuthAdminjobsIndexRouteImport } from './routes/_auth.adminjobs.index'
 import { Route as AuthAdmininvoicesIndexRouteImport } from './routes/_auth.admininvoices.index'
 import { Route as AuthAdmincustomersIndexRouteImport } from './routes/_auth.admincustomers.index'
+import { Route as AuthAdmincontractsIndexRouteImport } from './routes/_auth.admincontracts.index'
 import { Route as ShopAccountsAddressesRouteImport } from './routes/shop.accounts.addresses'
 import { Route as ShopAccountTransactionsRouteImport } from './routes/shop.account.transactions'
 import { Route as ShopAccountSettingsRouteImport } from './routes/shop.account.settings'
 import { Route as ShopAccountSavedRouteImport } from './routes/shop.account.saved'
 import { Route as ShopAccountOrdersRouteImport } from './routes/shop.account.orders'
+import { Route as JobsTrackTokenRouteImport } from './routes/jobs.track.$token'
 import { Route as DashboardQuotesQuoteIdRouteImport } from './routes/dashboard.quotes.$quoteId'
 import { Route as DashboardJobsJobIdRouteImport } from './routes/dashboard.jobs.$jobId'
+import { Route as DashboardInvoicesInvoiceIdRouteImport } from './routes/dashboard.invoices.$invoiceId'
+import { Route as ContractsSignTokenRouteImport } from './routes/contracts.sign.$token'
 import { Route as MemberCrewdashboardProfileRouteImport } from './routes/_member.crewdashboard.profile'
 import { Route as MemberCrewdashboardJobRouteImport } from './routes/_member.crewdashboard.job'
 import { Route as MemberCrewdashboardJobIdRouteImport } from './routes/_member.crewdashboard.$jobId'
@@ -76,6 +81,7 @@ import { Route as AuthAdminquotesQuoteIdRouteImport } from './routes/_auth.admin
 import { Route as AuthAdminjobsJobIdRouteImport } from './routes/_auth.adminjobs.$jobId'
 import { Route as AuthAdmininvoicesInvoiceIdRouteImport } from './routes/_auth.admininvoices.$invoiceId'
 import { Route as AuthAdmincustomersUserIdRouteImport } from './routes/_auth.admincustomers.$userId'
+import { Route as AuthAdmincontractsContractIdRouteImport } from './routes/_auth.admincontracts.$contractId'
 import { Route as ShopAccountOrdersIdRouteImport } from './routes/shop.account.orders.$id'
 
 const VacanciesRoute = VacanciesRouteImport.update({
@@ -235,14 +241,14 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ServicesRoute,
 } as any)
+const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
+  id: '/payment/success',
+  path: '/payment/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardProfileRoute = DashboardProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardInvoicesRoute = DashboardInvoicesRouteImport.update({
-  id: '/invoices',
-  path: '/invoices',
   getParentRoute: () => DashboardRoute,
 } as any)
 const UserSetnewpasswordRoute = UserSetnewpasswordRouteImport.update({
@@ -315,6 +321,11 @@ const DashboardJobsIndexRoute = DashboardJobsIndexRouteImport.update({
   path: '/jobs/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardInvoicesIndexRoute = DashboardInvoicesIndexRouteImport.update({
+  id: '/invoices/',
+  path: '/invoices/',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const MemberCrewdashboardIndexRoute =
   MemberCrewdashboardIndexRouteImport.update({
     id: '/crewdashboard/',
@@ -339,6 +350,11 @@ const AuthAdmininvoicesIndexRoute = AuthAdmininvoicesIndexRouteImport.update({
 const AuthAdmincustomersIndexRoute = AuthAdmincustomersIndexRouteImport.update({
   id: '/admincustomers/',
   path: '/admincustomers/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdmincontractsIndexRoute = AuthAdmincontractsIndexRouteImport.update({
+  id: '/admincontracts/',
+  path: '/admincontracts/',
   getParentRoute: () => AuthRoute,
 } as any)
 const ShopAccountsAddressesRoute = ShopAccountsAddressesRouteImport.update({
@@ -366,6 +382,11 @@ const ShopAccountOrdersRoute = ShopAccountOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => ShopAccountRoute,
 } as any)
+const JobsTrackTokenRoute = JobsTrackTokenRouteImport.update({
+  id: '/jobs/track/$token',
+  path: '/jobs/track/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardQuotesQuoteIdRoute = DashboardQuotesQuoteIdRouteImport.update({
   id: '/quotes/$quoteId',
   path: '/quotes/$quoteId',
@@ -375,6 +396,17 @@ const DashboardJobsJobIdRoute = DashboardJobsJobIdRouteImport.update({
   id: '/jobs/$jobId',
   path: '/jobs/$jobId',
   getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardInvoicesInvoiceIdRoute =
+  DashboardInvoicesInvoiceIdRouteImport.update({
+    id: '/invoices/$invoiceId',
+    path: '/invoices/$invoiceId',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const ContractsSignTokenRoute = ContractsSignTokenRouteImport.update({
+  id: '/contracts/sign/$token',
+  path: '/contracts/sign/$token',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const MemberCrewdashboardProfileRoute =
   MemberCrewdashboardProfileRouteImport.update({
@@ -415,6 +447,12 @@ const AuthAdmincustomersUserIdRoute =
     path: '/admincustomers/$userId',
     getParentRoute: () => AuthRoute,
   } as any)
+const AuthAdmincontractsContractIdRoute =
+  AuthAdmincontractsContractIdRouteImport.update({
+    id: '/admincontracts/$contractId',
+    path: '/admincontracts/$contractId',
+    getParentRoute: () => AuthRoute,
+  } as any)
 const ShopAccountOrdersIdRoute = ShopAccountOrdersIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -452,8 +490,8 @@ export interface FileRoutesByFullPath {
   '/login': typeof UserLoginRoute
   '/register': typeof UserRegisterRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
-  '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/account': typeof ShopAccountRouteWithChildren
@@ -464,6 +502,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/admincontracts/$contractId': typeof AuthAdmincontractsContractIdRoute
   '/admincustomers/$userId': typeof AuthAdmincustomersUserIdRoute
   '/admininvoices/$invoiceId': typeof AuthAdmininvoicesInvoiceIdRoute
   '/adminjobs/$jobId': typeof AuthAdminjobsJobIdRoute
@@ -471,18 +510,23 @@ export interface FileRoutesByFullPath {
   '/crewdashboard/$jobId': typeof MemberCrewdashboardJobIdRoute
   '/crewdashboard/job': typeof MemberCrewdashboardJobRoute
   '/crewdashboard/profile': typeof MemberCrewdashboardProfileRoute
+  '/contracts/sign/$token': typeof ContractsSignTokenRoute
+  '/dashboard/invoices/$invoiceId': typeof DashboardInvoicesInvoiceIdRoute
   '/dashboard/jobs/$jobId': typeof DashboardJobsJobIdRoute
   '/dashboard/quotes/$quoteId': typeof DashboardQuotesQuoteIdRoute
+  '/jobs/track/$token': typeof JobsTrackTokenRoute
   '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
   '/shop/account/saved': typeof ShopAccountSavedRoute
   '/shop/account/settings': typeof ShopAccountSettingsRoute
   '/shop/account/transactions': typeof ShopAccountTransactionsRoute
   '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/admincontracts/': typeof AuthAdmincontractsIndexRoute
   '/admincustomers/': typeof AuthAdmincustomersIndexRoute
   '/admininvoices/': typeof AuthAdmininvoicesIndexRoute
   '/adminjobs/': typeof AuthAdminjobsIndexRoute
   '/adminquotes/': typeof AuthAdminquotesIndexRoute
   '/crewdashboard/': typeof MemberCrewdashboardIndexRoute
+  '/dashboard/invoices/': typeof DashboardInvoicesIndexRoute
   '/dashboard/jobs/': typeof DashboardJobsIndexRoute
   '/dashboard/quotes/': typeof DashboardQuotesIndexRoute
   '/shop/account/': typeof ShopAccountIndexRoute
@@ -516,8 +560,8 @@ export interface FileRoutesByTo {
   '/login': typeof UserLoginRoute
   '/register': typeof UserRegisterRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
-  '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/cart': typeof ShopCartRoute
@@ -527,6 +571,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/services': typeof ServicesIndexRoute
   '/shop': typeof ShopIndexRoute
+  '/admincontracts/$contractId': typeof AuthAdmincontractsContractIdRoute
   '/admincustomers/$userId': typeof AuthAdmincustomersUserIdRoute
   '/admininvoices/$invoiceId': typeof AuthAdmininvoicesInvoiceIdRoute
   '/adminjobs/$jobId': typeof AuthAdminjobsJobIdRoute
@@ -534,18 +579,23 @@ export interface FileRoutesByTo {
   '/crewdashboard/$jobId': typeof MemberCrewdashboardJobIdRoute
   '/crewdashboard/job': typeof MemberCrewdashboardJobRoute
   '/crewdashboard/profile': typeof MemberCrewdashboardProfileRoute
+  '/contracts/sign/$token': typeof ContractsSignTokenRoute
+  '/dashboard/invoices/$invoiceId': typeof DashboardInvoicesInvoiceIdRoute
   '/dashboard/jobs/$jobId': typeof DashboardJobsJobIdRoute
   '/dashboard/quotes/$quoteId': typeof DashboardQuotesQuoteIdRoute
+  '/jobs/track/$token': typeof JobsTrackTokenRoute
   '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
   '/shop/account/saved': typeof ShopAccountSavedRoute
   '/shop/account/settings': typeof ShopAccountSettingsRoute
   '/shop/account/transactions': typeof ShopAccountTransactionsRoute
   '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/admincontracts': typeof AuthAdmincontractsIndexRoute
   '/admincustomers': typeof AuthAdmincustomersIndexRoute
   '/admininvoices': typeof AuthAdmininvoicesIndexRoute
   '/adminjobs': typeof AuthAdminjobsIndexRoute
   '/adminquotes': typeof AuthAdminquotesIndexRoute
   '/crewdashboard': typeof MemberCrewdashboardIndexRoute
+  '/dashboard/invoices': typeof DashboardInvoicesIndexRoute
   '/dashboard/jobs': typeof DashboardJobsIndexRoute
   '/dashboard/quotes': typeof DashboardQuotesIndexRoute
   '/shop/account': typeof ShopAccountIndexRoute
@@ -586,8 +636,8 @@ export interface FileRoutesById {
   '/_user/login': typeof UserLoginRoute
   '/_user/register': typeof UserRegisterRoute
   '/_user/setnewpassword': typeof UserSetnewpasswordRoute
-  '/dashboard/invoices': typeof DashboardInvoicesRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/shop/account': typeof ShopAccountRouteWithChildren
@@ -598,6 +648,7 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/_auth/admincontracts/$contractId': typeof AuthAdmincontractsContractIdRoute
   '/_auth/admincustomers/$userId': typeof AuthAdmincustomersUserIdRoute
   '/_auth/admininvoices/$invoiceId': typeof AuthAdmininvoicesInvoiceIdRoute
   '/_auth/adminjobs/$jobId': typeof AuthAdminjobsJobIdRoute
@@ -605,18 +656,23 @@ export interface FileRoutesById {
   '/_member/crewdashboard/$jobId': typeof MemberCrewdashboardJobIdRoute
   '/_member/crewdashboard/job': typeof MemberCrewdashboardJobRoute
   '/_member/crewdashboard/profile': typeof MemberCrewdashboardProfileRoute
+  '/contracts/sign/$token': typeof ContractsSignTokenRoute
+  '/dashboard/invoices/$invoiceId': typeof DashboardInvoicesInvoiceIdRoute
   '/dashboard/jobs/$jobId': typeof DashboardJobsJobIdRoute
   '/dashboard/quotes/$quoteId': typeof DashboardQuotesQuoteIdRoute
+  '/jobs/track/$token': typeof JobsTrackTokenRoute
   '/shop/account/orders': typeof ShopAccountOrdersRouteWithChildren
   '/shop/account/saved': typeof ShopAccountSavedRoute
   '/shop/account/settings': typeof ShopAccountSettingsRoute
   '/shop/account/transactions': typeof ShopAccountTransactionsRoute
   '/shop/accounts/addresses': typeof ShopAccountsAddressesRoute
+  '/_auth/admincontracts/': typeof AuthAdmincontractsIndexRoute
   '/_auth/admincustomers/': typeof AuthAdmincustomersIndexRoute
   '/_auth/admininvoices/': typeof AuthAdmininvoicesIndexRoute
   '/_auth/adminjobs/': typeof AuthAdminjobsIndexRoute
   '/_auth/adminquotes/': typeof AuthAdminquotesIndexRoute
   '/_member/crewdashboard/': typeof MemberCrewdashboardIndexRoute
+  '/dashboard/invoices/': typeof DashboardInvoicesIndexRoute
   '/dashboard/jobs/': typeof DashboardJobsIndexRoute
   '/dashboard/quotes/': typeof DashboardQuotesIndexRoute
   '/shop/account/': typeof ShopAccountIndexRoute
@@ -655,8 +711,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/setnewpassword'
-    | '/dashboard/invoices'
     | '/dashboard/profile'
+    | '/payment/success'
     | '/services/$slug'
     | '/shop/$slug'
     | '/shop/account'
@@ -667,6 +723,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/services/'
     | '/shop/'
+    | '/admincontracts/$contractId'
     | '/admincustomers/$userId'
     | '/admininvoices/$invoiceId'
     | '/adminjobs/$jobId'
@@ -674,18 +731,23 @@ export interface FileRouteTypes {
     | '/crewdashboard/$jobId'
     | '/crewdashboard/job'
     | '/crewdashboard/profile'
+    | '/contracts/sign/$token'
+    | '/dashboard/invoices/$invoiceId'
     | '/dashboard/jobs/$jobId'
     | '/dashboard/quotes/$quoteId'
+    | '/jobs/track/$token'
     | '/shop/account/orders'
     | '/shop/account/saved'
     | '/shop/account/settings'
     | '/shop/account/transactions'
     | '/shop/accounts/addresses'
+    | '/admincontracts/'
     | '/admincustomers/'
     | '/admininvoices/'
     | '/adminjobs/'
     | '/adminquotes/'
     | '/crewdashboard/'
+    | '/dashboard/invoices/'
     | '/dashboard/jobs/'
     | '/dashboard/quotes/'
     | '/shop/account/'
@@ -719,8 +781,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/setnewpassword'
-    | '/dashboard/invoices'
     | '/dashboard/profile'
+    | '/payment/success'
     | '/services/$slug'
     | '/shop/$slug'
     | '/shop/cart'
@@ -730,6 +792,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/services'
     | '/shop'
+    | '/admincontracts/$contractId'
     | '/admincustomers/$userId'
     | '/admininvoices/$invoiceId'
     | '/adminjobs/$jobId'
@@ -737,18 +800,23 @@ export interface FileRouteTypes {
     | '/crewdashboard/$jobId'
     | '/crewdashboard/job'
     | '/crewdashboard/profile'
+    | '/contracts/sign/$token'
+    | '/dashboard/invoices/$invoiceId'
     | '/dashboard/jobs/$jobId'
     | '/dashboard/quotes/$quoteId'
+    | '/jobs/track/$token'
     | '/shop/account/orders'
     | '/shop/account/saved'
     | '/shop/account/settings'
     | '/shop/account/transactions'
     | '/shop/accounts/addresses'
+    | '/admincontracts'
     | '/admincustomers'
     | '/admininvoices'
     | '/adminjobs'
     | '/adminquotes'
     | '/crewdashboard'
+    | '/dashboard/invoices'
     | '/dashboard/jobs'
     | '/dashboard/quotes'
     | '/shop/account'
@@ -788,8 +856,8 @@ export interface FileRouteTypes {
     | '/_user/login'
     | '/_user/register'
     | '/_user/setnewpassword'
-    | '/dashboard/invoices'
     | '/dashboard/profile'
+    | '/payment/success'
     | '/services/$slug'
     | '/shop/$slug'
     | '/shop/account'
@@ -800,6 +868,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/services/'
     | '/shop/'
+    | '/_auth/admincontracts/$contractId'
     | '/_auth/admincustomers/$userId'
     | '/_auth/admininvoices/$invoiceId'
     | '/_auth/adminjobs/$jobId'
@@ -807,18 +876,23 @@ export interface FileRouteTypes {
     | '/_member/crewdashboard/$jobId'
     | '/_member/crewdashboard/job'
     | '/_member/crewdashboard/profile'
+    | '/contracts/sign/$token'
+    | '/dashboard/invoices/$invoiceId'
     | '/dashboard/jobs/$jobId'
     | '/dashboard/quotes/$quoteId'
+    | '/jobs/track/$token'
     | '/shop/account/orders'
     | '/shop/account/saved'
     | '/shop/account/settings'
     | '/shop/account/transactions'
     | '/shop/accounts/addresses'
+    | '/_auth/admincontracts/'
     | '/_auth/admincustomers/'
     | '/_auth/admininvoices/'
     | '/_auth/adminjobs/'
     | '/_auth/adminquotes/'
     | '/_member/crewdashboard/'
+    | '/dashboard/invoices/'
     | '/dashboard/jobs/'
     | '/dashboard/quotes/'
     | '/shop/account/'
@@ -848,8 +922,11 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   TicketRoute: typeof TicketRoute
   VacanciesRoute: typeof VacanciesRoute
+  PaymentSuccessRoute: typeof PaymentSuccessRoute
   TalkAdminjobsRoute: typeof TalkAdminjobsRoute
   TrackingTokenRoute: typeof TrackingTokenRoute
+  ContractsSignTokenRoute: typeof ContractsSignTokenRoute
+  JobsTrackTokenRoute: typeof JobsTrackTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1078,18 +1155,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesSlugRouteImport
       parentRoute: typeof ServicesRoute
     }
+    '/payment/success': {
+      id: '/payment/success'
+      path: '/payment/success'
+      fullPath: '/payment/success'
+      preLoaderRoute: typeof PaymentSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/profile': {
       id: '/dashboard/profile'
       path: '/profile'
       fullPath: '/dashboard/profile'
       preLoaderRoute: typeof DashboardProfileRouteImport
-      parentRoute: typeof DashboardRoute
-    }
-    '/dashboard/invoices': {
-      id: '/dashboard/invoices'
-      path: '/invoices'
-      fullPath: '/dashboard/invoices'
-      preLoaderRoute: typeof DashboardInvoicesRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/_user/setnewpassword': {
@@ -1190,6 +1267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardJobsIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/invoices/': {
+      id: '/dashboard/invoices/'
+      path: '/invoices'
+      fullPath: '/dashboard/invoices/'
+      preLoaderRoute: typeof DashboardInvoicesIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/_member/crewdashboard/': {
       id: '/_member/crewdashboard/'
       path: '/crewdashboard'
@@ -1223,6 +1307,13 @@ declare module '@tanstack/react-router' {
       path: '/admincustomers'
       fullPath: '/admincustomers/'
       preLoaderRoute: typeof AuthAdmincustomersIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/admincontracts/': {
+      id: '/_auth/admincontracts/'
+      path: '/admincontracts'
+      fullPath: '/admincontracts/'
+      preLoaderRoute: typeof AuthAdmincontractsIndexRouteImport
       parentRoute: typeof AuthRoute
     }
     '/shop/accounts/addresses': {
@@ -1260,6 +1351,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopAccountOrdersRouteImport
       parentRoute: typeof ShopAccountRoute
     }
+    '/jobs/track/$token': {
+      id: '/jobs/track/$token'
+      path: '/jobs/track/$token'
+      fullPath: '/jobs/track/$token'
+      preLoaderRoute: typeof JobsTrackTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/quotes/$quoteId': {
       id: '/dashboard/quotes/$quoteId'
       path: '/quotes/$quoteId'
@@ -1273,6 +1371,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/jobs/$jobId'
       preLoaderRoute: typeof DashboardJobsJobIdRouteImport
       parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/invoices/$invoiceId': {
+      id: '/dashboard/invoices/$invoiceId'
+      path: '/invoices/$invoiceId'
+      fullPath: '/dashboard/invoices/$invoiceId'
+      preLoaderRoute: typeof DashboardInvoicesInvoiceIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/contracts/sign/$token': {
+      id: '/contracts/sign/$token'
+      path: '/contracts/sign/$token'
+      fullPath: '/contracts/sign/$token'
+      preLoaderRoute: typeof ContractsSignTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_member/crewdashboard/profile': {
       id: '/_member/crewdashboard/profile'
@@ -1323,6 +1435,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdmincustomersUserIdRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/admincontracts/$contractId': {
+      id: '/_auth/admincontracts/$contractId'
+      path: '/admincontracts/$contractId'
+      fullPath: '/admincontracts/$contractId'
+      preLoaderRoute: typeof AuthAdmincontractsContractIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/shop/account/orders/$id': {
       id: '/shop/account/orders/$id'
       path: '/$id'
@@ -1340,10 +1459,12 @@ interface AuthRouteChildren {
   AuthAdminservicesRoute: typeof AuthAdminservicesRoute
   AuthAdminsettingsRoute: typeof AuthAdminsettingsRoute
   AuthAdmintrackingRoute: typeof AuthAdmintrackingRoute
+  AuthAdmincontractsContractIdRoute: typeof AuthAdmincontractsContractIdRoute
   AuthAdmincustomersUserIdRoute: typeof AuthAdmincustomersUserIdRoute
   AuthAdmininvoicesInvoiceIdRoute: typeof AuthAdmininvoicesInvoiceIdRoute
   AuthAdminjobsJobIdRoute: typeof AuthAdminjobsJobIdRoute
   AuthAdminquotesQuoteIdRoute: typeof AuthAdminquotesQuoteIdRoute
+  AuthAdmincontractsIndexRoute: typeof AuthAdmincontractsIndexRoute
   AuthAdmincustomersIndexRoute: typeof AuthAdmincustomersIndexRoute
   AuthAdmininvoicesIndexRoute: typeof AuthAdmininvoicesIndexRoute
   AuthAdminjobsIndexRoute: typeof AuthAdminjobsIndexRoute
@@ -1357,10 +1478,12 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthAdminservicesRoute: AuthAdminservicesRoute,
   AuthAdminsettingsRoute: AuthAdminsettingsRoute,
   AuthAdmintrackingRoute: AuthAdmintrackingRoute,
+  AuthAdmincontractsContractIdRoute: AuthAdmincontractsContractIdRoute,
   AuthAdmincustomersUserIdRoute: AuthAdmincustomersUserIdRoute,
   AuthAdmininvoicesInvoiceIdRoute: AuthAdmininvoicesInvoiceIdRoute,
   AuthAdminjobsJobIdRoute: AuthAdminjobsJobIdRoute,
   AuthAdminquotesQuoteIdRoute: AuthAdminquotesQuoteIdRoute,
+  AuthAdmincontractsIndexRoute: AuthAdmincontractsIndexRoute,
   AuthAdmincustomersIndexRoute: AuthAdmincustomersIndexRoute,
   AuthAdmininvoicesIndexRoute: AuthAdmininvoicesIndexRoute,
   AuthAdminjobsIndexRoute: AuthAdminjobsIndexRoute,
@@ -1405,21 +1528,23 @@ const UserRouteChildren: UserRouteChildren = {
 const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
 
 interface DashboardRouteChildren {
-  DashboardInvoicesRoute: typeof DashboardInvoicesRoute
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardInvoicesInvoiceIdRoute: typeof DashboardInvoicesInvoiceIdRoute
   DashboardJobsJobIdRoute: typeof DashboardJobsJobIdRoute
   DashboardQuotesQuoteIdRoute: typeof DashboardQuotesQuoteIdRoute
+  DashboardInvoicesIndexRoute: typeof DashboardInvoicesIndexRoute
   DashboardJobsIndexRoute: typeof DashboardJobsIndexRoute
   DashboardQuotesIndexRoute: typeof DashboardQuotesIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardInvoicesRoute: DashboardInvoicesRoute,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardInvoicesInvoiceIdRoute: DashboardInvoicesInvoiceIdRoute,
   DashboardJobsJobIdRoute: DashboardJobsJobIdRoute,
   DashboardQuotesQuoteIdRoute: DashboardQuotesQuoteIdRoute,
+  DashboardInvoicesIndexRoute: DashboardInvoicesIndexRoute,
   DashboardJobsIndexRoute: DashboardJobsIndexRoute,
   DashboardQuotesIndexRoute: DashboardQuotesIndexRoute,
 }
@@ -1516,8 +1641,11 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   TicketRoute: TicketRoute,
   VacanciesRoute: VacanciesRoute,
+  PaymentSuccessRoute: PaymentSuccessRoute,
   TalkAdminjobsRoute: TalkAdminjobsRoute,
   TrackingTokenRoute: TrackingTokenRoute,
+  ContractsSignTokenRoute: ContractsSignTokenRoute,
+  JobsTrackTokenRoute: JobsTrackTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

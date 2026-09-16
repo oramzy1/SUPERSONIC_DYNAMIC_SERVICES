@@ -27,7 +27,6 @@ import { useAuth } from "@/contexts/AuthContext";
 
 function isNavActive(pathname: string, to: string) {
   if (pathname === to) return true;
-  // avoid matching partial segments, e.g. "/crewdashboard-old"
   return pathname.startsWith(to + "/");
 }
 

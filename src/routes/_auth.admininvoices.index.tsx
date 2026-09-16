@@ -1,8 +1,16 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Wallet, TrendingUp, AlertTriangle, ChevronRight, FileSearch } from "lucide-react";
-import { invoicesApi } from "@/lib/api";
+import {
+  Wallet,
+  TrendingUp,
+  AlertTriangle,
+  ChevronRight,
+  FileSearch,
+  Download,
+  Loader2,
+} from "lucide-react";
+import { invoicesApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 
 export const Route = createFileRoute("/_auth/admininvoices/")({
@@ -11,7 +19,40 @@ export const Route = createFileRoute("/_auth/admininvoices/")({
 
 function formatDate(iso?: string | null): string {
   if (!iso) return "-";
-  return new Date(iso).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
+  return new Date(iso).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function DownloadButton({ invoiceId }: { invoiceId: number }) {
+  const [busy, setBusy] = useState(false);
+  const download = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setBusy(true);
+    try {
+      const blob = await invoicesApi.downloadPdf(invoiceId);
+      await openBlobInNewTab(blob);
+    } catch (err) {
+      console.error(mapPdfError(err));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <button
+      onClick={download}
+      disabled={busy}
+      className="grid h-7 w-7 place-items-center rounded-md bg-white/4 text-slate-400 hover:text-white disabled:opacity-50"
+    >
+      {busy ? (
+        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+      ) : (
+        <Download className="h-3.5 w-3.5" />
+      )}
+    </button>
+  );
 }
 
 function RouteComponent() {
@@ -27,15 +68,17 @@ function RouteComponent() {
   });
 
   const statusOptions = ["All", ...Array.from(new Set(invoices.map((i) => i.status)))];
-  const visible = statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
+  const visible =
+    statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
 
-  // Heuristic: without a documented status enum, "paid" (case-insensitive)
-  // is treated as revenue and everything else as outstanding.
-  const paid = invoices.filter((i) => i.status.toLowerCase() === "paid");
-  const outstanding = invoices.filter((i) => i.status.toLowerCase() !== "paid");
-  const failed = invoices.filter((i) => i.status.toLowerCase().includes("fail"));
+  const paid = invoices.filter((i) => i.status.toLowerCase() === "sent");
+  const outstanding = invoices.filter((i) => i.status.toLowerCase() !== "sent");
+  const failed = invoices.filter(
+    (i) => i.status.toLowerCase().includes("fail") || i.status.toLowerCase().includes("cancelled"),
+  );
 
-  const sum = (list: typeof invoices) => list.reduce((s, i) => s + parseFloat(i.total_amount || "0"), 0);
+  const sum = (list: typeof invoices) =>
+    list.reduce((s, i) => s + parseFloat(i.total_amount || "0"), 0);
 
   const now = new Date();
   const paidThisMonth = paid.filter((i) => {
@@ -44,9 +87,24 @@ function RouteComponent() {
   });
 
   const metrics = [
-    { title: "TOTAL OUTSTANDING", value: `€${sum(outstanding).toFixed(2)}`, subtext: `${outstanding.length} invoices`, icon: Wallet },
-    { title: "REVENUE THIS MONTH", value: `€${sum(paidThisMonth).toFixed(2)}`, subtext: "Paid invoices created this month", icon: TrendingUp },
-    { title: "FAILED PAYMENTS", value: String(failed.length), subtext: `€${sum(failed).toFixed(2)} total value`, icon: AlertTriangle },
+    {
+      title: "TOTAL OUTSTANDING",
+      value: `€${sum(outstanding).toFixed(2)}`,
+      subtext: `${outstanding.length} invoices`,
+      icon: Wallet,
+    },
+    {
+      title: "REVENUE THIS MONTH",
+      value: `€${sum(paidThisMonth).toFixed(2)}`,
+      subtext: "Paid invoices created this month",
+      icon: TrendingUp,
+    },
+    {
+      title: "FAILED/CANCELLED PAYMENTS",
+      value: String(failed.length),
+      subtext: `€${sum(failed).toFixed(2)} total value`,
+      icon: AlertTriangle,
+    },
   ];
 
   return (
@@ -66,7 +124,9 @@ function RouteComponent() {
           >
             + New Invoice
           </button>
-          <span className="text-[10px] text-slate-600">Not connected — no backend endpoint yet</span>
+          <span className="text-[10px] text-slate-600">
+            Not connected — no backend endpoint yet
+          </span>
         </div>
       </div>
 
@@ -74,13 +134,22 @@ function RouteComponent() {
         {metrics.map((card, idx) => {
           const Icon = card.icon;
           return (
-            <div key={idx} className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-34">
+            <div
+              key={idx}
+              className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-34"
+            >
               <div className="flex items-start justify-between w-full">
-                <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">{card.title}</span>
-                <div className="text-slate-600"><Icon className="w-4 h-4" /></div>
+                <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
+                  {card.title}
+                </span>
+                <div className="text-slate-600">
+                  <Icon className="w-4 h-4" />
+                </div>
               </div>
               <div className="mt-2">
-                <h3 className="text-2xl font-bold tracking-tight font-mono text-white">{card.value}</h3>
+                <h3 className="text-2xl font-bold tracking-tight font-mono text-white">
+                  {card.value}
+                </h3>
                 <p className="text-[11px] font-medium text-slate-500 mt-1">{card.subtext}</p>
               </div>
             </div>
@@ -97,7 +166,9 @@ function RouteComponent() {
                 key={s}
                 onClick={() => setStatusFilter(s)}
                 className={`px-3 py-1 rounded-md whitespace-nowrap ${
-                  statusFilter === s ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10" : "hover:text-slate-200"
+                  statusFilter === s
+                    ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10"
+                    : "hover:text-slate-200"
                 }`}
               >
                 {s}
@@ -115,12 +186,17 @@ function RouteComponent() {
                 <th className="py-4 px-6">AMOUNT</th>
                 <th className="py-4 px-6">CREATED</th>
                 <th className="py-4 px-6">STATUS</th>
+                <th className="py-4 px-6">RELATED</th>
                 <th className="py-4 px-6 text-right">ACTIONS</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/2 text-xs">
               {isLoading ? (
-                <tr><td colSpan={6} className="py-14 px-6 text-center text-slate-500">Loading invoices...</td></tr>
+                <tr>
+                  <td colSpan={6} className="py-14 px-6 text-center text-slate-500">
+                    Loading invoices...
+                  </td>
+                </tr>
               ) : visible.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-12 px-6">
@@ -136,26 +212,61 @@ function RouteComponent() {
                 visible.map((row) => (
                   <tr
                     key={row.id}
-                    onClick={() => navigate({ to: "/admininvoices/$invoiceId", params: { invoiceId: String(row.id) } })}
+                    onClick={() =>
+                      navigate({
+                        to: "/admininvoices/$invoiceId",
+                        params: { invoiceId: String(row.id) },
+                      })
+                    }
                     className="hover:bg-white/2 transition cursor-pointer"
                   >
-                    <td className="py-4 px-6 font-mono font-bold text-slate-300">{row.invoice_number}</td>
+                    <td className="py-4 px-6 font-mono font-bold text-slate-300">
+                      {row.invoice_number}
+                    </td>
                     <td className="py-4 px-6 text-slate-400 capitalize">{row.invoice_type}</td>
-                    <td className="py-4 px-6 font-mono font-bold text-white">€{row.total_amount}</td>
+                    <td className="py-4 px-6 font-mono font-bold text-white">
+                      €{row.total_amount}
+                    </td>
                     <td className="py-4 px-6 text-slate-400">{formatDate(row.created_at)}</td>
                     <td className="py-4 px-6">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
-                        row.status.toLowerCase() === "paid" ? "bg-emerald-500/10 text-emerald-400" :
-                        row.status.toLowerCase().includes("fail") ? "bg-rose-500/10 text-rose-400" :
-                        "bg-amber-500/10 text-[#E2A54A]"
-                      }`}>
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                          row.status.toLowerCase() === "paid"
+                            ? "bg-emerald-500/10 text-emerald-400"
+                            : row.status.toLowerCase().includes("fail")
+                              ? "bg-rose-500/10 text-rose-400"
+                              : "bg-amber-500/10 text-[#E2A54A]"
+                        }`}
+                      >
                         {row.status}
                       </span>
                     </td>
+                    <td className="py-4 px-6 text-xs text-slate-400">
+                      {row.job_id && (
+                        <Link
+                          to="/adminjobs/$jobId"
+                          params={{ jobId: String(row.job_id) }}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-[#E2A54A] hover:underline block"
+                        >
+                          Job #{row.job_id}
+                        </Link>
+                      )}
+                      {row.quote_number && (
+                        <span className="block text-slate-600">{row.quote_number}</span>
+                      )}
+                      {!row.job_id && !row.quote_number && "—"}
+                    </td>
                     <td className="py-4 px-6 text-right">
-                      <span className="inline-flex items-center gap-1 text-[#E2A54A] text-[9px] font-bold uppercase">
-                        Details <ChevronRight className="w-3 h-3" />
-                      </span>
+                      <div
+                        className="flex items-center justify-end gap-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <DownloadButton invoiceId={row.id} />
+                        <span className="inline-flex items-center gap-1 text-[#E2A54A] text-[9px] font-bold uppercase">
+                          Details <ChevronRight className="w-3 h-3" />
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 ))

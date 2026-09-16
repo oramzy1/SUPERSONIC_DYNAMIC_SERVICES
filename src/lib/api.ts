@@ -535,6 +535,28 @@ export const quotesApi = {
     api.get(`/quotes/${quoteId}/pdf`, { responseType: "blob" }).then((r) => r.data as Blob),
 };
 
+
+// ─── Contracts endpoints ─────────────────────────────
+export const contractsApi = {
+  getByToken: (token: string) =>
+    api.get<ContractResponse>(`/contracts/${token}`).then((r) => r.data),
+
+  getById: (contractId: number) =>
+    api.get<ContractResponse>(`/contracts/byid/${contractId}`).then((r) => r.data),
+
+  downloadPdf: (token: string) =>
+    api.get(`/contracts/${token}/pdf`, { responseType: "blob" }).then((r) => r.data as Blob),
+
+  sign: (token: string, body: ContractSignRequest) =>
+    api.post<ContractResponse>(`/contracts/${token}/sign`, body).then((r) => r.data),
+
+  decline: (token: string, body: ContractDeclineRequest) =>
+    api.post<ContractResponse>(`/contracts/${token}/decline`, body).then((r) => r.data),
+
+  companySign: (contractId: number) =>
+    api.post<ContractResponse>(`/contracts/${contractId}/company-sign`).then((r) => r.data),
+};
+
 // ─── Jobs endpoints ─────────────────────────────────
 export const jobsApi = {
   list: (status?: string) =>
@@ -562,6 +584,12 @@ export const jobsApi = {
         params: { filename, content_type: contentType },
       })
       .then((r) => r.data as { url: string; fields?: Record<string, unknown> | null }),
+
+  get: (jobId: number) =>
+  api.get<JobDetailResponse>(`/jobs/${jobId}`).then((r) => r.data),
+
+updateNotes: (jobId: number, notes: string) =>
+  api.patch<JobDetailResponse>(`/jobs/${jobId}`, { notes } satisfies JobUpdateRequest).then((r) => r.data),
 
   attachPhotos: (jobId: number, photoUrls: string[]) =>
     api.post(`/jobs/${jobId}/photos`, photoUrls).then((r) => r.data),

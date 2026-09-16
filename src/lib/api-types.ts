@@ -112,24 +112,32 @@ export interface QuoteRequestCreate {
   additional_services?: string[] | null;
 }
 
-export interface QuoteRequestResponse {
+export interface QuoteCounterOfferResponse {
   id: number;
-  move_type: string;
-  address_from: string;
-  address_to: string;
-  description: string;
-  video_url?: string | null;
-  contact_name?: string | null;
-  company?: string | null;
-  contact_email?: string | null;
-  contact_phone?: string | null;
-  move_date?: string | null;
-  delivery_date?: string | null;
-  storage_size?: string | null;
-  freight_weight?: string | null;
-  additional_services?: string[] | null;
-  status: string;
+  offered_by: number;
+  offered_by_name?: string | null;
+  amount: string;
+  message?: string | null;
   created_at: string;
+}
+
+export interface QuoteResponse {
+  id: number;
+  quote_number: string;
+  total_price: string;
+  amount: string;
+  valid_until: string;
+  status: string;
+  pdf_url?: string | null;
+  quote_request_id?: number | null;
+  job_id?: number | null;
+  tracking_token?: string | null;
+  contract_id?: number | null;
+  contract_status?: string | null;
+  invoice_id?: number | null;
+  invoice_number?: string | null;
+  invoice_status?: string | null;
+  counter_offers: QuoteCounterOfferResponse[];
 }
 
 
@@ -145,10 +153,11 @@ export interface QuoteResponse {
 }
 
 export interface QuoteAcceptResponse {
-  job_id: number;
-  tracking_token: string;
+  contract_id: number;
+  contract_status: string;
+  signing_token?: string | null;
+  message?: string;
 }
-
 export interface QuoteRejectResponse {
   quote_id: number;
   status: string;
