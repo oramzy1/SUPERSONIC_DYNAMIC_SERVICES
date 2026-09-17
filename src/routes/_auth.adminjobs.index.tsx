@@ -15,6 +15,7 @@ import {
 import { adminApi, jobsApi, accountApi } from "@/lib/api";
 import type { JobResponse, DashboardJob, ProfileResponse } from "@/lib/api-types";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { Pagination } from "@/components/shared/Pagination";
 
 export const Route = createFileRoute("/_auth/adminjobs/")({
   component: RouteComponent,
@@ -42,6 +43,8 @@ function initials(name?: string | null): string {
 
 function RouteComponent() {
   const [statusFilter, setStatusFilter] = useState("All");
+const [page, setPage] = useState(1);
+const PAGE_SIZE = 10;
 
   // Full, real job list - no more relying on dashboard buckets for the primary list.
   const { data: jobs = [], isLoading: jobsLoading } = useQuery({
@@ -72,6 +75,8 @@ function RouteComponent() {
 
   const statusOptions = ["All", ...Array.from(new Set(jobs.map((j) => j.status)))];
   const visible = statusFilter === "All" ? jobs : jobs.filter((j) => j.status === statusFilter);
+  const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   // Metrics always come from the FULL unfiltered list, not `visible` -
   // otherwise switching tabs makes the cards look "broken" the same way
@@ -139,7 +144,7 @@ function RouteComponent() {
           {statusOptions.map((s) => (
             <button
               key={s}
-              onClick={() => setStatusFilter(s)}
+              onClick={() => { setStatusFilter(s); setPage(1); }}
               className={`px-3 py-1 rounded-md whitespace-nowrap transition-colors uppercase ${
                 statusFilter === s
                   ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10 font-semibold"
@@ -168,7 +173,7 @@ function RouteComponent() {
         </div>
       ) : (
         <div className="flex flex-col gap-3">
-          {visible.map((job: JobResponse) => {
+          {paginated.map((job: JobResponse) => {
             const dashInfo = dashboardById.get(job.id);
             const crewNames = (job.crew_ids ?? [])
               .map((id) => usersById.get(id)?.full_name)
@@ -226,6 +231,10 @@ function RouteComponent() {
           })}
         </div>
       )}
+
+      <div className="flex justify-end mt-4">
+  <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+</div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
         <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-slate-500 font-medium">

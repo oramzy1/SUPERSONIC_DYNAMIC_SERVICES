@@ -5,6 +5,7 @@ import { Download, Loader2, ChevronRight, FileSearch } from "lucide-react";
 import { invoicesApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { cn } from "@/lib/utils";
+import { Pagination } from "@/components/shared/Pagination";
 
 export const Route = createFileRoute("/dashboard/invoices/")({
   component: InvoicesPage,
@@ -48,6 +49,8 @@ function DownloadButton({ invoiceId }: { invoiceId: number }) {
 function InvoicesPage() {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("All");
+const [page, setPage] = useState(1);
+const PAGE_SIZE = 15;
 
   const { data: invoices = [], isLoading } = useQuery({
     queryKey: ["invoices"],
@@ -56,6 +59,8 @@ function InvoicesPage() {
 
   const statusOptions = ["All", ...Array.from(new Set(invoices.map((i) => i.status)))];
   const visible = statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
+const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const paid = invoices.filter((i) => i.status.toLowerCase() === "paid");
   const pending = invoices.filter((i) => i.status.toLowerCase() === "pending" || i.status.toLowerCase() === "overdue");
@@ -76,7 +81,8 @@ function InvoicesPage() {
         </div>
         <div className="inline-flex flex-wrap rounded-full bg-surface p-1">
           {statusOptions.map((s) => (
-            <button key={s} onClick={() => setStatusFilter(s)}
+            <button key={s}
+onClick={() => { setStatusFilter(s); setPage(1); }}
               className={cn("rounded-full px-5 py-2 text-sm font-medium transition capitalize",
                 statusFilter === s ? "bg-white text-[#0E141A]" : "text-muted-foreground hover:text-foreground")}>
               {s}
@@ -121,7 +127,7 @@ function InvoicesPage() {
                   </td>
                 </tr>
               ) : (
-                visible.map((inv) => {
+                paginated.map((inv) => {
                   const needsPay = inv.status.toLowerCase() === "pending" || inv.status.toLowerCase() === "overdue" || inv.status.toLowerCase() === "draft";
                   return (
                     <tr key={inv.id} onClick={() => navigate({ to: "/dashboard/invoices/$invoiceId", params: { invoiceId: String(inv.id) } })}
@@ -158,6 +164,13 @@ function InvoicesPage() {
             </tbody>
           </table>
         </div>
+        <div className="flex items-center justify-between border-t border-white/5 px-6 py-4">
+  <span className="text-xs text-muted-foreground">
+    Showing <span className="text-foreground font-medium">{paginated.length}</span> of{" "}
+    <span className="text-foreground font-medium">{invoices.length}</span> invoices
+  </span>
+  <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+</div>
       </div>
     </div>
   );

@@ -57,10 +57,12 @@ export function TrackingDashboard() {
   const { data: dash } = useQuery({
     queryKey: ["admin", "dashboard"],
     queryFn: () => adminApi.dashboard(),
+    refetchInterval: 30_000,
   });
   const { data: allJobs = [] } = useQuery({
     queryKey: ["admin", "jobs"],
     queryFn: () => jobsApi.list(),
+    refetchInterval: 30_000,
   });
   const { data: users = [] } = useQuery({
     queryKey: ["admin", "users"],
@@ -68,46 +70,38 @@ export function TrackingDashboard() {
   });
 
   const usersById = new Map(users.map((u) => [u.id, u]));
-  const overdueIds = new Set((dash?.overdue_jobs ?? []).map((j) => j.id));
-  const dashById = new Map(
-    [...(dash?.today_jobs ?? []), ...(dash?.upcoming_jobs ?? []), ...(dash?.overdue_jobs ?? [])].map((j) => [j.id, j]),
-  );
+const overdueIds = new Set((dash?.overdue_jobs ?? []).map((j) => j.id));
+const dashById = new Map(
+  [...(dash?.today_jobs ?? []), ...(dash?.upcoming_jobs ?? []), ...(dash?.overdue_jobs ?? [])].map((j) => [j.id, j]),
+);
 
-  // Built entirely from real job data — no coordinates exist anywhere in the
-  // API, so there is nothing to plot on an actual map. Status: overdue jobs
-  // (per the dashboard bucket) take priority, then in_progress -> "EN
-  // ROUTE", everything else scheduled -> "IDLE". Completed/cancelled jobs
-  // are excluded — this view is for jobs still in motion.
-  const NODES: ActiveNode[] = allJobs
-    .filter((j) => j.status !== "completed" && j.status !== "cancelled")
-    .map((j) => {
-      const status: ActiveNode["status"] = overdueIds.has(j.id)
-        ? "MAINTENANCE"
-        : j.status === "in_progress"
-          ? "EN ROUTE"
-          : "IDLE";
+const NODES: ActiveNode[] = allJobs
+  .filter((j) => j.status !== "completed" && j.status !== "cancelled")
+  .map((j) => {
+    const status: ActiveNode["status"] = overdueIds.has(j.id)
+      ? "MAINTENANCE"
+      : j.status === "in_progress"
+        ? "EN ROUTE"
+        : "IDLE";
 
-      const dashInfo = dashById.get(j.id);
-      const crewNames = (j.crew_ids ?? [])
-        .map((id) => usersById.get(id)?.full_name)
-        .filter(Boolean) as string[];
+    const dashInfo = dashById.get(j.id);
+    const from = dashInfo?.address_from ?? j.move_from;
+    const to = dashInfo?.address_to ?? j.move_to;
+    const crewNames = (j.crew_members ?? []).map((c) => c.full_name);
 
-      return {
-        id: `JOB-${j.id}`,
-        status,
-        telemetry: {
-          route: dashInfo?.address_from && dashInfo?.address_to
-            ? `${dashInfo.address_from} → ${dashInfo.address_to}`
-            : "Route not available",
-          eta: formatDateTime(j.scheduled_start),
-          crewName: crewNames.length > 0 ? crewNames.join(", ") : "Unassigned",
-          detailLabel: "PHOTOS",
-          detailValue: String(j.photos?.length ?? 0),
-          isAlert: status === "MAINTENANCE",
-        },
-      };
-    });
-
+    return {
+      id: `JOB-${j.id}`,
+      status,
+      telemetry: {
+        route: from && to ? `${from} → ${to}` : "Route not available",
+        eta: formatDateTime(j.scheduled_start),
+        crewName: crewNames.length > 0 ? crewNames.join(", ") : "Unassigned",
+        detailLabel: "PHOTOS",
+        detailValue: String(j.photos?.length ?? 0),
+        isAlert: status === "MAINTENANCE",
+      },
+    };
+  });
   const selectedNode = NODES.find((n) => n.id === selectedNodeId);
   const alertCount = NODES.filter((n) => n.status === "MAINTENANCE").length;
 

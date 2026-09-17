@@ -65,6 +65,7 @@ function RouteComponent() {
   const { data: dash } = useQuery({
     queryKey: ["admin", "dashboard"],
     queryFn: () => adminApi.dashboard(),
+    refetchInterval: 30_000,
   });
 
   // Full job list — needed because DashboardJob (today/upcoming/overdue
@@ -73,6 +74,7 @@ function RouteComponent() {
   const { data: allJobsFull = [] } = useQuery({
     queryKey: ["admin", "jobs"],
     queryFn: () => jobsApi.list(),
+    refetchInterval: 30_000,
   });
 
   const { data: quotes = [] } = useQuery({
@@ -91,31 +93,25 @@ function RouteComponent() {
   });
 
   const usersById = new Map(users.map((u) => [u.id, u]));
-  const jobsById = new Map(allJobsFull.map((j) => [j.id, j]));
+const jobsById = new Map(allJobsFull.map((j) => [j.id, j]));
 
-  const bucketJobs = [
-    ...(dash?.today_jobs ?? []),
-    ...(dash?.upcoming_jobs ?? []),
-    ...(dash?.overdue_jobs ?? []),
-  ];
+const bucketJobs = [...(dash?.today_jobs ?? []), ...(dash?.upcoming_jobs ?? []), ...(dash?.overdue_jobs ?? [])];
 
-  const liveTrackingData: TrackingRow[] = bucketJobs.slice(0, 8).map((j) => {
-    const fullJob = jobsById.get(j.id);
-    const crewNames = (fullJob?.crew_ids ?? [])
-      .map((id) => usersById.get(id)?.full_name)
-      .filter(Boolean) as string[];
+const liveTrackingData: TrackingRow[] = bucketJobs.slice(0, 8).map((j) => {
+  const fullJob = jobsById.get(j.id);
+  const crewNames = (fullJob?.crew_members ?? []).map((c) => c.full_name);
 
-    return {
-      id: `JOB-${j.id}`,
-      client: j.customer_name,
-      origin: j.address_from ?? "-",
-      dest: j.address_to ?? "-",
-      crew: crewNames.length > 0 ? crewNames.join(", ") : "Unassigned",
-      crewInitials: crewNames.length > 0 ? initials(crewNames[0]) : "?",
-      status: mapJobStatus(j.status),
-      eta: j.scheduled_start ? formatDate(j.scheduled_start) : "-",
-    };
-  });
+  return {
+    id: `JOB-${j.id}`,
+    client: j.customer_name,
+    origin: j.address_from ?? fullJob?.move_from ?? "-",
+    dest: j.address_to ?? fullJob?.move_to ?? "-",
+    crew: crewNames.length > 0 ? crewNames.join(", ") : "Unassigned",
+    crewInitials: crewNames.length > 0 ? initials(crewNames[0]) : "?",
+    status: mapJobStatus(j.status),
+    eta: j.scheduled_start ? formatDate(j.scheduled_start) : "-",
+  };
+});
 
   const customerCount = users.filter((u) => u.role === "customer").length;
 
@@ -140,7 +136,7 @@ function RouteComponent() {
   // (case-insensitive) is treated as revenue.
   const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
   const recentPaid = invoices.filter(
-    (i) => i.status.toLowerCase() === "paid" && new Date(i.created_at).getTime() >= thirtyDaysAgo,
+    (i) => i.status.toLowerCase() === "sent" && new Date(i.created_at).getTime() >= thirtyDaysAgo,
   );
   const totalVolume = recentPaid.reduce((s, i) => s + parseFloat(i.total_amount || "0"), 0);
 
@@ -151,6 +147,26 @@ function RouteComponent() {
     counter_offered: "text-violet-400",
     rejected: "text-rose-400",
   };
+
+  const dailyRevenue = (() => {
+  const days = 14;
+  const buckets = Array.from({ length: days }, (_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (days - 1 - i));
+    d.setHours(0, 0, 0, 0);
+    return { date: d, total: 0 };
+  });
+  invoices.forEach((inv) => {
+    if (inv.status.toLowerCase() !== "sent") return;
+    const created = new Date(inv.created_at);
+    created.setHours(0, 0, 0, 0);
+    const bucket = buckets.find((b) => b.date.getTime() === created.getTime());
+    if (bucket) bucket.total += parseFloat(inv.total_amount || "0");
+  });
+  return buckets;
+})();
+
+const maxDaily = Math.max(1, ...dailyRevenue.map((b) => b.total));
 
   return (
     <div className="w-full text-slate-200 select-none pb-12">
@@ -343,7 +359,7 @@ function RouteComponent() {
 
           <div>
             <p className="text-[11px] font-medium text-slate-500 tracking-wide">
-              Paid Invoices (Last 30 Days)
+              Paid Invoices (Last 14 Days)
             </p>
             <div className="flex items-baseline gap-3 mt-1">
               <h3 className="text-3xl font-bold text-white tracking-tight">€{totalVolume.toFixed(2)}</h3>
@@ -353,18 +369,20 @@ function RouteComponent() {
             </div>
           </div>
 
-          <div className="h-28 w-full mt-6 relative flex items-end">
-            <svg className="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
-              <line x1="0" y1="98" x2="400" y2="98" stroke="#E2A54A" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.25" />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <p className="text-[11px] font-medium text-slate-600">
-                {recentPaid.length === 0
-                  ? "No paid invoices in this window yet"
-                  : "Day-by-day breakdown isn't available from the API yet"}
-              </p>
-            </div>
-          </div>
+        <div className="h-28 w-full mt-6 flex items-end gap-1">
+  {dailyRevenue.map((b, idx) => (
+    <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full group">
+      <div
+        className="w-full bg-[#E2A54A]/70 group-hover:bg-[#E2A54A] rounded-sm transition-all"
+        style={{ height: `${Math.max(2, (b.total / maxDaily) * 100)}%` }}
+        title={`${b.date.toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}: €${b.total.toFixed(2)}`}
+      />
+    </div>
+  ))}
+</div>
+{recentPaid.length === 0 && (
+  <p className="text-[11px] font-medium text-slate-600 text-center mt-2">No paid invoices in this window yet</p>
+)}
         </div>
       </div>
     </div>

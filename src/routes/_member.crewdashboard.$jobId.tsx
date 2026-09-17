@@ -180,7 +180,7 @@ const handlePhotoUpload = async (file: File) => {
     return (
       <div className="mx-auto max-w-3xl w-full text-slate-200">
         <Breadcrumbs
-          items={[{ label: "My Assignments", to: "/crewdashboard" }, { label: `Job #${jobId}` }]}
+          items={[{ label: "My Assignments", to: "/crewdashboard/job" }, { label: `Job #${jobId}` }]}
         />
         <div className="flex items-center gap-2 text-sm text-slate-500">
           <Loader2 className="w-4 h-4 animate-spin" /> Loading job...
@@ -193,7 +193,7 @@ const handlePhotoUpload = async (file: File) => {
     return (
       <div className="mx-auto max-w-3xl w-full text-slate-200">
         <Breadcrumbs
-          items={[{ label: "My Assignments", to: "/crewdashboard" }, { label: `Job #${jobId}` }]}
+          items={[{ label: "My Assignments", to: "/crewdashboard/job" }, { label: `Job #${jobId}` }]}
         />
         <div className="bg-[#0d111a]/40 border border-white/6 rounded-xl p-8 text-center text-sm text-slate-400">
           This job isn't assigned to you (or doesn't exist).
@@ -215,7 +215,7 @@ const handlePhotoUpload = async (file: File) => {
   return (
     <div className="mx-auto max-w-3xl w-full text-slate-200 pb-12">
       <Breadcrumbs
-        items={[{ label: "My Assignments", to: "/crewdashboard" }, { label: `Job #${job.id}` }]}
+        items={[{ label: "My Assignments", to: "/crewdashboard/job" }, { label: `Job #${job.id}` }]}
       />
 
       {toast && (

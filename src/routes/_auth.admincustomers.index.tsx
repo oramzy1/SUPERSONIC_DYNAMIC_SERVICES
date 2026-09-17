@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Users, UserCheck2, ShieldCheck, ChevronRight, UsersRound } from "lucide-react";
 import { accountApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { Pagination } from "@/components/shared/Pagination";
 
 export const Route = createFileRoute("/_auth/admincustomers/")({
   component: RouteComponent,
@@ -30,6 +31,8 @@ const ROLE_STYLES: Record<string, string> = {
 function RouteComponent() {
   const navigate = useNavigate();
   const [roleFilter, setRoleFilter] = useState("All");
+  const [page, setPage] = useState(1);
+const PAGE_SIZE = 15;
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["admin", "users"],
@@ -38,6 +41,8 @@ function RouteComponent() {
 
   const roleOptions = ["All", ...Array.from(new Set(users.map((u) => u.role)))];
   const visible = roleFilter === "All" ? users : users.filter((u) => u.role === roleFilter);
+  const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const activeCount = users.filter((u) => u.is_active).length;
   const customerCount = users.filter((u) => u.role === "customer").length;
@@ -82,7 +87,7 @@ function RouteComponent() {
             {roleOptions.map((r) => (
               <button
                 key={r}
-                onClick={() => setRoleFilter(r)}
+                onClick={() => { setRoleFilter(r); setPage(1); }}
                 className={`px-3 py-1 rounded-md whitespace-nowrap transition-colors ${
                   roleFilter === r
                     ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10"
@@ -122,7 +127,7 @@ function RouteComponent() {
                   </td>
                 </tr>
               ) : (
-                visible.map((u) => (
+                paginated.map((u) => (
                   <tr
                     key={u.id}
                     onClick={() => navigate({ to: "/admincustomers/$userId", params: { userId: String(u.id) } })}
@@ -173,9 +178,10 @@ function RouteComponent() {
 
         <div className="flex items-center justify-between px-6 py-4 border-t border-white/6 bg-white/1">
           <span className="text-xs text-slate-500 font-medium">
-            Showing <span className="text-slate-400 font-semibold">{visible.length}</span> of{" "}
-            <span className="text-slate-400 font-semibold">{users.length}</span> accounts
-          </span>
+  Showing <span className="text-slate-400 font-semibold">{paginated.length}</span> of{" "}
+  <span className="text-slate-400 font-semibold">{users.length}</span> accounts
+</span>
+<Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
         </div>
       </div>
     </div>

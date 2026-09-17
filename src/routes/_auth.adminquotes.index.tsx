@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { quotesApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { Pagination } from "@/components/shared/Pagination";
 
 export const Route = createFileRoute("/_auth/adminquotes/")({
   component: RouteComponent,
@@ -41,15 +42,27 @@ function formatDate(iso?: string | null): string {
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<StatusFilter>("pending");
-  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<StatusFilter>("All");
+  const [query, setQuery] = useState("");const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
+
 
   const statusParam = filter === "All" ? undefined : filter;
 
-  const { data: requests = [], isLoading } = useQuery({
-    queryKey: ["admin", "quotes", statusParam],
-    queryFn: () => quotesApi.listRequests(statusParam),
-  });
+  const REAL_STATUSES = STATUS_FILTERS.filter((s) => s !== "All");
+
+const { data: requests = [], isLoading } = useQuery({
+  queryKey: ["admin", "quotes", statusParam],
+  queryFn: async () => {
+    if (!statusParam) {
+      const results = await Promise.all(
+        REAL_STATUSES.map((s) => quotesApi.listRequests(s)),
+      );
+      return results.flat();
+    }
+    return quotesApi.listRequests(statusParam);
+  },
+});
 
   // Always unfiltered, powers the metric cards regardless of which tab is
   // active — same fix as the earlier metrics bug: don't derive counts from
@@ -85,6 +98,12 @@ function RouteComponent() {
         );
       })
     : requests;
+
+  
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  
+
 
   return (
     <div className="w-full text-slate-300 select-none pb-12">
@@ -128,7 +147,7 @@ function RouteComponent() {
             {STATUS_FILTERS.map((s) => (
               <button
                 key={s}
-                onClick={() => setFilter(s)}
+                onClick={() => { setFilter(s); setPage(1); }}
                 className={`px-3 py-1 rounded-md whitespace-nowrap transition-colors ${
                   filter === s
                     ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10 font-semibold"
@@ -145,7 +164,7 @@ function RouteComponent() {
             <input
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => { setQuery(e.target.value); setPage(1); }}
               placeholder="Search ID, Company or Route..."
               className="w-full bg-transparent text-xs text-slate-200 outline-none placeholder:text-slate-500"
             />
@@ -187,7 +206,7 @@ function RouteComponent() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((row) => {
+                paginated.map((row) => {
                   const customer = row.company || row.contact_name || row.contact_email || "Unnamed";
                   return (
                     <tr
@@ -233,10 +252,11 @@ function RouteComponent() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-white/6 bg-white/1">
-          <span className="text-xs text-slate-500 font-medium">
-            Showing <span className="text-slate-400 font-semibold">{filtered.length}</span> of{" "}
-            <span className="text-slate-400 font-semibold">{requests.length}</span> requests
-          </span>
+         <span className="text-xs text-slate-500 font-medium">
+  Showing <span className="text-slate-400 font-semibold">{paginated.length}</span> of{" "}
+  <span className="text-slate-400 font-semibold">{filtered.length}</span> requests
+</span>
+<Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
         </div>
       </div>
     </div>

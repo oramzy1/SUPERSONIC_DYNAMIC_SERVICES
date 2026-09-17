@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { invoicesApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { Pagination } from "@/components/shared/Pagination";
 
 export const Route = createFileRoute("/_auth/admininvoices/")({
   component: RouteComponent,
@@ -58,6 +59,8 @@ function DownloadButton({ invoiceId }: { invoiceId: number }) {
 function RouteComponent() {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("All");
+const [page, setPage] = useState(1);
+const PAGE_SIZE = 15;
 
   // Assumes GET /invoices returns ALL invoices for an admin/staff token (the
   // same scoping ambiguity flagged for /quotes and /jobs earlier) rather
@@ -70,6 +73,9 @@ function RouteComponent() {
   const statusOptions = ["All", ...Array.from(new Set(invoices.map((i) => i.status)))];
   const visible =
     statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
+
+  const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const paid = invoices.filter((i) => i.status.toLowerCase() === "sent");
   const outstanding = invoices.filter((i) => i.status.toLowerCase() !== "sent");
@@ -164,7 +170,7 @@ function RouteComponent() {
             {statusOptions.map((s) => (
               <button
                 key={s}
-                onClick={() => setStatusFilter(s)}
+                onClick={() => { setStatusFilter(s); setPage(1); }}
                 className={`px-3 py-1 rounded-md whitespace-nowrap ${
                   statusFilter === s
                     ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10"
@@ -209,7 +215,7 @@ function RouteComponent() {
                   </td>
                 </tr>
               ) : (
-                visible.map((row) => (
+                paginated.map((row) => (
                   <tr
                     key={row.id}
                     onClick={() =>
@@ -276,10 +282,11 @@ function RouteComponent() {
         </div>
 
         <div className="flex items-center justify-between px-6 py-4 border-t border-white/6 bg-white/1">
-          <span className="text-xs text-slate-500">
-            Showing <span className="text-slate-400 font-medium">{visible.length}</span> of{" "}
-            <span className="text-slate-400 font-medium">{invoices.length}</span> invoices
-          </span>
+<span className="text-xs text-slate-500">
+  Showing <span className="text-slate-400 font-medium">{paginated.length}</span> of{" "}
+  <span className="text-slate-400 font-medium">{invoices.length}</span> invoices
+</span>
+<Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
         </div>
       </div>
     </div>

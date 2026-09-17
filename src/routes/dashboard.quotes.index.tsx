@@ -347,6 +347,7 @@ import type { QuoteRequestResponse } from "@/lib/api-types";
 import { quotesApi } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { Pagination } from "@/components/shared/Pagination";
 
 export const Route = createFileRoute("/dashboard/quotes/")({
   component: QuotesPage,
@@ -395,6 +396,9 @@ function StatusBadge({ status }: { status: string }) {
 function QuotesPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("All");
   const [query, setQuery] = useState("");
+const [page, setPage] = useState(1);
+const PAGE_SIZE = 15;
+
 
   const { data: requests = [], isLoading } = useQuery({
     queryKey: ["quotes"],
@@ -414,6 +418,10 @@ function QuotesPage() {
       })
     : byTab;
 
+
+const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
   return (
     <div className="mx-auto max-w-6xl">
       <Breadcrumbs items={[{ label: "Quotes" }]} />
@@ -429,7 +437,7 @@ function QuotesPage() {
           <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
           <input
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+onChange={(e) => { setQuery(e.target.value); setPage(1); }}
             placeholder="Search ID or route..."
             className="bg-transparent text-xs outline-none placeholder:text-muted-foreground w-40"
           />
@@ -438,7 +446,7 @@ function QuotesPage() {
           {TABS.map((t) => (
             <button
               key={t}
-              onClick={() => setTab(t)}
+              onClick={() => { setTab(t); setPage(1); }}
               className={cn(
                 "rounded-full px-5 py-2 text-sm font-medium transition",
                 tab === t
@@ -511,7 +519,7 @@ function QuotesPage() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((q: QuoteRequestResponse) => (
+                paginated.map((q: QuoteRequestResponse) => (
                   <tr key={q.id} className="text-sm hover:bg-white/[0.02]">
                     <td className="px-6 py-5 font-mono font-bold text-[#6FE5FF]/80">
                       <Link
@@ -568,6 +576,13 @@ function QuotesPage() {
             </tbody>
           </table>
         </div>
+        <div className="flex items-center justify-between border-t border-white/5 px-6 py-4">
+  <span className="text-xs text-muted-foreground">
+    Showing <span className="text-foreground font-medium">{paginated.length}</span> of{" "}
+    <span className="text-foreground font-medium">{filtered.length}</span> requests
+  </span>
+  <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+</div>
       </div>
     </div>
   );
