@@ -27,7 +27,13 @@ import ecoVan from "@/assets/images/home-eco.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import { quotesApi } from "@/lib/api";
 
+const quoteSearchSchema = z.object({
+  redirect: z.string().optional(),
+});
+
+
 export const Route = createFileRoute("/quoterequest")({
+  validateSearch: quoteSearchSchema,
   component: QuoteRequest,
 });
 
@@ -55,7 +61,7 @@ const schema = z
     freightType: z.string().optional(),
     additionalServices: z.array(z.string()).optional(),
     deliveryDate: z.string().optional(),
-    description: z.string().optional(),
+    description: z.string().min(15, "Please add at least 15 characters describing your request."),
   })
   .superRefine((data, ctx) => {
     const isMoving = ["student-moving", "residential-moving", "enterprise-moving"].includes(
@@ -207,6 +213,7 @@ function QuoteRequest() {
   } = form;
 
   const selectedService = watch("serviceType");
+const descriptionValue = watch("description") || "";
 
   const isMovingSelected = ["student-moving", "residential-moving", "enterprise-moving"].includes(
     selectedService,
@@ -219,7 +226,7 @@ function QuoteRequest() {
   const handleNextStep = async (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     if (step === 1) {
-      const fieldsToValidate: (keyof QuoteFormData)[] = ["serviceType", "name"];
+      const fieldsToValidate: (keyof QuoteFormData)[] = ["serviceType", "name", "description"];
       if (isMovingSelected) {
         fieldsToValidate.push(
           "email",
@@ -270,37 +277,29 @@ function QuoteRequest() {
     }
   };
 
-  const handleFileSelect = async (file: File, kind: "video" | "document") => {
-    try {
-      const presigned = await quotesApi.getPresignedUrl(
-        file.name,
-        file.type || (kind === "video" ? "video/mp4" : "application/octet-stream"),
-      );
-      const putRes = await fetch(presigned.url, {
-        method: "PUT",
-        body: file,
-        headers: { "Content-Type": file.type || "application/octet-stream" },
-      });
-      if (!putRes.ok) {
-        throw new Error(`Upload failed with status ${putRes.status}`);
-      }
-      const cleanUrl = presigned.url.split("?")[0];
-      if (kind === "video") setVideoUrl(cleanUrl);
-      else setDocUrl(cleanUrl);
-    } catch (err: unknown) {
-      const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data
-        ?.detail;
-      console.error(`${kind} upload failed:`, detail ?? err);
-      setErrors(
-        Array.isArray(detail)
-          ? detail
-              .map((d: { msg?: string }) => d.msg)
-              .filter(Boolean)
-              .join(", ")
-          : `Failed to upload ${kind}. Please try again.`,
-      );
+const handleFileSelect = async (file: File) => {
+  try {
+    const presigned = await quotesApi.getPresignedUrl(file.name, file.type || "video/mp4");
+    const putRes = await fetch(presigned.url, {
+      method: "PUT",
+      body: file,
+      headers: { "Content-Type": file.type || "video/mp4" },
+    });
+    if (!putRes.ok) {
+      throw new Error(`Upload failed with status ${putRes.status}`);
     }
-  };
+    const cleanUrl = presigned.url.split("?")[0];
+    setVideoUrl(cleanUrl);
+  } catch (err: unknown) {
+    const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data?.detail;
+    console.error("video upload failed:", detail ?? err);
+    setErrors(
+      Array.isArray(detail)
+        ? detail.map((d: { msg?: string }) => d.msg).filter(Boolean).join(", ")
+        : "Failed to upload video. Please try again.",
+    );
+  }
+};
   //   const onSubmit: SubmitHandler<QuoteFormData> = async (data) => {
   //     if (step !== 2) return;
   //     if (!isAuthenticated) {
@@ -357,7 +356,6 @@ function QuoteRequest() {
       const addressTo = [data.destinationAddress, data.destinationPostCode]
         .filter(Boolean)
         .join(", ");
-      const description = data.description || `Quote request for ${moveType}`;
 
       sessionStorage.setItem(
         "sds_quote_payload",
@@ -365,7 +363,7 @@ function QuoteRequest() {
           move_type: moveType,
           address_from: addressFrom,
           address_to: addressTo || addressFrom,
-          description: docUrl ? `${description} (Assignment doc: ${docUrl})` : description,
+    description: data.description,
           video_url: videoUrl || undefined,
           contact_name: data.name || undefined,
           company: data.company || undefined,
@@ -1418,17 +1416,25 @@ function QuoteRequest() {
                         accept="video/*"
                         fileState={videoFile}
                         onFileChange={setVideoFile}
-                        onFileSelect={(f) => handleFileSelect(f, "video")}
+                        onFileSelect={handleFileSelect}
                       />
-                      <PreviewBox
-                        icon={<FileText className="h-5 w-5" />}
-                        title="CLICK HERE TO UPLOAD( A DETAILED ASSIGNMENT DESCRIPTION OF THE JOB):"
-                        inputId="quote-doc-upload"
-                        accept="application/pdf,.doc,.docx"
-                        fileState={descFile}
-                        onFileChange={setDescFile}
-                        onFileSelect={(f) => handleFileSelect(f, "document")}
-                      />
+                        <Field label="Describe your request" error={errors.description?.message}>
+    <textarea
+      rows={5}
+      placeholder="Tell us more about what needs to move, any special handling, access constraints, or timing notes..."
+      className="field w-full rounded-lg px-3 py-3 text-sm resize-none"
+      {...register("description")}
+    />
+    <div className="mt-1 flex justify-end">
+      <span
+        className={`text-[10px] font-mono ${
+          descriptionValue.length < 15 ? "text-red-400" : "text-muted-foreground"
+        }`}
+      >
+        {descriptionValue.length}/15 characters minimum
+      </span>
+    </div>
+  </Field>
                     </div>
                   </div>
                 </motion.div>
