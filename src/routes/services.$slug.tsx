@@ -139,8 +139,11 @@ function ServiceDetail() {
                 {service.quoteGuidance.primary}
               </p>
             )}
-            <Link to="/quote">
-              <CTAButton variant="primary" className="rounded-lg px-12 mb-3 py-3 tracking-tight mt-4 text-base">
+            <Link to="/quoterequest">
+              <CTAButton
+                variant="primary"
+                className="rounded-lg px-12 mb-3 py-3 tracking-tight mt-4 text-base"
+              >
                 Request Your Free Quote
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </CTAButton>

@@ -15,6 +15,7 @@ import {
   X,
   SlidersHorizontal,
 } from "lucide-react";
+import Logo from "@/components/shared/Logo";
 
 export const Route = createFileRoute("/notifications")({
   component: RouteComponent,
@@ -32,7 +33,7 @@ interface Notification {
   unread: boolean;
 }
 
-// No data yet — wire this up to your notifications API/subscription.
+// No data yet - wire this up to your notifications API/subscription.
 // Shape is already defined above; just populate this array (or fetch into state).
 const INITIAL_LOGS: Notification[] = [];
 
@@ -126,7 +127,7 @@ function RouteComponent() {
     <div className="min-h-dvh w-screen bg-[#080C12] text-white flex flex-col font-sans select-none overflow-hidden">
       {/* ── TOPBAR ── */}
       <header className="h-14 w-full fixed top-0 z-30 bg-[#0C1218]/90 backdrop-blur-md border-b border-white/6 flex items-center justify-between px-5 sm:px-7 shrink-0">
-        <div className="flex items-center gap-3 min-w-0">
+        {/* <div className="flex items-center gap-3 min-w-0">
           <div className="flex flex-col min-w-0">
             <span className="text-[11px] font-black tracking-tight text-primary uppercase leading-tight">
               Supersonic <span>Dynamic Services B.V.</span>
@@ -135,7 +136,8 @@ function RouteComponent() {
               Operations Terminal · Live Customer Updates
             </span>
           </div>
-        </div>
+        </div> */}
+        <Logo />
         <Link
           to={"/" as any}
           className="text-[11px] font-semibold text-slate-400 hover:text-primary flex items-center gap-1.5 transition-colors shrink-0 ml-4"
@@ -157,9 +159,7 @@ function RouteComponent() {
           <div className="border-b border-white/6 px-5 pt-5 pb-0 shrink-0">
             <div className="flex items-center gap-2.5 mb-1">
               <Bell className="h-4 w-4 text-primary" />
-              <h1 className="text-sm font-bold text-white tracking-tight">
-                System Notifications
-              </h1>
+              <h1 className="text-sm font-bold text-white tracking-tight">System Notifications</h1>
               {unreadCount > 0 && (
                 <span className="border border-primary/20 bg-primary/10 text-primary text-[10px] font-bold px-2 py-0.5 rounded-full font-mono tracking-wide">
                   {unreadCount} New

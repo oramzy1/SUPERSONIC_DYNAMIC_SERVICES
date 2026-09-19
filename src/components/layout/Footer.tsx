@@ -32,7 +32,7 @@ const HOURS = [
 
 const NAV_LEFT = [
   { label: "About Us", to: "/about" },
-  { label: "Request a Quote", to: "/quote" },
+  { label: "Request a Quote", to: "/quoterequest" },
   { label: "Vacancies", to: "/vacancies" },
   { label: "Cookies policy", to: "/cookies" },
 ];
@@ -214,7 +214,7 @@ export function Footer() {
               </div> */}
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-primary" />
             <span className="text-primary">Status: All Systems Operational</span>

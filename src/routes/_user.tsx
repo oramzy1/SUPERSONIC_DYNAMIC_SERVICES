@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, createContext, useContext } from "react";
 import { X, ShieldAlert, UserPlus, LogIn } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { useAuth } from "@/contexts/AuthContext";
 
 // 1. Create a lightweight Auth Intercept Context so any component on your site can trigger this popup
 const SecurityGuardContext = createContext<{
@@ -21,15 +22,14 @@ function UserLayoutWrapper() {
   const [isGateOpen, setIsGateOpen] = useState(false);
   const [redirectTarget, setRedirectTarget] = useState<string | null>(null);
 
-  const [isUserLoggedIn] = useState<boolean>(false);
+  const { isAuthenticated } = useAuth();
 
   // Global function exposed to your app to intercept actions
-  const triggerGate = (nextActionUrl?: string) => {
-    if (!isUserLoggedIn) {
+   const triggerGate = (nextActionUrl?: string) => {
+    if (!isAuthenticated) {
       if (nextActionUrl) setRedirectTarget(nextActionUrl);
       setIsGateOpen(true);
     } else if (nextActionUrl) {
-      // If already logged in, let them proceed directly to their destination
       navigate({ to: nextActionUrl });
     }
   };

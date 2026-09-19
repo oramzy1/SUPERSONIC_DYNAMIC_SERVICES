@@ -18,14 +18,18 @@ import {
   ChevronsUpDown,
   Menu,
   X,
+  Signature,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/images/logo.png";
+import Logo from "../shared/Logo";
+import { useAuth } from "@/contexts/AuthContext";
 
 const NAV = [
   { to: "/admindashboard", label: "Dashboard", icon: LayoutGrid },
   { to: "/adminquotes", label: "Quotes", icon: FileText },
   { to: "/adminjobs", label: "Jobs", icon: Briefcase },
+  { to: "/admincontracts", label: "Contracts", icon: Signature },
   { to: "/admincustomers", label: "Customers", icon: Users },
   { to: "/admininvoices", label: "Invoices", icon: Receipt },
   { to: "/adminservices", label: "Services", icon: Wrench },
@@ -37,6 +41,7 @@ const NAV = [
 
 export function AdminDashboardSidebar() {
   const { location } = useRouterState();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -78,7 +83,8 @@ export function AdminDashboardSidebar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isMenuOpen, isMobileOpen]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout();
     localStorage.removeItem("supersonic_admin_authed");
     localStorage.clear();
     sessionStorage.clear();
@@ -93,9 +99,7 @@ export function AdminDashboardSidebar() {
     <>
       <div className="flex-1 flex flex-col min-h-0 w-full">
         <div className="mb-8 flex items-center justify-between px-6 shrink-0">
-          <Link to="/admindashboard" className="flex items-center gap-2">
-            <img src={logo} alt="Supersonic" className="h-8 w-auto object-contain" />
-          </Link>
+          <Logo />
           <button
             onClick={() => setIsMobileOpen(false)}
             className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-white/4 hover:text-slate-200 md:hidden focus:outline-none"
@@ -143,13 +147,13 @@ export function AdminDashboardSidebar() {
       >
         {isMenuOpen && (
           <div className="absolute bottom-full left-3 right-3 mb-2 z-60 flex flex-col gap-1 bg-[#0d111a] border border-white/8 backdrop-blur-xl rounded-xl p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150 max-w-full overflow-hidden">
-            <button
+            {/* <button
               onClick={() => setIsMenuOpen(false)}
               className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate focus:outline-none"
             >
               <User className="h-4 w-4 shrink-0 text-slate-500" />
               <span className="truncate">View Profile</span>
-            </button>
+            </button> */}
 
             <Link
               to={"/adminsettings" as any}
@@ -190,11 +194,11 @@ export function AdminDashboardSidebar() {
             </div>
 
             <div className="flex flex-col truncate min-w-0">
-              <span className="text-xs font-semibold text-slate-200 truncate leading-tight">
-                Admin User
+              <span className="text-xs font-semibold text-slate-200 truncate capitalize leading-tight">
+               {user?.full_name || "Admin"}
               </span>
               <span className="text-[11px] text-slate-500 truncate leading-none mt-0.5">
-                admin@aerologix.com
+                {user?.email || "admin@supersonicdynamicservices.nl"}
               </span>
             </div>
           </div>

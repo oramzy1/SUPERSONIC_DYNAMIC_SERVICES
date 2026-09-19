@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Truck, Check } from "lucide-react";
+import { quotesApi } from "@/lib/api";
 
 export const Route = createFileRoute("/quoteprocessing")({
   component: RouteComponent,
@@ -14,27 +15,63 @@ const PROCESSING_STEPS = [
   "Your quote is almost ready",
 ];
 
+function extractErrorMessage(err: unknown): string {
+  const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data?.detail;
+  if (Array.isArray(detail)) {
+    return (
+      detail
+        .map((d: any) => (d?.msg ? `${(d.loc ?? []).slice(-1)[0] ?? "field"}: ${d.msg}` : null))
+        .filter(Boolean)
+        .join(" · ") || "Please check the details you entered."
+    );
+  }
+  if (typeof detail === "string") return detail;
+  return "Failed to submit quote request. Please try again.";
+}
+
 function RouteComponent() {
   const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const raw = sessionStorage.getItem("sds_quote_payload");
+    if (!raw) {
+      navigate({ to: "/quoterequest" });
+      return;
+    }
+    const payload = JSON.parse(raw);
+
     const stepInterval = setInterval(() => {
       setCurrentStepIndex((prev) => (prev < PROCESSING_STEPS.length - 1 ? prev + 1 : prev));
-    }, 1500);
+    }, 1200);
 
+    // Animate up to 90% while the real request is in flight; only real
+    // success jumps it to 100%.
     const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          clearInterval(stepInterval);
-          navigate({ to: "/quotesuccess" });
-          return 100;
-        }
-        return prev + 1;
+      setProgress((prev) => (prev < 90 ? prev + 1 : prev));
+    }, 60);
+
+    quotesApi
+      .createRequest(payload)
+      .then(() => {
+        sessionStorage.removeItem("sds_quote_payload");
+        clearInterval(stepInterval);
+        clearInterval(progressInterval);
+        setCurrentStepIndex(PROCESSING_STEPS.length - 1);
+        setProgress(100);
+        setTimeout(() => navigate({ to: "/quotesuccess" }), 400);
+      })
+      .catch((err: unknown) => {
+        const msg = extractErrorMessage(err);
+        sessionStorage.setItem("sds_quote_error", msg);
+        sessionStorage.removeItem("sds_quote_payload");
+        navigate({ to: "/quoterequest" });
+      })
+      .finally(() => {
+        clearInterval(stepInterval);
+        clearInterval(progressInterval);
       });
-    }, 45);
 
     return () => {
       clearInterval(stepInterval);

@@ -14,6 +14,7 @@ import {
   MailQuestion,
 } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Route = createFileRoute("/_user/register")({
   component: UserRegisterPage,
@@ -38,48 +39,55 @@ function UserRegisterPage() {
     confirmPassword: "",
     agreeTerms: false,
   });
-
+const { register, user } = useAuth();
+  const isAdminRole = user && ["admin", "dispatcher", "crew", "finance"].includes(user.role);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
 
   // Form Submission Interceptor logic
-  const handleRegisterSubmit = (e: React.FormEvent) => {
+ const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors(null);
 
-    // Emoji / Non-ASCII Character strict block validation rule
-    const emojiRegex = /[^\x00-\x7F]/;
-    if (
-      emojiRegex.test(formData.fullName) ||
-      emojiRegex.test(formData.email) ||
-      emojiRegex.test(formData.password)
-    ) {
-      setErrors("Emojis or special system symbols are not permitted in form credentials.");
-      return;
-    }
-
-    // Strict Email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
       setErrors("Please enter a valid business or personal email address.");
       return;
     }
-
     if (formData.password !== formData.confirmPassword) {
       setErrors("Passwords do not match. Please re-enter.");
       return;
     }
-
+    if (formData.password.length < 8) {
+      setErrors("Password must be at least 8 characters.");
+      return;
+    }
     if (!formData.agreeTerms) {
       setErrors("You must accept the Terms of Service to create an account.");
       return;
     }
 
-    // Move to Simulated Premium Micro-loader State
-    setFormStep("LOADING");
-
-    setTimeout(() => {
-      setFormStep("VERIFY");
-    }, 2400);
+    setIsSubmitting(true);
+    try {
+      await register({
+        email: formData.email,
+        password: formData.password,
+        password_confirmation: formData.confirmPassword,
+        full_name: formData.fullName,
+        phone: formData.phoneNumber || undefined,
+      });
+      setFormStep("LOADING");
+      setTimeout(() => {
+        navigate({ to: isAdminRole ? "/admindashboard" : "/dashboard" });
+      }, 2000);
+    } catch (err: unknown) {
+      const msg =
+        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+        "Registration failed. Please try again.";
+      setErrors(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // OTP Verification Submission Control

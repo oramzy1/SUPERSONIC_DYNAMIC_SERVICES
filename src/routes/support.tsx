@@ -46,16 +46,18 @@ interface ChatSession {
 }
 
 function SupportChatPage() {
-  // No sessions yet — wire this up to your support/chat API and populate on load.
+  // No sessions yet - wire this up to your support/chat API and populate on load.
   const [sessions, setSessions] = useState<ChatSession[]>([]);
   const [activeSession, setActiveSession] = useState<string>("");
-  const [selectedChannel, setSelectedChannel] = useState<"ALL" | "fleet" | "move" | "billing">("ALL");
+  const [selectedChannel, setSelectedChannel] = useState<"ALL" | "fleet" | "move" | "billing">(
+    "ALL",
+  );
   const [inputMessage, setInputMessage] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [isAgentTyping, setIsAgentTyping] = useState(false);
 
-  // No messages yet — load the active session's thread from your backend here.
+  // No messages yet - load the active session's thread from your backend here.
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -69,7 +71,7 @@ function SupportChatPage() {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    // No session picked yet — start one on the fly so the person can message
+    // No session picked yet - start one on the fly so the person can message
     // support directly instead of being forced to select from the sidebar first.
     // Replace this with a real "create conversation" call to your backend.
     let sessionId = activeSession;
@@ -99,7 +101,7 @@ function SupportChatPage() {
     setMessages((prev) => [...prev, newMessage]);
     setInputMessage("");
 
-    // Placeholder response flow — replace with your real-time channel (websocket, polling, etc.)
+    // Placeholder response flow - replace with your real-time channel (websocket, polling, etc.)
     setIsAgentTyping(true);
     setTimeout(() => {
       setIsAgentTyping(false);
@@ -441,7 +443,7 @@ function SupportChatPage() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Secure Message Submission Console Dock — always available */}
+          {/* Secure Message Submission Console Dock - always available */}
           <div className="px-3 sm:px-4 py-3 border-t border-white/10 bg-[#0F151C]/60 backdrop-blur-md shrink-0">
             <form
               onSubmit={handleSendMessage}

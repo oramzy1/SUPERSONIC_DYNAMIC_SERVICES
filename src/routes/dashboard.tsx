@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useState } from "react";
-import { DashboardSidebar, DashboardTopbar } from "@/components/dashboard/DashboardSidebar";
+import { DashboardTopbar } from "@/components/dashboard/DashboardTopbar";
+import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -17,16 +18,16 @@ function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-background relative overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
       {/* Fixed Desktop Sidebar & Mobile Drawer */}
-      <DashboardSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <div className="flex min-h-screen flex-1 flex-col overflow-hidden md:pl-64">
+      <DashboardSidebar />
+      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
         {/* Fixed Topbar */}
         <DashboardTopbar onMenuOpen={() => setSidebarOpen(true)} />
-        <main className="flex-1 px-6 pb-8 pt-18 md:px-10 md:pb-10 md:pt-25 overflow-y-auto">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
           <Outlet />
         </main>
-      </div>
+      </div> 
     </div>
   );
 }

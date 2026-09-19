@@ -15,12 +15,16 @@ import {
   Settings,
   LogOut,
   ChevronRight,
+  Users2,
+  Receipt,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CTAButton } from "@/components/shared/CTAButton";
 import logo from "@/assets/images/logo.png";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
+import { dashboardPathForRole, isStaffRole } from "@/lib/roles";
 
 const NAV = [
   { label: "Home", to: "/" },
@@ -39,6 +43,9 @@ export function Header() {
 
   // DEV TOGGLE: Change to true to preview the Logged User Dropdown from your Figma file
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
+  const role = user?.role;
+  const dashboardPath = dashboardPathForRole(role);
 
   const searchRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -47,6 +54,28 @@ export function Header() {
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const loggedInMenuItems = isStaffRole(role)
+    ? [
+        { to: dashboardPath, icon: <LayoutDashboard />, title: "Dashboard" },
+        { to: "/adminquotes", icon: <FileText />, title: "Quotes" },
+        { to: "/adminjobs", icon: <Briefcase />, title: "Jobs" },
+        { to: "/admincustomers", icon: <Users2 />, title: "Customers" },
+        { to: "/admininvoices", icon: <Receipt />, title: "Invoices" },
+        { to: "/adminsettings", icon: <Settings />, title: "Settings" },
+      ]
+    : role === "crew"
+      ? [
+          { to: dashboardPath, icon: <LayoutDashboard />, title: "Dashboard" },
+          { to: "/crewdashboard/job", icon: <Briefcase />, title: "My Assignments" },
+          { to: "/crewdashboard/profile", icon: <Settings />, title: "Profile Settings" },
+        ]
+      : [
+          { to: dashboardPath, icon: <LayoutDashboard />, title: "Dashboard" },
+          { to: "/dashboard/quotes", icon: <FileText />, title: "My Quotes" },
+          { to: "/dashboard/jobs", icon: <Briefcase />, title: "My Jobs" },
+          { to: "/dashboard/profile", icon: <Settings />, title: "Profile Settings" },
+        ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,10 +113,10 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 md:px-8 md:py-4">
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <img 
-            src={logo} 
-            alt="Supersonic Dynamic Services" 
-            className="h-12 w-auto rounded-md sm:rounded-md" 
+          <img
+            src={logo}
+            alt="Supersonic Dynamic Services"
+            className="h-12 w-auto rounded-md sm:rounded-md"
           />
         </Link>
 
@@ -147,15 +176,6 @@ export function Header() {
               <Search className="h-5 w-5" />
             </button>
           </div>
-
-          {/* NOTIFICATION LINK */}
-          <Link
-            to="/notifications"
-            className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground hover:bg-white/5"
-          >
-            <Bell className="h-5 w-5" />
-          </Link>
-
           {/* USER MENU & PROFILE DROPDOWN WRAPPER */}
           <div ref={profileRef} className="relative">
             <button
@@ -187,7 +207,7 @@ export function Header() {
                     <X className="h-4 w-4" />
                   </button>
 
-                  {!isLoggedIn ? (
+                  {!isAuthenticated ? (
                     /* LEFT FIGMA CARD: GUEST MENU */
                     <div className="space-y-2 mt-6">
                       <DropdownItem
@@ -214,64 +234,32 @@ export function Header() {
                         title="Help & Contact"
                         onClick={() => setProfileDropdownOpen(false)}
                       />
-                      <DropdownItem
-                        to="/"
-                        icon={<Sun />}
-                        title="Theme"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
                     </div>
                   ) : (
-                    /* RIGHT FIGMA CARD: LOGGED USER MENU */
+                    /* RIGHT CARD: role-aware logged-in menu */
                     <div className="space-y-2 mt-6">
-                      <DropdownItem
-                        to="/dashboard"
-                        icon={<LayoutDashboard />}
-                        title="Dashboard"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
-                      <DropdownItem
-                        to="/quotes"
-                        icon={<FileText />}
-                        title="My Quotes"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
-                      <DropdownItem
-                        to="/jobs"
-                        icon={<Briefcase />}
-                        title="My Jobs"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
-                      <DropdownItem
-                        to="/invoices"
-                        icon={<FileText />}
-                        title="Invoices"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
-                      <DropdownItem
-                        to="/settings"
-                        icon={<Settings />}
-                        title="Profile Settings"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
-                      <DropdownItem
-                        to="/theme"
-                        icon={<Sun />}
-                        title="Theme"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
-                      <DropdownItem
-                        to="/support"
-                        icon={<HelpCircle />}
-                        title="Help & Support"
-                        onClick={() => setProfileDropdownOpen(false)}
-                      />
+                      {user && (
+                        <div className="px-1 pb-1 mb-1">
+                          <p className="text-sm font-semibold text-foreground truncate">
+                            {user.full_name}
+                          </p>
+                          <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        </div>
+                      )}
+                      {loggedInMenuItems.map((item) => (
+                        <DropdownItem
+                          key={item.to}
+                          to={item.to}
+                          icon={item.icon}
+                          title={item.title}
+                          onClick={() => setProfileDropdownOpen(false)}
+                        />
+                      ))}
 
-                      {/* Premium Figma Custom Gold/Yellow styled Logout action button */}
                       <button
-                        onClick={() => {
-                          setIsLoggedIn(false);
+                        onClick={async () => {
                           setProfileDropdownOpen(false);
+                          await logout();
                         }}
                         className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-600 transition-colors py-3 text-sm font-semibold text-zinc-950"
                       >
@@ -285,7 +273,7 @@ export function Header() {
           </div>
 
           {/* REQUEST QUOTE CTA BUTTON */}
-          <Link to="/quote" className="hidden md:block">
+          <Link to="/quoterequest" className="hidden md:block">
             <CTAButton
               variant="primary"
               className="rounded-md px-5 py-2 text-sm tracking-wide shadow-lg shadow-(--primary)/10"
@@ -357,13 +345,13 @@ export function Header() {
               {/* Quick profile redirect links for mobile layout stack */}
               <div className="grid grid-cols-2 gap-2">
                 <Link
-                  to={isLoggedIn ? ("/dashboard" as any) : ("/login" as any)}
+                  to={isAuthenticated ? (dashboardPath as any) : ("/login" as any)}
                   onClick={() => setOpen(false)}
                   className="flex items-center justify-center gap-2 rounded-xl border border-white/5 bg-white/5 py-2.5 text-xs font-medium text-foreground"
                 >
-                  <UserCircle2 className="h-4 w-4" /> {isLoggedIn ? "Dashboard" : "Sign In"}
+                  <UserCircle2 className="h-4 w-4" /> {isAuthenticated ? "Dashboard" : "Sign In"}
                 </Link>
-                <Link to="/quote" onClick={() => setOpen(false)}>
+                <Link to="/quoterequest" onClick={() => setOpen(false)}>
                   <CTAButton
                     variant="primary"
                     className="w-full rounded-xl py-2.5 text-xs font-semibold"
