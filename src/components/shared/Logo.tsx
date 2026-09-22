@@ -12,7 +12,7 @@ function Logo() {
   <img
     src={logo}
     alt="Supersonic Dynamic Services"
-    className="h-10 w-auto rounded-md opacity-100 transition-all duration-300 ease-out group-hover:scale-90 group-hover:opacity-0"
+    className="h-16 w-auto rounded-md opacity-100 transition-all duration-300 ease-out group-hover:scale-90 group-hover:opacity-0"
   />
 
   {/* Arrow + text - hidden by default, fades/grows in on hover, same slot */}
