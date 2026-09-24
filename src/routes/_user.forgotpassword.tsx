@@ -40,9 +40,9 @@ function UserForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 font-sans select-none">
+    <div className="min-h-screen w-full bg-[#0B0F14] text-white flex items-center justify-center p-4 font-sans select-none">
       {/* CONTAINER CONTAINER: Styled exactly to the structural layout of S-Forgor password.jpg */}
-      <div className="w-full max-w-110 rounded-[24px] border border-border p-6 sm:p-10 backdrop-blur-xl shadow-xs transition-all">
+      <div className="w-full max-w-110 rounded-[24px] border border-white/10 bg-white/2 p-6 sm:p-10 backdrop-blur-xl shadow-2xl transition-all">
         {!isSubmitted ? (
           <>
             {/* Header Content Blocks */}
@@ -50,7 +50,7 @@ function UserForgotPasswordPage() {
               <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
                 Security Portal
               </p>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
                 Forgot Password?
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
@@ -78,7 +78,7 @@ function UserForgotPasswordPage() {
                     placeholder="name@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-lg border border-border py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-lg border border-white/10 bg-white/4 py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
                   {/* Subtle right aligned text decoration placeholder element from original graphic placeholder */}
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-600 font-sans font-medium">
@@ -92,9 +92,9 @@ function UserForgotPasswordPage() {
                 variant="primary"
                 type="submit"
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-lg py-3 text-xs sm:text-sm font-semibold text-white transition hover:opacity-95 flex items-center justify-center gap-2"
+                className="w-full rounded-lg py-3 text-xs sm:text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
               >
-                Send Reset Link <ArrowRight className="h-4 w-4 text-white" />
+                Send Reset Link <ArrowRight className="h-4 w-4 text-slate-900" />
               </CTAButton>
             </form>
           </>
@@ -124,7 +124,7 @@ function UserForgotPasswordPage() {
         <div className="mt-8 pt-2 border-t border-white/5 flex justify-center">
           <Link
             to="/login"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:primary transition font-medium"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition font-medium"
           >
             <ArrowLeft className="h-3 w-3" /> Back to Login
           </Link>
