@@ -31,7 +31,6 @@ const quoteSearchSchema = z.object({
   redirect: z.string().optional(),
 });
 
-
 export const Route = createFileRoute("/quoterequest")({
   validateSearch: quoteSearchSchema,
   component: QuoteRequest,
@@ -165,11 +164,11 @@ function QuoteRequest() {
   }, []);
 
   useEffect(() => {
-  if (user) {
-    setValue("name", user.full_name);
-    setValue("email", user.email);
-  }
-}, [user]);
+    if (user) {
+      setValue("name", user.full_name);
+      setValue("email", user.email);
+    }
+  }, [user]);
 
   useEffect(() => {
     const err = sessionStorage.getItem("sds_quote_error");
@@ -213,7 +212,7 @@ function QuoteRequest() {
   } = form;
 
   const selectedService = watch("serviceType");
-const descriptionValue = watch("description") || "";
+  const descriptionValue = watch("description") || "";
 
   const isMovingSelected = ["student-moving", "residential-moving", "enterprise-moving"].includes(
     selectedService,
@@ -277,29 +276,33 @@ const descriptionValue = watch("description") || "";
     }
   };
 
-const handleFileSelect = async (file: File) => {
-  try {
-    const presigned = await quotesApi.getPresignedUrl(file.name, file.type || "video/mp4");
-    const putRes = await fetch(presigned.url, {
-      method: "PUT",
-      body: file,
-      headers: { "Content-Type": file.type || "video/mp4" },
-    });
-    if (!putRes.ok) {
-      throw new Error(`Upload failed with status ${putRes.status}`);
+  const handleFileSelect = async (file: File) => {
+    try {
+      const presigned = await quotesApi.getPresignedUrl(file.name, file.type || "video/mp4");
+      const putRes = await fetch(presigned.url, {
+        method: "PUT",
+        body: file,
+        headers: { "Content-Type": file.type || "video/mp4" },
+      });
+      if (!putRes.ok) {
+        throw new Error(`Upload failed with status ${putRes.status}`);
+      }
+      const cleanUrl = presigned.url.split("?")[0];
+      setVideoUrl(cleanUrl);
+    } catch (err: unknown) {
+      const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data
+        ?.detail;
+      console.error("video upload failed:", detail ?? err);
+      setErrors(
+        Array.isArray(detail)
+          ? detail
+              .map((d: { msg?: string }) => d.msg)
+              .filter(Boolean)
+              .join(", ")
+          : "Failed to upload video. Please try again.",
+      );
     }
-    const cleanUrl = presigned.url.split("?")[0];
-    setVideoUrl(cleanUrl);
-  } catch (err: unknown) {
-    const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data?.detail;
-    console.error("video upload failed:", detail ?? err);
-    setErrors(
-      Array.isArray(detail)
-        ? detail.map((d: { msg?: string }) => d.msg).filter(Boolean).join(", ")
-        : "Failed to upload video. Please try again.",
-    );
-  }
-};
+  };
   //   const onSubmit: SubmitHandler<QuoteFormData> = async (data) => {
   //     if (step !== 2) return;
   //     if (!isAuthenticated) {
@@ -363,7 +366,7 @@ const handleFileSelect = async (file: File) => {
           move_type: moveType,
           address_from: addressFrom,
           address_to: addressTo || addressFrom,
-    description: data.description,
+          description: data.description,
           video_url: videoUrl || undefined,
           contact_name: data.name || undefined,
           company: data.company || undefined,
@@ -462,7 +465,7 @@ const handleFileSelect = async (file: File) => {
                     <button
                       type="button"
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="w-full text-left rounded-lg pl-9 pr-10 py-3 text-xs sm:text-sm bg-black text-foreground border border-white/10 hover:border-white/20 focus:border-primary focus:outline-none flex items-center justify-between transition-all relative z-20"
+                      className="w-full text-left rounded-lg pl-9 pr-10 py-3 text-xs sm:text-sm text-foreground border border-border focus:border-primary focus:outline-none flex items-center justify-between transition-all relative z-20"
                     >
                       <span className="truncate">
                         {SERVICE_OPTIONS.find((o) => o.v === selectedService)?.label ||
@@ -489,7 +492,7 @@ const handleFileSelect = async (file: File) => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.15 }}
-                            className="absolute left-0 right-0 z-30 mt-1 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-surface p-1 shadow-2xl backdrop-blur-md"
+                            className="absolute left-0 right-0 z-30 mt-1 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-surface p-1 shadow-md backdrop-blur-md"
                           >
                             {SERVICE_OPTIONS.map((o) => (
                               <li key={o.v}>
@@ -656,14 +659,14 @@ const handleFileSelect = async (file: File) => {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-primary has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="waste_removal"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -676,19 +679,19 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Waste removal/recycling
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="storage_short_long_term"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -701,19 +704,19 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Storage short-term/long-term
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="after_hour_holiday_weekend_move"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -726,19 +729,19 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     After hours/weekend/holiday move
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="disasembling_assembling"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-black/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -751,7 +754,7 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Disassembling/Assembling
                                   </span>
                                 </label>
@@ -1418,23 +1421,25 @@ const handleFileSelect = async (file: File) => {
                         onFileChange={setVideoFile}
                         onFileSelect={handleFileSelect}
                       />
-                        <Field label="Describe your request" error={errors.description?.message}>
-    <textarea
-      rows={5}
-      placeholder="Tell us more about what needs to move, any special handling, access constraints, or timing notes..."
-      className="field w-full rounded-lg px-3 py-3 text-sm resize-none"
-      {...register("description")}
-    />
-    <div className="mt-1 flex justify-end">
-      <span
-        className={`text-[10px] font-mono ${
-          descriptionValue.length < 15 ? "text-red-400" : "text-muted-foreground"
-        }`}
-      >
-        {descriptionValue.length}/15 characters minimum
-      </span>
-    </div>
-  </Field>
+                      <Field label="Describe your request" error={errors.description?.message}>
+                        <textarea
+                          rows={5}
+                          placeholder="Tell us more about what needs to move, any special handling, access constraints, or timing notes..."
+                          className="field w-full rounded-lg px-3 py-3 text-sm resize-none"
+                          {...register("description")}
+                        />
+                        <div className="mt-1 flex justify-end">
+                          <span
+                            className={`text-[10px] font-mono ${
+                              descriptionValue.length < 15
+                                ? "text-red-400"
+                                : "text-muted-foreground"
+                            }`}
+                          >
+                            {descriptionValue.length}/15 characters minimum
+                          </span>
+                        </div>
+                      </Field>
                     </div>
                   </div>
                 </motion.div>
