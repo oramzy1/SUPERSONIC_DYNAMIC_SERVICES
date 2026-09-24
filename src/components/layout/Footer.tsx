@@ -10,6 +10,7 @@ import {
   Share2,
   Ticket,
   X,
+  XCircle,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import TrustPilotWidget from "../shared/TrustPilotWidget";
@@ -17,15 +18,10 @@ import ideal from "@/assets/images/ideal-logo.png";
 import master from "@/assets/images/mastercard-logo.png";
 import visa from "@/assets/images/visa-logo.png";
 import paypal from "@/assets/images/paypal-logo.png";
-import erkende from "@/assets/images/erkende-Logo.png";
-import tvm from "@/assets/images/tvm-logo.png";
 
+// Updated short-form opening hours
 const HOURS = [
-  ["Monday", "8:30 - 17:30", true],
-  ["Tuesday", "8:30 - 17:30", true],
-  ["Wednesday", "8:30 - 17:30", true],
-  ["Thursday", "8:30 - 17:30", true],
-  ["Friday", "8:30 - 17:30", true],
+  ["Monday - Friday", "8:30 - 17:30", true],
   ["Saturday", "Closed", false],
   ["Sunday", "Closed", false],
 ] as const;
@@ -36,6 +32,7 @@ const NAV_LEFT = [
   { label: "Vacancies", to: "/vacancies" },
   { label: "Cookies policy", to: "/cookies" },
 ];
+
 const NAV_RIGHT = [
   { label: "Contact", to: "/contact" },
   { label: "Frequently Asked Questions", to: "/faqs" },
@@ -68,11 +65,11 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#090F15] text-foreground/85">
-      {/* Grid converted to fully responsive stack layout for small mobile screens */}
+    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800/80">
+      {/* Main Grid Section */}
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 md:grid-cols-4 md:px-8">
         <div>
-          <p className="text-sm leading-relaxed text-muted-foreground">
+          <p className="text-sm leading-relaxed text-slate-400">
             Driving the energy transition vision of the Netherlands through our combined
             sustainability and technology powered business approach. We combine precision
             engineering with premium moving experiences.
@@ -82,7 +79,7 @@ export function Footer() {
               <a
                 key={i}
                 href="#"
-                className="grid h-9 w-9 place-items-center rounded-full bg-white/5 text-foreground/80 transition hover:bg-white/10"
+                className="grid h-9 w-9 place-items-center rounded-full bg-slate-900 border border-slate-800 text-slate-400 transition hover:bg-slate-800 hover:text-white"
                 aria-label="social link"
               >
                 <Icon className="h-4 w-4" />
@@ -92,31 +89,43 @@ export function Footer() {
           <TrustPilotWidget />
         </div>
 
+        {/* Shortened Opening Hours Section */}
         <div>
-          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/90">
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
             Opening Hours
           </h4>
           <ul className="space-y-3 text-sm">
             {HOURS.map(([d, t, open]) => (
-              <li key={d} className="flex items-center justify-between">
-                <span className="text-foreground/85">{d}</span>
-                <span className={open ? "text-primary font-medium" : "text-red-400 font-medium"}>
-                  {t}
+              <li
+                key={d}
+                className="flex items-center justify-between border-b border-slate-900 pb-2"
+              >
+                <span className="text-slate-300 font-medium">{d}</span>
+                <span
+                  className={
+                    open
+                      ? "text-emerald-400 font-medium"
+                      : "flex items-center gap-1.5 text-rose-500/80 font-medium"
+                  }
+                >
+                  {!open && <XCircle className="h-3.5 w-3.5" />}
+                  <span>{t}</span>
                 </span>
               </li>
             ))}
           </ul>
         </div>
 
+        {/* Quick Navigation Links */}
         <div className="my-0">
-          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/90">
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
             Quick Navigation
           </h4>
           <ul className="space-y-3 text-sm">
             {NAV_LEFT.map((n) => (
               <li key={n.label} className="flex items-center gap-2">
-                <span className="h-1 w-1 rounded-full bg-foreground/40" />
-                <Link to={n.to} className="hover:text-primary">
+                <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />
+                <Link to={n.to} className="text-slate-400 hover:text-emerald-400 transition-colors">
                   {n.label}
                 </Link>
               </li>
@@ -124,15 +133,16 @@ export function Footer() {
           </ul>
         </div>
 
+        {/* Legal & Support Links */}
         <div>
-          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/90">
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
             Legal & Support
           </h4>
           <ul className="space-y-3 text-sm">
             {NAV_RIGHT.map((n) => (
               <li key={n.label} className="flex items-center gap-2">
-                <span className="h-1 w-1 rounded-full bg-foreground/40" />
-                <Link to={n.to} className="hover:text-primary">
+                <span className="h-1.5 w-1.5 rounded-full bg-slate-600" />
+                <Link to={n.to} className="text-slate-400 hover:text-emerald-400 transition-colors">
                   {n.label}
                 </Link>
               </li>
@@ -141,111 +151,89 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/5">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-5 text-[11px] uppercase tracking-[0.18em] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-3">
-          <div className="space-y-1">
+      {/* Bottom Bar Details */}
+      <div className="border-t border-slate-900 bg-slate-950/60">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-6 text-[11px] uppercase tracking-[0.18em] text-slate-500 md:flex-row md:items-center md:justify-between md:px-8">
+          <div className="space-y-1 text-slate-400">
             <div>KvK: 42113033</div>
             <div>BTW-NUMBER: NL869789491B01</div>
-            <div>SUPERSONIC DYNAMIC SERVICES B.V. © 2026</div>
+            <div className="text-slate-500">SUPERSONIC DYNAMIC SERVICES B.V. © 2026</div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400 font-medium">
-            <span>Secure Payments:</span>
+            <span className="text-xs uppercase tracking-wider text-slate-400">
+              Secure Payments:
+            </span>
 
             <div className="flex flex-wrap items-center gap-2.5">
               {/* iDEAL */}
-              <div className="h-6 sm:h-8 w-10 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-7 sm:h-8 w-11 sm:w-14 flex items-center justify-center rounded bg-slate-900 border border-slate-800 p-1 overflow-hidden">
                 <img
                   src={ideal}
                   alt="iDEAL"
-                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                  className="h-full w-full object-contain opacity-80 hover:opacity-100 transition"
                 />
               </div>
 
               {/* Mastercard */}
-              <div className="h-6 sm:h-8 w-10 sm:w-15 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-7 sm:h-8 w-11 sm:w-14 flex items-center justify-center rounded bg-slate-900 border border-slate-800 p-1 overflow-hidden">
                 <img
                   src={master}
                   alt="Mastercard"
-                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                  className="h-full w-full object-contain opacity-80 hover:opacity-100 transition"
                 />
               </div>
 
               {/* VISA */}
-              <div className="h-6  sm:h-8 w-10 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-7 sm:h-8 w-11 sm:w-14 flex items-center justify-center rounded bg-slate-900 border border-slate-800 p-1 overflow-hidden">
                 <img
                   src={visa}
                   alt="VISA"
-                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                  className="h-full w-full object-contain opacity-80 hover:opacity-100 transition"
                 />
               </div>
 
               {/* PayPal */}
-              <div className="h-6  sm:h-8 w-10 sm:w-14 flex items-center justify-center rounded bg-white/5 border border-white/5 p-0.5 overflow-hidden">
+              <div className="h-7 sm:h-8 w-11 sm:w-14 flex items-center justify-center rounded bg-slate-900 border border-slate-800 p-1 overflow-hidden">
                 <img
                   src={paypal}
                   alt="PayPal"
-                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
+                  className="h-full w-full object-contain opacity-80 hover:opacity-100 transition"
                 />
               </div>
             </div>
           </div>
 
           <div className="flex flex-col items-start gap-2 text-sm text-slate-400 font-medium">
-            <span>Certified Quality Mark</span>
-
+            <span className="text-xs uppercase tracking-wider text-slate-400">
+              Certified Quality Mark
+            </span>
             <div className="flex flex-wrap items-center gap-2.5">
-              {/* Erkende Verhuizers */}
-              {/* <div className="h-6 sm:h-10 w-15 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
-                <img
-                  src={erkende}
-                  alt="Erkende Verhuizers"
-                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
-                />
-              </div> */}
-
-              {/* TVM */}
-              {/* <div className="h-6 sm:h-10 w-12 sm:w-16 flex items-center justify-center rounded bg-white/5 border border-white/5 p-1 overflow-hidden">
-                <img
-                  src={tvm}
-                  alt="TVM"
-                  className="h-full w-full object-contain opacity-90 hover:opacity-100 transition"
-                />
-              </div> */}
+              {/* Quality Mark Images if uncommented */}
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-primary" />
-            <span className="text-primary">Status: All Systems Operational</span>
+          <div className="flex items-center gap-2.5 rounded-full bg-slate-900/80 px-3 py-1.5 border border-slate-800">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-emerald-400 text-xs font-medium normal-case tracking-normal">
+              Status: All Systems Operational
+            </span>
           </div>
         </div>
       </div>
 
-      {/* FIXED CONTROLS WRAPPER: Fixed positioning container */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-9999 flex flex-col items-end gap-3 select-none">
-        {/* FLOATING SUPPORT TRIGGER ICON */}
-        <button
-          type="button"
-          onClick={() => setShowSupportCard(!showSupportCard)}
-          className={`grid h-12 w-12 place-items-center rounded-xl text-slate-900 transition shadow-xl hover:opacity-95 active:scale-95 ${
-            showSupportCard ? "bg-white text-slate-900" : "bg-[#8EA7FF]"
-          }`}
-          style={{ backgroundColor: !showSupportCard ? "var(--primary)" : undefined }}
-          aria-label="Toggle support channel options"
-        >
-          {showSupportCard ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
-        </button>
-        {/* CHAT SUPPORT FLOATING SLIDEOUT CARD */}
+      {/* FLOATING SUPPORT BUTTON & MODAL POPUP */}
+      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 select-none">
+        {/* Support Options Popup Container */}
         {showSupportCard && (
-          <div className="w-[calc(100vw-2rem)] sm:w-72 rounded-2xl border border-white/10 bg-[#0F161E]/95 p-4 text-white backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
-            <div className="flex items-center justify-between border-b border-white/5 pb-2.5 mb-3">
+          <div className="w-[calc(100vw-2rem)] sm:w-72 bg-slate-900 border border-slate-800 rounded-2xl p-4 text-slate-100 backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-3">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
                   Supersonic Hub
                 </span>
               </div>
@@ -259,14 +247,14 @@ export function Footer() {
             </div>
 
             <div className="space-y-2">
-              {/* Option 1: Live Chat Link - REMOVED BROKEN CRASHING INTERNALS */}
+              {/* Option 1: Live Chat Link */}
               <Link to="/support" onClick={() => setShowSupportCard(false)} className="block">
-                <div className="w-full flex items-center gap-3 rounded-xl bg-white/5 p-3 text-left text-xs transition hover:bg-white/10 group">
-                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-[#8EA7FF]/10 text-[#8EA7FF]">
+                <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
+                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-emerald-500/10 text-emerald-400">
                     <MessageCircle className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-200 group-hover:text-white">
+                    <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
                       Live Chat Support
                     </div>
                   </div>
@@ -275,12 +263,12 @@ export function Footer() {
 
               {/* Option 2: Submit Ticket Link */}
               <Link to="/ticket" onClick={() => setShowSupportCard(false)} className="block">
-                <div className="w-full flex items-center gap-3 rounded-xl bg-white/5 p-3 text-left text-xs transition hover:bg-white/10 group">
-                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-[#8EA7FF]/10 text-[#8EA7FF]">
+                <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
+                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-emerald-500/10 text-emerald-400">
                     <Ticket className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-200 group-hover:text-white">
+                    <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
                       Submit a Ticket
                     </div>
                   </div>
@@ -289,12 +277,12 @@ export function Footer() {
 
               {/* Option 3: Contact Us Link */}
               <Link to="/contact" onClick={() => setShowSupportCard(false)} className="block">
-                <div className="w-full flex items-center gap-3 rounded-xl bg-white/5 p-3 text-left text-xs transition hover:bg-white/10 group">
-                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-[#8EA7FF]/10 text-[#8EA7FF]">
+                <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
+                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-emerald-500/10 text-emerald-400">
                     <PhoneCall className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-200 group-hover:text-white">
+                    <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
                       Contact Us
                     </div>
                   </div>
@@ -303,15 +291,30 @@ export function Footer() {
             </div>
           </div>
         )}
+
+        {/* Toggle Support Trigger Button */}
+        <button
+          type="button"
+          onClick={() => setShowSupportCard(!showSupportCard)}
+          className={`grid h-12 w-12 place-items-center rounded-xl transition shadow-xl hover:opacity-95 active:scale-95 border ${
+            showSupportCard
+              ? "bg-slate-800 text-slate-200 border-slate-700"
+              : "bg-emerald-500 text-slate-950 border-emerald-400 font-bold"
+          }`}
+          aria-label="Toggle support channel options"
+        >
+          {showSupportCard ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
+        </button>
       </div>
-      <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-9999 flex flex-col items-end gap-3 select-none">
+
+      {/* FLOATING SCROLL TO TOP ARROW BUTTON */}
+      <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 flex flex-col items-end gap-3 select-none">
         <div className="flex flex-col items-center gap-3">
-          {/* SEAMLESS SCROLL TO TOP ARROW BUTTON */}
           {showScrollTop && (
             <button
               type="button"
               onClick={scrollToTop}
-              className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-[#0F161E]/80 text-slate-400 backdrop-blur-md transition hover:bg-[#0F161E] hover:text-white shadow-lg animate-in fade-in zoom-in-90 duration-200"
+              className="grid h-10 w-10 place-items-center rounded-xl border border-slate-800 bg-slate-900/90 text-slate-400 backdrop-blur-md transition hover:bg-slate-800 hover:text-white shadow-lg animate-in fade-in zoom-in-90 duration-200"
               aria-label="Scroll to top"
             >
               <ChevronUp className="h-5 w-5" />

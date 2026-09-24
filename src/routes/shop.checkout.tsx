@@ -62,7 +62,7 @@ function CheckoutPage() {
         <p className="mt-2 text-sm text-muted-foreground">Add a product before checking out.</p>
         <Link
           to="/shop"
-          className="mt-6 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
+          className="mt-6 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-xs"
         >
           Back to shop
         </Link>
@@ -120,7 +120,7 @@ function CheckoutPage() {
         <ChevronLeft className="h-3.5 w-3.5" /> Back to cart
       </Link>
 
-      <h1 className="mt-3 font-display text-3xl font-bold md:text-4xl">Checkout</h1>
+      <h1 className="mt-3 font-display text-3xl font-bold md:text-4xl text-foreground">Checkout</h1>
 
       {/* Stepper */}
       <ol className="mt-6 grid gap-2 sm:grid-cols-5">
@@ -131,12 +131,12 @@ function CheckoutPage() {
             <li
               key={s}
               className={cn(
-                "flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold",
+                "flex items-center gap-2 rounded-full border border-border px-3 py-2 text-xs font-semibold shadow-xs transition-colors",
                 active
-                  ? "border-primary/40 bg-primary/10 text-primary"
+                  ? "border-primary bg-primary/10 text-primary"
                   : done
-                    ? "border-[#79FF5B]/40 bg-[#79FF5B]/10 text-[#79FF5B]"
-                    : "border-white/8 text-muted-foreground",
+                    ? "border-emerald-500/40 bg-emerald-50 text-emerald-700"
+                    : "bg-background text-muted-foreground",
               )}
             >
               <span
@@ -145,8 +145,8 @@ function CheckoutPage() {
                   active
                     ? "bg-primary text-primary-foreground"
                     : done
-                      ? "bg-[#79FF5B] text-background"
-                      : "bg-white/10",
+                      ? "bg-emerald-600 text-white"
+                      : "bg-muted text-muted-foreground",
                 )}
               >
                 {done ? <Check className="h-3 w-3" /> : i + 1}
@@ -158,7 +158,7 @@ function CheckoutPage() {
       </ol>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
-        <div className="rounded-2xl border border-white/8 bg-surface p-6">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-xs">
           {step === 0 && (
             <Section title="Customer information">
               <Grid>
@@ -287,10 +287,10 @@ function CheckoutPage() {
                   <label
                     key={m.id}
                     className={cn(
-                      "flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm",
+                      "flex cursor-pointer items-center gap-3 rounded-xl border border-border p-4 text-sm shadow-xs transition-colors",
                       shippingMethod === m.id
-                        ? "border-primary/40 bg-primary/5"
-                        : "border-white/8 hover:border-white/20",
+                        ? "border-primary bg-primary/5"
+                        : "bg-background hover:bg-muted/50",
                     )}
                   >
                     <input
@@ -301,10 +301,10 @@ function CheckoutPage() {
                       className="accent-primary"
                     />
                     <div className="flex-1">
-                      <p className="font-semibold">{m.label}</p>
+                      <p className="font-semibold text-foreground">{m.label}</p>
                       <p className="text-xs text-muted-foreground">{m.hint}</p>
                     </div>
-                    <span className="text-sm font-semibold">
+                    <span className="text-sm font-semibold text-foreground">
                       {m.price === 0 ? "Free" : formatEUR(m.price)}
                     </span>
                   </label>
@@ -318,8 +318,10 @@ function CheckoutPage() {
               <div className="space-y-3">
                 <label
                   className={cn(
-                    "flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm",
-                    form.payment === "card" ? "border-primary/40 bg-primary/5" : "border-white/8",
+                    "flex cursor-pointer items-center gap-3 rounded-xl border border-border p-4 text-sm shadow-xs transition-colors",
+                    form.payment === "card"
+                      ? "border-primary bg-primary/5"
+                      : "bg-background hover:bg-muted/50",
                   )}
                 >
                   <input
@@ -330,12 +332,14 @@ function CheckoutPage() {
                     className="accent-primary"
                   />
                   <CreditCard className="h-4 w-4 text-primary" />
-                  <span className="font-semibold">Credit / debit card</span>
+                  <span className="font-semibold text-foreground">Credit / debit card</span>
                 </label>
                 <label
                   className={cn(
-                    "flex cursor-pointer items-center gap-3 rounded-xl border p-4 text-sm",
-                    form.payment === "ideal" ? "border-primary/40 bg-primary/5" : "border-white/8",
+                    "flex cursor-pointer items-center gap-3 rounded-xl border border-border p-4 text-sm shadow-xs transition-colors",
+                    form.payment === "ideal"
+                      ? "border-primary bg-primary/5"
+                      : "bg-background hover:bg-muted/50",
                   )}
                 >
                   <input
@@ -345,10 +349,10 @@ function CheckoutPage() {
                     onChange={() => update("payment", "ideal")}
                     className="accent-primary"
                   />
-                  <span className="grid h-4 w-6 place-items-center rounded bg-secondary text-[8px] font-bold">
+                  <span className="grid h-4 w-6 place-items-center rounded bg-muted text-[8px] font-bold text-foreground">
                     iD
                   </span>
-                  <span className="font-semibold">iDEAL</span>
+                  <span className="font-semibold text-foreground">iDEAL</span>
                 </label>
 
                 {form.payment === "card" && (
@@ -406,14 +410,14 @@ function CheckoutPage() {
                   <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
                     Contact
                   </p>
-                  <p className="mt-1">{form.email}</p>
+                  <p className="mt-1 text-foreground">{form.email}</p>
                   <p className="text-muted-foreground">{form.phone}</p>
                 </div>
                 <div>
                   <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
                     Delivery
                   </p>
-                  <p className="mt-1 font-medium">
+                  <p className="mt-1 font-medium text-foreground">
                     {form.firstName} {form.lastName}
                   </p>
                   <p className="text-muted-foreground">
@@ -425,12 +429,15 @@ function CheckoutPage() {
                   <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
                     Items
                   </p>
-                  <ul className="mt-2 divide-y divide-white/8">
+                  <ul className="mt-2 divide-y divide-border">
                     {items.map((i) => (
-                      <li key={i.id} className="flex items-center justify-between gap-3 py-2">
+                      <li
+                        key={i.id}
+                        className="flex items-center justify-between gap-3 py-2 text-foreground"
+                      >
                         <span className="min-w-0 truncate">
                           {i.quantity} × {i.name}
-                          {i.mode === 'rent' && ` (${i.durationDays}d)`}
+                          {i.mode === "rent" && ` (${i.durationDays}d)`}
                         </span>
                         <span className="font-semibold">{formatEUR(computeLineTotal(i))}</span>
                       </li>
@@ -445,21 +452,21 @@ function CheckoutPage() {
             <button
               onClick={back}
               disabled={step === 0}
-              className="rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold disabled:opacity-40"
+              className="rounded-full border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground shadow-xs hover:bg-muted/50 disabled:opacity-40"
             >
               Back
             </button>
             {step < STEPS.length - 1 ? (
               <button
                 onClick={next}
-                className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground"
+                className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-xs"
               >
                 Continue
               </button>
             ) : (
               <button
                 onClick={onPlace}
-                className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground"
+                className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-xs"
               >
                 Place order · {formatEUR(totals.total)}
               </button>
@@ -468,24 +475,30 @@ function CheckoutPage() {
         </div>
 
         {/* Summary */}
-        <aside className="h-fit space-y-3 rounded-2xl border border-white/8 bg-surface p-5">
-          <h2 className="font-display text-base font-semibold">Order summary</h2>
+        <aside className="h-fit space-y-3 rounded-2xl border border-border bg-card p-5 shadow-xs">
+          <h2 className="font-display text-base font-semibold text-foreground">Order summary</h2>
           <ul className="space-y-2">
             {items.map((i) => (
               <li key={i.id} className="flex items-center gap-3 text-sm">
-                <img src={i.image} alt="" className="h-12 w-12 rounded-lg object-cover" />
+                <img
+                  src={i.image}
+                  alt=""
+                  className="h-12 w-12 rounded-lg object-cover border border-border"
+                />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-medium">{i.name}</p>
+                  <p className="truncate font-medium text-foreground">{i.name}</p>
                   <p className="text-[11px] text-muted-foreground">
                     Qty {i.quantity}
-                    {i.mode === 'rent' && ` · ${i.durationDays}d`}
+                    {i.mode === "rent" && ` · ${i.durationDays}d`}
                   </p>
                 </div>
-                <span className="text-xs font-semibold">{formatEUR(computeLineTotal(i))}</span>
+                <span className="text-xs font-semibold text-foreground">
+                  {formatEUR(computeLineTotal(i))}
+                </span>
               </li>
             ))}
           </ul>
-          <div className="space-y-1 border-t border-white/8 pt-3 text-sm">
+          <div className="space-y-1 border-t border-border pt-3 text-sm">
             <Row label="Subtotal" value={formatEUR(totals.subtotal)} />
             {totals.discount > 0 && (
               <Row label="Promo" value={`−${formatEUR(totals.discount)}`} accent />
@@ -495,8 +508,8 @@ function CheckoutPage() {
               value={totals.shipping === 0 ? "Free" : formatEUR(totals.shipping)}
             />
             <Row label="VAT (21%)" value={formatEUR(totals.vat)} />
-            <div className="mt-2 flex justify-between border-t border-white/8 pt-2 text-base font-semibold">
-              <span>Total</span>
+            <div className="mt-2 flex justify-between border-t border-border pt-2 text-base font-semibold">
+              <span className="text-foreground">Total</span>
               <span className="text-primary">{formatEUR(totals.total)}</span>
             </div>
           </div>
@@ -507,12 +520,12 @@ function CheckoutPage() {
 }
 
 const input =
-  "h-11 w-full rounded-lg border border-white/10 bg-surface-2 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none";
+  "h-11 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none shadow-xs";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h2 className="font-display text-xl font-semibold">{title}</h2>
+      <h2 className="font-display text-xl font-semibold text-foreground">{title}</h2>
       <div className="mt-5">{children}</div>
     </div>
   );
@@ -548,7 +561,7 @@ function Row({ label, value, accent }: { label: string; value: string; accent?: 
   return (
     <div className="flex justify-between text-muted-foreground">
       <span>{label}</span>
-      <span className={cn(accent && "text-[#79FF5B]")}>{value}</span>
+      <span className={cn(accent && "text-emerald-600 font-semibold")}>{value}</span>
     </div>
   );
 }

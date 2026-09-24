@@ -81,16 +81,16 @@ function RouteComponent() {
 
   return (
     <div className="min-h-[90vh] w-full flex flex-col items-center justify-center px-4">
-      <div className="w-full max-w-2xl border border-white/10 bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-10 shadow-xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+      <div className="w-full max-w-2xl border border-slate-200 bg-white rounded-2xl p-6 sm:p-10 shadow-xl shadow-slate-900/5 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
         {/* Left: progress ring */}
-        <div className="md:col-span-5 flex flex-col items-center justify-center space-y-4 border-b md:border-b-0 md:border-r border-white/10 pb-6 md:pb-0 md:pr-8">
+        <div className="md:col-span-5 flex flex-col items-center justify-center space-y-4 border-b md:border-b-0 md:border-r border-slate-200 pb-6 md:pb-0 md:pr-8">
           <div className="relative flex justify-center items-center h-28 w-28">
             <svg className="absolute transform -rotate-90 w-28 h-28">
               <circle
                 cx="56"
                 cy="56"
                 r="48"
-                className="stroke-white/10 fill-none"
+                className="stroke-slate-200 fill-none"
                 strokeWidth="4"
               />
               <motion.circle
@@ -105,14 +105,16 @@ function RouteComponent() {
                 transition={{ ease: "linear" }}
               />
             </svg>
-            <Truck className="h-7 w-7 text-primary z-10" />
+            <div className="z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+              <Truck className="h-7 w-7 text-primary" />
+            </div>
           </div>
 
           <div className="text-center">
-            <span className="font-mono text-2xl font-semibold tracking-tight text-white">
+            <span className="font-mono text-2xl font-semibold tracking-tight text-slate-900">
               {progress}%
             </span>
-            <p className="text-[11px] font-medium tracking-wide text-slate-400 uppercase mt-0.5">
+            <p className="text-[11px] font-medium tracking-wide text-slate-500 uppercase mt-0.5">
               Preparing your quote
             </p>
           </div>
@@ -121,13 +123,13 @@ function RouteComponent() {
         {/* Right: step checklist */}
         <div className="md:col-span-7 space-y-6">
           <div className="space-y-1.5 text-left">
-            <span className="text-[11px] font-semibold tracking-wide text-primary uppercase bg-primary/10 px-2.5 py-1 rounded-md border border-primary/25 inline-block">
+            <span className="text-[11px] font-semibold tracking-wide text-primary uppercase bg-primary/10 px-2.5 py-1 rounded-md border border-primary/20 inline-block">
               Quote in progress
             </span>
-            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">
               Processing your request
             </h2>
-            <p className="text-sm text-slate-400">This usually takes just a few seconds.</p>
+            <p className="text-sm text-slate-500">This usually takes just a few seconds.</p>
           </div>
 
           <div className="space-y-3.5 text-left">
@@ -139,22 +141,22 @@ function RouteComponent() {
                 <div
                   key={index}
                   className={`flex items-center gap-3 transition-opacity duration-300 ${
-                    isActive ? "opacity-100" : isCompleted ? "opacity-70" : "opacity-40"
+                    isActive ? "opacity-100" : isCompleted ? "opacity-80" : "opacity-50"
                   }`}
                 >
                   <div
                     className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] border shrink-0 transition-colors ${
                       isCompleted
-                        ? "bg-primary border-primary text-white"
+                        ? "bg-emerald-500 border-emerald-500 text-white"
                         : isActive
-                          ? "border-primary text-primary"
-                          : "border-white/20 text-slate-500"
+                          ? "border-primary bg-primary/5 text-primary"
+                          : "border-slate-300 text-slate-400"
                     }`}
                   >
                     {isCompleted ? <Check className="h-3 w-3 stroke-3" /> : index + 1}
                   </div>
                   <span
-                    className={`text-sm ${isActive ? "font-medium text-white" : "text-slate-400"}`}
+                    className={`text-sm ${isActive ? "font-medium text-slate-900" : "text-slate-500"}`}
                   >
                     {stepText}
                   </span>
@@ -163,8 +165,8 @@ function RouteComponent() {
             })}
           </div>
 
-          <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-medium text-slate-500">
-            <ShieldCheck className="h-4 w-4 text-primary/70" />
+          <div className="pt-4 border-t border-slate-200 flex items-center gap-2 text-xs font-medium text-slate-500">
+            <ShieldCheck className="h-4 w-4 text-emerald-600" />
             Your information is encrypted and secure
           </div>
         </div>

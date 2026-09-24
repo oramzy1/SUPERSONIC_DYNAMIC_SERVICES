@@ -393,22 +393,22 @@ const handleFileSelect = async (file: File) => {
           Supersonic Dynamic Services B.V
         </Pill> */}
 
-        <h1 className="mt-3 font-display text-3xl font-bold sm:text-4xl md:text-6xl">
+        <h1 className="mt-3 font-display text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl md:text-6xl">
           {step === 2 ? "Review & Confirm Details" : "Request a Quote"}
         </h1>
-        <p className="mt-3 mb-3 max-w-2xl text-sm sm:text-base text-muted-foreground leading-5">
+        <p className="mt-3 mb-3 max-w-2xl text-sm sm:text-base text-slate-600 leading-5">
           Fill out the quote form below to get your journey started with supersonic dynamic services
         </p>
 
         {/* Sticky progress bar - sticks just below the navbar */}
-        <div className="sticky top-(--navbar-height,64px) z-30 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-4 bg-background/80 backdrop-blur-xl border-b border-white/5">
+        <div className="sticky top-(--navbar-height,64px) z-30 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-4 bg-white/85 backdrop-blur-xl border-b border-slate-200">
           <div className="max-w-7xl mx-auto">
             <div className="mb-2.5 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 border border-primary/25 text-[10px] font-semibold text-primary tabular-nums">
                   {step}
                 </span>
-                <span className="text-xs sm:text-sm font-medium text-white tracking-tight">
+                <span className="text-xs sm:text-sm font-semibold text-slate-900 tracking-tight">
                   {step === 1 ? "Information Collection" : "Final Verification"}
                 </span>
               </div>
@@ -417,7 +417,7 @@ const handleFileSelect = async (file: File) => {
               </span>
             </div>
 
-            <div className="relative h-0.75 w-full rounded-full bg-white/5 overflow-hidden">
+            <div className="relative h-0.75 w-full rounded-full bg-slate-200 overflow-hidden">
               <motion.div
                 className="absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-primary/60 to-primary"
                 initial={false}
@@ -440,7 +440,7 @@ const handleFileSelect = async (file: File) => {
                   : "Some fields need attention. Go back to Step 1 to review.",
               );
             })}
-            className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-6 md:p-8 relative h-fit"
+            className="rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 p-4 sm:p-6 md:p-8 relative h-fit"
           >
             <AnimatePresence mode="wait">
               {/* STEP 1: PARSING SELECTIONS AND TARGET INPUT CONFIGS */}
@@ -462,7 +462,7 @@ const handleFileSelect = async (file: File) => {
                     <button
                       type="button"
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="w-full text-left rounded-lg pl-9 pr-10 py-3 text-xs sm:text-sm bg-black text-foreground border border-white/10 hover:border-white/20 focus:border-primary focus:outline-none flex items-center justify-between transition-all relative z-20"
+                      className="w-full text-left rounded-lg pl-9 pr-10 py-3 text-xs sm:text-sm bg-white text-slate-900 border border-slate-300 hover:border-slate-400 focus:border-primary focus:ring-2 focus:ring-primary/15 focus:outline-none flex items-center justify-between transition-all relative z-20"
                     >
                       <span className="truncate">
                         {SERVICE_OPTIONS.find((o) => o.v === selectedService)?.label ||
@@ -471,7 +471,7 @@ const handleFileSelect = async (file: File) => {
                       <motion.span
                         animate={{ rotate: isDropdownOpen ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
-                        className="text-muted-foreground text-[10px] absolute right-4 top-1/2 -translate-y-1/2"
+                        className="text-slate-500 text-[10px] absolute right-4 top-1/2 -translate-y-1/2"
                       >
                         <ChevronDown className="h-3 w-3" />
                       </motion.span>
@@ -489,7 +489,7 @@ const handleFileSelect = async (file: File) => {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.15 }}
-                            className="absolute left-0 right-0 z-30 mt-1 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-surface p-1 shadow-2xl backdrop-blur-md"
+                            className="absolute left-0 right-0 z-30 mt-1 max-h-64 overflow-y-auto rounded-xl border border-slate-200 bg-white p-1 shadow-xl shadow-slate-900/10"
                           >
                             {SERVICE_OPTIONS.map((o) => (
                               <li key={o.v}>
@@ -503,7 +503,7 @@ const handleFileSelect = async (file: File) => {
                                   className={`w-full text-left rounded-lg px-4 py-2.5 my-0.5 text-xs sm:text-sm transition-colors flex items-center ${
                                     selectedService === o.v
                                       ? "bg-primary text-primary-foreground font-medium"
-                                      : "text-foreground/90 hover:bg-white/5"
+                                      : "text-slate-700 hover:bg-slate-100"
                                   }`}
                                 >
                                   {o.label}
@@ -532,16 +532,16 @@ const handleFileSelect = async (file: File) => {
                             {SERVICE_DETAILS[selectedService].title}
                           </h4>
                         </div>
-                        <p className="text-xs text-muted-foreground leading-relaxed">
+                        <p className="text-xs text-slate-600 leading-relaxed">
                           {SERVICE_DETAILS[selectedService].specs}
                         </p>
                         <div className="pt-1 grid grid-cols-1 gap-1.5 sm:grid-cols-3">
                           {SERVICE_DETAILS[selectedService].features.map((feature, idx) => (
                             <div
                               key={idx}
-                              className="flex items-start gap-1.5 text-[10px] text-foreground/80 bg-black/30 p-2 rounded-md"
+                              className="flex items-start gap-1.5 text-[10px] text-slate-600 bg-white border border-primary/10 p-2 rounded-md"
                             >
-                              <span className="text-primary font-bold">✓</span>
+                              <span className="text-emerald-600 font-bold">✓</span>
                               <span>{feature}</span>
                             </div>
                           ))}
@@ -566,7 +566,7 @@ const handleFileSelect = async (file: File) => {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-slate-50 opacity-70 cursor-not-allowed"
                             placeholder="Johndoe Alenn"
                             disabled
                             {...register("name")}
@@ -585,7 +585,7 @@ const handleFileSelect = async (file: File) => {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-slate-50 opacity-70 cursor-not-allowed"
                             placeholder="johndoe@email.com"
                             disabled
                             {...register("email")}
@@ -648,7 +648,7 @@ const handleFileSelect = async (file: File) => {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-white text-slate-900 border border-slate-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 scheme-light cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -656,16 +656,16 @@ const handleFileSelect = async (file: File) => {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="waste_removal"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -676,21 +676,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Waste removal/recycling
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="storage_short_long_term"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -701,21 +701,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Storage short-term/long-term
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="after_hour_holiday_weekend_move"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -726,21 +726,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     After hours/weekend/holiday move
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="disasembling_assembling"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -751,7 +751,7 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Disassembling/Assembling
                                   </span>
                                 </label>
@@ -838,7 +838,7 @@ const handleFileSelect = async (file: File) => {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-white text-slate-900 border border-slate-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 scheme-light cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -849,7 +849,7 @@ const handleFileSelect = async (file: File) => {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-white text-slate-900 border border-slate-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 scheme-light cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -859,35 +859,35 @@ const handleFileSelect = async (file: File) => {
                         >
                           <div className="relative w-full">
                             <select
-                              className="field w-full rounded-lg px-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                              className="field w-full rounded-lg px-3 py-3.5 text-sm bg-white text-slate-900 border border-slate-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 appearance-none cursor-pointer pr-10"
                               {...register("storageSize")}
                             >
-                              <option value="" className="bg-[#0E141A] text-muted-foreground">
+                              <option value="" className="bg-white text-slate-500">
                                 Select storage sizing unit...
                               </option>
-                              <option value="1x1x2_3m3" className="bg-[#0E141A] text-white py-2">
+                              <option value="1x1x2_3m3" className="bg-white text-slate-900 py-2">
                                 1 m x 1 m x 2 m = 3 m³
                               </option>
-                              <option value="2x1x3_6m3" className="bg-[#0E141A] text-white py-2">
+                              <option value="2x1x3_6m3" className="bg-white text-slate-900 py-2">
                                 2 m x 1 m x 3 m = 6 m³
                               </option>
-                              <option value="2x2x3_12m3" className="bg-[#0E141A] text-white py-2">
+                              <option value="2x2x3_12m3" className="bg-white text-slate-900 py-2">
                                 2 m x 2 m x 3 m = 12 m³
                               </option>
-                              <option value="3x2x3_18m3" className="bg-[#0E141A] text-white py-2">
+                              <option value="3x2x3_18m3" className="bg-white text-slate-900 py-2">
                                 3 m x 2 m x 3 m = 18 m³
                               </option>
-                              <option value="3x3x3_27m3" className="bg-[#0E141A] text-white py-2">
+                              <option value="3x3x3_27m3" className="bg-white text-slate-900 py-2">
                                 3 m x 3 m x 3 m = 27 m³
                               </option>
-                              <option value="3x4x3_36m3" className="bg-[#0E141A] text-white py-2">
+                              <option value="3x4x3_36m3" className="bg-white text-slate-900 py-2">
                                 3 m x 4 m x 3 m = 36 m³
                               </option>
-                              <option value="4x4x3_48m3" className="bg-[#0E141A] text-white py-2">
+                              <option value="4x4x3_48m3" className="bg-white text-slate-900 py-2">
                                 4 m x 4 m x 3 m = 48 m³
                               </option>
                             </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground">
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
                               <svg
                                 className="fill-current h-4 w-4"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -902,16 +902,16 @@ const handleFileSelect = async (file: File) => {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="packing_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -922,21 +922,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Packing Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="disassembling_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -947,21 +947,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Disassembling Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="hours_weekend_holiday_move"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -972,21 +972,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Work hours/weekdays collection support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="hours_weekend_holiday_move"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -997,7 +997,7 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     After hours/weekend/holiday collection support
                                   </span>
                                 </label>
@@ -1076,7 +1076,7 @@ const handleFileSelect = async (file: File) => {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-white text-slate-900 border border-slate-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 scheme-light cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1084,16 +1084,16 @@ const handleFileSelect = async (file: File) => {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="waste_sorting_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1104,21 +1104,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Waste sorting support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="disassembling_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1129,21 +1129,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Disassembling support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1154,7 +1154,7 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     After hours/weekend/holiday removal support
                                   </span>
                                 </label>
@@ -1265,7 +1265,7 @@ const handleFileSelect = async (file: File) => {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-white text-slate-900 border border-slate-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 scheme-light cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1276,7 +1276,7 @@ const handleFileSelect = async (file: File) => {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-white text-slate-900 border border-slate-300 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 scheme-light cursor-pointer transition-colors"
                             {...register("deliveryDate")}
                           />
                         </Field>
@@ -1294,16 +1294,16 @@ const handleFileSelect = async (file: File) => {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="Loading_Support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1314,21 +1314,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Loading Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="Unloading_Support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1339,21 +1339,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Unloading Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="transport"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1364,21 +1364,21 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     After hours/weekend/holiday transport support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3.5 cursor-pointer transition-colors group hover:border-slate-300 hover:bg-slate-50 has-checked:border-primary has-checked:bg-primary/5 has-checked:ring-1 has-checked:ring-primary/30">
                                   <input
                                     type="checkbox"
                                     value="storage_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-slate-300 bg-white peer-checked:bg-primary peer-checked:border-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-white opacity-0 group-has-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1389,7 +1389,7 @@ const handleFileSelect = async (file: File) => {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-slate-700 font-medium select-none">
                                     Overnight freight storage support
                                   </span>
                                 </label>
@@ -1402,8 +1402,10 @@ const handleFileSelect = async (file: File) => {
                   </AnimatePresence>
 
                   {/* Step 1 Visual Upload Prompts */}
-                  <div className="mt-8">
-                    <h3 className="font-display text-lg">Preview: Step 2 Documentation</h3>
+                  <div className="mt-8 pt-8 border-t border-slate-200">
+                    <h3 className="font-display text-lg font-semibold text-slate-900">
+                      Preview: Step 2 Documentation
+                    </h3>
                     <div className="mt-3 grid gap-3 md:grid-cols-2">
                       <PreviewBox
                         icon={<Upload className="h-5 w-5" />}
@@ -1428,7 +1430,7 @@ const handleFileSelect = async (file: File) => {
     <div className="mt-1 flex justify-end">
       <span
         className={`text-[10px] font-mono ${
-          descriptionValue.length < 15 ? "text-red-400" : "text-muted-foreground"
+          descriptionValue.length < 15 ? "text-red-600" : "text-emerald-600"
         }`}
       >
         {descriptionValue.length}/15 characters minimum
@@ -1450,12 +1452,14 @@ const handleFileSelect = async (file: File) => {
                   transition={{ duration: 0.3 }}
                 >
                   {error && (
-                    <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium">
+                    <div className="mb-4 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3 font-medium">
                       {error}
                     </div>
                   )}
-                  <h3 className="font-display text-xl font-semibold">Final Preview</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <h3 className="font-display text-xl font-semibold text-slate-900">
+                    Final Preview
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-500">
                     preview all inputed information
                   </p>
 
@@ -1469,7 +1473,7 @@ const handleFileSelect = async (file: File) => {
                     )}
 
                     {/* COMPLETE DETAILED PREVIEW MATRIX SECTION */}
-                    <div className="pt-6 mt-6 border-t border-white/10 space-y-4">
+                    <div className="pt-6 mt-6 border-t border-slate-200 space-y-4">
                       <div className="flex items-center gap-2 text-primary">
                         <Shield className="h-4 w-4" />
                         <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider">
@@ -1577,8 +1581,8 @@ const handleFileSelect = async (file: File) => {
                       </div>
 
                       {getValues("description") && (
-                        <div className="rounded-lg bg-black/40 p-3 border border-white/5 text-xs">
-                          <p className="text-foreground leading-relaxed font-normal">
+                        <div className="rounded-lg bg-slate-50 p-3 border border-slate-200 text-xs">
+                          <p className="text-slate-700 leading-relaxed font-normal">
                             {getValues("description")}
                           </p>
                         </div>
@@ -1590,12 +1594,12 @@ const handleFileSelect = async (file: File) => {
             </AnimatePresence>
 
             {/* Stepped Progressive Controller Strip */}
-            <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
+            <div className="mt-8 pt-6 border-t border-slate-200 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
               {step > 1 ? (
                 <CTAButton
                   type="button"
                   variant="outline"
-                  className="rounded-xl w-full sm:w-auto"
+                  className="rounded-xl w-full sm:w-auto bg-white! text-slate-700! border-slate-300! hover:bg-slate-50!"
                   onClick={handleBackStep}
                 >
                   Modify Information
@@ -1607,7 +1611,7 @@ const handleFileSelect = async (file: File) => {
                 <CTAButton
                   type="button"
                   variant="white"
-                  className="rounded-xl w-full sm:w-auto"
+                  className="rounded-xl w-full sm:w-auto bg-primary! text-primary-foreground! border-transparent! shadow-md shadow-primary/25 hover:opacity-90 disabled:opacity-50"
                   onClick={handleNextStep}
                   disabled={!isAnyServiceSelected}
                 >
@@ -1617,7 +1621,7 @@ const handleFileSelect = async (file: File) => {
                 <CTAButton
                   type="submit"
                   variant="white"
-                  className="rounded-xl w-full inline-flex items-center justify-center gap-2"
+                  className="rounded-xl w-full inline-flex items-center justify-center gap-2 bg-primary! text-primary-foreground! border-transparent! shadow-md shadow-primary/25 hover:opacity-90 disabled:opacity-50"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Confirm & Submit Quote"}
@@ -1629,7 +1633,7 @@ const handleFileSelect = async (file: File) => {
           {/* Sticky sidebar - image + contact strips */}
           {step === 1 && (
             <aside className="self-start sticky top-[calc(var(--navbar-height,64px)+52px+8px)] h-fit w-full space-y-3 sm:space-y-4 max-h-[calc(100vh-var(--navbar-height,64px)-52px-24px)]">
-              <div className="overflow-hidden rounded-lg border border-white/5 bg-surface shadow-xl">
+              <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5">
                 <div className="relative">
                   <img
                     src={ecoVan}
@@ -1637,7 +1641,7 @@ const handleFileSelect = async (file: File) => {
                     className="h-40 sm:h-65 w-full object-cover"
                     loading="lazy"
                   />
-                  <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-2xl bg-black/60 px-6 py-3 backdrop-blur">
+                  <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-2xl bg-slate-900/70 px-6 py-3 text-white backdrop-blur">
                     <span className="grid h-6 w-6 place-items-center rounded-2xl bg-primary text-primary-foreground">
                       <Zap className="h-3.5 w-3.5" />
                     </span>
@@ -1687,18 +1691,18 @@ function Field({
 }) {
   return (
     <div className="block w-full mb-3 sm:mb-4">
-      <span className="mb-1.5 block text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-foreground/80 leading-snug">
+      <span className="mb-1.5 block text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-700 leading-snug">
         {label}
       </span>
       <div className="relative">
         {icon && (
-          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10">
             {icon}
           </span>
         )}
         {children}
       </div>
-      {error && <span className="mt-1 block text-xs text-red-400">{error}</span>}
+      {error && <span className="mt-1 block text-xs font-medium text-red-600">{error}</span>}
     </div>
   );
 }
@@ -1713,12 +1717,12 @@ function ContactStrip({
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-[#9DB1E6]/90 p-3 sm:p-4 text-[#0E141A]">
-      <div className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full bg-white shrink-0">
+    <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 sm:p-4 text-slate-900 shadow-sm">
+      <div className="grid h-9 w-9 sm:h-10 sm:w-10 place-items-center rounded-full bg-primary/10 text-primary shrink-0">
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
           {label}
         </p>
         <p className="truncate font-display text-xs sm:text-sm font-semibold">{value}</p>
@@ -1747,10 +1751,10 @@ function PreviewBox({
   return (
     <label
       htmlFor={inputId}
-      className="rounded-xl border border-white/5 bg-black/40 p-4 flex flex-col justify-between text-left relative overflow-hidden min-h-35 cursor-pointer"
+      className="rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-4 flex flex-col justify-between text-left relative overflow-hidden min-h-35 cursor-pointer transition-colors hover:border-primary/50 hover:bg-primary/5"
     >
       <div className="text-primary mb-2 shrink-0">{icon}</div>
-      <h4 className="text-[10px] font-bold uppercase tracking-wide text-foreground/90 leading-tight">
+      <h4 className="text-[10px] font-bold uppercase tracking-wide text-slate-700 leading-tight">
         {title}
       </h4>
       <input
@@ -1767,7 +1771,7 @@ function PreviewBox({
         }}
       />
       {fileState && (
-        <div className="mt-2 text-[10px] text-primary font-mono truncate bg-primary/5 px-2 py-1 rounded border border-primary/10">
+        <div className="mt-2 text-[10px] text-emerald-700 font-mono truncate bg-emerald-50 px-2 py-1 rounded border border-emerald-200">
           Loaded: {fileState}
         </div>
       )}
@@ -1777,9 +1781,9 @@ function PreviewBox({
 
 function Row({ label, value }: { label: string; value?: string }) {
   return (
-    <div className="flex items-center justify-between rounded-lg bg-black/20 px-3 py-2.5 text-xs gap-3 border border-white/2">
-      <span className="text-muted-foreground shrink-0">{label}</span>
-      <span className="font-medium truncate max-w-45 text-right text-foreground">
+    <div className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2.5 text-xs gap-3 border border-slate-200">
+      <span className="text-slate-500 shrink-0">{label}</span>
+      <span className="font-medium truncate max-w-45 text-right text-slate-900">
         {value || "-"}
       </span>
     </div>

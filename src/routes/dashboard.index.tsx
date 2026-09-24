@@ -79,10 +79,10 @@ function DashboardHome() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+      <p className="text-xs text-info font-semibold uppercase tracking-[0.25em] text-muted-foreground">
         Status Report
       </p>
-      <h1 className="mt-2 font-display text-3xl font-bold md:text-5xl">
+      <h1 className="mt-2 text-white font-display text-3xl font-bold md:text-5xl">
         Welcome back, {user?.full_name?.split(" ")[0] || "there"}
       </h1>
 

@@ -21,7 +21,7 @@ import {
 import { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CTAButton } from "@/components/shared/CTAButton";
-import logo from "@/assets/images/logo.png";
+import logo from "@/assets/images/logo0.png";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { dashboardPathForRole, isStaffRole } from "@/lib/roles";
@@ -108,9 +108,9 @@ export function Header() {
     <motion.header
       animate={{ y: visible ? 0 : "-100%" }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed left-0 right-0 top-0 z-40 border-b border-white/5 bg-[#0E141A]/85 backdrop-blur-xl"
+      className="fixed left-0 right-0 top-0 z-40 border-b border-border bg-background/85 backdrop-blur-xl"
     >
-      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 md:px-8 md:py-4">
+      <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2.5 md:px-8 md:py-3">
         {/* LOGO */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <img
@@ -161,7 +161,7 @@ export function Header() {
                   <input
                     autoFocus
                     placeholder="Search services..."
-                    className="w-full rounded-full border border-white/10 bg-[#0E141A] py-2 pl-4 pr-10 text-sm text-foreground outline-none focus:border-(--primary)/50"
+                    className="w-full rounded-full border border-border bg-white py-2 pl-4 pr-10 text-sm text-foreground outline-none focus:border-(--primary)/50"
                   />
                 </motion.div>
               )}
@@ -169,8 +169,8 @@ export function Header() {
             <button
               onClick={() => setSearchExpanded(!searchExpanded)}
               className={cn(
-                "z-20 flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground hover:bg-white/5",
-                searchExpanded && "text-primary hover:text-primary bg-white/5",
+                "z-20 flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground hover:bg-muted",
+                searchExpanded && "text-primary hover:text-primary bg-muted",
               )}
             >
               <Search className="h-5 w-5" />
@@ -182,8 +182,8 @@ export function Header() {
               type="button"
               onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
               className={cn(
-                "flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground hover:bg-white/5",
-                profileDropdownOpen && "text-primary bg-white/5",
+                "flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground hover:bg-muted",
+                profileDropdownOpen && "text-primary bg-muted",
               )}
             >
               <UserCircle2 className="h-6 w-6" />
@@ -197,12 +197,12 @@ export function Header() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="fixed left-4 right-4 mx-auto mt-3 w-[calc(100vw-2rem)] sm:absolute sm:left-auto sm:right-0 sm:mx-0 sm:w-80 max-w-85 rounded-2xl border border-white/5 bg-[#12181F] p-4 shadow-2xl z-50"
+                  className="fixed left-4 right-4 mx-auto mt-3 w-[calc(100vw-2rem)] sm:absolute sm:left-auto sm:right-0 sm:mx-0 sm:w-80 max-w-85 rounded-2xl border border-border bg-popover p-4 shadow-2xl z-50"
                 >
                   {/* Close Cross Trigger */}
                   <button
                     onClick={() => setProfileDropdownOpen(false)}
-                    className="absolute right-4 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-muted-foreground hover:text-foreground"
+                    className="absolute right-4 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-muted text-muted-foreground hover:text-foreground"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -261,7 +261,7 @@ export function Header() {
                           setProfileDropdownOpen(false);
                           await logout();
                         }}
-                        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-600 transition-colors py-3 text-sm font-semibold text-zinc-950"
+                        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary hover:opacity-90 transition-colors py-3 text-sm font-semibold text-primary-foreground"
                       >
                         Logout <LogOut className="h-4 w-4" />
                       </button>
@@ -284,7 +284,7 @@ export function Header() {
 
           {/* MOBILE BURGER ACTION BUTTON */}
           <button
-            className="flex h-9 w-9 items-center justify-center rounded-full text-foreground lg:hidden hover:bg-white/5 transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-foreground lg:hidden hover:bg-muted transition-colors"
             onClick={() => setOpen((o) => !o)}
             aria-label="Toggle menu"
           >
@@ -310,7 +310,7 @@ export function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-white/5 bg-[#0E141A] lg:hidden shadow-2xl"
+            className="overflow-hidden border-t border-border bg-background lg:hidden shadow-2xl"
           >
             <div className="flex flex-col gap-4 px-4 py-5">
               {/* Search overlay configuration removed from mobile menu view layout */}
@@ -328,7 +328,7 @@ export function Header() {
                       to={n.to}
                       onClick={() => setOpen(false)}
                       className={cn(
-                        "block rounded-xl px-4 py-3 text-sm font-medium transition-colors hover:bg-white/5",
+                        "block rounded-xl px-4 py-3 text-sm font-medium transition-colors hover:bg-muted",
                         location.pathname === n.to
                           ? "text-primary bg-primary/5"
                           : "text-foreground/85",
@@ -340,14 +340,14 @@ export function Header() {
                 ))}
               </nav>
 
-              <div className="h-px bg-white/5 my-1" />
+              <div className="h-px bg-border my-1" />
 
               {/* Quick profile redirect links for mobile layout stack */}
               <div className="grid grid-cols-2 gap-2">
                 <Link
                   to={isAuthenticated ? (dashboardPath as any) : ("/login" as any)}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-xl border border-white/5 bg-white/5 py-2.5 text-xs font-medium text-foreground"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted py-2.5 text-xs font-medium text-foreground"
                 >
                   <UserCircle2 className="h-4 w-4" /> {isAuthenticated ? "Dashboard" : "Sign In"}
                 </Link>
@@ -384,7 +384,7 @@ function DropdownItem({
     <Link
       to={to}
       onClick={onClick}
-      className="group flex items-center justify-between rounded-xl bg-white/5 border border-white/5 px-4 py-3 text-sm text-foreground/90 transition-all duration-200 hover:bg-white/10 hover:border-white/10"
+      className="group flex items-center justify-between rounded-xl bg-muted border border-border px-4 py-3 text-sm text-foreground/90 transition-all duration-200 hover:bg-border hover:border-border"
     >
       <div className="flex items-center gap-3">
         <div className="text-muted-foreground group-hover:text-primary transition-colors [&>svg]:h-4 [&>svg]:w-4">

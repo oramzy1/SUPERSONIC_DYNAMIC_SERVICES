@@ -76,8 +76,8 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
       <Breadcrumbs items={[{ label: "Invoices" }]} />
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">Financial Hub</p>
-          <h1 className="mt-2 font-display text-3xl font-bold md:text-5xl">Invoices</h1>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white">Financial Hub</p>
+          <h1 className="mt-2 font-display text-white text-3xl font-bold md:text-5xl">Invoices</h1>
         </div>
         <div className="inline-flex flex-wrap rounded-full bg-surface p-1">
           {statusOptions.map((s) => (

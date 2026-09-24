@@ -18,8 +18,8 @@ function RouteComponent() {
             transition={{ type: "spring", stiffness: 220, damping: 18 }}
             className="relative"
           >
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 border border-primary/25">
-              <CheckCircle2 className="h-9 w-9 text-primary stroke-[1.5]" />
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 shadow-lg shadow-emerald-500/10">
+              <CheckCircle2 className="h-9 w-9 text-emerald-600 stroke-[1.5]" />
             </div>
           </motion.div>
         </div>
@@ -30,8 +30,8 @@ function RouteComponent() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.12 }}
         >
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide text-primary uppercase bg-primary/10 px-3 py-1.5 rounded-full border border-primary/25">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide text-primary uppercase bg-primary/10 px-3 py-1.5 rounded-full border border-primary/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
             Request received
           </span>
         </motion.div>
@@ -43,10 +43,10 @@ function RouteComponent() {
           transition={{ delay: 0.2 }}
           className="mt-5 space-y-3"
         >
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-[1.1]">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900 leading-[1.1]">
             Your quote is on its way
           </h1>
-          <p className="max-w-sm mx-auto text-sm text-slate-400 leading-relaxed">
+          <p className="max-w-sm mx-auto text-sm text-slate-600 leading-relaxed">
             Thank you for choosing Supersonic. We've received your shipment details and started
             preparing your quote.
           </p>
@@ -57,7 +57,7 @@ function RouteComponent() {
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ delay: 0.28, duration: 0.4 }}
-          className="mx-auto mt-8 mb-8 h-px w-24 bg-white/10"
+          className="mx-auto mt-8 mb-8 h-px w-24 bg-slate-200"
         />
 
         {/* What happens next panel */}
@@ -65,23 +65,23 @@ function RouteComponent() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.32 }}
-          className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-5 sm:p-6 text-left shadow-xl"
+          className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 text-left shadow-xl shadow-slate-900/5"
         >
-          <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-5">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-5">
             What happens next
           </p>
 
           <div className="space-y-5">
             {/* Step 1 */}
             <div className="flex gap-4 items-start">
-              <div className="shrink-0 w-8 h-8 rounded-xl bg-primary/10 border border-primary/25 flex items-center justify-center text-primary">
+              <div className="shrink-0 w-8 h-8 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
                 <Clock className="h-3.5 w-3.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="text-sm font-semibold text-white leading-snug">
+                <h4 className="text-sm font-semibold text-slate-900 leading-snug">
                   Review within 2 hours
                 </h4>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   Our logistics coordinators will review your details and plan the most efficient
                   route for your shipment.
                 </p>
@@ -89,18 +89,18 @@ function RouteComponent() {
             </div>
 
             {/* Connector line */}
-            <div className="ml-4 w-px h-4 bg-white/10" />
+            <div className="ml-4 w-px h-4 bg-slate-200" />
 
             {/* Step 2 */}
             <div className="flex gap-4 items-start">
-              <div className="shrink-0 w-8 h-8 rounded-xl bg-primary/10 border border-primary/25 flex items-center justify-center text-primary">
+              <div className="shrink-0 w-8 h-8 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
                 <Calendar className="h-3.5 w-3.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="text-sm font-semibold text-white leading-snug">
+                <h4 className="text-sm font-semibold text-slate-900 leading-snug">
                   Your proposal, sent by email
                 </h4>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                   A clear, flat-rate quote matched to your preferred dates will be sent straight to
                   your inbox.
                 </p>
@@ -118,13 +118,13 @@ function RouteComponent() {
         >
           <Link
             to="/"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all shadow-lg"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary text-primary-foreground px-6 py-3 text-sm font-semibold hover:opacity-90 active:scale-[0.98] transition-all shadow-md shadow-primary/25"
           >
             Return home
           </Link>
           <Link
             to="/services"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-300 hover:bg-white/10 hover:text-white transition-all"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300 transition-all"
           >
             Explore services <ArrowRight className="h-3.5 w-3.5" />
           </Link>
@@ -137,7 +137,7 @@ function RouteComponent() {
           transition={{ delay: 0.6 }}
           className="mt-10 inline-flex items-center gap-2 text-[11px] text-slate-500 font-medium"
         >
-          <ShieldCheck className="h-3.5 w-3.5 text-primary/60" />
+          <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
           <span>Carbon-neutral fleet, guaranteed</span>
         </motion.div>
       </div>
