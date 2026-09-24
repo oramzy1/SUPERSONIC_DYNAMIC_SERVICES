@@ -26,7 +26,7 @@ export const SERVICES: ServiceDetail[] = [
   {
     slug: "student-moving",
     image: micromoving,
-    heroTitle: "Student Moving & Micro Moving With Supersonic",
+    heroTitle: "Student Moving & Micro Moving With Supersonic - Fast, Smart and Stress-Free.",
     title: "Student & Micro Moving with SUPERSONIC DYNAMIC SERVICES - Fast, Smart and Stress-Free.",
     intro:
       "At SUPERSONIC DYNAMIC SERVICES, we redefine student and micro-moving with a seamless, technology-driven and eco-responsible approach. Our mission is simple: to make your move smooth, efficient, and completely stress-free.",
@@ -49,7 +49,7 @@ export const SERVICES: ServiceDetail[] = [
   {
     slug: "residential-moving",
     image: residential,
-    heroTitle: "Residential Moving Local & Long Distance",
+    heroTitle: "Residential Moving Local & Long Distance - Professional, Fast, Reliable & Stress-Free.",
     title:
       "Residential Moving (Local & Long-Distance) - Professional, Fast, Reliable & Stress-Free.",
     intro:
@@ -72,7 +72,7 @@ export const SERVICES: ServiceDetail[] = [
   {
     slug: "enterprise-moving",
     image: enterprise,
-    heroTitle: "Enterprise & Commercial Moving",
+    heroTitle: "Enterprise & Commercial Moving - Efficient, Structured & Business-Focused.",
     title:
       "Enterprise & Commercial Moving (Local & Long-Distance) - Efficient, Structured & Business-Focused.",
     intro:
@@ -103,7 +103,7 @@ export const SERVICES: ServiceDetail[] = [
   {
     slug: "smart-storage",
     image: storage,
-    heroTitle: "SMART STORAGE SOLUTIONS Secure, Flexible & Hassle-Free",
+    heroTitle: "SMART STORAGE SOLUTIONS  - Secure, Flexible & Hassle-Free.",
     title: "SMART STORAGE SOLUTIONS - Secure, Flexible & Hassle-Free",
     intro:
       "At SUPERSONIC DYNAMIC SERVICES, we provide safe, flexible, and professionally managed storage solutions tailored for individuals, families, and businesses that need reliable short-term or long-term storage.",
@@ -125,7 +125,7 @@ export const SERVICES: ServiceDetail[] = [
   {
     slug: "waste-removal",
     image: waste,
-    heroTitle: "SUSTAINABLE WASTE REMOVAL SERVICES Fast, Responsible & Efficient",
+    heroTitle: "SUSTAINABLE WASTE REMOVAL SERVICES - Fast, Responsible & Efficient.",
     title: "SUSTAINABLE WASTE REMOVAL SERVICES - Fast, Responsible & Efficient",
     intro:
       "AT SUPERSONIC DYNAMIC SERVICES, we provide fast, efficient, and eco-responsible waste removal services across our regions of operation - helping households and businesses clear unwanted items quickly and responsibly.",
@@ -148,7 +148,7 @@ export const SERVICES: ServiceDetail[] = [
   {
     slug: "freight-haulage",
     image: fregth,
-    heroTitle: "RELIABLE FREIGHT HAULAGE SERVICES - Safe, Efficient & On-Time Delivery",
+    heroTitle: "RELIABLE FREIGHT HAULAGE SERVICES - Safe, Efficient & On-Time Delivery.",
     title: "RELIABLE FREIGHT HAULAGE SERVICES - Safe, Efficient & On-Time Delivery",
     intro:
       "At SUPERSONIC DYNAMIC SERVICES, we provide dependable, efficient, and professionally managed freight haulage solutions - tailored for businesses, logistics companies, and individuals who require safe transportation of goods from one destination to another.",

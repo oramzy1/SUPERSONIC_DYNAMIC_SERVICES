@@ -118,8 +118,8 @@ function JobsPage() {
 
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="font-display text-3xl font-bold md:text-5xl">Your Jobs</h1>
-          <p className="mt-3 max-w-md text-sm text-muted-foreground">
+          <h1 className="font-display text-white text-3xl font-bold md:text-5xl">Your Jobs</h1>
+          <p className="mt-3 text-white max-w-md text-sm text-muted-foreground">
             Track scheduling and status updates for accepted jobs.
           </p>
         </div>

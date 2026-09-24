@@ -46,6 +46,60 @@ function RouteComponent() {
     }
   };
 
+  // Helper to trigger calendar event download (.ics format)
+  const handleAddToCalendar = () => {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const monthIndex = monthNames.indexOf(month || "November");
+    const m = monthIndex !== -1 ? monthIndex : 10;
+
+    // Parse time
+    const [timePart, modifier] = (time || "10:30 AM").split(" ");
+    let [hours, minutes] = timePart.split(":").map(Number);
+    if (modifier === "PM" && hours < 12) hours += 12;
+    if (modifier === "AM" && hours === 12) hours = 0;
+
+    const startDate = new Date(year || 2024, m, date || 12, hours, minutes);
+    const endDate = new Date(startDate.getTime() + 30 * 60 * 1000);
+
+    const formatDateForICS = (d: Date) => d.toISOString().replace(/-|:|\.\d+/g, "");
+
+    const icsContent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Supersonic Operations//Meeting Schedule//EN",
+      "BEGIN:VEVENT",
+      `SUMMARY:Supersonic Operations - Operational Briefing`,
+      `DESCRIPTION:Live Consultation with Hillary Nweze - Lead Logistics Architect.`,
+      `DTSTART:${formatDateForICS(startDate)}`,
+      `DTEND:${formatDateForICS(endDate)}`,
+      "STATUS:CONFIRMED",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+
+    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute("download", "operational-briefing.ics");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const objectives = [
     {
       id: "01",
@@ -68,50 +122,53 @@ function RouteComponent() {
   ];
 
   return (
-    <div className="min-h-screen text-[#f8fafc] font-sans selection:bg-blue-500 selection:text-white flex flex-col justify-between py-12 px-6">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white flex flex-col justify-between py-12 px-6">
       {/* ── Main Content Container ── */}
-      <div className="max-w-210 w-full mx-auto my-auto flex flex-col items-center text-center">
+      <div className="max-w-4xl w-full mx-auto my-auto flex flex-col items-center text-center">
         {/* Animated Checkmark Badge */}
-        <div className="h-16 w-16  border border-gray-700/60 rounded-full flex items-center justify-center mb-6 shadow-xl">
-          <div className="h-10 w-10 bg-[#313d4f] rounded-full flex items-center justify-center text-white border border-gray-600/40">
+        <div className="h-16 w-16 border border-emerald-200 bg-emerald-50 rounded-full flex items-center justify-center mb-6 shadow-xs shadow-emerald-500/10">
+          <div className="h-10 w-10 bg-emerald-500 rounded-full flex items-center justify-center text-white shadow-xs">
             <Check className="h-5 w-5 stroke-3" />
           </div>
         </div>
 
-        <span className="text-[10px] font-bold tracking-[0.25em] text-gray-400 uppercase block mb-3">
+        <span className="text-[10px] font-bold tracking-[0.25em] text-indigo-600 uppercase block mb-3">
           Transmission Successful
         </span>
 
-        <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-12 max-w-xl leading-[1.15]">
+        <h1 className="font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-12 max-w-xl leading-[1.15]">
           Operational Briefing Confirmed
         </h1>
 
         {/* ── Info Split Layout ── */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 w-full text-left items-stretch mb-8">
-          <div className="md:col-span-2 bg-surface border border-gray-800/70 rounded-2xl p-6 flex flex-col justify-between min-h-55">
+          <div className="md:col-span-2 bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col justify-between min-h-55 shadow-xs">
             <div>
-              <span className="text-[9px] font-bold tracking-wider text-gray-500 uppercase block mb-1">
+              <span className="text-[9px] font-bold tracking-wider text-slate-400 uppercase block mb-1">
                 Scheduled Schedule
               </span>
-              <h2 className="text-2xl font-bold text-white tracking-tight">
+              <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
                 {month} {date}, {year}
               </h2>
-              <p className="text-sm font-semibold text-gray-400 mt-1">
+              <p className="text-sm font-semibold text-slate-500 mt-1">
                 {time} - {getEndTime(time || "10:30 AM")}
               </p>
             </div>
 
-            <button className="w-full bg-white hover:bg-gray-100 text-[#0b0f19] font-bold py-3 px-4 rounded-lg text-xs uppercase tracking-wider transition-all duration-150 flex items-center justify-center gap-2 mt-6">
+            <button
+              onClick={handleAddToCalendar}
+              className="w-full bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider transition-all duration-150 flex items-center justify-center gap-2 mt-6 shadow-md shadow-slate-900/10"
+            >
               <CalendarPlus className="h-4 w-4 stroke-[2.5]" />
               Add to Calendar
             </button>
           </div>
 
           {/* Right Panel: Briefing Objectives */}
-          <div className="md:col-span-3 bg-surface border border-gray-800/70 rounded-2xl p-6">
-            <div className="flex items-center gap-2 border-b border-gray-800/80 pb-4 mb-4">
-              <BarChart3 className="h-4 w-4 text-gray-400" />
-              <h3 className="text-xs font-bold tracking-wider text-white uppercase">
+          <div className="md:col-span-3 bg-white border border-slate-200/80 rounded-2xl p-6 sshadow-xs shadow-slate-200/50">
+            <div className="flex items-center gap-2 border-b border-slate-100 pb-4 mb-4">
+              <BarChart3 className="h-4 w-4 text-indigo-600" />
+              <h3 className="text-xs font-bold tracking-wider text-slate-900 uppercase">
                 Briefing Objectives
               </h3>
             </div>
@@ -119,12 +176,12 @@ function RouteComponent() {
             <div className="space-y-5">
               {objectives.map((obj) => (
                 <div key={obj.id} className="flex gap-4 items-start">
-                  <span className="text-xs font-bold text-[#dfb15b] tracking-wider pt-0.5">
+                  <span className="text-xs font-bold text-indigo-600 tracking-wider pt-0.5">
                     {obj.id}
                   </span>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-200 tracking-tight">{obj.title}</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed font-normal mt-1">
+                    <h4 className="text-sm font-bold text-slate-900 tracking-tight">{obj.title}</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed font-normal mt-1">
                       {obj.description}
                     </p>
                   </div>
@@ -135,32 +192,32 @@ function RouteComponent() {
         </div>
 
         {/* ── Inline Footer Metadata Row ── */}
-        <div className="w-full bg-surface border-gray-800/50 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-full bg-white border border-slate-200/80 shadow-xs shadow-slate-200/40 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&auto=format&fit=crop&q=80"
               alt="Hillary Nweze"
-              className="w-8 h-8 rounded-full object-cover grayscale border border-gray-800"
+              className="w-8 h-8 rounded-full object-cover border border-slate-200 shadow-sm"
             />
-            <p className="text-xs text-gray-400 text-left">
-              <span className="text-gray-500 block text-[10px] font-bold uppercase tracking-wide">
+            <p className="text-xs text-slate-500 text-left">
+              <span className="text-slate-400 block text-[10px] font-bold uppercase tracking-wide">
                 Briefing Lead
               </span>
-              <strong className="text-gray-200 font-semibold">Hillary Nweze</strong> - Director of
+              <strong className="text-slate-800 font-semibold">Hillary Nweze</strong> - Director of
               Sustainability
             </p>
           </div>
 
           <div className="flex items-center gap-6">
             <div className="text-right hidden sm:block">
-              <span className="text-[9px] font-bold tracking-wide text-gray-500 uppercase block">
+              <span className="text-[9px] font-bold tracking-wide text-slate-400 uppercase block">
                 Briefing ID
               </span>
-              <span className="text-xs font-mono text-gray-400 font-medium">
+              <span className="text-xs font-mono text-slate-600 font-medium">
                 KINETIC-OP-2024-QX
               </span>
             </div>
-            <button className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-gray-300 hover:text-white transition-colors group">
+            <button className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider text-indigo-600 hover:text-indigo-800 transition-colors group">
               View Full Agenda
               <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
             </button>
@@ -172,7 +229,7 @@ function RouteComponent() {
       <div className="w-full text-center mt-8">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00e5ff] hover:text-[#00b2c4] transition-colors duration-150 group"
+          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-indigo-600 hover:text-indigo-800 transition-colors duration-150 group"
         >
           <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
           Return to Home

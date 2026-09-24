@@ -83,66 +83,66 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#0B0F14] text-white flex items-center justify-center p-4 font-sans select-none">
-      <div className="w-full max-w-115 rounded-[24px] border border-white/10 bg-white/2 p-6 sm:p-10 backdrop-blur-xl shadow-1xl transition-all duration-300">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 font-sans select-none">
+      <div className="w-full max-w-115 rounded-[24px] border border-slate-200 bg-white p-6 sm:p-10 shadow-xl shadow-slate-900/5 transition-all duration-300">
         {!isSuccess ? (
           <div className="animate-in fade-in duration-200">
             {/* Header Block */}
             <div className="space-y-1.5 mb-8">
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
                 Continue to Login
               </h2>
-              <p className="text-xs sm:text-sm text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-700 font-medium">
                 Welcome Back! <br />
-                <span className="text-slate-500">Enter your credentials to continue</span>
+                <span className="text-slate-500 font-normal">Enter your credentials to continue</span>
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Validation Error Display Banner */}
               {errors && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
+                <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
                   {errors}
                 </div>
               )}
 
               {/* Email Address Input Block */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   <input
                     type="email"
                     required
                     placeholder="operator@supersonic.pulse"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
                   />
                 </div>
               </div>
 
               {/* Password Input Block */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                  <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   <input
                     type={showPassword ? "text" : "password"}
                     required
                     placeholder="••••••••••••"
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-12 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition focus:outline-none"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition focus:outline-none"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -157,16 +157,16 @@ useEffect(() => {
                     id="rememberMe"
                     checked={formData.rememberMe}
                     onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-                    className="h-4 w-4 rounded border-white/10 bg-white/4 text-[#8EA7FF] focus:ring-0 cursor-pointer"
+                    className="h-4 w-4 rounded border-slate-300 bg-white accent-primary focus:ring-0 cursor-pointer"
                   />
-                  <label htmlFor="rememberMe" className="text-slate-400 cursor-pointer text-[11px]">
+                  <label htmlFor="rememberMe" className="text-slate-600 cursor-pointer text-[11px]">
                     Remember me
                   </label>
                 </div>
 
                 <Link
                   to={"/forgotpassword" as any}
-                  className="text-[#8EA7FF]/80 hover:text-[#8EA7FF] hover:underline text-[11px]"
+                  className="text-primary font-medium hover:underline text-[11px]"
                 >
                   Forgot password?
                 </Link>
@@ -178,7 +178,7 @@ useEffect(() => {
                 type="submit"
                 disabled={isSubmitting}
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+                className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-md shadow-primary/25 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>
@@ -186,16 +186,16 @@ useEffect(() => {
                   </>
                 ) : (
                   <>
-                    SIGN IN <ArrowRight className="h-4 w-4 text-slate-900" />
+                    SIGN IN <ArrowRight className="h-4 w-4 text-white" />
                   </>
                 )}
               </CTAButton>
             </form>
 
             {/* Dynamic Route Switching Links */}
-            <p className="mt-8 text-center text-xs text-slate-400">
+            <p className="mt-8 text-center text-xs text-slate-500">
               Don't Have An Account?{" "}
-              <a href="/register" className="text-[#8EA7FF] hover:underline font-semibold">
+              <a href="/register" className="text-primary hover:underline font-semibold">
                 Register
               </a>
             </p>
@@ -203,37 +203,37 @@ useEffect(() => {
         ) : (
           /* SUCCESS DISPLAY COMPONENT: Swaps directly inside the exact same container layout */
           <div className="py-6 text-center space-y-6 animate-in zoom-in-95 duration-300">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 shadow-lg shadow-emerald-500/10">
               <CheckCircle2 className="h-8 w-8" />
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-display text-xl font-bold tracking-tight text-white">
+              <h3 className="font-display text-xl font-bold tracking-tight text-slate-900">
                 Login Successful
               </h3>
-              <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+              <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
                 Authenticated session authorized for{" "}
-                <span className="text-slate-200 font-medium">{formData.email}</span>.
+                <span className="text-slate-900 font-semibold break-all">{formData.email}</span>.
               </p>
             </div>
 
             {/* Micro details panel indicating the designated destination pipeline */}
-            <div className="rounded-xl bg-white/4 border border-white/5 p-3 max-w-xs mx-auto flex items-center justify-between text-left">
-              <div className="space-y-0.5">
+            <div className="rounded-xl bg-slate-50 border border-slate-200 p-3.5 max-w-xs mx-auto flex items-center justify-between gap-3 text-left">
+              <div className="space-y-0.5 min-w-0">
                 <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block">
                   Redirecting Destination
                 </span>
-                <span className="text-xs text-[#8EA7FF] font-mono font-medium">
+                <span className="text-xs text-primary font-mono font-medium block truncate">
                   {dashboardLabelForRole(user?.role)}
                 </span>
               </div>
-              <Loader2 className="h-4 w-4 text-[#8EA7FF] animate-spin shrink-0" />
+              <Loader2 className="h-4 w-4 text-primary animate-spin shrink-0" />
             </div>
 
             {/* Sleek linear timeline tracking animation loader */}
-            <div className="w-24 h-0.5 bg-white/10 rounded-full mx-auto overflow-hidden">
+            <div className="w-24 h-0.5 rounded-full mx-auto overflow-hidden bg-slate-200">
               <div
-                className="h-full bg-emerald-400 rounded-full animate-[loading_2.5s_ease-in-out_forwards]"
+                className="h-full bg-emerald-500 rounded-full animate-[loading_2.5s_ease-in-out_forwards]"
                 style={{ width: "100%" }}
               />
             </div>

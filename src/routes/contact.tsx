@@ -60,42 +60,64 @@ function Contact() {
     <SiteLayout>
       <section className="relative overflow-hidden">
         <div className="relative">
-          <img src={vanHero} alt="" className="h-105 w-full object-cover opacity-50" />
-          <div className="absolute inset-0 bg-linear-to-r from-[#0E141A] via-[#0E141A]/70 to-[#0E141A]/20" />
-          <div className="absolute mt-5 inset-0 flex items-end">
-            <div className="mx-auto w-full max-w-7xl mt-3 px-6 pb-10 md:px-8">
-              <Pill variant="primary">Global Operations</Pill>
-              <h1 className="mt-4 font-display text-4xl font-bold md:text-6xl">
+          <motion.img
+            src={vanHero}
+            alt=""
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.4, ease: "easeOut" }}
+            className="h-104 w-full object-cover opacity-50 md:h-136"
+          />
+          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/70 to-foreground/20" />
+          <div className="absolute inset-0 flex items-start">
+            <motion.div
+              initial={{ opacity: 0, y: -24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="mx-auto w-full max-w-7xl px-6 pt-10 md:px-8 md:pt-35"
+            >
+              <Pill className="text-white">Global Operations</Pill>
+              <h1 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">
                 Need Help? <br /> Contact Us Now.
               </h1>
-              <p className="mt-3 max-w-3xl text-sm sm:text-base text-muted-foreground">
+              <p className="mt-3 max-w-3xl text-sm sm:text-base text-white/75">
                 Are you having trouble with any of our services or you have a question and would you
                 like to know more information about a potential collaboration? Please contact us
                 using the contact form below. We'll do our best to respond as quickly as possible.
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.4fr] mx-auto max-w-7xl px-6 py-14 md:px-8">
-          <div className="space-y-4">
-            <div className="rounded-2xl bg-surface p-6 border border-white/5">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="space-y-4"
+          >
+            <div className="rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-sm">
               <div className="flex items-center gap-3">
-                <Mail className="h-5 w-5 text-white" />
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+                  <Mail className="h-5 w-5" />
+                </div>
                 <p className="font-display text-lg font-semibold">Email Us</p>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">
                 info@supersonicdynamicservices.nl
               </p>
             </div>
-            <div className="rounded-2xl bg-surface p-6 border border-white/5">
+            <div className="rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-sm">
               <div className="flex items-center gap-3">
-                <Phone className="h-5 w-5 text-white" />
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+                  <Phone className="h-5 w-5" />
+                </div>
                 <p className="font-display text-lg font-semibold">Call Center</p>
               </div>
               <p className="mt-3 font-display text-lg">+31 (06) 84 336 600</p>
             </div>
-            <div className="overflow-hidden rounded-2xl bg-surface border border-white/5">
+            <div className="overflow-hidden rounded-2xl border border-border bg-surface transition-shadow duration-300 hover:shadow-sm">
               <iframe
                 title="map"
                 className="h-72 w-full"
@@ -104,17 +126,26 @@ function Contact() {
               <div className="p-4">
                 <p className="font-display text-base font-semibold">Netherlands</p>
                 <p className="text-xs text-muted-foreground">
-                  De Lingestraat 23, 6467BK, Kerkrade. Zuid Limburg.
+                  117 Ganzeweide, 6413 GC, Heerlen, The Netherlands
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <form
+          <motion.form
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
             onSubmit={handleSubmit(onSubmit)}
-            className="rounded-2xl bg-surface p-6 md:p-8 border border-white/5"
+            className="rounded-2xl border border-border bg-surface p-6 md:p-8"
           >
-            <h3 className="font-display text-2xl font-semibold">Send Us Messages</h3>
+            <div className="flex items-center gap-3 border-b border-border pb-4">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+                <Send className="h-5 w-5" />
+              </div>
+              <h3 className="font-display text-2xl font-semibold">Send Us Messages</h3>
+            </div>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <Field label="Full Name" error={errors.fullName?.message}>
                 <input
@@ -143,7 +174,7 @@ function Contact() {
             <div className="mt-4">
               <Field label="Subject of Inquiry">
                 <select
-                  className="field w-full rounded-lg px-3 py-3.5 text-xs field  text-white border cursor-pointer pr-10"
+                  className="field w-full rounded-lg px-3 py-3.5 text-xs cursor-pointer pr-10"
                   {...register("subject")}
                 >
                   <option>General Inquiry</option>
@@ -163,8 +194,13 @@ function Contact() {
                 />
               </Field>
             </div>
-            <CTAButton variant="primary" className="mt-6 w-full rounded-lg py-3.5" type="submit">
-              Send Now <Send className="h-4 w-4" />
+            <CTAButton
+              variant="primary"
+              className="group mt-6 w-full rounded-lg py-3.5"
+              type="submit"
+            >
+              Send Now{" "}
+              <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </CTAButton>
             {sent && (
               <motion.p
@@ -175,7 +211,7 @@ function Contact() {
                 Message sent - we'll be in touch shortly.
               </motion.p>
             )}
-          </form>
+          </motion.form>
         </div>
       </section>
     </SiteLayout>
@@ -197,7 +233,7 @@ function Field({
         {label}
       </span>
       {children}
-      {error && <span className="mt-1 block text-xs text-red-400">{error}</span>}
+      {error && <span className="mt-1 block text-xs text-destructive">{error}</span>}
     </label>
   );
 }

@@ -123,51 +123,51 @@ const { register, user } = useAuth();
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#0B0F14] text-white flex items-center justify-center p-4 sm:p-8 md:p-12 lg:p-16 select-none font-sans">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-8 md:p-12 lg:p-16 select-none font-sans">
       {formStep === "INPUT" && (
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-20 items-center animate-in fade-in duration-300">
           {/* LEFT COLUMN: BRAND VALUE PROP SECTION */}
           <div className="space-y-8 max-w-xl">
             <div className="space-y-3">
-              <p className="text-[11px] mt-4 font-bold tracking-tight text-amber-400 uppercase">
+              <p className="text-[11px] mt-4 font-bold tracking-tight uppercase text-primary">
                 Supersonic Dynamic Services B.V.
               </p>
-              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-balance font-extrabold tracking-tight leading-[1.1] text-white">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl text-balance font-extrabold tracking-tight leading-[1.1] text-slate-900">
                 Next Gen <br />
-                <span className="text-white/90">Logistics.</span>
+                <span className="text-primary">Logistics.</span>
               </h1>
             </div>
 
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+            <p className="text-sm sm:text-base leading-relaxed text-slate-600">
               Create an account to access the Supersonic Dynamic Services B.V. hub for carbon-neutral fleet management,
               instant moving quotes, and real-time kinetic freight tracking across the Netherlands.
             </p>
 
-            <div className="space-y-4 pt-2 border-t border-white/5">
+            <div className="space-y-4 pt-5 border-t border-slate-200">
               <div className="flex gap-3 items-start">
-                <div className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded bg-white/5 text-[#8EA7FF]">
-                  <Leaf className="h-3.5 w-3.5" />
+                <div className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-md bg-emerald-50 border border-emerald-200">
+                  <Leaf className="h-3.5 w-3.5 text-emerald-600" />
                 </div>
-                <p className="text-xs text-slate-400">
-                  <strong className="text-slate-200">Eco-Responsible:</strong> 100% electric
+                <p className="text-xs leading-relaxed text-slate-600">
+                  <strong className="text-slate-900 font-semibold">Eco-Responsible:</strong> 100% electric
                   operations minimizing urban footprint.
                 </p>
               </div>
               <div className="flex gap-3 items-start">
-                <div className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded bg-white/5 text-[#8EA7FF]">
+                <div className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-md bg-primary/10 border border-primary/20 text-primary">
                   <Zap className="h-3.5 w-3.5" />
                 </div>
-                <p className="text-xs text-slate-400">
-                  <strong className="text-slate-200">Smart Logistics:</strong> Integrated tracking
+                <p className="text-xs leading-relaxed text-slate-600">
+                  <strong className="text-slate-900 font-semibold">Smart Logistics:</strong> Integrated tracking
                   with live telemetry.
                 </p>
               </div>
               <div className="flex gap-3 items-start">
-                <div className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded bg-white/5 text-[#8EA7FF]">
+                <div className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-md bg-primary/10 border border-primary/20 text-primary">
                   <ShieldCheck className="h-3.5 w-3.5" />
                 </div>
-                <p className="text-xs text-slate-400">
-                  <strong className="text-slate-200">Certified Care:</strong> Fully insured
+                <p className="text-xs leading-relaxed text-slate-600">
+                  <strong className="text-slate-900 font-semibold">Certified Care:</strong> Fully insured
                   professional movers handling your goods.
                 </p>
               </div>
@@ -177,86 +177,86 @@ const { register, user } = useAuth();
           {/* RIGHT COLUMN: REGISTER INTERFACE CARD */}
           <div className="space-y-6 w-full">
 
-            <div className="rounded-[24px] border border-white/10 bg-white/2 p-6 sm:p-8 backdrop-blur-xl shadow-1xl">
+            <div className="rounded-[24px] border border-slate-200 bg-white p-6 sm:p-8 shadow-xl shadow-slate-900/5">
               <form onSubmit={handleRegisterSubmit} className="space-y-4">
                 {errors && (
-                  <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium">
+                  <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3 font-medium">
                     {errors}
                   </div>
                 )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
                       Full Name
                     </label>
                     <div className="relative">
-                      <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                      <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <input
                         type="text"
                         required
                         placeholder="John Doe"
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
                       Phone Number
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                      <Phone className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <input
                         type="tel"
                         required
                         placeholder="+1 (555) 000-0000"
                         value={formData.phoneNumber}
                         onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                    <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                     <input
                       type="email"
                       required
                       placeholder="name@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                      className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
                       Password
                     </label>
                     <div className="relative">
-                      <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                      <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <input
                         type={showPassword ? "text" : "password"}
                         required
                         placeholder="••••••••"
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-12 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition"
                       >
                         {showPassword ? (
                           <EyeOff className="h-4 w-4" />
@@ -268,11 +268,11 @@ const { register, user } = useAuth();
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
                       Confirm Password
                     </label>
                     <div className="relative">
-                      <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                      <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                       <input
                         type={showConfirmPassword ? "text" : "password"}
                         required
@@ -281,12 +281,12 @@ const { register, user } = useAuth();
                         onChange={(e) =>
                           setFormData({ ...formData, confirmPassword: e.target.value })
                         }
-                        className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                        className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-12 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition"
                       >
                         {showConfirmPassword ? (
                           <EyeOff className="h-4 w-4" />
@@ -304,18 +304,18 @@ const { register, user } = useAuth();
                     id="agreeTerms"
                     checked={formData.agreeTerms}
                     onChange={(e) => setFormData({ ...formData, agreeTerms: e.target.checked })}
-                    className="mt-1 h-4 w-4 shrink-0 rounded border-white/10 bg-white/4 text-[#8EA7FF] focus:ring-0 cursor-pointer"
+                    className="mt-1 h-4 w-4 shrink-0 rounded border-slate-300 accent-primary focus:ring-0 cursor-pointer"
                   />
                   <label
                     htmlFor="agreeTerms"
-                    className="text-[11px] text-slate-400 leading-normal cursor-pointer"
+                    className="text-[11px] leading-normal text-slate-600 cursor-pointer"
                   >
                     I agree to the{" "}
-                    <Link to="/terms" className="text-white hover:underline">
+                    <Link to="/terms" className="text-primary font-medium hover:underline">
                       Terms of Service
                     </Link>{" "}
                     and{" "}
-                    <Link to="/privacy" className="text-white hover:underline">
+                    <Link to="/privacy" className="text-primary font-medium hover:underline">
                       Privacy Policy
                     </Link>{" "}
                     regarding my personal data and logistics operations.
@@ -326,15 +326,15 @@ const { register, user } = useAuth();
                   variant="primary"
                   type="submit"
                   style={{ backgroundColor: "var(--primary)" }}
-                  className="w-full rounded-lg py-3 text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-4"
+                  className="w-full rounded-lg py-3 text-sm font-semibold text-white shadow-md shadow-primary/25 transition hover:opacity-95 flex items-center justify-center gap-2 mt-4"
                 >
-                  Create Account <ArrowRight className="h-4 w-4 text-slate-900" />
+                  Create Account <ArrowRight className="h-4 w-4 text-white" />
                 </CTAButton>
               </form>
 
-              <p className="mt-6 text-center text-xs text-slate-400">
+              <p className="mt-6 text-center text-xs text-slate-500">
                 Already Have An Account?{" "}
-                <Link to={'/login' as any} className="text-[#8EA7FF] hover:underline font-semibold">
+                <Link to={'/login' as any} className="text-primary hover:underline font-semibold">
                   Sign In
                 </Link>
               </p>
@@ -345,19 +345,19 @@ const { register, user } = useAuth();
 
       {/* DYNAMIC BACKEND STEP: PREMIUM SPINNING LOADER */}
       {formStep === "LOADING" && (
-        <div className="w-full max-w-sm text-center space-y-6 p-8 rounded-[24px] border border-white/5 bg-white/1 backdrop-blur-md animate-in fade-in zoom-in-95 duration-200">
+        <div className="w-full max-w-sm mx-auto text-center space-y-6 p-8 sm:p-10 rounded-[24px] border border-slate-200 bg-white shadow-xl shadow-slate-900/5 animate-in fade-in zoom-in-95 duration-200">
           <div className="relative mx-auto h-16 w-16">
             {/* Outer Geometric Ring Loader */}
-            <div className="absolute inset-0 rounded-full border-2 border-t-[#8EA7FF] border-r-transparent border-b-[#8EA7FF]/20 border-l-transparent animate-spin duration-1000" />
+            <div className="absolute inset-0 rounded-full border-2 border-t-primary border-r-transparent border-b-primary/20 border-l-transparent animate-spin duration-1000" />
             {/* Inner Ring Spinning Counter-Clockwise */}
-            <div className="absolute inset-2 rounded-full border-2 border-r-[#8EA7FF]/60 border-t-transparent border-l-[#8EA7FF]/60 border-b-transparent animate-spin direction-[reverse] duration-700" />
+            <div className="absolute inset-2 rounded-full border-2 border-r-primary/60 border-t-transparent border-l-primary/60 border-b-transparent animate-spin direction-[reverse] duration-700" />
           </div>
           <div className="space-y-1.5">
-            <h3 className="font-display text-lg font-bold tracking-tight text-white">
+            <h3 className="font-display text-lg font-bold tracking-tight text-slate-900">
               Creating Account
             </h3>
-            <p className="text-xs text-slate-500 max-w-60 mx-auto">
-              please hold on, we are creating your account, you will bw rediredted to the logi page...
+            <p className="text-xs text-slate-600 max-w-60 mx-auto leading-relaxed">
+              Please hold on while we create your account. You will be redirected in a moment.
             </p>
           </div>
         </div>
@@ -365,23 +365,23 @@ const { register, user } = useAuth();
 
       {/* VERIFICATION STEP: CENTERED 6-DIGIT SECURITY CARD */}
       {formStep === "VERIFY" && (
-        <div className="w-full max-w-110 rounded-[24px] border border-white/10 bg-white/2 p-6 sm:p-10 backdrop-blur-xl shadow-1xl animate-in zoom-in-95 duration-300">
+        <div className="w-full max-w-110 mx-auto rounded-[24px] border border-slate-200 bg-white p-6 sm:p-10 shadow-xl shadow-slate-900/5 animate-in zoom-in-95 duration-300">
           <div className="space-y-1.5 mb-6 text-center">
-            <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[#8EA7FF]/10 text-[#8EA7FF] mb-3">
+            <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary mb-3">
               <MailQuestion className="h-5 w-5" />
             </div>
-            <h2 className="font-display text-2xl font-bold tracking-tight text-white">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-slate-900">
               Confirm Your Email
             </h2>
-            <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+            <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
               We have sent a 6-digit verification security code to{" "}
-              <span className="text-white font-medium">{formData.email || "your email"}</span>.
+              <span className="text-slate-900 font-semibold">{formData.email || "your email"}</span>.
             </p>
           </div>
 
           <form onSubmit={handleVerifySubmit} className="space-y-6">
             {errors && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium text-center">
+              <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3 font-medium text-center">
                 {errors}
               </div>
             )}
@@ -397,7 +397,7 @@ const { register, user } = useAuth();
                   value={digit}
                   onChange={(e) => handleCodeChange(e.target, index)}
                   onFocus={(e) => e.target.select()}
-                  className="w-11 h-12 text-center text-lg font-bold rounded-lg border border-white/10 bg-white/4 text-white placeholder-slate-700 outline-none transition focus:border-[#8EA7FF] focus:bg-white/8 focus:ring-1 focus:ring-[#8EA7FF]/30"
+                  className="w-11 h-12 text-center text-lg font-bold rounded-lg border border-slate-300 bg-white text-slate-900 placeholder-slate-300 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                 />
               ))}
             </div>
@@ -406,9 +406,9 @@ const { register, user } = useAuth();
               variant="primary"
               type="submit"
               style={{ backgroundColor: "var(--primary)" }}
-              className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
+              className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-md shadow-primary/25 transition hover:opacity-95 flex items-center justify-center gap-2"
             >
-              Confirm Code <ArrowRight className="h-4 w-4 text-slate-900" />
+              Confirm Code <ArrowRight className="h-4 w-4 text-white" />
             </CTAButton>
           </form>
 
@@ -418,7 +418,7 @@ const { register, user } = useAuth();
               <button
                 type="button"
                 onClick={() => console.log("Re-dispatching OTP code")}
-                className="text-[#8EA7FF] hover:underline font-medium"
+                className="text-primary hover:underline font-semibold"
               >
                 Resend Code
               </button>
@@ -426,7 +426,7 @@ const { register, user } = useAuth();
             <button
               type="button"
               onClick={() => setFormStep("INPUT")}
-              className="text-[11px] text-slate-400 hover:text-white transition underline block mx-auto"
+              className="text-[11px] text-slate-500 hover:text-slate-900 transition underline block mx-auto"
             >
               Change email address
             </button>

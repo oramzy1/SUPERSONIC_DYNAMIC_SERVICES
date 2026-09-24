@@ -71,7 +71,7 @@ function FAQs() {
             <AccordionItem
               key={i}
               value={`item-${i}`}
-              className="rounded-2xl border border-white/5 bg-surface px-5"
+              className="rounded-2xl border border-border px-5"
             >
               <AccordionTrigger className="text-left font-display text-base">{q}</AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground">{a}</AccordionContent>
@@ -87,14 +87,14 @@ function FAQs() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link to="/schedulecall">
-              <CTAButton variant="white" className="rounded-lg px-6">
-              <BookHeadphones className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <CTAButton className="rounded-lg px-6 bg-primary">
+              <BookHeadphones className="h-4 w-4 transition-transform text-light duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 Schedule a Call
               </CTAButton>
             </Link>
 
             <Link to="/contact">
-              <CTAButton variant="outline" className="rounded-lg px-6">
+              <CTAButton variant="outline"className="border border-border rounded-lg px-10">
                 Contact Us
               </CTAButton>
             </Link>

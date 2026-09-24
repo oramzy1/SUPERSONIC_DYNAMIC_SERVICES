@@ -428,8 +428,8 @@ const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="font-display text-3xl font-bold md:text-5xl">Quote History</h1>
-          <p className="mt-3 max-w-md text-sm text-muted-foreground">
+          <h1 className="font-display text-white text-3xl font-bold md:text-5xl">Quote History</h1>
+          <p className="mt-3 max-w-md text-sm text-white">
             Track your logistic efficiency and manage upcoming fleet deployments.
           </p>
         </div>
@@ -450,7 +450,7 @@ onChange={(e) => { setQuery(e.target.value); setPage(1); }}
               className={cn(
                 "rounded-full px-5 py-2 text-sm font-medium transition",
                 tab === t
-                  ? "bg-white text-[#0E141A]"
+                  ? "bg-primary text-[#ffffff]"
                   : "text-muted-foreground hover:text-foreground",
               )}
             >

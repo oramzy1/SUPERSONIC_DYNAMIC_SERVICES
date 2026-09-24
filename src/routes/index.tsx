@@ -1,11 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowUpRight, FileText, Mail, Phone, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  Cpu,
+  FileText,
+  Leaf,
+  Mail,
+  Phone,
+  ShieldCheck,
+  Tag,
+  Truck,
+  Users,
+  Zap,
+} from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { SurfaceCard } from "@/components/shared/SurfaceCard";
-import heroVan from "@/assets/images/hero-van.png";
 import heroBg from "@/assets/images/hero-bg.png";
 import homeEco from "@/assets/images/home-eco.png";
 import crates from "@/assets/shop/crates-lifestyle.jpg";
@@ -23,7 +36,7 @@ const STEPS = [
   {
     n: 1,
     title: "Request a Free Quote",
-    body: "To access our service, select your desired service and fill out our online quote form providing every neccessary information requested.",
+    body: "To access our service, select your desired service, signup or create an account and fill out our online quote form providing every neccessary information requested.",
   },
   {
     n: 2,
@@ -55,6 +68,7 @@ const STEPS = [
 const FEATURE_CARDS = [
   {
     image: homeEco,
+    icon: Leaf,
     title: "Eco-Friendly Moving Services in Netherlands.",
     body: "Our zero-emission electric vans and reusable crate systems minimize your carbon footprint without compromising on speed.",
     tags: [
@@ -67,6 +81,7 @@ const FEATURE_CARDS = [
   },
   {
     image: homePricing,
+    icon: Tag,
     title: "Transparent Pricing With No Hidden Fees.",
     body: "Clear and upfront pricing you can trust from start to finish. No surprise charges or unexpected costs during your move.",
     tags: ["Upfront Quote", "Transparent Pricing", "No Surprises", "Clear Invoices"],
@@ -74,6 +89,7 @@ const FEATURE_CARDS = [
   },
   {
     image: homeTeam,
+    icon: Users,
     title: "Professional, Trained and Courteous Team.",
     body: "Experienced team dedicated to safe and reliable service. Our team ensures every job executed & handled professionally and respectfully.",
     tags: ["Vetted Team", "Safe Handling", "Reliable Service", "Friendly Support"],
@@ -81,6 +97,7 @@ const FEATURE_CARDS = [
   },
   {
     image: homeTech,
+    icon: Cpu,
     title: "Technology-Powered Booking and Job Tracking.",
     body: "Book and monitor your job easily through our digital platform. Stay updated in real time from request to final delivery.",
     tags: ["Smart Booking", "Live Tracking", "Digital Updates", "Fast Receipts"],
@@ -88,6 +105,7 @@ const FEATURE_CARDS = [
   },
   {
     image: homeHandling,
+    icon: ShieldCheck,
     title: "Secure Handling of Sensitive Equipment and Belongings.",
     body: "Your valuables are handled carefully with maximum protection and care. We prioritize safety throughout packing, transport and delivery.",
     tags: ["Damage Protection", "Secure Packing", "Careful Transport", "Trusted Handling"],
@@ -95,6 +113,7 @@ const FEATURE_CARDS = [
   },
   {
     image: localVan,
+    icon: Truck,
     title: "Local and nationwide moving coverage.",
     body: "Reliable services across cities and regions in the Netherlands. Whether nearby or long-distance, we ensure smooth services & support to our client.",
     tags: ["Limburg province", "North Brabant province", "Utrecht province"],
@@ -102,14 +121,23 @@ const FEATURE_CARDS = [
   },
 ];
 
+const [SPOTLIGHT_FEATURE, ...OTHER_FEATURES] = FEATURE_CARDS;
+
+const ESSENTIALS_ITEMS = [
+  "Logistics Consumables",
+  "Logistics Supplies",
+  "Storage Solutions",
+  "Eco-Friendly Materials",
+];
+
 function Home() {
   return (
     <SiteLayout>
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
+        <div className="absolute inset-2">
           <img src={heroBg} alt="" className="h-full w-full object-cover opacity-30" />
-          <div className="absolute inset-0 bg-linear-to-b from-[#0E141A]/85 via-[#0E141A]/80 to-[#0E141A]" />
+          <div className="absolute inset-0 bg-linear-to-b from-background/85 via-background/80 to-background" />
         </div>
 
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 md:px-8 md:py-20 lg:grid-cols-2">
@@ -121,8 +149,8 @@ function Home() {
             <Pill variant="primary" dot>
               Netherlands
             </Pill>
-            <h1 className="mt-4 font-display text-4xl text-balance font-bold leading-[1.1] text-foreground md:text-6xl">
-              The Next-Generation <br /> Moving & Freight <br />
+            <h1 className="mt-4 font-display text-4xl text-balance font-bold leading-12 sm:leading-15 text-foreground md:text-6xl">
+              The Next-Generation Moving & Freight <br />
               <span className="text-foreground/80">Haulage Service.</span>
             </h1>
             <p className="mt-5 max-w-xl tracking-tight text-base text-muted-foreground">
@@ -131,22 +159,22 @@ function Home() {
               services in the Netherlands.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/quoterequest">
+              <Link to="/quoterequest" className="group">
                 <CTAButton
                   variant="primary"
                   className="rounded-lg px-6 py-3.5 flex items-center justify-center gap-2"
                 >
-                  <FileText className="h-4 w-4" />
+                  <FileText className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Request Your Free Quote</span>
                 </CTAButton>
               </Link>
               <Link to="/services">
                 <CTAButton
                   variant="outline"
-                  className="group rounded-lg px-6 bg-[#2F353C] border-[#2F353C] py-3.5 flex items-center justify-center gap-2"
+                  className="group rounded-lg px-6 bg-secondary border-secondary py-3.5 flex items-center justify-center gap-2"
                 >
                   <span>View All Services</span>
-                  <ArrowUpRight className="h-4 w-4 text-white transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="h-4 w-4 text-secondary-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </CTAButton>
               </Link>
             </div>
@@ -158,16 +186,18 @@ function Home() {
             transition={{ duration: 0.8, delay: 0.1 }}
             className="relative"
           >
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-surface">
+            <div className="absolute -inset-6 -z-10 rounded-4xl bg-primary/10 blur-3xl" />
+            <div className="relative overflow-hidden rounded-3xl border border-border bg-surface transition-shadow duration-500 hover:shadow-2md">
               <img
-                src={heroVan}
+                src={homeEco}
                 alt="Electric delivery van"
-                className="aspect-4/3 w-full object-cover"
+                className="aspect-4/3 w-full object-cover transition-transform duration-700 hover:scale-105"
               />
               {/* Glass card */}
               <div className="absolute bottom-5 left-5 right-5 flex items-center gap-3 rounded-2xl glass px-4 py-4 md:bottom-7 md:left-7 md:right-auto md:w-125">
-                <div className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground">
-                  <Zap className="h-5 w-5" />
+                <div className="relative grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary/40" />
+                  <Zap className="relative h-5 w-5" />
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
@@ -182,8 +212,25 @@ function Home() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="mx-auto max-w-7xl px-6 py-20 md:px-8">
-        <div className="mb-12 text-center">
+      <section className="relative mx-auto max-w-7xl overflow-hidden px-6 py-20 md:px-8">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-70"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(15,23,42,0.07) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            maskImage: "radial-gradient(ellipse 60% 50% at 50% 0%, black 30%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 50% at 50% 0%, black 30%, transparent 100%)",
+          }}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="relative mb-12 text-center"
+        >
           <Pill variant="primary">How it works</Pill>
           <h2 className="mt-4 font-display text-balance text-4xl font-extrabold md:text-5xl">
             Quick Steps On How It works.
@@ -193,16 +240,27 @@ function Home() {
             technology-driven, and eco-responsible approach. Our mission is simple: to make your
             move smooth, efficient and completely stress-free.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="relative grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {STEPS.map((s, i) => (
-            <SurfaceCard key={s.n} transition={{ delay: i * 0.05, duration: 0.45 }}>
-              <div className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-[#2F353C] text-white font-display text-lg font-bold">
+            <SurfaceCard
+              key={s.n}
+              className="relative overflow-hidden transition-all border border-border duration-300 hover:-translate-y-1 hover:shadow-md"
+              transition={{ delay: i * 0.05, duration: 0.45 }}
+            >
+              <span className="pointer-events-none absolute right-3 top-1 select-none font-display text-7xl font-extrabold text-foreground/4">
+                {String(s.n).padStart(2, "0")}
+              </span>
+              <div className="relative mb-4 grid h-10 w-10 place-items-center rounded-full bg-secondary text-black font-display text-sm font-semibold ring-4 ring-secondary/20">
                 {s.n}
               </div>
-              <h3 className="font-display text-lg font-semibold">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+              <h3 className="relative font-display tracking-tighter leading-6 text-lg font-semibold">
+                {s.title}
+              </h3>
+              <p className="relative mt-2 text-sm leading-relaxed text-muted-foreground">
+                {s.body}
+              </p>
             </SurfaceCard>
           ))}
         </div>
@@ -210,94 +268,151 @@ function Home() {
 
       {/* WHY CHOOSE */}
       <section className="mx-auto max-w-7xl px-6 pb-20 md:px-8">
-        <div className="mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="mb-10"
+        >
           <Pill variant="primary">The Supersonic Advantage</Pill>
           <h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold md:text-5xl">
             Why Choose Supersonic Dynamic Services?
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          {FEATURE_CARDS.map((c, i) => (
-            <SurfaceCard key={i} padded={false} className="overflow-hidden">
-              <div className="relative">
-                <img src={c.image} alt="" loading="lazy" className={`h-56 w-full ${c.object}`} />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="grid gap-5">
+          {/* Spotlight feature */}
+          <SurfaceCard
+            padded={false}
+            className="group overflow-hidden transition-shadow border border-border duration-300 hover:shadow-sm"
+          >
+            <div className="grid md:grid-cols-2">
+              <div className="relative h-64 overflow-hidden md:h-auto">
+                <img
+                  src={SPOTLIGHT_FEATURE.image}
+                  alt=""
+                  loading="lazy"
+                  className={`h-full w-full ${SPOTLIGHT_FEATURE.object} transition-transform duration-700 group-hover:scale-110`}
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
+                <div className="absolute left-4 top-4 grid h-11 w-11 place-items-center rounded-full bg-white/95 text-primary shadow-sm backdrop-blur-sm">
+                  <SPOTLIGHT_FEATURE.icon className="h-5 w-5" />
+                </div>
               </div>
-              <div className="p-6">
-                <h3 className="font-display text-xl font-semibold">{c.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {c.tags.map((t) => (
+              <div className="flex flex-col justify-center p-6 md:p-10">
+                <h3 className="font-display text-2xl font-semibold">{SPOTLIGHT_FEATURE.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {SPOTLIGHT_FEATURE.body}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {SPOTLIGHT_FEATURE.tags.map((t) => (
                     <span
                       key={t}
-                      className="rounded-full border border-white/10 bg-white/3 px-3 py-1 text-xs text-foreground/80"
+                      className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-foreground/80 transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
                     >
                       {t}
                     </span>
                   ))}
                 </div>
               </div>
-            </SurfaceCard>
-          ))}
+            </div>
+          </SurfaceCard>
+
+          {/* Supporting features */}
+          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {OTHER_FEATURES.map((c, i) => (
+              <SurfaceCard
+                key={i}
+                padded={false}
+                className="group border border-border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-sm"
+                transition={{ delay: i * 0.08, duration: 0.5 }}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={c.image}
+                    alt=""
+                    loading="lazy"
+                    className={`h-48 w-full ${c.object} transition-transform duration-700 group-hover:scale-110`}
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
+                  <div className="absolute left-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/95 text-primary shadow-lg backdrop-blur-sm">
+                    <c.icon className="h-4 w-4" />
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-xl font-semibold">{c.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {c.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full border border-border bg-muted px-3 py-1 text-xs text-foreground/80 transition-colors hover:border-primary/40 hover:bg-primary/5 hover:text-primary"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </SurfaceCard>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* MOVING ESSENTIALS */}
-      <section className="py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden py-20">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8">
-            <SurfaceCard className="overflow-hidden">
+            <SurfaceCard className="overflow-hidden transition-shadow duration-300 hover:shadow-sm">
               <div className="grid md:grid-cols-2">
-                <div className="p-4">
-                  <Pill>
+                <div className="p-6 md:p-8">
+                  <Pill className="text-body">
                     <Zap className="h-3.5 w-3.5" />
                     Logistics Essentials & Consumable
                   </Pill>
 
-                  <h2 className="font-display mt-5 text-4xl text-balance md:text-5xl font-bold tracking-tight text-white">
+                  <h2 className="font-display mt-5 text-4xl text-balance md:text-5xl font-bold tracking-tight text-foreground">
                     Need reliable logistics essentials and consumables?
                   </h2>
 
-                  <p className="mt-4 text-base leading-relaxed text-white/70">
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                     Browse our collection of reliable logistics essentials and consumables, from
                     packaging and storage solutions to essential supplies designed to make every
                     journey smoother, safer, and more efficient.
                   </p>
 
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {[
-                      "Logistics Consumables",
-                      "Logistics Supplies",
-                      "Storage Solutions",
-                      "Eco-Friendly Materials",
-                    ].map((item) => (
-                      <span
+                  <div className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                    {ESSENTIALS_ITEMS.map((item) => (
+                      <div
                         key={item}
-                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70"
+                        className="flex items-center gap-2.5 rounded-full border border-border bg-muted px-3 py-2.5 text-xs font-medium text-foreground/80 transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
                       >
+                        <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+                          <Check className="h-3 w-3" />
+                        </span>
                         {item}
-                      </span>
+                      </div>
                     ))}
                   </div>
 
                   <div className="mt-8">
-                    <Link to="/shop">
+                    <Link to="/shop" className="group inline-block">
                       <CTAButton className="rounded-lg">
                         Visit Store
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                       </CTAButton>
                     </Link>
                   </div>
                 </div>
 
-                <div className="relative hidden md:block">
+                <div className="relative hidden md:block md:p-6">
+                  <div className="absolute inset-6 translate-x-3 translate-y-3 rounded-2xl border-primary/20" />
                   <img
                     src={crates}
                     alt="Moving supplies"
-                    className="h-full w-full rounded-2xl object-cover"
+                    className="relative h-full w-full rounded-2xl object-cover shadow-xl transition-transform duration-700 hover:scale-[1.02]"
                   />
-                  <div className="absolute inset-0 bg-linear-to-r from-background rounded-2xl via-background/20 to-transparent" />
                 </div>
               </div>
             </SurfaceCard>
@@ -305,11 +420,11 @@ function Home() {
               <div className="flex h-full flex-col">
                 <span className="text-sm text-primary">Available Online</span>
 
-                <h3 className="mt-3 text-xl font-semibold text-white">
+                <h3 className="mt-3 text-xl font-semibold text-foreground">
                   Sustainable packing products delivered across the Netherlands.
                 </h3>
 
-                <p className="mt-4 text-sm leading-relaxed text-white/70">
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                   Rent reusable moving crates, order protective packaging, and prepare your move
                   with tools trusted by our professional moving teams.
                 </p>
@@ -322,10 +437,10 @@ function Home() {
                   ].map((item) => (
                     <div
                       key={item}
-                      className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                      className="flex items-center gap-3 rounded-xl border border-border bg-muted px-4 py-3"
                     >
                       <div className="h-2 w-2 rounded-full bg-primary" />
-                      <span className="text-sm text-white/80">{item}</span>
+                      <span className="text-sm text-foreground/80">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -351,14 +466,23 @@ function Home() {
 export function RequestQuoteBanner() {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 md:px-8">
-      <div className="rounded-3xl bg-[#ABBDF4]/90 p-6 text-[#0E141A] sm:p-8 md:p-12">
+      <div className="relative overflow-hidden rounded-3xl bg-primary p-6 text-white sm:p-8 md:p-12">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-90"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        />
+        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-16 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
         {/* Grid adapts perfectly from single column mobile to 2 columns on desktop */}
-        <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
+        <div className="relative grid gap-8 grid-cols-1 md:grid-cols-2">
           <div>
             <h3 className="font-display mt-2 text-3xl font-bold sm:text-3xl md:text-4xl">
               Request Your Free Quote:
             </h3>
-            <p className="mt-4 max-w-md text-sm text-[#0E141A]/80 leading-relaxed">
+            <p className="mt-4 max-w-md text-sm text-white/75 leading-relaxed">
               Planning a relocation or freight transport anywhere in the Netherlands? From student
               moves & family relocations, commercial logistics, and freight haulage, SUPERSONIC
               DYNAMIC SERVICES B.V. delivers safe, efficient, and technology-driven solutions
@@ -366,8 +490,7 @@ export function RequestQuoteBanner() {
             </p>
             <Link to="/quoterequest" className="mt-6 block w-full sm:w-auto">
               <CTAButton
-                variant="secondary"
-                className="group rounded-lg w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"
+                className="bg-blue-50 text-black group rounded-lg w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"
               >
                 <span>Request Quote</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -377,12 +500,12 @@ export function RequestQuoteBanner() {
 
           <div className="space-y-3 w-full">
             {/* Call Info Box */}
-            <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-4 py-4 sm:px-5">
+            <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm sm:px-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-lg">
               <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
-                <Phone className="h-5 w-5 text-[#002B73]" />
+                <Phone className="h-5 w-5 text-primary" />
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
                   Call us
                 </p>
                 <p className="font-display text-base font-semibold sm:text-lg truncate">
@@ -392,12 +515,12 @@ export function RequestQuoteBanner() {
             </div>
 
             {/* Email Info Box - Fixed layout text-wrapping for mobile viewports */}
-            <div className="flex items-center gap-4 rounded-2xl bg-[#A1B5ED] px-4 py-4 sm:px-5">
+            <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm sm:px-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-lg">
               <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
-                <Mail className="h-5 w-5 text-[#002B73]" />
+                <Mail className="h-5 w-5 text-primary" />
               </div>
               <div className="min-w-0 w-full">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#0E141A]/60">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
                   Email us
                 </p>
                 <p className="font-display text-base font-semibold sm:text-lg break-all sm:break-normal">
