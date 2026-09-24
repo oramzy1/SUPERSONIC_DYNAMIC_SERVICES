@@ -1666,7 +1666,7 @@ const handleFileSelect = async (file: File) => {
               <ContactStrip
                 icon={<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />}
                 label="Address"
-                value="De Lingestraat 23, 6467 BK Kerkrade"
+                value="117 Ganzeweide, 6413 GC, Heerlen, The Netherlands"
               />
             </aside>
           )}
