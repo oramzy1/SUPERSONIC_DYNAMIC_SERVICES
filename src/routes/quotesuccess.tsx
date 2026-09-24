@@ -43,7 +43,7 @@ function RouteComponent() {
           transition={{ delay: 0.2 }}
           className="mt-5 space-y-3"
         >
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white leading-[1.1]">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-black leading-[1.1]">
             Your quote is on its way
           </h1>
           <p className="max-w-sm mx-auto text-sm text-slate-400 leading-relaxed">
@@ -78,7 +78,7 @@ function RouteComponent() {
                 <Clock className="h-3.5 w-3.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="text-sm font-semibold text-white leading-snug">
+                <h4 className="text-sm font-semibold text-black leading-snug">
                   Review within 2 hours
                 </h4>
                 <p className="text-xs text-slate-400 mt-1 leading-relaxed">
@@ -97,7 +97,7 @@ function RouteComponent() {
                 <Calendar className="h-3.5 w-3.5" />
               </div>
               <div className="min-w-0">
-                <h4 className="text-sm font-semibold text-white leading-snug">
+                <h4 className="text-sm font-semibold text-black leading-snug">
                   Your proposal, sent by email
                 </h4>
                 <p className="text-xs text-slate-400 mt-1 leading-relaxed">
