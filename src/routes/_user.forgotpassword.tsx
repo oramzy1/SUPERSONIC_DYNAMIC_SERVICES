@@ -42,33 +42,33 @@ function UserForgotPasswordPage() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4 font-sans select-none">
       {/* CONTAINER CONTAINER: Styled exactly to the structural layout of S-Forgor password.jpg */}
-      <div className="w-full max-w-110 rounded-[24px] border border-slate-200 bg-white p-6 sm:p-10 shadow-xl shadow-slate-900/5 transition-all">
+      <div className="w-full max-w-110 rounded-[24px] border border-border p-6 sm:p-10 backdrop-blur-xl shadow-xs transition-all">
         {!isSubmitted ? (
           <>
             {/* Header Content Blocks */}
             <div className="space-y-1.5 mb-8">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-primary">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
                 Security Portal
               </p>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight">
                 Forgot Password?
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600">
+              <p className="text-xs sm:text-sm text-slate-400">
                 Enter your email to receive a password reset link.
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Validation Error Banner */}
-              {(errorMsg || error) && (
-                <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
-                  {errorMsg || error}
+              {error && (
+                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
+                  {error}
                 </div>
               )}
 
               {/* Email Address Input Block */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                   Email Address
                 </label>
                 <div className="relative">
@@ -78,10 +78,10 @@ function UserForgotPasswordPage() {
                     placeholder="name@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-4 pr-11 text-sm text-slate-900 placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
+                    className="w-full rounded-lg border border-border py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
                   {/* Subtle right aligned text decoration placeholder element from original graphic placeholder */}
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-400 font-sans font-medium">
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-600 font-sans font-medium">
                     @
                   </span>
                 </div>
@@ -92,7 +92,7 @@ function UserForgotPasswordPage() {
                 variant="primary"
                 type="submit"
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-lg py-3 text-xs sm:text-sm font-semibold text-white shadow-md shadow-primary/25 transition hover:opacity-95 flex items-center justify-center gap-2"
+                className="w-full rounded-lg py-3 text-xs sm:text-sm font-semibold text-white transition hover:opacity-95 flex items-center justify-center gap-2"
               >
                 Send Reset Link <ArrowRight className="h-4 w-4 text-white" />
               </CTAButton>
@@ -101,19 +101,19 @@ function UserForgotPasswordPage() {
         ) : (
           /* Post-Submission Success Interface Module */
           <div className="text-center py-4 space-y-4 animate-in fade-in zoom-in-95 duration-300">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 shadow-lg shadow-emerald-500/10">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#8EA7FF]/10 text-[#8EA7FF]">
               <MailCheck className="h-6 w-6" />
             </div>
             <div className="space-y-1.5">
-              <h3 className="text-lg font-bold font-display text-slate-900">Check Your Inbox</h3>
-              <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
+              <h3 className="text-lg font-bold font-display text-white">Check Your Inbox</h3>
+              <p className="text-xs text-slate-400 leading-relaxed max-w-sm mx-auto">
                 We have securely dispatched an authorization token recovery link to{" "}
-                <span className="text-slate-900 font-semibold break-all">{email}</span>.
+                <span className="text-white font-medium">{email}</span>.
               </p>
             </div>
             <button
               onClick={() => setIsSubmitted(false)}
-              className="text-xs text-slate-500 hover:text-primary transition underline block mx-auto pt-2"
+              className="text-xs text-slate-500 hover:text-white transition underline block mx-auto pt-2"
             >
               Resend recovery link
             </button>
@@ -121,10 +121,10 @@ function UserForgotPasswordPage() {
         )}
 
         {/* Bottom Utility Footer Return Navigation */}
-        <div className="mt-8 pt-5 border-t border-slate-200 flex justify-center">
+        <div className="mt-8 pt-2 border-t border-white/5 flex justify-center">
           <Link
             to="/login"
-            className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-primary transition font-medium"
+            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:primary transition font-medium"
           >
             <ArrowLeft className="h-3 w-3" /> Back to Login
           </Link>
