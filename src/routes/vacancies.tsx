@@ -31,11 +31,11 @@ function Vacancies() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="font-display text-5xl font-bold md:text-7xl"
+                className="font-display text-5xl text-white font-bold md:text-7xl"
               >
                 Vacancies
               </motion.h1>
-              <p className="mt-3 max-w-md text-muted-foreground">
+              <p className="mt-3 max-w-md text-white">
                 Be part of the team redefining logistics in the Netherlands and Europe.
               </p>
             </div>

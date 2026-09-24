@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap");
 @import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
@@ -35,8 +35,8 @@
   --color-ring: var(--ring);
   --color-cyan: var(--cyan);
 
-  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
-  --font-display: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "lato", system-ui, sans-serif;
+  --font-display: "lato", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {

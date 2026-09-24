@@ -149,9 +149,9 @@ function Home() {
             <Pill variant="primary" dot>
               Netherlands
             </Pill>
-            <h1 className="mt-4 font-display text-4xl text-balance font-bold leading-12 sm:leading-15 text-foreground md:text-6xl">
-              The Next-Generation Moving & Freight <br />
-              <span className="text-foreground/80">Haulage Service.</span>
+            <h1 className="mt-3 font-display text-5xl text-balance font-bold leading-13 sm:leading-15 text-foreground md:text-6xl">
+              The Next-Generation Moving & Freight
+              <span className="text-foreground/80"> Haulage Service.</span>
             </h1>
             <p className="mt-5 max-w-xl tracking-tight text-base text-muted-foreground">
               Professional moving and freight haulage services powered by precision logistics and
