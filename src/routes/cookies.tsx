@@ -22,10 +22,10 @@ export const Route = createFileRoute("/cookies")({
 const COOKIE_TYPES = [
   {
     label: "Essential",
-    color: "text-[#6FE5FF]",
-    border: "border-[#6FE5FF]/20",
-    bg: "bg-[#6FE5FF]/5",
-    dot: "bg-[#6FE5FF]",
+    color: "text-emerald-700",
+    border: "border-emerald-200",
+    bg: "bg-emerald-50",
+    dot: "bg-emerald-500",
     required: true,
     description:
       "Required for the platform to function. These enable core features like session management, security tokens, and quote form state. Cannot be disabled.",
@@ -45,9 +45,9 @@ const COOKIE_TYPES = [
   {
     label: "Functional",
     color: "text-foreground",
-    border: "border-white/10",
-    bg: "bg-surface",
-    dot: "bg-foreground/60",
+    border: "border-slate-300",
+    bg: "bg-slate-50",
+    dot: "bg-slate-500",
     required: false,
     description:
       "Enhance your experience by remembering preferences such as language and region settings across sessions.",
@@ -56,9 +56,9 @@ const COOKIE_TYPES = [
   {
     label: "Marketing",
     color: "text-muted-foreground",
-    border: "border-white/5",
-    bg: "bg-black/20",
-    dot: "bg-muted-foreground",
+    border: "border-slate-200",
+    bg: "bg-slate-50",
+    dot: "bg-slate-400",
     required: false,
     description:
       "Currently disabled. Supersonic does not run retargeting or cross-site advertising campaigns at this time.",
@@ -71,16 +71,17 @@ function Cookies() {
   return (
     <SiteLayout marquee={false}>
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 bg-linear-to-br from-[#0E141A] via-[#0b1a3a]/40 to-[#0E141A]" />
-        <div className="relative mx-auto max-w-7xl px-6 py-16 md:px-8 md:py-24">
-          <Pill variant="cyan" dot>
+      <section className="relative overflow-hidden border-b border-border">
+        <div className="absolute inset-0 bg-linear-to-br from-primary/10 via-primary/5 to-emerald-500/5" />
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+        <div className="relative mx-auto mt-8 max-w-7xl px-6 py-16 md:px-8 md:py-24">
+          <Pill className=" text-black" variant="cyan" dot>
             Transparency Framework
           </Pill>
-          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] md:text-6xl">
+          <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-6xl">
             Cookie <br /> Policy
           </h1>
-          <div className="mt-8 flex items-end justify-between border-b border-white/10 pb-6">
+          <div className="mt-8 flex items-end justify-between border-b border-border pb-6">
             <p className="max-w-lg text-sm text-muted-foreground">
               We believe in full transparency about how our platform uses cookies and tracking
               technologies. This policy explains what we collect, why, and your rights.
@@ -98,12 +99,12 @@ function Cookies() {
       <section className="mx-auto max-w-7xl px-6 py-14 md:px-8 space-y-6">
         {/* WHAT ARE COOKIES */}
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-2xl bg-surface p-6 md:col-span-2 md:p-8">
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:col-span-2 md:p-8">
             <div className="flex items-start justify-between gap-4">
-              <h2 className="font-display text-2xl font-semibold text-[#6FE5FF]">
+              <h2 className="font-display text-2xl font-semibold text-primary">
                 01. What Are Cookies?
               </h2>
-              <Cookie className="h-14 w-14 text-white/10" />
+              <Cookie className="h-14 w-14 text-primary/15" />
             </div>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
               Cookies are small text files stored on your device when you visit a website. They
@@ -118,11 +119,11 @@ function Cookies() {
           </div>
 
           {/* GDPR BADGE */}
-          <div className="rounded-2xl border border-[#002B73]/70 bg-[#002B73]/30 p-6 md:p-8">
-            <div className="grid h-10 w-10 place-items-center rounded-full border border-[#6FE5FF]/60 text-[#6FE5FF]">
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 shadow-sm md:p-8">
+            <div className="grid h-10 w-10 place-items-center rounded-full border border-primary/30 bg-primary/10 text-primary">
               <ShieldCheck className="h-5 w-5" />
             </div>
-            <h2 className="mt-5 font-display text-xl font-semibold">GDPR Compliant</h2>
+            <h2 className="mt-5 font-display text-xl font-semibold text-foreground">GDPR Compliant</h2>
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
               Our cookie practices comply with the General Data Protection Regulation (GDPR) and
               Dutch national data law (UAVG).
@@ -139,21 +140,25 @@ function Cookies() {
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Right to withdraw consent
               </li>
               <li className="flex items-center gap-2 text-muted-foreground">
-                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" /> Marketing cookies
+                <span className="h-1.5 w-1.5 rounded-full bg-slate-400" /> Marketing cookies
                 disabled
               </li>
             </ul>
-            <CTAButton variant="white" className="mt-6 w-full rounded-xl" onClick={openBanner}>
+            <CTAButton
+              variant="white"
+              className="mt-6 w-full rounded-xl bg-primary! text-primary-foreground! border-transparent! shadow-md shadow-primary/25 hover:opacity-90"
+              onClick={openBanner}
+            >
               MANAGE PREFERENCES
             </CTAButton>
           </div>
         </div>
 
         {/* COOKIE TYPES */}
-        <div className="rounded-2xl bg-surface p-6 md:p-8">
+        <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
           <div className="flex items-center gap-3 mb-6">
             <ToggleLeft className="h-5 w-5 text-primary" />
-            <h2 className="font-display text-xl font-semibold">02. Cookie Types We Use</h2>
+            <h2 className="font-display text-xl font-semibold text-foreground">02. Cookie Types We Use</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {COOKIE_TYPES.map((c) => {
@@ -170,13 +175,13 @@ function Cookies() {
                 <div
                   key={c.label}
                   className={`rounded-xl border p-5 transition ${
-                    isEnabled ? `${c.border} ${c.bg}` : "border-white/5 bg-black/20"
+                    isEnabled ? `${c.border} ${c.bg}` : "border-slate-200 bg-slate-50"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`h-2 w-2 rounded-full ${isEnabled ? c.dot : "bg-muted-foreground"}`}
+                        className={`h-2 w-2 rounded-full ${isEnabled ? c.dot : "bg-slate-400"}`}
                       />
                       <span
                         className={`text-xs font-semibold uppercase tracking-[0.2em] ${isEnabled ? c.color : "text-muted-foreground"}`}
@@ -185,12 +190,12 @@ function Cookies() {
                       </span>
                     </div>
                     <span
-                      className={`text-[10px] rounded-full px-2 py-0.5 border ${
+                      className={`text-[10px] rounded-full px-2 py-0.5 border font-medium ${
                         c.required
-                          ? "border-[#6FE5FF]/30 text-[#6FE5FF] bg-[#6FE5FF]/10"
+                          ? "border-emerald-300 text-emerald-700 bg-emerald-50"
                           : isEnabled
                             ? "border-primary/30 text-primary bg-primary/10"
-                            : "border-white/10 text-muted-foreground"
+                            : "border-slate-300 text-slate-500 bg-white"
                       }`}
                     >
                       {c.required ? "Required" : isEnabled ? "Enabled" : "Disabled"}
@@ -201,7 +206,7 @@ function Cookies() {
                     {c.examples.map((e) => (
                       <span
                         key={e}
-                        className="rounded bg-white/5 px-2 py-0.5 text-[10px] text-foreground/60"
+                        className="rounded border border-slate-200 bg-white px-2 py-0.5 text-[10px] text-slate-600"
                       >
                         {e}
                       </span>
@@ -214,10 +219,10 @@ function Cookies() {
         </div>
 
         {/* HOW WE USE GTM */}
-        <div className="rounded-2xl bg-surface p-6 md:p-8">
+        <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
           <div className="flex items-center gap-3 mb-4">
             <Info className="h-5 w-5 text-primary" />
-            <h2 className="font-display text-xl font-semibold">
+            <h2 className="font-display text-xl font-semibold text-foreground">
               03. Google Tag Manager & Analytics
             </h2>
           </div>
@@ -233,12 +238,12 @@ function Cookies() {
               ["Analytics", "GA4 / G-H4PXL6HMXK", "Measurement ID"],
               ["Data Region", "European Union", "Processing location"],
             ].map(([title, value, sub]) => (
-              <div key={title} className="rounded-xl bg-black/30 p-4">
+              <div key={title} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {sub}
                 </p>
                 <p className="mt-1 text-sm font-semibold text-foreground">{title}</p>
-                <p className="mt-0.5 font-mono text-xs text-[#6FE5FF]">{value}</p>
+                <p className="mt-0.5 font-mono text-xs text-primary">{value}</p>
               </div>
             ))}
           </div>
@@ -246,8 +251,8 @@ function Cookies() {
 
         {/* YOUR RIGHTS */}
         <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl bg-surface p-6 md:p-8">
-            <h2 className="font-display text-xl font-semibold mb-4">04. Your Rights</h2>
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
+            <h2 className="font-display text-xl font-semibold mb-4 text-foreground">04. Your Rights</h2>
             <ul className="space-y-4">
               {[
                 [
@@ -267,7 +272,9 @@ function Cookies() {
                 ],
               ].map(([letter, title, desc]) => (
                 <li key={letter} className="flex items-start gap-3">
-                  <span className="mt-0.5 text-xs font-semibold text-primary">{letter}</span>
+                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md bg-primary/10 text-[10px] font-bold text-primary">
+                    {letter}
+                  </span>
                   <p className="text-xs leading-relaxed text-muted-foreground">
                     <span className="font-semibold text-foreground">{title}</span> {desc}
                   </p>
@@ -276,19 +283,19 @@ function Cookies() {
             </ul>
           </div>
 
-          <div className="rounded-2xl bg-surface p-6 md:p-8">
-            <h2 className="font-display text-xl font-semibold mb-4">05. Contact & Questions</h2>
+          <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
+            <h2 className="font-display text-xl font-semibold mb-4 text-foreground">05. Contact & Questions</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               For questions about our cookie practices or to exercise your data rights, contact our
               Data Protection Officer directly.
             </p>
             <div className="mt-5 flex items-start gap-3">
-              <Mail className="mt-1 h-4 w-4 text-[#6FE5FF]" />
+              <Mail className="mt-1 h-4 w-4 text-primary" />
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Email
                 </p>
-                <p className="mt-1 text-xs text-[#6FE5FF]">info@supersonicdynamicservices.nl</p>
+                <p className="mt-1 text-xs font-medium text-primary">info@supersonicdynamicservices.nl</p>
               </div>
             </div>
             <p className="mt-5 text-xs text-muted-foreground">
@@ -298,7 +305,7 @@ function Cookies() {
                 href="https://www.autoriteitpersoonsgegevens.nl"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#6FE5FF] hover:underline"
+                className="text-primary font-medium hover:underline"
               >
                 autoriteitpersoonsgegevens.nl
               </a>
@@ -307,18 +314,19 @@ function Cookies() {
         </div>
 
         {/* CTA */}
-        <div className="flex flex-col items-start justify-between gap-6 rounded-2xl bg-[#9DB1E6]/90 p-6 text-[#0E141A] md:flex-row md:items-center md:p-10">
-          <div>
+        <div className="relative overflow-hidden flex flex-col items-start justify-between gap-6 rounded-2xl bg-primary p-6 text-white shadow-xl shadow-primary/20 md:flex-row md:items-center md:p-10">
+          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
+          <div className="relative">
             <h3 className="font-display text-2xl font-bold">Still Have Questions?</h3>
-            <p className="mt-1 text-sm text-[#0E141A]/80">
+            <p className="mt-1 text-sm text-white/85">
               Our team is ready to clarify anything about how we handle your data.
             </p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
+          <div className="relative flex flex-col gap-3 sm:flex-row">
             <Link to="/contact">
               <CTAButton
                 variant="secondary"
-                className="rounded-xl bg-[#0E141A] text-white hover:bg-black px-6"
+                className="rounded-xl bg-white! text-primary! hover:bg-white/90! px-6"
               >
                 Contact Us
               </CTAButton>
@@ -326,7 +334,7 @@ function Cookies() {
             <Link to="/privacy">
               <CTAButton
                 variant="outline"
-                className="rounded-xl border-[#0E141A]/20 text-[#0E141A] px-6"
+                className="rounded-xl bg-transparent! border-white/40! text-white! hover:bg-white/10! px-6"
               >
                 Privacy Policy
               </CTAButton>
