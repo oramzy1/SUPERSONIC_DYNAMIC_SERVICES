@@ -22,7 +22,7 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import heroBg from "@/assets/images/hero-bg.png";
 import newVan from "@/assets/images/new-van2.jpg";
 import newVan3 from "@/assets/images/new-van2.jpg";
-import newVan2 from "@/assets/images/new-van3.jpg";
+import newVan5 from "@/assets/images/newvan5.jpg";
 import crates from "@/assets/shop/crates-lifestyle.jpg";
 import homePricing from "@/assets/images/home-pricing.jpg";
 import homeTech from "@/assets/images/home-tech.jpg";
@@ -114,7 +114,7 @@ const FEATURE_CARDS = [
     object: "object-cover",
   },
   {
-    image: newVan3,
+    image: newVan5,
     icon: Truck,
     title: "Local and nationwide moving coverage.",
     body: "Reliable services across cities and regions in the Netherlands. Whether nearby or long-distance, we ensure smooth services & support to our client.",
@@ -151,16 +151,16 @@ function Home() {
             <Pill variant="primary" dot>
               Netherlands
             </Pill>
-            <h1 className="mt-3 font-display text-5xl text-balance font-bold leading-13 sm:leading-15 text-foreground md:text-6xl">
-              The Next-Generation Moving & Freight
-              <span className="text-foreground/80"> Haulage Service.</span>
+            <h1 className="mt-3 font-display text-5xl text-balance font-extrabold leading-13 sm:leading-15 text-foreground md:text-6xl">
+              Life Moves, Business Moves,
+              <span className="text-foreground/80"> Everything Moves.</span>
             </h1>
             <p className="mt-5 max-w-xl tracking-tight text-base text-muted-foreground">
               Professional moving and freight haulage services powered by precision logistics and
               carbon-neutral fleet - experience the most seamless relocation and freight haulage
               services in the Netherlands.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/quoterequest" className="group">
                 <CTAButton
                   variant="primary"
@@ -173,7 +173,7 @@ function Home() {
               <Link to="/services">
                 <CTAButton
                   variant="outline"
-                  className="group rounded-lg px-6 bg-secondary border-secondary py-3.5 flex items-center justify-center gap-2"
+                  className="group rounded-lg px-6 bg-secondary border border-border py-3.5 flex items-center justify-center gap-2"
                 >
                   <span>View All Services</span>
                   <ArrowUpRight className="h-4 w-4 text-secondary-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -191,7 +191,7 @@ function Home() {
             <div className="absolute -inset-6 -z-10 rounded-4xl bg-primary/10 blur-3xl" />
             <div className="relative overflow-hidden rounded-3xl border border-border bg-surface transition-shadow duration-500 hover:shadow-2md">
               <img
-                src={newVan3}
+                src={newVan5}
                 alt="Electric delivery van"
                 className="aspect-4/3 w-full object-cover transition-transform duration-700 hover:scale-105"
               />
@@ -248,7 +248,7 @@ function Home() {
           {STEPS.map((s, i) => (
             <SurfaceCard
               key={s.n}
-              className="relative overflow-hidden transition-all border border-border duration-300 hover:-translate-y-1 hover:shadow-md"
+              className="relative overflow-hidden transition-all border border-border duration-300 hover:-translate-y-1 hover:shadow-sm"
               transition={{ delay: i * 0.05, duration: 0.45 }}
             >
               <span className="pointer-events-none absolute right-3 top-1 select-none font-display text-7xl font-extrabold text-foreground/4">

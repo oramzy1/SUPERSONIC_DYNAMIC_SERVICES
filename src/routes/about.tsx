@@ -7,7 +7,7 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { RequestQuoteBanner } from "./index";
 import ecoVan from "@/assets/images/home-eco.jpg";
-import newVan2 from "@/assets/images/new-van2.jpg"
+import newVan5 from "@/assets/images/newvan5.jpg"
 import tracking from "@/assets/images/about-tracking.jpg";
 import packing from "@/assets/images/about-packing.jpg";
 import vanHero from "@/assets/images/hero-van.jpg";
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/about")({
 
 const ADVANTAGES = [
   {
-    image: newVan2,
+    image: newVan5,
     title: "Eco-Friendly Fleet",
     body: "Your move deserves a service that's both reliable and environmentally responsible. Our electric fleet allows us to transport your belongings safely and efficiently while reducing our environmental impact, helping create a greener Netherlands for everyone.",
   },
@@ -130,7 +130,7 @@ function About() {
             transition={{ duration: 1.4, ease: "easeOut" }}
             className="h-104 w-full object-cover opacity-50 md:h-136"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/70 to-foreground/20" />
+          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/80 to-foreground/70" />
           <div className="absolute inset-0 flex items-start">
             <motion.div
               initial={{ opacity: 0, y: -24 }}
@@ -271,7 +271,7 @@ function About() {
                               src={founder.image}
                               alt={founder.name}
                               loading="lazy"
-                              className="h-full w-full object-cover object-top grayscale-[55%] transition-all duration-700 ease-out group-hover:scale-105 group-hover:grayscale-0"
+                              className="h-full w-full object-cover object-top grayscale-55 transition-all duration-700 ease-out group-hover:scale-105 group-hover:grayscale-0"
                             />
                           ) : (
                             <div className="absolute inset-0 grid place-items-center">

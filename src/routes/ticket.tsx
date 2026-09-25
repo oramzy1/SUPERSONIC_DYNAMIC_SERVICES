@@ -230,7 +230,7 @@ function RouteComponent() {
             {isSuccess ? (
               /* SUCCESS SCREEN */
               <div className="p-6 sm:p-10 text-center space-y-6 animate-in fade-in zoom-in-95 duration-300 my-auto w-full">
-                <div className="mx-auto h-16 w-16 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/10">
+                <div className="mx-auto h-16 w-16 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full flex items-center justify-center shadow-sm shadow-emerald-500/10">
                   <CheckCircle2 className="h-9 w-9" />
                 </div>
 

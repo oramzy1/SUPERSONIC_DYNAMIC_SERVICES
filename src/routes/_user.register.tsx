@@ -177,7 +177,7 @@ const { register, user } = useAuth();
           {/* RIGHT COLUMN: REGISTER INTERFACE CARD */}
           <div className="space-y-6 w-full">
 
-            <div className="rounded-[24px] border border-slate-200 bg-white p-6 sm:p-8 shadow-xl shadow-slate-900/5">
+            <div className="rounded-[24px] border border-slate-200 bg-surface p-6 sm:p-8 shadow-sm shadow-slate-900/5">
               <form onSubmit={handleRegisterSubmit} className="space-y-4">
                 {errors && (
                   <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg p-3 font-medium">
