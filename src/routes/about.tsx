@@ -7,6 +7,7 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { RequestQuoteBanner } from "./index";
 import ecoVan from "@/assets/images/home-eco.jpg";
+import newVan2 from "@/assets/images/new-van2.jpg"
 import tracking from "@/assets/images/about-tracking.jpg";
 import packing from "@/assets/images/about-packing.jpg";
 import vanHero from "@/assets/images/hero-van.jpg";
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/about")({
 
 const ADVANTAGES = [
   {
-    image: ecoVan,
+    image: newVan2,
     title: "Eco-Friendly Fleet",
     body: "Your move deserves a service that's both reliable and environmentally responsible. Our electric fleet allows us to transport your belongings safely and efficiently while reducing our environmental impact, helping create a greener Netherlands for everyone.",
   },
@@ -199,62 +200,51 @@ function About() {
         </div>
 
         {/* Founders Leadership and Identity Cards */}
-        <section className="mt-16 md:mt-24 mx-auto max-w-7xl px-4 sm:px-6">
+        <section className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 md:mt-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="relative overflow-hidden rounded-4xl border border-border bg-surface p-6 sm:p-10 lg:p-14"
           >
-            {/* Ambient glow accents */}
-            <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-28 right-0 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl" />
+            <div className="mb-6 flex items-center gap-2.5 md:mb-3">
+              <Pill className="font-display text-xs text-black">
+                Legacy of leadership
+              </Pill>
+            </div>
 
-            <div className="relative grid gap-12 lg:gap-16 lg:grid-cols-[1.1fr_0.9fr] items-center">
-              {/* LEFT CONTENT */}
-              <div className="w-full space-y-6">
-                <div className="flex items-center gap-3">
-                  <span className="h-px w-10 bg-primary" />
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-primary">
-                    Legacy of Leadership
+            <div className="grid mt-2 items-start gap-10 lg:grid-cols-[0.85fr_1fr] lg:gap-12">
+              {/* Narrative column */}
+              <div className="space-y-4 lg:sticky lg:top-24">
+                <h2 className="font-display text-balance text-2xl font-semibold leading-[1.15] tracking-tight text-foreground sm:text-4xl">
+                  Founded by Mr. Nweze W. Chukwudi & Henry O. N.
+                </h2>
+
+                <div className="relative rounded-lg border bg-secondary border-border py-2.5 pl-4">
+                  <p className="font-display text-sm leading-5 text-foreground/90">
+                    Logistics is the heartbeat of the global economy. At Supersonic, we've
+                    engineered that heartbeat to be cleaner, faster, and smarter than ever before.
                   </p>
                 </div>
 
-                <h2 className="font-display text-balance text-2xl font-bold leading-[1.15] tracking-tight sm:text-3xl md:text-[44px]">
-                  Founded by <span className="text-primary">Mr. Nweze W. Chukwudi</span> &{" "}
-                  <span className="text-primary">Henry O. N.</span>
-                </h2>
-
-                <div className="relative rounded-2xl border border-border bg-background/60 p-5 sm:p-6">
-                  <Quote className="absolute -top-3 left-5 h-7 w-7 rounded-full bg-primary p-1.5 text-white shadow-md shadow-primary/30" />
-                  <div className="flex gap-4">
-                    <div className="w-0.5 rounded-full bg-primary shrink-0" />
-                    <p className="text-sm sm:text-[15px] leading-6 sm:leading-7 text-foreground/80 font-medium">
-                      Logistics is the heartbeat of the global economy. At Supersonic, we've
-                      engineered that heartbeat to be cleaner, faster, and smarter than ever before.
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-xs sm:text-sm leading-6 sm:leading-7 text-muted-foreground">
+                <p className="max-w-[58ch] text-sm leading-6 text-muted-foreground">
                   Under the visionary leadership of Mr. Nweze W. Chukwudi & Henry Obi Ndubuisi,
                   Supersonic Dynamic Services B.V. has evolved from a kinetic concept into a premier
                   logistics powerhouse. Our foundation is built on the belief that speed should
                   never come at the cost of our planet.
                 </p>
 
-                <div className="pt-2 flex flex-wrap gap-3">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
                   <CTAButton
                     variant="primary"
-                    className="rounded-lg"
+                    className="rounded-md"
                     onClick={() => setSelectedFounder("nweze")}
                   >
                     CEO Profile
                   </CTAButton>
                   <CTAButton
                     variant="secondary"
-                    className="rounded-lg"
+                    className="rounded-md"
                     onClick={() => setSelectedFounder("henry")}
                   >
                     COO Profile
@@ -262,70 +252,54 @@ function About() {
                 </div>
               </div>
 
-              {/* RIGHT FOUNDERS PHOTO CARDS */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-5 w-full h-auto pb-2 sm:pb-12">
-                {(Object.keys(FOUNDER_DATA) as FounderKey[]).map((key, idx) => {
-                  const founder = FOUNDER_DATA[key];
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => setSelectedFounder(key)}
-                      className={`group relative w-full text-left cursor-pointer focus:outline-none ${
-                        idx === 1 ? "sm:mt-12" : ""
-                      }`}
-                    >
-                      {/* Offset outline frame */}
-                      <div className="pointer-events-none absolute inset-0 translate-x-2 translate-y-2 rounded-3xl border border-primary/25 transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3" />
-
-                      <div className="relative overflow-hidden rounded-3xl border border-border bg-surface shadow-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-primary/30 group-hover:shadow-xl group-hover:shadow-primary/10 group-focus-visible:ring-2 group-focus-visible:ring-primary/40">
-                        {/* Portrait area */}
-                        <div className="relative aspect-4/5 overflow-hidden bg-linear-to-br from-primary/15 via-primary/5 to-emerald-500/10">
+              {/* Founders diptych */}
+              <div className="relative rounded-lg border border-border">
+                <div className="grid grid-cols-1 sm:grid-cols-2">
+                  {(Object.keys(FOUNDER_DATA) as FounderKey[]).map((key) => {
+                    const founder = FOUNDER_DATA[key];
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => setSelectedFounder(key)}
+                        aria-label={`View ${founder.name}'s profile`}
+                        className="group relative border-b border-border text-left last:border-b-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:border-b-0 sm:first:border-r"
+                      >
+                        <div className="relative rounded-lg aspect-3/4 overflow-hidden bg-surface">
                           {founder.image ? (
-                            <>
-                              <img
-                                src={founder.image}
-                                alt={founder.name}
-                                loading="lazy"
-                                className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                              />
-                              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-black/25 to-transparent" />
-                            </>
+                            <img
+                              src={founder.image}
+                              alt={founder.name}
+                              loading="lazy"
+                              className="h-full w-full object-cover object-top grayscale-[55%] transition-all duration-700 ease-out group-hover:scale-105 group-hover:grayscale-0"
+                            />
                           ) : (
                             <div className="absolute inset-0 grid place-items-center">
-                              <div className="flex flex-col items-center gap-3">
-                                <div className="grid h-20 w-20 place-items-center rounded-full border border-primary/20 bg-white/70 text-primary shadow-sm">
-                                  <User className="h-9 w-9" />
-                                </div>
-                                <span className="font-display text-4xl font-bold tracking-tight text-primary/30">
-                                  {founder.initials}
-                                </span>
-                              </div>
+                              <span className="font-display text-5xl font-semibold text-border">
+                                {founder.initials}
+                              </span>
                             </div>
                           )}
-
-                          {/* View badge */}
-                          <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 text-primary shadow-md backdrop-blur transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
-                            <Eye className="h-4 w-4" />
-                          </span>
                         </div>
 
-                        {/* Caption */}
-                        <div className="space-y-2 border-t border-border p-5">
-                          <h4 className="text-base sm:text-lg font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
+                        <div className="space-y-1.5 p-5">
+                          <h4 className="font-display text-base font-semibold text-foreground sm:text-lg">
                             {founder.name}
                           </h4>
-                          <div className="flex items-center gap-2">
-                            <span className="h-px w-6 bg-primary" />
-                            <p className="text-[11px] font-semibold tracking-wider text-primary uppercase">
-                              {founder.role}
-                            </p>
-                          </div>
+                          <p className="text-xs text-muted-foreground">{founder.role}</p>
+                          <p className="text-[11px] font-medium text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            View profile
+                          </p>
                         </div>
-                      </div>
-                    </button>
-                  );
-                })}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Seam marker joining the two founders */}
+                <div className="pointer-events-none absolute left-1/2 top-1/2 hidden h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background sm:flex">
+                  <span className="font-display text-xl text-primary">&</span>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -361,8 +335,8 @@ function About() {
                 className="grid items-center gap-6 md:grid-cols-2"
               >
                 <div className={i % 2 === 0 ? "order-1" : "order-1 md:order-2"}>
-                  <h3 className="font-display text-xl sm:text-2xl font-semibold">{a.title}</h3>
-                  <p className="mt-3 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  <h3 className="font-display text-xl sm:text-3xl font-semibold">{a.title}</h3>
+                  <p className="mt-3 text-sm sm:text-sm text-muted-foreground leading-relaxed">
                     {a.body}
                   </p>
                 </div>
@@ -393,7 +367,7 @@ function About() {
           <h2 className="mt-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
             What Our Customers Say
           </h2>
-          <p className="mt-3 max-w-2xl text-xs sm:text-sm text-muted-foreground">
+          <p className="mt-3 max-w-2xl text-sm sm:text-sm text-muted-foreground">
             Reliability, speed, and sustainability are at the core of every move. Join thousands of
             satisfied clients across the Netherlands and Europe.
           </p>
@@ -464,7 +438,7 @@ function About() {
                   ))}
                 </div>
                 <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground">
-                  Customer reviews will appear here as soon as we start receiving them.
+                  Customer reviews will appear here as soon as possible.
                 </p>
               </div>
             </div>

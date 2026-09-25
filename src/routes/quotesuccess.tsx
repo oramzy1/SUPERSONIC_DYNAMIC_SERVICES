@@ -65,7 +65,7 @@ function RouteComponent() {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.32 }}
-          className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-5 sm:p-6 text-left shadow-xl"
+          className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-5 sm:p-6 text-left shadow-sm"
         >
           <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 mb-5">
             What happens next

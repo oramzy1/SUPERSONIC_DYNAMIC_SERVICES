@@ -23,6 +23,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
 import vanHero from "@/assets/images/hero-van.png";
+import newVan2 from "@/assets/images/new-van2.jpg"
 import ecoVan from "@/assets/images/home-eco.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import { quotesApi } from "@/lib/api";
@@ -443,7 +444,7 @@ function QuoteRequest() {
                   : "Some fields need attention. Go back to Step 1 to review.",
               );
             })}
-            className="rounded-2xl border border-white/5 bg-surface p-4 sm:p-6 md:p-8 relative h-fit"
+            className="rounded-2xl border border-border bg-surface p-4 sm:p-6 md:p-8 relative h-fit"
           >
             <AnimatePresence mode="wait">
               {/* STEP 1: PARSING SELECTIONS AND TARGET INPUT CONFIGS */}
@@ -1637,7 +1638,7 @@ function QuoteRequest() {
               <div className="overflow-hidden rounded-lg border border-white/5 bg-surface shadow-xl">
                 <div className="relative">
                   <img
-                    src={ecoVan}
+                    src={newVan2}
                     alt="Supersonic Services Van"
                     className="h-40 sm:h-65 w-full object-cover"
                     loading="lazy"
@@ -1646,7 +1647,7 @@ function QuoteRequest() {
                     <span className="grid h-6 w-6 place-items-center rounded-2xl bg-primary text-primary-foreground">
                       <Zap className="h-3.5 w-3.5" />
                     </span>
-                    <div className="text-sm leading-tight">
+                    <div className="text-sm text-white leading-tight">
                       <p className="uppercase tracking-[0.18em]">Efficiency Rate</p>
                       <p className="font-semibold">100%</p>
                     </div>
@@ -1667,7 +1668,7 @@ function QuoteRequest() {
               <ContactStrip
                 icon={<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />}
                 label="Address"
-                value="De Lingestraat 23, 6467 BK Kerkrade"
+                value="117 Ganzeweide, 6413 GC, Heerlen, The Netherlands"
               />
             </aside>
           )}
