@@ -20,7 +20,9 @@ import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import heroBg from "@/assets/images/hero-bg.png";
-import homeEco from "@/assets/images/home-eco.png";
+import newVan from "@/assets/images/new-van2.jpg";
+import newVan3 from "@/assets/images/new-van2.jpg";
+import newVan2 from "@/assets/images/new-van3.jpg";
 import crates from "@/assets/shop/crates-lifestyle.jpg";
 import homePricing from "@/assets/images/home-pricing.jpg";
 import homeTech from "@/assets/images/home-tech.jpg";
@@ -67,7 +69,7 @@ const STEPS = [
 
 const FEATURE_CARDS = [
   {
-    image: homeEco,
+    image: newVan,
     icon: Leaf,
     title: "Eco-Friendly Moving Services in Netherlands.",
     body: "Our zero-emission electric vans and reusable crate systems minimize your carbon footprint without compromising on speed.",
@@ -112,7 +114,7 @@ const FEATURE_CARDS = [
     object: "object-cover",
   },
   {
-    image: localVan,
+    image: newVan3,
     icon: Truck,
     title: "Local and nationwide moving coverage.",
     body: "Reliable services across cities and regions in the Netherlands. Whether nearby or long-distance, we ensure smooth services & support to our client.",
@@ -189,7 +191,7 @@ function Home() {
             <div className="absolute -inset-6 -z-10 rounded-4xl bg-primary/10 blur-3xl" />
             <div className="relative overflow-hidden rounded-3xl border border-border bg-surface transition-shadow duration-500 hover:shadow-2md">
               <img
-                src={homeEco}
+                src={newVan3}
                 alt="Electric delivery van"
                 className="aspect-4/3 w-full object-cover transition-transform duration-700 hover:scale-105"
               />

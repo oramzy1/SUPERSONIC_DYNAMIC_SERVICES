@@ -81,7 +81,7 @@ function RouteComponent() {
 
   return (
     <div className="min-h-[90vh] w-full flex flex-col items-center justify-center px-4">
-      <div className="w-full max-w-2xl border border-white/10 bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-10 shadow-xl grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+      <div className="w-full max-w-2xl border border-white/10 bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-10 shadow-sm grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
         {/* Left: progress ring */}
         <div className="md:col-span-5 flex flex-col items-center justify-center space-y-4 border-b md:border-b-0 md:border-r border-white/10 pb-6 md:pb-0 md:pr-8">
           <div className="relative flex justify-center items-center h-28 w-28">
@@ -109,7 +109,7 @@ function RouteComponent() {
           </div>
 
           <div className="text-center">
-            <span className="font-mono text-2xl font-semibold tracking-tight text-white">
+            <span className="font-mono text-2xl font-semibold tracking-tight text-primary">
               {progress}%
             </span>
             <p className="text-[11px] font-medium tracking-wide text-slate-400 uppercase mt-0.5">
@@ -124,7 +124,7 @@ function RouteComponent() {
             <span className="text-[11px] font-semibold tracking-wide text-primary uppercase bg-primary/10 px-2.5 py-1 rounded-md border border-primary/25 inline-block">
               Quote in progress
             </span>
-            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-black">
               Processing your request
             </h2>
             <p className="text-sm text-slate-400">This usually takes just a few seconds.</p>
@@ -145,7 +145,7 @@ function RouteComponent() {
                   <div
                     className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] border shrink-0 transition-colors ${
                       isCompleted
-                        ? "bg-primary border-primary text-white"
+                        ? "bg-primary border-primary text-black"
                         : isActive
                           ? "border-primary text-primary"
                           : "border-white/20 text-slate-500"
@@ -154,7 +154,7 @@ function RouteComponent() {
                     {isCompleted ? <Check className="h-3 w-3 stroke-3" /> : index + 1}
                   </div>
                   <span
-                    className={`text-sm ${isActive ? "font-medium text-white" : "text-slate-400"}`}
+                    className={`text-sm ${isActive ? "font-medium text-black" : "text-slate-400"}`}
                   >
                     {stepText}
                   </span>
