@@ -36,7 +36,7 @@ function Services() {
             transition={{ duration: 1.4, ease: "easeOut" }}
             className="h-104 w-full object-cover opacity-50 md:h-136"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/70 to-foreground/20" />
+          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/80 to-foreground/70" />
           <div className="absolute inset-0 flex items-start">
             <motion.div
               initial={{ opacity: 0, y: -24 }}
@@ -72,7 +72,7 @@ function Services() {
             <SurfaceCard
               key={s.slug}
               padded={false}
-              className="group flex flex-col overflow-hidden border border-border transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-md"
+              className="group flex flex-col overflow-hidden border border-border transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-sm"
               transition={{ delay: i * 0.06, duration: 0.5 }}
             >
               <div className="relative overflow-hidden">
@@ -86,7 +86,7 @@ function Services() {
               </div>
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display leading-6 text-lg font-semibold">{s.heroTitle}</h3>
-                <p className="mt-4 rounded-lg border border-border border-l-4 border-l-primary bg-muted/60 p-3 text-xs leading-relaxed text-muted-foreground">
+                <p className="mt-4 rounded-lg border border-border bg-muted/60 p-3 text-xs leading-relaxed text-muted-foreground">
                   {s.intro}
                 </p>
                 <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/70">
