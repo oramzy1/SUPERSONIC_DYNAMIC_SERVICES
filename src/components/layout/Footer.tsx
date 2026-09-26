@@ -233,21 +233,21 @@ export function Footer() {
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 select-none">
         {/* Plus Menu Popup Options */}
         {showPlusMenu && (
-          <div className="w-[calc(100vw-2rem)] sm:w-72 bg-slate-900/95 border border-slate-800 rounded-2xl p-4 text-slate-100 backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-3">
+          <div className="w-[calc(100vw-2rem)] sm:w-72 bg-popover border border-border rounded-2xl p-4 text-foreground backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
+            <div className="flex items-center justify-between border-b border-border pb-2.5 mb-3">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
+                <span className="text-xs font-bold uppercase tracking-wider text-foreground">
                   Supersonic Hub
                 </span>
               </div>
               <button
                 type="button"
                 onClick={() => setShowPlusMenu(false)}
-                className="text-slate-400 hover:text-white transition p-1"
+                className="text-muted-foreground hover:text-foreground transition p-1"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -261,16 +261,16 @@ export function Footer() {
                   setShowPlusMenu(false);
                   setShowMessagingModal(true);
                 }}
-                className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group"
+                className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs transition hover:bg-accent group"
               >
-                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
                   <MessageSquare className="h-4 w-4" />
                 </div>
                 <div>
-                  <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                  <div className="font-semibold text-foreground group-hover:text-primary">
                     Support & Messaging
                   </div>
-                  <div className="text-[11px] text-slate-400">
+                  <div className="text-[11px] text-muted-foreground">
                     Live chat, support tickets & contact
                   </div>
                 </div>
@@ -283,16 +283,16 @@ export function Footer() {
                   setShowPlusMenu(false);
                   setIsThemeModalOpen(true);
                 }}
-                className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group"
+                className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs transition hover:bg-accent group"
               >
-                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-500/10 text-indigo-400">
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-500/10 text-indigo-500">
                   <Palette className="h-4 w-4" />
                 </div>
                 <div>
-                  <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                  <div className="font-semibold text-foreground group-hover:text-primary">
                     Theme Appearance
                   </div>
-                  <div className="text-[11px] text-slate-400">
+                  <div className="text-[11px] text-muted-foreground">
                     Switch Light, Dark or System theme
                   </div>
                 </div>
@@ -304,11 +304,11 @@ export function Footer() {
         {/* Existing Support Channels Modal */}
         {showMessagingModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-            <div className="w-full max-w-md rounded-2xl bg-slate-900 border border-slate-800 p-6 text-slate-100 shadow-2xl relative animate-in zoom-in-95 duration-200">
+            <div className="w-full max-w-md rounded-2xl bg-popover border border-border p-6 text-foreground shadow-2xl relative animate-in zoom-in-95 duration-200">
               <button
                 type="button"
                 onClick={() => setShowMessagingModal(false)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 transition"
+                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground p-1 transition"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -318,52 +318,52 @@ export function Footer() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <h3 className="text-lg font-bold font-display text-white">Support Channels</h3>
+                <h3 className="text-lg font-bold font-display text-foreground">Support Channels</h3>
               </div>
 
-              <p className="text-xs text-slate-400 mb-5">
+              <p className="text-xs text-muted-foreground mb-5">
                 How can we assist you today? Select one of our communication channels below.
               </p>
 
               <div className="space-y-3">
                 <Link to="/support" onClick={() => setShowMessagingModal(false)} className="block">
-                  <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/80 border border-slate-700/80 p-3.5 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
-                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <div className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3.5 text-left text-xs transition hover:bg-accent group">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
                       <MessageCircle className="h-4 w-4" />
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                      <div className="font-semibold text-foreground group-hover:text-primary">
                         Live Chat Support
                       </div>
-                      <div className="text-[11px] text-slate-400">Chat with our online support team</div>
+                      <div className="text-[11px] text-muted-foreground">Chat with our online support team</div>
                     </div>
                   </div>
                 </Link>
 
                 <Link to="/ticket" onClick={() => setShowMessagingModal(false)} className="block">
-                  <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/80 border border-slate-700/80 p-3.5 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
-                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <div className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3.5 text-left text-xs transition hover:bg-accent group">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
                       <Ticket className="h-4 w-4" />
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                      <div className="font-semibold text-foreground group-hover:text-primary">
                         Submit a Ticket
                       </div>
-                      <div className="text-[11px] text-slate-400">Open a detailed inquiry or request</div>
+                      <div className="text-[11px] text-muted-foreground">Open a detailed inquiry or request</div>
                     </div>
                   </div>
                 </Link>
 
                 <Link to="/contact" onClick={() => setShowMessagingModal(false)} className="block">
-                  <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/80 border border-slate-700/80 p-3.5 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
-                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <div className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3.5 text-left text-xs transition hover:bg-accent group">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
                       <PhoneCall className="h-4 w-4" />
                     </div>
                     <div>
-                      <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                      <div className="font-semibold text-foreground group-hover:text-primary">
                         Contact Us
                       </div>
-                      <div className="text-[11px] text-slate-400">Get in touch via phone or email</div>
+                      <div className="text-[11px] text-muted-foreground">Get in touch via phone or email</div>
                     </div>
                   </div>
                 </Link>

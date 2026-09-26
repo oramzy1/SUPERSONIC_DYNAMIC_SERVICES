@@ -25,8 +25,8 @@ export function SurfaceCard({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={cn(
-        "rounded-2xl bg-surface",
-        bordered === "primary" ? "border border-primary/60" : "border border-white/5",
+        "rounded-2xl bg-surface text-foreground",
+        bordered === "primary" ? "border border-primary/60" : "border border-border",
         coloredBorder && 'border-l-3 border-l-primary',
         padded && "p-6 md:p-8",
         className,
