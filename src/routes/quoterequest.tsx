@@ -842,7 +842,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -853,7 +853,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -863,7 +863,7 @@ function QuoteRequest() {
                         >
                           <div className="relative w-full">
                             <select
-                              className="field w-full rounded-lg px-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none appearance-none cursor-pointer pr-10"
+                              className="field w-full rounded-lg px-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none appearance-none cursor-pointer pr-10"
                               {...register("storageSize")}
                             >
                               <option value="" className="bg-[#0E141A] text-muted-foreground">
@@ -906,14 +906,14 @@ function QuoteRequest() {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="packing_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -926,19 +926,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Packing Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="disassembling_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -951,19 +951,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Disassembling Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="hours_weekend_holiday_move"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -976,19 +976,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Work hours/weekdays collection support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="hours_weekend_holiday_move"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-black/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1001,7 +1001,7 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     After hours/weekend/holiday collection support
                                   </span>
                                 </label>
@@ -1080,7 +1080,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1088,14 +1088,14 @@ function QuoteRequest() {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="waste_sorting_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1108,19 +1108,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Waste sorting support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="disassembling_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1133,19 +1133,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Disassembling support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1158,7 +1158,7 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     After hours/weekend/holiday removal support
                                   </span>
                                 </label>
@@ -1269,7 +1269,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1298,14 +1298,14 @@ function QuoteRequest() {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="Loading_Support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1318,19 +1318,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Loading Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="Unloading_Support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1343,19 +1343,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Unloading Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="transport"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1368,19 +1368,19 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     After hours/weekend/holiday transport support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-white/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-white has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="storage_support"
                                     className="peer sr-only"
                                     {...register("additionalServices")}
                                   />
-                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-white peer-checked:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
+                                  <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
                                       className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
@@ -1393,7 +1393,7 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-white font-small select-none">
+                                  <span className="text-xs text-black font-small select-none">
                                     Overnight freight storage support
                                   </span>
                                 </label>
