@@ -128,12 +128,12 @@ function RouteComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground">
       <main className="max-w-6xl mx-auto px-6 py-12">
         <div className="mb-6">
           <button
             onClick={handleBack}
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-slate-900 transition-colors duration-150 group"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-150 group"
           >
             <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
             Back
@@ -141,54 +141,54 @@ function RouteComponent() {
         </div>
 
         <header className="mb-10">
-          <span className="text-[10px] font-bold tracking-[0.15em] text-indigo-600 uppercase">
+          <span className="text-[10px] font-bold tracking-[0.15em] text-primary uppercase">
             Supersonic Operations
           </span>
-          <h1 className="font-display text-4xl font-extrabold tracking-tight mt-1 text-slate-900">
+          <h1 className="font-display text-4xl font-extrabold tracking-tight mt-1 text-foreground">
             Schedule a Meeting
           </h1>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           {/* ── Left Column: Details & Calendar Combo Card ── */}
-          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-xs shadow-slate-200/50">
-            <div className="p-8 border-b md:border-b-0 md:border-r border-slate-100 flex flex-col justify-between min-h-115">
+          <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 bg-surface border border-border rounded-2xl overflow-hidden shadow-xs">
+            <div className="p-8 border-b md:border-b-0 md:border-r border-border flex flex-col justify-between min-h-115">
               <div>
-                <span className="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase mb-6">
-                  <span className="h-1.5 w-1.5 rounded-full bg-indigo-600 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 text-primary px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase mb-6">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
                   Live Consultation
                 </span>
 
-                <h2 className="font-display text-2xl font-bold leading-tight mb-4 tracking-tight text-slate-900">
+                <h2 className="font-display text-2xl font-bold leading-tight mb-4 tracking-tight text-foreground">
                   Schedule Your Free Consultation
                 </h2>
-                <p className="text-xs text-slate-500 leading-relaxed font-normal mb-5">
+                <p className="text-xs text-muted-foreground leading-relaxed font-normal mb-5">
                   Meet with our experienced team to plan your move, explore the best options for
                   your relocation, and get a personalized solution that fits your needs.
                 </p>
 
                 <div className="mt-8 space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 bg-slate-50 border border-slate-200/60 rounded-xl text-slate-600">
+                    <div className="p-2.5 bg-background border border-border rounded-xl text-muted-foreground">
                       <Clock className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">
+                      <p className="text-[10px] font-bold text-muted-foreground tracking-wider uppercase">
                         Duration
                       </p>
-                      <p className="text-sm font-semibold text-slate-800">30 Minutes</p>
+                      <p className="text-sm font-semibold text-foreground">30 Minutes</p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 bg-slate-50 border border-slate-200/60 rounded-xl text-slate-600">
+                    <div className="p-2.5 bg-background border border-border rounded-xl text-muted-foreground">
                       <Globe className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 tracking-wider uppercase">
+                      <p className="text-[10px] font-bold text-muted-foreground tracking-wider uppercase">
                         Zone
                       </p>
-                      <p className="text-sm font-semibold text-slate-800">
+                      <p className="text-sm font-semibold text-foreground">
                         Central European Time (GMT+1)
                       </p>
                     </div>
@@ -197,35 +197,35 @@ function RouteComponent() {
               </div>
 
               {/* Host Profile */}
-              <div className="flex items-center gap-3 mt-8 pt-6 border-t border-slate-100">
+              <div className="flex items-center gap-3 mt-8 pt-6 border-t border-border">
                 <img
                   src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&auto=format&fit=crop&q=80"
                   alt="Hillary Nweze"
-                  className="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-sm"
+                  className="w-10 h-10 rounded-full object-cover border border-border shadow-sm"
                 />
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-900">Hillary Nweze</h4>
-                  <p className="text-xs text-slate-500">Lead Logistics Architect</p>
+                  <h4 className="text-sm font-semibold text-foreground">Hillary Nweze</h4>
+                  <p className="text-xs text-muted-foreground">Lead Logistics Architect</p>
                 </div>
               </div>
             </div>
 
             {/* Interactive Calendar Grid */}
-            <div className="p-8 bg-white">
+            <div className="p-8 bg-surface">
               <div className="flex items-center justify-between mb-8">
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-base font-bold text-foreground">
                   {monthsList[currentMonthIndex]} {currentYear}
                 </h3>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={handlePrevMonth}
-                    className="p-1.5 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
+                    className="p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-background transition-all border border-transparent hover:border-border"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <button
                     onClick={handleNextMonth}
-                    className="p-1.5 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
+                    className="p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-background transition-all border border-transparent hover:border-border"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
@@ -235,7 +235,7 @@ function RouteComponent() {
               {/* Days Header */}
               <div className="grid grid-cols-7 gap-y-4 text-center mb-4">
                 {daysOfWeek.map((day) => (
-                  <span key={day} className="text-[10px] font-bold tracking-wider text-slate-400">
+                  <span key={day} className="text-[10px] font-bold tracking-wider text-muted-foreground">
                     {day}
                   </span>
                 ))}
@@ -258,10 +258,10 @@ function RouteComponent() {
                       title={item.isWeekend ? "Non-working day" : ""}
                       className={`
                         py-2 text-xs font-semibold rounded-lg transition-all mx-auto w-8 h-8 flex items-center justify-center
-                        ${!item.currentMonth ? "text-slate-300 cursor-not-allowed" : ""}
-                        ${item.currentMonth && !item.isWeekend ? "text-slate-700 hover:bg-slate-100 hover:text-slate-900" : ""}
-                        ${item.isWeekend && item.currentMonth ? "text-slate-300 bg-slate-50/50 cursor-not-allowed line-through decoration-slate-300" : ""}
-                        ${isSelected ? "bg-blue-800 text-white font-bold shadow-md shadow-blue-400/20 hover:bg-blue-400 hover:text-slate-950" : ""}
+                        ${!item.currentMonth ? "text-muted-foreground/40 cursor-not-allowed" : ""}
+                        ${item.currentMonth && !item.isWeekend ? "text-foreground hover:bg-background" : ""}
+                        ${item.isWeekend && item.currentMonth ? "text-muted-foreground/40 bg-background/50 cursor-not-allowed line-through" : ""}
+                        ${isSelected ? "bg-primary text-primary-foreground font-bold shadow-md" : ""}
                         ${isSubmitting ? "pointer-events-none opacity-50" : ""}
                       `}
                     >
@@ -274,14 +274,14 @@ function RouteComponent() {
           </div>
 
           {/* ── Right Column: Slots Container ── */}
-          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs shadow-slate-200/50 flex flex-col justify-between min-h-115">
+          <div className="bg-surface border border-border rounded-2xl p-6 shadow-xs flex flex-col justify-between min-h-115">
             <div>
               <header className="mb-6">
-                <span className="text-[10px] font-bold tracking-wider text-indigo-600 uppercase block">
+                <span className="text-[10px] font-bold tracking-wider text-primary uppercase block">
                   Step 02
                 </span>
-                <h3 className="text-lg font-bold text-slate-900 mt-0.5">Available Slots</h3>
-                <p className="text-xs text-slate-500 mt-1">
+                <h3 className="text-lg font-bold text-foreground mt-0.5">Available Slots</h3>
+                <p className="text-xs text-muted-foreground mt-1">
                   {monthsList[currentMonthIndex]} {selectedDate}, {currentYear}
                 </p>
               </header>
@@ -298,8 +298,8 @@ function RouteComponent() {
                         w-full flex items-center justify-between p-3.5 rounded-xl border text-sm font-semibold tracking-wide transition-all duration-150 group
                         ${
                           isTimeSelected
-                            ? "bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm"
-                            : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/80 text-slate-700"
+                            ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-500 shadow-sm"
+                            : "bg-surface border-border hover:border-primary/30 hover:bg-background text-foreground"
                         }
                         ${isSubmitting ? "pointer-events-none opacity-50" : ""}
                       `}
@@ -310,7 +310,7 @@ function RouteComponent() {
                           <Check className="h-3 w-3" />
                         </span>
                       ) : (
-                        <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                       )}
                     </button>
                   );
@@ -321,11 +321,11 @@ function RouteComponent() {
             <button
               onClick={handleConfirmBriefing}
               disabled={isSubmitting}
-              className="w-full bg-slate-900 hover:bg-slate-800 active:bg-slate-950 disabled:bg-slate-300 disabled:text-slate-500 text-white font-bold py-4 px-4 rounded-xl text-xs uppercase tracking-widest mt-6 transition-all duration-150 shadow-lg shadow-slate-900/10 active:scale-[0.99] flex items-center justify-center gap-2"
+              className="w-full bg-primary hover:opacity-90 disabled:opacity-50 text-primary-foreground font-bold py-4 px-4 rounded-xl text-xs uppercase tracking-widest mt-6 transition-all duration-150 shadow-lg active:scale-[0.99] flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
-                  <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span className="w-3.5 h-3.5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
                   Confirming...
                 </>
               ) : (

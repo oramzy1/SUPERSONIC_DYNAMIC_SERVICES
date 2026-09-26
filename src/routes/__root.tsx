@@ -16,6 +16,7 @@ import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/lib/shop/cart";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 function NotFoundComponent() {
   return (
@@ -167,17 +168,19 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <LoadingProvider>
-        <CartProvider>
-        <CookieConsentProvider>
-          <PageLoader />
-          <Toaster richColors position="top-right" />
-          <Outlet />
-        </CookieConsentProvider>
-        </CartProvider>
-      </LoadingProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <LoadingProvider>
+            <CartProvider>
+              <CookieConsentProvider>
+                <PageLoader />
+                <Toaster richColors position="top-right" />
+                <Outlet />
+              </CookieConsentProvider>
+            </CartProvider>
+          </LoadingProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

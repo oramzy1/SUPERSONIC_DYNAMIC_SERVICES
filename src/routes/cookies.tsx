@@ -75,7 +75,7 @@ function Cookies() {
         <div className="absolute inset-0 bg-linear-to-br from-primary/10 via-primary/5 to-emerald-500/5" />
         <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
         <div className="relative mx-auto mt-8 max-w-7xl px-6 py-16 md:px-8 md:py-24">
-          <Pill className=" text-black" variant="cyan" dot>
+          <Pill variant="cyan" dot>
             Transparency Framework
           </Pill>
           <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground md:text-6xl">
@@ -175,7 +175,7 @@ function Cookies() {
                 <div
                   key={c.label}
                   className={`rounded-xl border p-5 transition ${
-                    isEnabled ? `${c.border} ${c.bg}` : "border-slate-200 bg-slate-50"
+                    isEnabled ? `${c.border} ${c.bg}` : "border-border bg-surface"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
@@ -195,7 +195,7 @@ function Cookies() {
                           ? "border-emerald-300 text-emerald-700 bg-emerald-50"
                           : isEnabled
                             ? "border-primary/30 text-primary bg-primary/10"
-                            : "border-slate-300 text-slate-500 bg-white"
+                            : "border-border text-muted-foreground bg-surface"
                       }`}
                     >
                       {c.required ? "Required" : isEnabled ? "Enabled" : "Disabled"}
@@ -206,7 +206,7 @@ function Cookies() {
                     {c.examples.map((e) => (
                       <span
                         key={e}
-                        className="rounded border border-slate-200 bg-white px-2 py-0.5 text-[10px] text-slate-600"
+                        className="rounded border border-border bg-surface px-2 py-0.5 text-[10px] text-muted-foreground"
                       >
                         {e}
                       </span>
@@ -238,7 +238,7 @@ function Cookies() {
               ["Analytics", "GA4 / G-H4PXL6HMXK", "Measurement ID"],
               ["Data Region", "European Union", "Processing location"],
             ].map(([title, value, sub]) => (
-              <div key={title} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div key={title} className="rounded-xl border border-border bg-surface p-4">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {sub}
                 </p>
