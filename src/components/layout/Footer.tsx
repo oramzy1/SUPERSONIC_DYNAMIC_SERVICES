@@ -6,7 +6,9 @@ import {
   Linkedin,
   MessageCircle,
   MessageSquare,
+  Palette,
   PhoneCall,
+  Plus,
   Share2,
   Ticket,
   X,
@@ -14,12 +16,15 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import TrustPilotWidget from "../shared/TrustPilotWidget";
+import { ThemeModal } from "../shared/ThemeModal";
+import { SystemThemePromptBanner } from "../shared/SystemThemePromptBanner";
+import { useTheme } from "@/contexts/ThemeContext";
 import ideal from "@/assets/images/ideal-logo.png";
 import master from "@/assets/images/mastercard-logo.png";
 import visa from "@/assets/images/visa-logo.png";
 import paypal from "@/assets/images/paypal-logo.png";
 
-// Updated short-form opening hours
+// Short-form opening hours
 const HOURS = [
   ["Monday - Friday", "8:30 - 17:30", true],
   ["Saturday", "Closed", false],
@@ -42,7 +47,9 @@ const NAV_RIGHT = [
 
 export function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [showSupportCard, setShowSupportCard] = useState(false);
+  const [showPlusMenu, setShowPlusMenu] = useState(false);
+  const [showMessagingModal, setShowMessagingModal] = useState(false);
+  const { setIsThemeModalOpen } = useTheme();
 
   useEffect(() => {
     const handleScrollToggle = () => {
@@ -65,7 +72,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800/80">
+    <footer className="bg-footer text-slate-300 border-t border-border/40">
       {/* Main Grid Section */}
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-14 sm:grid-cols-2 md:grid-cols-4 md:px-8">
         <div>
@@ -222,11 +229,11 @@ export function Footer() {
         </div>
       </div>
 
-      {/* FLOATING SUPPORT BUTTON & MODAL POPUP */}
+      {/* FLOATING ACTION MENU & MODALS */}
       <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 select-none">
-        {/* Support Options Popup Container */}
-        {showSupportCard && (
-          <div className="w-[calc(100vw-2rem)] sm:w-72 bg-slate-900 border border-slate-800 rounded-2xl p-4 text-slate-100 backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
+        {/* Plus Menu Popup Options */}
+        {showPlusMenu && (
+          <div className="w-[calc(100vw-2rem)] sm:w-72 bg-slate-900/95 border border-slate-800 rounded-2xl p-4 text-slate-100 backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
             <div className="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-3">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
@@ -239,7 +246,7 @@ export function Footer() {
               </div>
               <button
                 type="button"
-                onClick={() => setShowSupportCard(false)}
+                onClick={() => setShowPlusMenu(false)}
                 className="text-slate-400 hover:text-white transition p-1"
               >
                 <X className="h-4 w-4" />
@@ -247,65 +254,144 @@ export function Footer() {
             </div>
 
             <div className="space-y-2">
-              {/* Option 1: Live Chat Link */}
-              <Link to="/support" onClick={() => setShowSupportCard(false)} className="block">
-                <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
-                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-emerald-500/10 text-emerald-400">
-                    <MessageCircle className="h-4 w-4" />
+              {/* Option 1: Existing Messaging / Support Hub Option */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPlusMenu(false);
+                  setShowMessagingModal(true);
+                }}
+                className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group"
+              >
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                  <MessageSquare className="h-4 w-4" />
+                </div>
+                <div>
+                  <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                    Support & Messaging
                   </div>
-                  <div>
-                    <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
-                      Live Chat Support
-                    </div>
+                  <div className="text-[11px] text-slate-400">
+                    Live chat, support tickets & contact
                   </div>
                 </div>
-              </Link>
+              </button>
 
-              {/* Option 2: Submit Ticket Link */}
-              <Link to="/ticket" onClick={() => setShowSupportCard(false)} className="block">
-                <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
-                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-emerald-500/10 text-emerald-400">
-                    <Ticket className="h-4 w-4" />
+              {/* Option 2: Theme Modal Option */}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPlusMenu(false);
+                  setIsThemeModalOpen(true);
+                }}
+                className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group"
+              >
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-500/10 text-indigo-400">
+                  <Palette className="h-4 w-4" />
+                </div>
+                <div>
+                  <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                    Theme Appearance
                   </div>
-                  <div>
-                    <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
-                      Submit a Ticket
-                    </div>
+                  <div className="text-[11px] text-slate-400">
+                    Switch Light, Dark or System theme
                   </div>
                 </div>
-              </Link>
-
-              {/* Option 3: Contact Us Link */}
-              <Link to="/contact" onClick={() => setShowSupportCard(false)} className="block">
-                <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/60 border border-slate-700/50 p-3 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
-                  <div className="grid h-7 w-7 shrink-0 place-items-center rounded bg-emerald-500/10 text-emerald-400">
-                    <PhoneCall className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
-                      Contact Us
-                    </div>
-                  </div>
-                </div>
-              </Link>
+              </button>
             </div>
           </div>
         )}
 
-        {/* Toggle Support Trigger Button */}
+        {/* Existing Support Channels Modal */}
+        {showMessagingModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            <div className="w-full max-w-md rounded-2xl bg-slate-900 border border-slate-800 p-6 text-slate-100 shadow-2xl relative animate-in zoom-in-95 duration-200">
+              <button
+                type="button"
+                onClick={() => setShowMessagingModal(false)}
+                className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 transition"
+              >
+                <X className="h-5 w-5" />
+              </button>
+
+              <div className="flex items-center gap-2 mb-4">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <h3 className="text-lg font-bold font-display text-white">Support Channels</h3>
+              </div>
+
+              <p className="text-xs text-slate-400 mb-5">
+                How can we assist you today? Select one of our communication channels below.
+              </p>
+
+              <div className="space-y-3">
+                <Link to="/support" onClick={() => setShowMessagingModal(false)} className="block">
+                  <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/80 border border-slate-700/80 p-3.5 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                      <MessageCircle className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                        Live Chat Support
+                      </div>
+                      <div className="text-[11px] text-slate-400">Chat with our online support team</div>
+                    </div>
+                  </div>
+                </Link>
+
+                <Link to="/ticket" onClick={() => setShowMessagingModal(false)} className="block">
+                  <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/80 border border-slate-700/80 p-3.5 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                      <Ticket className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                        Submit a Ticket
+                      </div>
+                      <div className="text-[11px] text-slate-400">Open a detailed inquiry or request</div>
+                    </div>
+                  </div>
+                </Link>
+
+                <Link to="/contact" onClick={() => setShowMessagingModal(false)} className="block">
+                  <div className="w-full flex items-center gap-3 rounded-xl bg-slate-800/80 border border-slate-700/80 p-3.5 text-left text-xs transition hover:bg-slate-800 hover:border-emerald-500/50 group">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-400">
+                      <PhoneCall className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-slate-200 group-hover:text-emerald-400">
+                        Contact Us
+                      </div>
+                      <div className="text-[11px] text-slate-400">Get in touch via phone or email</div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Toggle Support Trigger Button (PLUS button) */}
         <button
           type="button"
-          onClick={() => setShowSupportCard(!showSupportCard)}
+          onClick={() => setShowPlusMenu(!showPlusMenu)}
           className={`grid h-12 w-12 place-items-center rounded-xl transition shadow-xl hover:opacity-95 active:scale-95 border ${
-            showSupportCard
+            showPlusMenu
               ? "bg-slate-800 text-slate-200 border-slate-700"
               : "bg-emerald-500 text-slate-950 border-emerald-400 font-bold"
           }`}
-          aria-label="Toggle support channel options"
+          aria-label="Toggle supersonic options"
         >
-          {showSupportCard ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
+          {showPlusMenu ? <X className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
         </button>
       </div>
+
+      {/* Theme Modal */}
+      <ThemeModal />
+
+      {/* System Theme Prompt Banner */}
+      <SystemThemePromptBanner />
 
       {/* FLOATING SCROLL TO TOP ARROW BUTTON */}
       <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 flex flex-col items-end gap-3 select-none">
