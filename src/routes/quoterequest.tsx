@@ -23,7 +23,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
 import vanHero from "@/assets/images/hero-van.png";
-import newVan5 from "@/assets/images/newvan5.jpg"
+import newVan5 from "@/assets/images/newVan5.jpg"
 import ecoVan from "@/assets/images/home-eco.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import { quotesApi } from "@/lib/api";

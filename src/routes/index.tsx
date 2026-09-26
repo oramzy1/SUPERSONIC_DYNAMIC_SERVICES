@@ -21,13 +21,12 @@ import { CTAButton } from "@/components/shared/CTAButton";
 import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import heroBg from "@/assets/images/hero-bg.png";
 import newVan from "@/assets/images/new-van2.jpg";
-import newVan3 from "@/assets/images/new-van2.jpg";
-import newVan5 from "@/assets/images/newvan5.jpg";
+import newVan5 from "@/assets/images/newVan5.jpg";
+import newVan3 from "@/assets/images/new-van3.jpg";
 import crates from "@/assets/shop/crates-lifestyle.jpg";
 import homePricing from "@/assets/images/home-pricing.jpg";
 import homeTech from "@/assets/images/home-tech.jpg";
 import homeHandling from "@/assets/images/home-handling.jpg";
-import localVan from "@/assets/images/local-van.png";
 import homeTeam from "@/assets/images/home-team.jpg";
 
 export const Route = createFileRoute("/")({
@@ -114,7 +113,7 @@ const FEATURE_CARDS = [
     object: "object-cover",
   },
   {
-    image: newVan5,
+    image: newVan3,
     icon: Truck,
     title: "Local and nationwide moving coverage.",
     body: "Reliable services across cities and regions in the Netherlands. Whether nearby or long-distance, we ensure smooth services & support to our client.",
