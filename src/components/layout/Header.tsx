@@ -116,7 +116,7 @@ export function Header() {
           <img
             src={logo}
             alt="Supersonic Dynamic Services"
-            className="h-16 w-auto rounded-md sm:rounded-md"
+            className="h-16 w-auto"
           />
         </Link>
 

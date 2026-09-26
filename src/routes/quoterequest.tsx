@@ -23,7 +23,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
 import vanHero from "@/assets/images/hero-van.png";
-import newVan2 from "@/assets/images/new-van2.jpg"
+import newVan5 from "@/assets/images/newvan5.jpg"
 import ecoVan from "@/assets/images/home-eco.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import { quotesApi } from "@/lib/api";
@@ -1638,7 +1638,7 @@ function QuoteRequest() {
               <div className="overflow-hidden rounded-lg border border-white/5 bg-surface shadow-xl">
                 <div className="relative">
                   <img
-                    src={newVan2}
+                    src={newVan5}
                     alt="Supersonic Services Van"
                     className="h-40 sm:h-65 w-full object-cover"
                     loading="lazy"

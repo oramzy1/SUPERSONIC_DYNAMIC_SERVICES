@@ -68,7 +68,7 @@ function Contact() {
             transition={{ duration: 1.4, ease: "easeOut" }}
             className="h-104 w-full object-cover opacity-50 md:h-136"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/70 to-foreground/20" />
+          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/80 to-foreground/70" />
           <div className="absolute inset-0 flex items-start">
             <motion.div
               initial={{ opacity: 0, y: -24 }}

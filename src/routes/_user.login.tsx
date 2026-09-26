@@ -84,7 +84,7 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center p-4 font-sans select-none">
-      <div className="w-full max-w-115 rounded-[24px] border border-slate-200 bg-white p-6 sm:p-10 shadow-xl shadow-slate-900/5 transition-all duration-300">
+      <div className="w-full max-w-115 rounded-[24px] border border-slate-200 bg-surface p-6 sm:p-10 shadow-sm shadow-slate-900/5 transition-all duration-300">
         {!isSuccess ? (
           <div className="animate-in fade-in duration-200">
             {/* Header Block */}
