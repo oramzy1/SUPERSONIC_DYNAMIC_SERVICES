@@ -7,7 +7,7 @@ import { SurfaceCard } from "@/components/shared/SurfaceCard";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { RequestQuoteBanner } from "./index";
 import ecoVan from "@/assets/images/home-eco.jpg";
-import newVan5 from "@/assets/images/newvan5.jpg"
+import newVan5 from "@/assets/images/newVan5.jpg"
 import tracking from "@/assets/images/about-tracking.jpg";
 import packing from "@/assets/images/about-packing.jpg";
 import vanHero from "@/assets/images/hero-van.jpg";
