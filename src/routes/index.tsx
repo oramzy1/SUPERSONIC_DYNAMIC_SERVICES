@@ -150,7 +150,7 @@ function Home() {
             <Pill variant="primary" dot>
               Netherlands
             </Pill>
-            <h1 className="mt-3 font-display text-5xl text-balance font-extrabold leading-13 sm:leading-15 text-foreground md:text-6xl">
+            <h1 className="mt-3 font-display text-5xl text-balance font-bold leading-13 sm:leading-15 text-foreground md:text-6xl">
               Life Moves, Business Moves,
               <span className="text-foreground/80"> Everything Moves.</span>
             </h1>
