@@ -1,30 +1,38 @@
 import { useState } from "react";
 import { Loader2, Wand2 } from "lucide-react";
-import type { QuoteRequestResponse } from "@/lib/api-types";
+import type { QuoteLineItem, QuoteRequestResponse } from "@/lib/api-types";
 
 export function GenerateQuoteModal({
-  quote,
-  busy,
-  title = "Generate Quote",
-  initialAmount,
-  onClose,
-  onSubmit,
+  quote, busy, title = "Generate Quote", initialAmount, onClose, onSubmit,
 }: {
   quote: QuoteRequestResponse;
   busy: boolean;
   title?: string;
   initialAmount?: string;
   onClose: () => void;
-  onSubmit: (amount: string, validUntilDays: number) => void;
+  onSubmit: (amount: string, validUntilDays: number, lineItems?: QuoteLineItem[]) => void;
 }) {
   const [amount, setAmount] = useState(initialAmount ?? "");
   const [validDays, setValidDays] = useState(14);
+  const [lineItems, setLineItems] = useState<QuoteLineItem[]>([]);
   const [formError, setFormError] = useState<string | null>(null);
 
+  const itemsTotal = lineItems.reduce((sum, li) => sum + (Number(li.amount) || 0), 0);
+  const effectiveAmount = lineItems.length > 0 ? itemsTotal.toFixed(2) : amount;
+
+  const addItem = () => setLineItems((p) => [...p, { description: "", amount: "" }]);
+  const updateItem = (i: number, patch: Partial<QuoteLineItem>) =>
+    setLineItems((p) => p.map((li, idx) => (idx === i ? { ...li, ...patch } : li)));
+  const removeItem = (i: number) => setLineItems((p) => p.filter((_, idx) => idx !== i));
+
   const handleConfirm = () => {
-    const parsed = Number(amount);
-    if (!amount || Number.isNaN(parsed) || parsed <= 0) {
+    const parsed = Number(effectiveAmount);
+    if (!effectiveAmount || Number.isNaN(parsed) || parsed <= 0) {
       setFormError("Enter a valid amount greater than 0.");
+      return;
+    }
+    if (lineItems.some((li) => !li.description.trim() || !li.amount || Number(li.amount) <= 0)) {
+      setFormError("Every line item needs a description and an amount greater than 0.");
       return;
     }
     if (validDays < 1 || validDays > 90) {
@@ -32,7 +40,7 @@ export function GenerateQuoteModal({
       return;
     }
     setFormError(null);
-    onSubmit(amount, validDays);
+    onSubmit(effectiveAmount, validDays, lineItems.length > 0 ? lineItems : undefined);
   };
 
   return (
@@ -54,13 +62,17 @@ export function GenerateQuoteModal({
             <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-slate-500">
               Price (€)
             </label>
-            <input
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="e.g. 1250.00"
-              inputMode="decimal"
-              className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-white outline-none focus:border-[#E2A54A]/50"
-            />
+ <input
+    value={effectiveAmount}
+    onChange={(e) => setAmount(e.target.value)}
+    disabled={lineItems.length > 0}
+    placeholder="e.g. 1250.00"
+    inputMode="decimal"
+    className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-white outline-none focus:border-[#E2A54A]/50 disabled:opacity-60"
+  />
+  {lineItems.length > 0 && (
+    <p className="mt-1 text-[10px] text-slate-500">Auto-calculated from line items below.</p>
+  )}
           </div>
           <div>
             <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-slate-500">
@@ -76,6 +88,38 @@ export function GenerateQuoteModal({
             />
             <p className="mt-1 text-[10px] text-slate-500">Max 90 days.</p>
           </div>
+            <div>
+    <div className="flex items-center justify-between mb-1">
+      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+        Line Items (optional)
+      </label>
+      <button onClick={addItem} type="button" className="text-[10px] font-bold text-[#E2A54A] hover:underline">
+        + Add item
+      </button>
+    </div>
+    <div className="space-y-2">
+      {lineItems.map((li, i) => (
+        <div key={i} className="flex gap-2">
+          <input
+            value={li.description}
+            onChange={(e) => updateItem(i, { description: e.target.value })}
+            placeholder="Description"
+            className="flex-1 rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
+          />
+          <input
+            value={li.amount}
+            onChange={(e) => updateItem(i, { amount: e.target.value })}
+            placeholder="€"
+            inputMode="decimal"
+            className="w-24 rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
+          />
+          <button onClick={() => removeItem(i)} type="button" className="text-slate-500 hover:text-rose-400 px-1">
+            ✕
+          </button>
+        </div>
+      ))}
+    </div>
+  </div>
         </div>
 
         <div className="mt-6 flex justify-end gap-3">

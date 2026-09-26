@@ -18,6 +18,7 @@ import type {
   LoginRequest,
   RegisterRequest,
 } from "@/lib/api-types";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AuthState {
   user: ProfileResponse | null;
@@ -32,6 +33,7 @@ interface AuthState {
 const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient();
   const [user, setUser] = useState<ProfileResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -58,16 +60,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (data: LoginRequest) => {
     const res = await authApi.login(data);
     setTokens(res.access_token, res.refresh_token);
+    queryClient.clear();
     const profile = await accountApi.getProfile();
     setUser(profile);
-  }, []);
+  }, [queryClient]);
 
   const register = useCallback(async (data: RegisterRequest) => {
     const res = await authApi.register(data);
     setTokens(res.access_token, res.refresh_token);
+    queryClient.clear();
     const profile = await accountApi.getProfile();
     setUser(profile);
-  }, []);
+  }, [queryClient]);
 
   const logout = useCallback(async () => {
     try {
@@ -75,8 +79,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       clearTokens();
       setUser(null);
+      queryClient.clear();
     }
-  }, []);
+  }, [queryClient]);
 
   return (
     <AuthContext.Provider

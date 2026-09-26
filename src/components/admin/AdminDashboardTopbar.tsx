@@ -3,26 +3,26 @@ import { Bell, HelpCircle, Search, X, Menu } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNotifications } from "@/hooks/useNotifications";
 
 interface TopbarProps {
   onMenuToggle: () => void;
+  onNotificationsClick: () => void;
 }
 
-export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
+export function AdminDashboardTopbar({ onMenuToggle, onNotificationsClick }: TopbarProps) {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { unread } = useNotifications();
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
 
-  const notifRef = useRef<HTMLDivElement>(null);
+  // const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
+  
+ useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node;
-      if (notifRef.current && !notifRef.current.contains(target)) {
-        setOpenNotifications(false);
-      }
       if (profileRef.current && !profileRef.current.contains(target)) {
         setOpenProfile(false);
       }
@@ -30,7 +30,6 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem("supersonic_admin_authed");
@@ -68,46 +67,14 @@ export function AdminDashboardTopbar({ onMenuToggle }: TopbarProps) {
       {/* RIGHT: Actions */}
       <div className="flex items-center gap-2 shrink-0">
         {/* NOTIFICATIONS */}
-        <div ref={notifRef} className="relative">
-          <button
-            onClick={() => setOpenNotifications(!openNotifications)}
-            className="relative grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-colors focus:outline-none"
-            aria-label="Notifications"
-          >
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-[#E2A54A] rounded-full" />
-          </button>
-
-          {/* Backdrop */}
-          {openNotifications && (
-            <div
-              className="fixed inset-0 bg-black/80 backdrop-blur-xl z-9"
-              onClick={() => setOpenNotifications(false)}
-            />
-          )}
-
-          {/* Slide-in drawer */}
-          <div
-            className={`fixed top-0 right-0 h-full w-[min(320px,100vw)] bg-[#0f1113] border-l border-[#1c1e21] shadow-2xl z-110 transform transition-transform duration-300 ease-in-out ${
-              openNotifications ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            <div className="flex items-center justify-between p-4 border-b border-[#1c1e21]">
-              <h2 className="text-slate-200 font-medium">Notifications</h2>
-              <button
-                onClick={() => setOpenNotifications(false)}
-                className="p-1 rounded-md hover:bg-slate-800/40 text-slate-400 hover:text-slate-200 transition focus:outline-none"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="flex flex-col items-center justify-center h-[80%] text-center px-6 select-none">
-              <Bell className="h-10 w-10 text-slate-600 mb-3" />
-              <p className="text-slate-400 text-sm">No notifications yet</p>
-              <p className="text-slate-600 text-xs mt-1">User updates will appear here</p>
-            </div>
-          </div>
-        </div>
+        <button
+          onClick={onNotificationsClick}
+          className="relative grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-colors focus:outline-none"
+          aria-label="Notifications"
+        >
+          <Bell className="h-5 w-5" />
+          {unread > 0 && <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-[#E2A54A] rounded-full" />}
+        </button>
 
         {/* HELP - hidden on very small screens */}
         <button

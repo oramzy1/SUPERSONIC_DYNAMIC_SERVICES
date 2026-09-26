@@ -4,6 +4,9 @@ import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 import { AdminDashboardSidebar } from "@/components/admin/AdminDashboardSidebar";
 import { AdminDashboardTopbar } from "@/components/admin/AdminDashboardTopbar";
 import { useState } from "react";
+import { NotificationsSheet } from "@/components/shared/NotificationsSheet";
+import { NotificationToastWatcher } from "@/components/shared/NotificationsToastWatcher";
+import { NotificationsStack } from "@/components/shared/NotificationsStack";
 
 export const Route = createFileRoute("/_auth")({
   component: AuthLayout,
@@ -11,6 +14,8 @@ export const Route = createFileRoute("/_auth")({
 
 function AuthLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
+  const [notifSheetOpen, setNotifSheetOpen] = useState(false);
+
 
   return (
     <AdminAuthGuard>
@@ -23,6 +28,7 @@ function AuthLayout() {
           {/* TOPBAR: Re-aligned with proper safe toggling bindings */}
           <AdminDashboardTopbar
             onMenuToggle={() => window.dispatchEvent(new Event("toggle-admin-sidebar"))}
+            onNotificationsClick={() => setNotifSheetOpen(true)}
           />
 
           {/* CONTENT AREA: Bounded viewport window box */}
@@ -32,6 +38,10 @@ function AuthLayout() {
 
         </div>
       </div>
+      <NotificationsSheet open={notifSheetOpen} onClose={() => setNotifSheetOpen(false)} role="admin" />
+      <NotificationToastWatcher role="admin" />
+      <NotificationsStack role="admin" onOpenSheet={() => setNotifSheetOpen(true)} />
+    
     </AdminAuthGuard>
   );
 }

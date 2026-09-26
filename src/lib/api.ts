@@ -315,6 +315,11 @@ import type {
   DashboardResponse,
   TicketCreate,
   TicketResponse,
+  QuoteGenerateRequest,
+  MarkAllReadResponse,
+  NotificationListResponse,
+  UnreadCountResponse,
+  NotificationResponse,
 } from "./api-types";
 
 // const BASE = import.meta.env.VITE_API_BASE_URL as string;
@@ -517,7 +522,7 @@ export const quotesApi = {
 
   get: (quoteId: number) => api.get<QuoteResponse>(`/quotes/${quoteId}`).then((r) => r.data),
 
-  generateQuote: (quoteId: number, body: { amount: number | string; valid_until_days?: number }) =>
+  generateQuote: (quoteId: number, body: QuoteGenerateRequest) =>
     api.post<QuoteResponse>(`/quotes/${quoteId}/generate-quote`, body).then((r) => r.data),
 
   counterOffer: (quoteId: number, body: { amount: number | string; message?: string }) =>
@@ -624,9 +629,20 @@ export const adminApi = {
 };
 
 // ─── Support endpoints ──────────────────────────────
+
 export const supportApi = {
   createTicket: (body: TicketCreate) =>
     api.post<TicketResponse>("/support/ticket", body).then((r) => r.data),
 };
+
+// ─── Notifications endpoints ──────────────────────────────
+export const notificationsApi = {
+  list: (params?: { unread_only?: boolean; limit?: number; offset?: number }) =>
+    api.get<NotificationListResponse>("/notifications", { params }).then((r) => r.data),
+  unreadCount: () => api.get<UnreadCountResponse>("/notifications/unread-count").then((r) => r.data),
+  markRead: (id: number) => api.patch<NotificationResponse>(`/notifications/${id}/read`).then((r) => r.data),
+  markAllRead: () => api.post<MarkAllReadResponse>("/notifications/read-all").then((r) => r.data),
+};
+
 
 export default api;

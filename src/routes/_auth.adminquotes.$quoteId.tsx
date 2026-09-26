@@ -6,6 +6,7 @@ import { accountApi, quotesApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { GenerateQuoteModal } from "@/components/admin/GeneralQuoteModal";
 import { CounterOfferModal } from "@/components/admin/CounterOfferModal";
+import { QuoteLineItem } from "@/lib/api-types";
 
 export const Route = createFileRoute("/_auth/adminquotes/$quoteId")({
   component: QuoteDetailPage,
@@ -61,8 +62,8 @@ const [countering, setCountering] = useState(false);
 });
 
   const generateMutation = useMutation({
-    mutationFn: ({ amount, days }: { amount: string; days: number }) =>
-      quotesApi.generateQuote(id, { amount, valid_until_days: days }),
+    mutationFn: ({ amount, days, lineItems }: { amount: string; days: number; lineItems?: QuoteLineItem[] }) =>
+      quotesApi.generateQuote(id, { amount, valid_until_days: days, line_items: lineItems }),
     onSuccess: () => {
       setGenerating(false);
       queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
@@ -318,8 +319,8 @@ const canReject = status === "pending" || status === "quoted" || awaitingAdmin;
           title={modalTitle}
           initialAmount={status === "counter_offered" ? latestCounter?.amount : undefined}
           onClose={() => setGenerating(false)}
-          onSubmit={(amount, days) => generateMutation.mutate({ amount, days })}
-        />
+  onSubmit={(amount, days, lineItems) => generateMutation.mutate({ amount, days, lineItems })}
+       />
       )}
 
       {countering && (

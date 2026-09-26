@@ -141,15 +141,15 @@ export interface QuoteResponse {
 }
 
 
-export interface QuoteResponse {
-  id: number;
-  quote_number: string;
-  move_type: string;
-  created_at: string;
-  total_price: string;
-  valid_until: string;
-  status: string;
-  pdf_url?: string | null;
+export interface QuoteLineItem {
+  description: string;
+  amount: string;
+}
+
+export interface QuoteGenerateRequest {
+  amount: number | string;
+  valid_until_days?: number;
+  line_items?: QuoteLineItem[];
 }
 
 export interface QuoteAcceptResponse {
@@ -249,3 +249,21 @@ export interface TicketResponse {
 export interface MollieWebhookPayload {
   id: string;
 }
+
+
+
+
+// ─── Notifications ────────────────────────────────────────
+export interface NotificationResponse {
+  id: number;
+  type: string;
+  title: string;
+  message?: string | null;
+  entity_type?: string | null;
+  entity_id?: number | null;
+  is_read: boolean;
+  created_at: string;
+}
+export interface NotificationListResponse { items: NotificationResponse[]; total: number; unread: number; }
+export interface UnreadCountResponse { unread: number; }
+export interface MarkAllReadResponse { updated: number; }

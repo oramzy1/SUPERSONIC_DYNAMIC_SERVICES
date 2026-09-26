@@ -5,6 +5,9 @@ import { CTAButton } from "@/components/shared/CTAButton";
 import { useAuth } from "@/contexts/AuthContext";
 import { CrewDashboardSidebar } from "@/components/crew/CrewDashboardSidebar";
 import { CrewDashboardTopbar } from "@/components/crew/CrewDashboardTopbar";
+import { NotificationsSheet } from "@/components/shared/NotificationsSheet";
+import { NotificationsStack } from "@/components/shared/NotificationsStack";
+import { NotificationToastWatcher } from "@/components/shared/NotificationsToastWatcher";
 
 // 1. Create a lightweight Auth Intercept Context so any component on your site can trigger this popup
 const SecurityGuardContext = createContext<{ 
@@ -23,6 +26,8 @@ function CrewLayoutWrapper() {
   const navigate = useNavigate();
   const [isGateOpen, setIsGateOpen] = useState(false);
   const [redirectTarget, setRedirectTarget] = useState<string | null>(null);
+  const [notifSheetOpen, setNotifSheetOpen] = useState(false);
+
 
   const { isAuthenticated } = useAuth();
 
@@ -61,14 +66,24 @@ function CrewLayoutWrapper() {
        <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
     <CrewDashboardSidebar />
     <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
-      <CrewDashboardTopbar
-        onMenuToggle={() => window.dispatchEvent(new Event("toggle-admin-sidebar"))}
-      />
+     <CrewDashboardTopbar
+            onMenuToggle={() => window.dispatchEvent(new Event("toggle-admin-sidebar"))}
+            onNotificationsClick={() => setNotifSheetOpen(true)}
+          />
       <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
         <Outlet />
       </main>
     </div>
   </div>
+
+   {isAuthenticated && (
+        <>
+          <NotificationsSheet open={notifSheetOpen} onClose={() => setNotifSheetOpen(false)} role="crew" />
+          <NotificationToastWatcher role="crew" />
+          <NotificationsStack role="crew" onOpenSheet={() => setNotifSheetOpen(true)} />
+        </>
+      )}
+
 
 
 
