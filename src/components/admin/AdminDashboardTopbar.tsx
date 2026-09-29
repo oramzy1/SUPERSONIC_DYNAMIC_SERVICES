@@ -4,6 +4,9 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useTheme } from "@/contexts/ThemeContext";
+import { ThemeModal } from "../shared/ThemeModal";
+
 
 interface TopbarProps {
   onMenuToggle: () => void;
@@ -16,6 +19,7 @@ export function AdminDashboardTopbar({ onMenuToggle, onNotificationsClick }: Top
   const { unread } = useNotifications();
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const { setIsThemeModalOpen } = useTheme();
 
   // const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -28,7 +32,7 @@ export function AdminDashboardTopbar({ onMenuToggle, onNotificationsClick }: Top
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside); 
   }, []);
   const handleLogout = async () => {
     await logout();
@@ -136,7 +140,13 @@ export function AdminDashboardTopbar({ onMenuToggle, onNotificationsClick }: Top
                   Account Settings
                 </Link>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => setIsThemeModalOpen(true)}
+                  className="text-left px-3 py-2 hover:bg-[#16191c] rounded-md text-slate-300 block transition-colors"
+                >
+                  Themes
+                </button>
+                <button
+                  onClick={handleLogout} 
                   className="text-left px-3 py-2 hover:bg-rose-500/10 text-rose-400 rounded-md mt-1 cursor-pointer font-semibold transition-colors focus:outline-none"
                 >
                   Logout

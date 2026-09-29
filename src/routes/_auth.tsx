@@ -7,6 +7,8 @@ import { useState } from "react";
 import { NotificationsSheet } from "@/components/shared/NotificationsSheet";
 import { NotificationToastWatcher } from "@/components/shared/NotificationsToastWatcher";
 import { NotificationsStack } from "@/components/shared/NotificationsStack";
+import { useTheme } from "@/contexts/ThemeContext";
+import { ThemeModal } from "@/components/shared/ThemeModal";
 
 export const Route = createFileRoute("/_auth")({
   component: AuthLayout,
@@ -15,6 +17,8 @@ export const Route = createFileRoute("/_auth")({
 function AuthLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [notifSheetOpen, setNotifSheetOpen] = useState(false);
+    const { setIsThemeModalOpen, isThemeModalOpen } = useTheme();
+    
 
 
   return (
@@ -41,6 +45,7 @@ function AuthLayout() {
       <NotificationsSheet open={notifSheetOpen} onClose={() => setNotifSheetOpen(false)} role="admin" />
       <NotificationToastWatcher role="admin" />
       <NotificationsStack role="admin" onOpenSheet={() => setNotifSheetOpen(true)} />
+        <ThemeModal open={isThemeModalOpen} onClose={() => setIsThemeModalOpen(false)} />
     
     </AdminAuthGuard>
   );

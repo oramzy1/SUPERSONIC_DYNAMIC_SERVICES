@@ -37,11 +37,11 @@ const ARTICLES = [
     title: "Article 3: Quotation and assignment execution",
     body: (
       <div className="grid gap-3 md:grid-cols-2">
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <div className="rounded-xs bg-background p-4">
           <p className="text-sm font-semibold text-foreground">3.1 Validation</p>
           <p className="mt-1 text-xs text-muted-foreground">Quotations remain valid for a period of 14 business days, after which technical availability cannot be guaranteed.</p>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <div className="rounded-xs bg-background p-4">
           <p className="text-sm font-semibold text-foreground">3.2 Execution</p>
           <p className="mt-1 text-xs text-muted-foreground">Supersonic reserves the right to employ third-party specialist partners to fulfil specific segments of a job.</p>
         </div>
@@ -55,7 +55,7 @@ const ARTICLES = [
     n: "05",
     title: "Article 5: Cancelling an appointment",
     body: (
-      <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-muted-foreground">
+      <div className="rounded-xs bg-background p-4 text-sm text-muted-foreground">
         <p className="font-medium text-red-800">Cancellation fees are structured based on notice period:</p>
         <p className="mt-2 text-sm text-muted-foreground">
           The client has the right to cancel an appointment free of charge 48 hours to the scheduled date and time for the assignment execution. This cancellation can only be made in writing by email.
@@ -73,7 +73,7 @@ const ARTICLES = [
     n: "07",
     title: "Article 7: Liability",
     body: (
-      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-muted-foreground">
+      <div className="rounded-xs bg-background p-4 text-sm text-muted-foreground">
         <p className="">SUPERSONIC DYNAMIC SERVICES B.V. liability is limited to direct damage caused by us during execution of the assignment for a client, up to a maximum as stipulated in SUPERSONIC DYNAMIC SERVICES B.V.  All-in Movers Verhuizerspolis=full mover coverage for all handling + transport + Temp. Storage.</p>
       </div>
     ),
@@ -95,7 +95,7 @@ function Terms() {
           <div className="mt-4 h-1 w-32 rounded-full bg-primary" />
 
           <div className="mt-12 grid gap-8 lg:grid-cols-[240px_1fr]">
-            <aside className="space-y-1 rounded-2xl border border-border bg-surface p-3 shadow-sm lg:sticky lg:top-24 lg:self-start">
+            <aside className="space-y-1 rounded-xs border border-border bg-surface p-3 shadow-sm lg:sticky lg:top-24 lg:self-start">
               {ARTICLES.map((a) => (
                 <a key={a.n} href={`#a${a.n}`} className="block rounded-lg border-l-2 border-transparent px-3 py-2 text-sm text-muted-foreground transition hover:border-primary hover:bg-primary/5 hover:text-primary">
                   {a.title}
@@ -104,9 +104,9 @@ function Terms() {
             </aside>
             <div className="space-y-6">
               {ARTICLES.map((a) => (
-                <div key={a.n} id={`a${a.n}`} className="scroll-mt-24 rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
+                <div key={a.n} id={`a${a.n}`} className="scroll-mt-24 rounded-xs border border-border bg-surface p-6 shadow-sm md:p-8">
                   <div className="mb-4 flex items-center gap-3 border-b border-border pb-4">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 font-display text-lg font-bold text-primary">{a.n}</span>
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xs bg-primary/10 font-display text-lg font-bold text-primary">{a.n}</span>
                     <h2 className="font-display text-xl font-semibold text-foreground">{a.title}</h2>
                   </div>
                   {a.body}
@@ -115,14 +115,22 @@ function Terms() {
             </div>
           </div>
 
-          <div className="relative mt-12 overflow-hidden rounded-3xl bg-primary p-8 text-white shadow-xl shadow-primary/20 md:p-10">
+          <div className="relative mt-12 overflow-hidden rounded-xs bg-maincard p-8 text-white md:p-10">
             <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
+            <div className="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
+            <div
+          className="pointer-events-none absolute inset-0 opacity-90"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        />
             <div className="relative flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
               <div>
                 <h3 className="font-display text-2xl font-bold">Need a Portable Version?</h3>
                 <p className="mt-1 text-sm text-white/85">Download the full General Terms and Conditions in PDF format for your records.</p>
               </div>
-              <CTAButton variant="secondary" className="rounded-xl bg-white! text-primary! hover:bg-white/90!">
+              <CTAButton variant="secondary" className="rounded-xs bg-white! text-black! hover:bg-white/90!">
                 <Download className="h-4 w-4" /> Download Terms
               </CTAButton>
             </div>

@@ -68,7 +68,7 @@ function Contact() {
             transition={{ duration: 1.4, ease: "easeOut" }}
             className="h-104 w-full object-cover opacity-50 md:h-136"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/80 to-foreground/70" />
+          <div className="absolute inset-0 bg-headerbg-to-r from-headerbg via-headerbg/80 to-headerbg/70" />
           <div className="absolute inset-0 flex items-start">
             <motion.div
               initial={{ opacity: 0, y: -24 }}
@@ -97,7 +97,7 @@ function Contact() {
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            <div className="rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-sm">
+            <div className="rounded-xs border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
                   <Mail className="h-5 w-5" />
@@ -108,7 +108,7 @@ function Contact() {
                 info@supersonicdynamicservices.nl
               </p>
             </div>
-            <div className="rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-sm">
+            <div className="rounded-xs border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/25 hover:shadow-sm">
               <div className="flex items-center gap-3">
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
                   <Phone className="h-5 w-5" />
@@ -117,7 +117,7 @@ function Contact() {
               </div>
               <p className="mt-3 font-display text-lg">+31 (06) 84 336 600</p>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-border bg-surface transition-shadow duration-300 hover:shadow-sm">
+            <div className="overflow-hidden rounded-xs border border-border bg-surface transition-shadow duration-300 hover:shadow-sm">
               <iframe
                 title="map"
                 className="h-72 w-full"
@@ -138,7 +138,7 @@ function Contact() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
             onSubmit={handleSubmit(onSubmit)}
-            className="rounded-2xl border border-border bg-surface p-6 md:p-8"
+            className="rounded-xs border border-border bg-surface p-6 md:p-8"
           >
             <div className="flex items-center gap-3 border-b border-border pb-4">
               <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">

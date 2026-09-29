@@ -8,6 +8,7 @@ type Props = HTMLMotionProps<"div"> & {
   bordered?: "primary" | "none";
   padded?: boolean;
   coloredBorder?: boolean;
+  dots?: boolean
 };
 
 export function SurfaceCard({
@@ -16,7 +17,8 @@ export function SurfaceCard({
   className,
   bordered = "none",
   padded = true,
-  ...rest
+  dots=false,
+  ...rest 
 }: Props) {
   return (
     <motion.div
@@ -25,7 +27,7 @@ export function SurfaceCard({
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={cn(
-        "rounded-2xl bg-surface text-foreground",
+        "rounded-xs bg-surface text-foreground",
         bordered === "primary" ? "border border-primary/60" : "border border-border",
         coloredBorder && 'border-l-3 border-l-primary',
         padded && "p-6 md:p-8",
@@ -33,6 +35,13 @@ export function SurfaceCard({
       )}
       {...rest}
     >
+     {dots &&  <div
+          className="pointer-events-none absolute inset-0 opacity-90"
+          style={{
+            backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+          }}
+        />}
       {children}
     </motion.div>
   );

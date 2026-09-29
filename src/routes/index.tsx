@@ -163,7 +163,7 @@ function Home() {
               <Link to="/quoterequest" className="group">
                 <CTAButton
                   variant="primary"
-                  className="rounded-lg px-6 py-3.5 flex items-center justify-center gap-2"
+                  className="rounded-xs px-6 py-3.5 flex items-center justify-center gap-2 text-foreground"
                 >
                   <FileText className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Request Your Free Quote</span>
@@ -172,7 +172,7 @@ function Home() {
               <Link to="/services">
                 <CTAButton
                   variant="outline"
-                  className="group rounded-lg px-6 bg-secondary border border-border py-3.5 flex items-center justify-center gap-2"
+                  className="group rounded-xs px-6 border border-border py-3.5 flex items-center justify-center gap-2"
                 >
                   <span>View All Services</span>
                   <ArrowUpRight className="h-4 w-4 text-secondary-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -399,7 +399,7 @@ function Home() {
 
                   <div className="mt-8">
                     <Link to="/shop" className="group inline-block">
-                      <CTAButton className="rounded-lg">
+                      <CTAButton className="rounded-xs text-white">
                         Visit Store
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                       </CTAButton>
@@ -467,7 +467,7 @@ function Home() {
 export function RequestQuoteBanner() {
   return (
     <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 md:px-8">
-      <div className="relative overflow-hidden rounded-3xl bg-primary p-6 text-white sm:p-8 md:p-12">
+      <div className="relative overflow-hidden rounded-xs bg-maincard p-6 text-white sm:p-8 md:p-12">
         <div
           className="pointer-events-none absolute inset-0 opacity-90"
           style={{
@@ -491,7 +491,7 @@ export function RequestQuoteBanner() {
             </p>
             <Link to="/quoterequest" className="mt-6 block w-full sm:w-auto">
               <CTAButton
-                className="bg-blue-50 text-black group rounded-lg w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"
+                className="bg-blue-50 text-black group rounded-xs w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2"
               >
                 <span>Request Quote</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
@@ -501,7 +501,7 @@ export function RequestQuoteBanner() {
 
           <div className="space-y-3 w-full">
             {/* Call Info Box */}
-            <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm sm:px-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-lg">
+            <div className="flex items-center gap-4 rounded-xs border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm sm:px-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-lg">
               <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
                 <Phone className="h-5 w-5 text-primary" />
               </div>
@@ -516,7 +516,7 @@ export function RequestQuoteBanner() {
             </div>
 
             {/* Email Info Box - Fixed layout text-wrapping for mobile viewports */}
-            <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm sm:px-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-lg">
+            <div className="flex items-center gap-4 rounded-xs border border-white/10 bg-white/10 px-4 py-4 backdrop-blur-sm sm:px-5 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-lg">
               <div className="grid h-10 w-10 place-items-center rounded-full bg-white shrink-0">
                 <Mail className="h-5 w-5 text-primary" />
               </div>

@@ -1,8 +1,266 @@
+// import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+// import { useState, useEffect } from "react";
+// import { Mail, Lock, Eye, EyeOff, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+// import { CTAButton } from "@/components/shared/CTAButton";
+// import { useAuth } from "@/contexts/AuthContext";
+// import Logo from "@/components/shared/Logo";
+
+// export const Route = createFileRoute("/_user/login")({
+//   component: UserLoginPage,
+//   validateSearch: (search: Record<string, unknown>) => ({
+//     redirect: typeof search.redirect === "string" ? search.redirect : undefined,
+//   }),
+// });
+
+// function dashboardPathForRole(role?: string): string {
+//   if (role === "crew") return "/crewdashboard";
+//   if (role && ["admin", "dispatcher", "finance"].includes(role)) return "/admindashboard";
+//   return "/dashboard";
+// }
+
+// function dashboardLabelForRole(role?: string): string {
+//   if (role === "crew") return "Crew Dashboard (/crewdashboard)";
+//   if (role && ["admin", "dispatcher", "finance"].includes(role)) return "Admin Dashboard (/admindashboard)";
+//   return "Home Dashboard (/dashboard)";
+// }
+
+// function UserLoginPage() {
+//   const search = Route.useSearch();
+//   const navigate = useNavigate();
+//   const { login, isAuthenticated, user } = useAuth();
+//   const isAdminRole = isAuthenticated && user && ["admin", "dispatcher", "crew", "finance"].includes(user.role);
+//   const [isSuccess, setIsSuccess] = useState(false);
+//   const [errors, setErrors] = useState<string | null>(null);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [showPassword, setShowPassword] = useState(false);
+
+//   const [formData, setFormData] = useState({
+//     email: "",
+//     password: "",
+//     rememberMe: false,
+//   });
+
+// useEffect(() => {
+//   if (isAuthenticated) {
+//     navigate({ to: (search.redirect ?? dashboardPathForRole(user?.role)) as any });
+//   }
+// }, [isAuthenticated, user, navigate, search.redirect]);
+
+// useEffect(() => {
+//   if (isSuccess) {
+//     const t = setTimeout(() => {
+//       navigate({ to: (search.redirect ?? dashboardPathForRole(user?.role)) as any });
+//     }, 2500);
+//     return () => clearTimeout(t);
+//   }
+// }, [isSuccess, user, navigate, search.redirect]);
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setErrors(null);
+
+//     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+//     if (!emailRegex.test(formData.email)) {
+//       setErrors("Please enter a valid email address.");
+//       return;
+//     }
+//     if (formData.password.length < 1) {
+//       setErrors("Password field cannot be empty.");
+//       return;
+//     }
+
+//     setIsSubmitting(true);
+//     try {
+//       await login({ email: formData.email, password: formData.password });
+//       setIsSuccess(true);
+//     } catch (err: unknown) {
+//       const msg =
+//         (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
+//         "Invalid email or password. Please try again.";
+//       setErrors(msg);
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen w-full flex items-center justify-center p-4 font-sans select-none">
+//       <div className="w-full max-w-115 rounded-[24px] border border-slate-200 bg-surface p-6 sm:p-10 shadow-sm shadow-slate-900/5 transition-all duration-300">
+//         {!isSuccess ? (
+//           <div className="animate-in fade-in duration-200">
+//             {/* Header Block */}
+//             <div className="space-y-1.5 mb-8">
+//              <Logo />
+//               <p className="text-xs sm:text-sm text-foreground/80 font-medium">
+//                 Welcome Back! <br />
+//                 <span className="text-slate-500 font-normal">Enter your credentials to continue</span>
+//               </p>
+//             </div>
+
+//             <form onSubmit={handleSubmit} className="space-y-5">
+//               {/* Validation Error Display Banner */}
+//               {errors && (
+//                 <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
+//                   {errors}
+//                 </div>
+//               )}
+
+//               {/* Email Address Input Block */}
+//               <div className="space-y-1.5">
+//                 <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/80">
+//                   Email Address
+//                 </label>
+//                 <div className="relative">
+//                   <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/70" />
+//                   <input
+//                     type="email"
+//                     required
+//                     placeholder="operator@supersonic.pulse"
+//                     value={formData.email}
+//                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+//                     className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
+//                   />
+//                 </div>
+//               </div>
+
+//               {/* Password Input Block */}
+//               <div className="space-y-1.5">
+//                 <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/80">
+//                   Password
+//                 </label>
+//                 <div className="relative">
+//                   <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/70" />
+//                   <input
+//                     type={showPassword ? "text" : "password"}
+//                     required
+//                     placeholder="••••••••••••"
+//                     value={formData.password}
+//                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+//                     className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-12 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
+//                   />
+//                   <button
+//                     type="button"
+//                     onClick={() => setShowPassword(!showPassword)}
+//                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/70 hover:text-foreground/80 transition focus:outline-none"
+//                   >
+//                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+//                   </button>
+//                 </div>
+//               </div>
+
+//               {/* Utilities Row: Remember Me & Forgot Password links */}
+//               <div className="flex items-center justify-between pt-1 text-xs">
+//                 <div className="flex items-center gap-2">
+//                   <input
+//                     type="checkbox"
+//                     id="rememberMe"
+//                     checked={formData.rememberMe}
+//                     onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
+//                     className="h-4 w-4 rounded border-slate-300 bg-white accent-primary focus:ring-0 cursor-pointer"
+//                   />
+//                   <label htmlFor="rememberMe" className="text-slate-600 cursor-pointer text-[11px]">
+//                     Remember me
+//                   </label>
+//                 </div>
+
+//                 <Link
+//                   to={"/forgotpassword" as any}
+//                   className="text-primary font-medium hover:underline text-[11px]"
+//                 >
+//                   Forgot password?
+//                 </Link>
+//               </div>
+
+//               {/* Sign In Button explicitly utilizing your --primary CSS variable */}
+//               <CTAButton
+//                 variant="primary"
+//                 type="submit"
+//                 disabled={isSubmitting}
+//                 style={{ backgroundColor: "var(--primary)" }}
+//                 className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-md shadow-primary/25 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
+//               >
+//                 {isSubmitting ? (
+//                   <>
+//                     <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
+//                   </>
+//                 ) : (
+//                   <>
+//                     SIGN IN <ArrowRight className="h-4 w-4 text-white" />
+//                   </>
+//                 )}
+//               </CTAButton>
+//             </form>
+
+//             {/* Dynamic Route Switching Links */}
+//             <p className="mt-8 text-center text-xs text-slate-500">
+//               Don't Have An Account?{" "}
+//               <a href="/register" className="text-primary hover:underline font-semibold">
+//                 Register
+//               </a>
+//             </p>
+//           </div>
+//         ) : (
+//           /* SUCCESS DISPLAY COMPONENT: Swaps directly inside the exact same container layout */
+//           <div className="py-6 text-center space-y-6 animate-in zoom-in-95 duration-300">
+//             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 shadow-lg shadow-emerald-500/10">
+//               <CheckCircle2 className="h-8 w-8" />
+//             </div>
+
+//             <div className="space-y-2">
+//               <h3 className="font-display text-xl font-bold tracking-tight text-slate-900">
+//                 Login Successful
+//               </h3>
+//               <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
+//                 Authenticated session authorized for{" "}
+//                 <span className="text-slate-900 font-semibold break-all">{formData.email}</span>.
+//               </p>
+//             </div>
+
+//             {/* Micro details panel indicating the designated destination pipeline */}
+//             <div className="rounded-xl bg-slate-50 border border-slate-200 p-3.5 max-w-xs mx-auto flex items-center justify-between gap-3 text-left">
+//               <div className="space-y-0.5 min-w-0">
+//                 <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block">
+//                   Redirecting Destination
+//                 </span>
+//                 <span className="text-xs text-primary font-mono font-medium block truncate">
+//                   {dashboardLabelForRole(user?.role)}
+//                 </span>
+//               </div>
+//               <Loader2 className="h-4 w-4 text-primary animate-spin shrink-0" />
+//             </div>
+
+//             {/* Sleek linear timeline tracking animation loader */}
+//             <div className="w-24 h-0.5 rounded-full mx-auto overflow-hidden bg-slate-200">
+//               <div
+//                 className="h-full bg-emerald-500 rounded-full animate-[loading_2.5s_ease-in-out_forwards]"
+//                 style={{ width: "100%" }}
+//               />
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Mail, Lock, Eye, EyeOff, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  CheckCircle2,
+  Loader2,
+  Truck,
+  Warehouse,
+  Leaf,
+} from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useAuth } from "@/contexts/AuthContext";
+import Logo from "@/components/shared/Logo";
 
 export const Route = createFileRoute("/_user/login")({
   component: UserLoginPage,
@@ -10,6 +268,26 @@ export const Route = createFileRoute("/_user/login")({
     redirect: typeof search.redirect === "string" ? search.redirect : undefined,
   }),
 });
+
+const REMEMBER_KEY = "sds_remembered_email";
+
+const readRemembered = (): string => {
+  if (typeof window === "undefined") return "";
+  try {
+    return window.localStorage.getItem(REMEMBER_KEY) ?? "";
+  } catch {
+    return "";
+  }
+};
+
+const writeRemembered = (email: string | null) => {
+  try {
+    if (email) window.localStorage.setItem(REMEMBER_KEY, email);
+    else window.localStorage.removeItem(REMEMBER_KEY);
+  } catch {
+    /* storage unavailable (private mode), ignore */
+  }
+};
 
 function dashboardPathForRole(role?: string): string {
   if (role === "crew") return "/crewdashboard";
@@ -23,6 +301,9 @@ function dashboardLabelForRole(role?: string): string {
   return "Home Dashboard (/dashboard)";
 }
 
+const inputClass =
+ "w-full h-12 rounded-none border border-slate-300 bg-transparent text-foreground/80 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition-colors focus:border-primary";
+
 function UserLoginPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
@@ -32,27 +313,32 @@ function UserLoginPage() {
   const [errors, setErrors] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [armed, setArmed] = useState(false);
+  const [formData, setFormData] = useState(() => {
+  const saved = readRemembered();
+  return { email: saved, password: "", rememberMe: saved !== "" };
+});
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    rememberMe: false,
-  });
+  const noAutofill = {
+  autoComplete: "off",
+  readOnly: !armed,
+  onFocus: () => setArmed(true),
+};
 
-useEffect(() => {
-  if (isAuthenticated) {
-    navigate({ to: (search.redirect ?? dashboardPathForRole(user?.role)) as any });
-  }
-}, [isAuthenticated, user, navigate, search.redirect]);
-
-useEffect(() => {
-  if (isSuccess) {
-    const t = setTimeout(() => {
+  useEffect(() => {
+    if (isAuthenticated) {
       navigate({ to: (search.redirect ?? dashboardPathForRole(user?.role)) as any });
-    }, 2500);
-    return () => clearTimeout(t);
-  }
-}, [isSuccess, user, navigate, search.redirect]);
+    }
+  }, [isAuthenticated, user, navigate, search.redirect]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      const t = setTimeout(() => {
+        navigate({ to: (search.redirect ?? dashboardPathForRole(user?.role)) as any });
+      }, 2500);
+      return () => clearTimeout(t);
+    }
+  }, [isSuccess, user, navigate, search.redirect]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +357,7 @@ useEffect(() => {
     setIsSubmitting(true);
     try {
       await login({ email: formData.email, password: formData.password });
+      writeRemembered(formData.rememberMe ? formData.email.trim() : null);
       setIsSuccess(true);
     } catch (err: unknown) {
       const msg =
@@ -83,163 +370,207 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 font-sans select-none">
-      <div className="w-full max-w-115 rounded-[24px] border border-slate-200 bg-surface p-6 sm:p-10 shadow-sm shadow-slate-900/5 transition-all duration-300">
-        {!isSuccess ? (
-          <div className="animate-in fade-in duration-200">
-            {/* Header Block */}
-            <div className="space-y-1.5 mb-8">
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
-                Continue to Login
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-700 font-medium">
-                Welcome Back! <br />
-                <span className="text-slate-500 font-normal">Enter your credentials to continue</span>
-              </p>
-            </div>
+    <div className="min-h-screen w-full grid grid-cols-1 lg:grid-cols-2 bg-background font-sans select-none">
+      {/* LEFT: MEDIA PANEL */}
+      <aside className="relative hidden lg:flex flex-col justify-between overflow-hidden bg-[#0E141A] text-white p-12 xl:p-16">
+        <img
+          src="https://supersonicdynamicservices.nl/assets/newVan5-DShjdwQj.jpg"
+          alt="Supersonic electric delivery van"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-[#0E141A]/95" />
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Validation Error Display Banner */}
-              {errors && (
-                <div className="bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
-                  {errors}
-                </div>
-              )}
+        <div className="relative">
+          <p className="text-[11px] font-bold uppercase tracking-widest text-white/70">
+            Supersonic Dynamic Services B.V.
+          </p>
+        </div>
 
-              {/* Email Address Input Block */}
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="email"
-                    required
-                    placeholder="operator@supersonic.pulse"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
-                  />
-                </div>
-              </div>
+        <div className="relative space-y-8 max-w-lg">
+          <h1 className="font-display text-5xl xl:text-6xl font-extrabold tracking-tight leading-[1.05]">
+            Life moves.
+            <br />
+            Business moves.
+            <br />
+            <span className="text-primary">Everything moves.</span>
+          </h1>
+          <p className="text-sm leading-relaxed text-white/80">
+            Sign in to manage your moves, freight haulage and smart storage jobs, and follow every
+            shipment live from request to delivery.
+          </p>
 
-              {/* Password Input Block */}
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-700">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    required
-                    placeholder="••••••••••••"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full rounded-lg border border-slate-300 bg-white text-slate-900 py-3 pl-11 pr-12 text-sm placeholder-slate-400 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 transition focus:outline-none"
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </button>
+          <ul className="border-t border-white/20 pt-6 space-y-4">
+            <li className="flex items-center gap-3 text-sm text-white/90">
+              <Truck className="h-4 w-4 text-primary shrink-0" /> Moving &amp; freight haulage across the Netherlands &amp; Europe
+            </li>
+            <li className="flex items-center gap-3 text-sm text-white/90">
+              <Warehouse className="h-4 w-4 text-primary shrink-0" /> Smart, secure storage solutions
+            </li>
+            <li className="flex items-center gap-3 text-sm text-white/90">
+              <Leaf className="h-4 w-4 text-primary shrink-0" /> 100% electric, zero-emission fleet
+            </li>
+          </ul>
+        </div>
+
+        <p className="relative text-[11px] text-white/50">
+          KvK 42113033 · © 2026 Supersonic Dynamic Services B.V.
+        </p>
+      </aside>
+
+      {/* RIGHT: FORM PANEL */}
+      <main className="flex items-center justify-center p-6 sm:p-10 lg:p-16">
+        <div className="w-full max-w-md">
+          {!isSuccess ? (
+            <div className="animate-in fade-in duration-200">
+              <div className="mb-10 space-y-6">
+                <Logo />
+                <div className="space-y-1">
+                  <h2 className="font-display text-2xl font-bold tracking-tight text-foreground">
+                    Welcome back
+                  </h2>
+                  <p className="text-sm text-slate-500">Enter your credentials to continue</p>
                 </div>
               </div>
 
-              {/* Utilities Row: Remember Me & Forgot Password links */}
-              <div className="flex items-center justify-between pt-1 text-xs">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    id="rememberMe"
-                    checked={formData.rememberMe}
-                    onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-                    className="h-4 w-4 rounded border-slate-300 bg-white accent-primary focus:ring-0 cursor-pointer"
-                  />
-                  <label htmlFor="rememberMe" className="text-slate-600 cursor-pointer text-[11px]">
-                    Remember me
-                  </label>
-                </div>
-
-                <Link
-                  to={"/forgotpassword" as any}
-                  className="text-primary font-medium hover:underline text-[11px]"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-
-              {/* Sign In Button explicitly utilizing your --primary CSS variable */}
-              <CTAButton
-                variant="primary"
-                type="submit"
-                disabled={isSubmitting}
-                style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-lg py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-md shadow-primary/25 transition hover:opacity-95 flex items-center justify-center gap-2 mt-2 disabled:opacity-50"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
-                  </>
-                ) : (
-                  <>
-                    SIGN IN <ArrowRight className="h-4 w-4 text-white" />
-                  </>
+              <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
+                {errors && (
+                  <div className="border-l-4 border-red-600 bg-red-50 text-red-700 text-xs p-3 font-medium">
+                    {errors}
+                  </div>
                 )}
-              </CTAButton>
-            </form>
 
-            {/* Dynamic Route Switching Links */}
-            <p className="mt-8 text-center text-xs text-slate-500">
-              Don't Have An Account?{" "}
-              <a href="/register" className="text-primary hover:underline font-semibold">
-                Register
-              </a>
-            </p>
-          </div>
-        ) : (
-          /* SUCCESS DISPLAY COMPONENT: Swaps directly inside the exact same container layout */
-          <div className="py-6 text-center space-y-6 animate-in zoom-in-95 duration-300">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 shadow-lg shadow-emerald-500/10">
-              <CheckCircle2 className="h-8 w-8" />
-            </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/80">
+                    Email Address
+                  </label>
+                  <div className="relative">
+                    <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/70" />
+                    <input
+                      type="email"
+                      name="sds-login-email"
+                      {...noAutofill}
+                      required
+                      placeholder="operator@supersonic.pulse"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
 
-            <div className="space-y-2">
-              <h3 className="font-display text-xl font-bold tracking-tight text-slate-900">
-                Login Successful
-              </h3>
-              <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
-                Authenticated session authorized for{" "}
-                <span className="text-slate-900 font-semibold break-all">{formData.email}</span>.
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/80">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/70" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="sds-login-password"
+                      {...noAutofill}
+                      autoComplete="new-password"
+                      required
+                      placeholder="••••••••••••"
+                      value={formData.password}
+                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                      className={`${inputClass} pr-12`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/70 hover:text-foreground/80 transition-colors focus:outline-none"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="rememberMe"
+                      checked={formData.rememberMe}
+                      onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
+                      className="h-4 w-4 rounded-none border-slate-300 bg-white accent-primary focus:ring-0 cursor-pointer"
+                    />
+                    <label htmlFor="rememberMe" className="text-foreground/70 cursor-pointer text-[11px]">
+                      Remember me
+                    </label>
+                  </div>
+
+                  <Link
+                    to={"/forgotpassword" as any}
+                    className="text-primary font-medium hover:underline text-[11px]"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+
+                <CTAButton
+                  variant="primary"
+                  type="submit"
+                  disabled={isSubmitting}
+                  style={{ backgroundColor: "var(--primary)" }}
+                  className="w-full h-12 rounded-none text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-opacity hover:opacity-90 flex items-center justify-center gap-2 disabled:opacity-50"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" /> Signing in...
+                    </>
+                  ) : (
+                    <>
+                      SIGN IN <ArrowRight className="h-4 w-4 text-white" />
+                    </>
+                  )}
+                </CTAButton>
+              </form>
+
+              <p className="mt-8 pt-6 border-t border-slate-200 text-center text-xs text-foreground/70">
+                Don't Have An Account?{" "}
+                <a href="/register" className="text-primary hover:underline font-semibold">
+                  Register
+                </a>
               </p>
             </div>
-
-            {/* Micro details panel indicating the designated destination pipeline */}
-            <div className="rounded-xl bg-slate-50 border border-slate-200 p-3.5 max-w-xs mx-auto flex items-center justify-between gap-3 text-left">
-              <div className="space-y-0.5 min-w-0">
-                <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block">
-                  Redirecting Destination
-                </span>
-                <span className="text-xs text-primary font-mono font-medium block truncate">
-                  {dashboardLabelForRole(user?.role)}
-                </span>
+          ) : (
+            <div className="py-6 text-center space-y-6 animate-in zoom-in-95 duration-300">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center bg-surface border border-emerald-600 text-emerald-600">
+                <CheckCircle2 className="h-8 w-8" />
               </div>
-              <Loader2 className="h-4 w-4 text-primary animate-spin shrink-0" />
-            </div>
 
-            {/* Sleek linear timeline tracking animation loader */}
-            <div className="w-24 h-0.5 rounded-full mx-auto overflow-hidden bg-slate-200">
-              <div
-                className="h-full bg-emerald-500 rounded-full animate-[loading_2.5s_ease-in-out_forwards]"
-                style={{ width: "100%" }}
-              />
+              <div className="space-y-2">
+                <h3 className="font-display text-xl font-bold tracking-tight text-foreground/70">
+                  Login Successful
+                </h3>
+                <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
+                  Authenticated session authorized for{" "}
+                  <span className="text-foreground/80 font-semibold break-all">{formData.email}</span>.
+                </p>
+              </div>
+
+              <div className=" bg-sureface p-3.5 max-w-xs mx-auto flex items-center justify-between gap-3 text-left">
+                <div className="space-y-0.5 min-w-0">
+                  <span className="text-[9px] uppercase font-bold tracking-widest text-foreground/70 block">
+                    Redirecting Destination
+                  </span>
+                  <span className="text-xs text-primary font-mono font-medium block truncate">
+                    {dashboardLabelForRole(user?.role)}
+                  </span>
+                </div>
+                <Loader2 className="h-4 w-4 text-primary animate-spin shrink-0" />
+              </div>
+
+              <div className="w-24 h-0.5 mx-auto overflow-hidden bg-surface">
+                <div
+                  className="h-full bg-emerald-500 animate-[loading_2.5s_ease-in-out_forwards]"
+                  style={{ width: "100%" }}
+                />
+              </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 }

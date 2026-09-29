@@ -53,9 +53,9 @@ function ShopIndex() {
   }, [query, category, sort, ecoOnly]);
 
   return (
-    <div className="bg-slate-50 text-slate-900 min-h-screen">
+    <div className="bg-background text-foreground min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-slate-950 border-b border-slate-800">
+      <section className="relative overflow-hidden bg-surface border-b border-slate-800">
         <img
           src={shopHero}
           alt="Electric moving van loaded with recyclable crates"
@@ -86,7 +86,7 @@ function ShopIndex() {
       </section>
 
       {/* Highlights Bar */}
-      <section className="border-b border-slate-200 bg-white shadow-xs">
+      <section className="bg-surface shadow-xs">
         <div className="mx-auto grid max-w-7xl gap-6 px-6 py-5 md:grid-cols-3">
           {[
             { k: "100%", v: "Recyclable materials" },
@@ -103,14 +103,14 @@ function ShopIndex() {
 
       {/* Filter and Control Bar */}
       <section className="mx-auto max-w-7xl px-6 pt-10">
-        <div className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-xs md:grid-cols-[1fr_auto_auto] md:items-center">
+        <div className="grid gap-4 rounded-xs bg-surface p-4 shadow-xs md:grid-cols-[1fr_auto_auto] md:items-center">
           <label className="relative block">
             <Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search crates, packaging, accessories…"
-              className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 pr-3 pl-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-emerald-500 focus:bg-white focus:outline-none transition"
+              className="h-11 w-full  bg-transparent pr-3 pl-10 text-sm text-foreground placeholder:text-foreground/80 focus:border-emerald-500 focus:bg-transparent focus:outline-none transition"
             />
           </label>
           <div className="flex items-center gap-2">
@@ -118,21 +118,21 @@ function ShopIndex() {
             <button
               onClick={() => setEcoOnly((v) => !v)}
               className={cn(
-                "h-11 rounded-xl border px-3.5 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5",
+                "h-11 px-3.5 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5",
                 ecoOnly
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-xs"
-                  : "border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+                  ? "border-emerald-500 bg-background text-foreground shadow-xs"
+                  : "border-slate-200 bg-background text-foreground/70 hover:bg-background/70 hover:text-foreground",
               )}
             >
               <Leaf className="h-3.5 w-3.5" /> Eco only
             </button>
           </div>
           <div className="flex items-center gap-2">
-            <SlidersHorizontal className="h-4 w-4 text-slate-400" />
+            <SlidersHorizontal className="h-4 w-4 text-foreground/70" />
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortKey)}
-              className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-700 font-medium focus:border-emerald-500 focus:bg-white focus:outline-none transition cursor-pointer"
+              className="h-11 bg-background px-3 text-sm text-foreground/70 font-medium focus:border-surface focus:bg-bg-background/70 focus:outline-none transition cursor-pointer"
             >
               <option value="featured">Featured</option>
               <option value="price-asc">Price: low to high</option>
@@ -182,14 +182,16 @@ function ShopIndex() {
       </section>
 
       {/* B2B Procurement Section */}
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="rounded-2xl border border-border bg-white p-6 shadow-xs md:p-8">
+      <section className=" mx-auto max-w-7xl px-6 py-10">
+        <div className="rounded-2xl bg-transparent p-6 shadow-xs md:p-8 relative overflow-hidden">
+          <div className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full bg-white/10 blur-3xl" />
           <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <h2 className="font-display text-xl font-bold text-slate-900 md:text-2xl">
+              <h2 className="font-display text-xl font-bold text-foreground/70 md:text-2xl">
                 Can't find what you're looking for?
               </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-600">
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-foreground/60">
                 Are you a small, medium, or large business organisation seeking procurement and
                 supply of any range of supplies and consumables? SUPERSONIC DYNAMIC SERVICES B.V is
                 a trusted, efficient partner that handles procurement through delivery to your
@@ -221,7 +223,7 @@ function ShopIndex() {
       </section>
 
       {/* Bulk Savings Promo Box */}
-      <section className="mx-auto max-w-7xl px-6 pb-20">
+      {/* <section className="mx-auto max-w-7xl px-6 pb-20">
         <div className="relative overflow-hidden rounded-3xl border border-emerald-200 bg-emerald-50/60 p-8 shadow-xs md:p-12">
           <div className="absolute top-0 right-0 h-48 w-48 -translate-y-1/4 translate-x-1/4 rounded-full bg-emerald-200/50 blur-3xl" />
           <div className="relative grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
@@ -246,7 +248,7 @@ function ShopIndex() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

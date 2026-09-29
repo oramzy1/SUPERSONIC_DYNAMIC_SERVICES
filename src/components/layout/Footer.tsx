@@ -14,7 +14,7 @@ import {
   X,
   XCircle,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import TrustPilotWidget from "../shared/TrustPilotWidget";
 import { ThemeModal } from "../shared/ThemeModal";
 import { SystemThemePromptBanner } from "../shared/SystemThemePromptBanner";
@@ -49,7 +49,9 @@ export function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showPlusMenu, setShowPlusMenu] = useState(false);
   const [showMessagingModal, setShowMessagingModal] = useState(false);
+  const [menuToggled, setMenuToggled] = useState(false);
   const { setIsThemeModalOpen } = useTheme();
+const floatingMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScrollToggle = () => {
@@ -63,6 +65,23 @@ export function Footer() {
     window.addEventListener("scroll", handleScrollToggle);
     return () => window.removeEventListener("scroll", handleScrollToggle);
   }, []);
+
+  useEffect(() => {
+  if (!showPlusMenu) return;
+
+  const handleOutside = (e: MouseEvent | TouchEvent) => {
+    if (floatingMenuRef.current && !floatingMenuRef.current.contains(e.target as Node)) {
+      setShowPlusMenu(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleOutside);
+  document.addEventListener("touchstart", handleOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleOutside);
+    document.removeEventListener("touchstart", handleOutside);
+  };
+}, [showPlusMenu]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -230,10 +249,20 @@ export function Footer() {
       </div>
 
       {/* FLOATING ACTION MENU & MODALS */}
-      <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 select-none">
+      <div
+      ref={floatingMenuRef}
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 select-none">
         {/* Plus Menu Popup Options */}
-        {showPlusMenu && (
-          <div className="w-[calc(100vw-2rem)] sm:w-72 bg-popover border border-border rounded-2xl p-4 text-foreground backdrop-blur-xl shadow-2xl animate-in slide-in-from-bottom-4 fade-in duration-200">
+<div
+  aria-hidden={!showPlusMenu}
+  className={`absolute bottom-16 right-0 w-[calc(100vw-2rem)] sm:w-72 origin-bottom-right bg-popover border border-border rounded-2xl p-4 text-foreground backdrop-blur-xl shadow-2xl ${
+    showPlusMenu
+      ? "visible animate-menu-bounce"
+      : menuToggled
+        ? "pointer-events-none animate-menu-bounce-out"
+        : "invisible opacity-0 pointer-events-none"
+  }`}
+>
             <div className="flex items-center justify-between border-b border-border pb-2.5 mb-3">
               <div className="flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
@@ -261,7 +290,8 @@ export function Footer() {
                   setShowPlusMenu(false);
                   setShowMessagingModal(true);
                 }}
-                className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs transition hover:bg-accent group"
+                style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
+                className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'}`}
               >
                 <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
                   <MessageSquare className="h-4 w-4" />
@@ -283,7 +313,8 @@ export function Footer() {
                   setShowPlusMenu(false);
                   setIsThemeModalOpen(true);
                 }}
-                className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs transition hover:bg-accent group"
+                style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
+                className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'}`}
               >
                 <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-500/10 text-indigo-500">
                   <Palette className="h-4 w-4" />
@@ -299,12 +330,11 @@ export function Footer() {
               </button>
             </div>
           </div>
-        )}
 
         {/* Existing Support Channels Modal */}
         {showMessagingModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-            <div className="w-full max-w-md rounded-2xl bg-popover border border-border p-6 text-foreground shadow-2xl relative animate-in zoom-in-95 duration-200">
+            <div className="w-full max-w-md rounded-2xl bg-popover border border-border p-6 text-foreground shadow-2xl relative animate-spring-pop">
               <button
                 type="button"
                 onClick={() => setShowMessagingModal(false)}
@@ -373,18 +403,31 @@ export function Footer() {
         )}
 
         {/* Toggle Support Trigger Button (PLUS button) */}
-        <button
-          type="button"
-          onClick={() => setShowPlusMenu(!showPlusMenu)}
-          className={`grid h-12 w-12 place-items-center rounded-xl transition shadow-xl hover:opacity-95 active:scale-95 border ${
-            showPlusMenu
-              ? "bg-slate-800 text-slate-200 border-slate-700"
-              : "bg-emerald-500 text-slate-950 border-emerald-400 font-bold"
-          }`}
-          aria-label="Toggle supersonic options"
-        >
-          {showPlusMenu ? <X className="h-6 w-6" /> : <Plus className="h-6 w-6" />}
-        </button>
+       <button
+  type="button"
+  onClick={() => {
+  setMenuToggled(true);
+  setShowPlusMenu((v) => !v);
+}}
+  className={`grid h-12 w-12 animate-float place-items-center rounded-full transition-all duration-300 shadow-xl hover:opacity-95 active:scale-90 ${
+    showPlusMenu
+      ? "bg-slate-800 text-slate-200 border-slate-700 rotate-90"
+      : "bg-slate-800 text-slate-200 border-slate-700 font-bold rotate-0"
+  }`}
+  aria-label="Toggle supersonic options"
+  aria-expanded={showPlusMenu}
+>
+  <Plus
+    className={`col-start-1 row-start-1 h-6 w-6 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+      showPlusMenu ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
+    }`}
+  />
+  <X
+    className={`col-start-1 row-start-1 h-6 w-6 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+      showPlusMenu ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
+    }`}
+  />
+</button>x
       </div>
 
       {/* Theme Modal */}

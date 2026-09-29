@@ -23,7 +23,7 @@ export function CTAButton({ variant = "primary", className, children, ...rest }:
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none",
+        "inline-flex items-center justify-center gap-2 cursor-pointer rounded-xl px-5 py-3 text-sm font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none",
         variants[variant],
         className,
       )}

@@ -71,14 +71,14 @@ function FAQs() {
             <AccordionItem
               key={i}
               value={`item-${i}`}
-              className="rounded-2xl border border-border px-5"
+              className="rounded-xs border border-border px-5"
             >
               <AccordionTrigger className="text-left font-display text-base">{q}</AccordionTrigger>
               <AccordionContent className="text-sm text-muted-foreground">{a}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
-        <div className="mt-6 flex flex-col items-start justify-between gap-6 rounded-2xl bg-surface p-6 md:flex-row md:items-center md:p-10">
+        <div className="mt-6 flex flex-col items-start justify-between gap-6 rounded-xs bg-surface p-6 md:flex-row md:items-center md:p-10">
           <div>
             <h3 className="font-display text-2xl font-semibold">Have Any Issues?</h3>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -87,14 +87,14 @@ function FAQs() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link to="/schedulecall">
-              <CTAButton className="rounded-lg px-6 bg-primary">
+              <CTAButton className="rounded-xs px-6 bg-primary">
               <BookHeadphones className="h-4 w-4 transition-transform text-light duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 Schedule a Call
               </CTAButton>
             </Link>
 
             <Link to="/contact">
-              <CTAButton variant="outline"className="border border-border rounded-lg px-10">
+              <CTAButton variant="outline"className="border border-border rounded-xs px-10">
                 Contact Us
               </CTAButton>
             </Link>

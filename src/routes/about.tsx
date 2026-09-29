@@ -117,7 +117,7 @@ type FounderKey = keyof typeof FOUNDER_DATA;
 
 function About() {
   const [selectedFounder, setSelectedFounder] = useState<FounderKey | null>(null);
-
+ 
   return (
     <SiteLayout>
       <section className="relative overflow-hidden">
@@ -130,7 +130,7 @@ function About() {
             transition={{ duration: 1.4, ease: "easeOut" }}
             className="h-104 w-full object-cover opacity-50 md:h-136"
           />
-          <div className="absolute inset-0 bg-linear-to-r from-foreground via-foreground/80 to-foreground/70" />
+          <div className="absolute inset-0 bg-linear-to-r from-headerbg via-headerbg/80 to-headerbg/70" />
           <div className="absolute inset-0 flex items-start">
             <motion.div
               initial={{ opacity: 0, y: -24 }}
@@ -153,7 +153,7 @@ function About() {
         </div>
 
         {/* Mission and Vision Grid Setup */}
-        <div className="w-full bg-surface py-10 md:py-16 my-10">
+        <div className="w-full py-10 md:py-16 my-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -161,7 +161,7 @@ function About() {
             transition={{ duration: 0.6 }}
             className="mx-auto max-w-7xl px-4 sm:px-6 grid gap-6 grid-cols-1 md:grid-cols-[1.3fr_0.7fr]"
           >
-            <SurfaceCard className="relative overflow-hidden border-0 bg-primary p-6 sm:p-8 text-white transition-shadow duration-300 hover:shadow-sm">
+            <SurfaceCard className="relative overflow-hidden border-0  bg-maincard p-6 sm:p-8 text-white transition-shadow duration-300 shadow-sm">
               <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
               <h3 className="relative font-display text-xl font-semibold">Our Mission</h3>
               <p className="relative mt-3 text-sm sm:text-base text-white/80 leading-relaxed">
@@ -178,6 +178,7 @@ function About() {
                     {t}
                   </span>
                 ))}
+                <div className="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
               </div>
             </SurfaceCard>
 
@@ -188,7 +189,7 @@ function About() {
               <div className="mb-3 grid h-10 w-10 place-items-center rounded-full bg-primary">
                 <Eye className="h-5 w-5 text-white" />
               </div>
-              <h3 className="font-display text-primary text-xl font-semibold">Our Vision</h3>
+              <h3 className="font-display text-foreground text-xl font-semibold">Our Vision</h3>
               <p className="mt-3 text-xs sm:text-sm text-foreground/75 leading-relaxed">
                 The vision of SUPERSONIC DYNAMIC SERVICES B.V. is to be in the forefront of the
                 Dutch moving and freight haulage services market changing the game as one of the
@@ -200,7 +201,7 @@ function About() {
         </div>
 
         {/* Founders Leadership and Identity Cards */}
-        <section className="mx-auto mt-16 max-w-7xl px-4 sm:px-6 md:mt-24">
+        <section className="mx-auto mt-16 max-w-7xl  px-4 sm:px-6 md:mt-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -208,7 +209,7 @@ function About() {
             transition={{ duration: 0.6 }}
           >
             <div className="mb-6 flex items-center gap-2.5 md:mb-3">
-              <Pill className="font-display text-xs text-black">
+              <Pill className="font-display text-xs text-foreground/70">
                 Legacy of leadership
               </Pill>
             </div>
@@ -216,18 +217,19 @@ function About() {
             <div className="grid mt-2 items-start gap-10 lg:grid-cols-[0.85fr_1fr] lg:gap-12">
               {/* Narrative column */}
               <div className="space-y-4 lg:sticky lg:top-24">
-                <h2 className="font-display text-balance text-2xl font-semibold leading-[1.15] tracking-tight text-foreground sm:text-4xl">
+                <h2 className="font-mono text-balance text-2xl font-semibold leading-[1.15] tracking-tight text-foreground sm:text-4xl">
                   Founded by Mr. Nweze W. Chukwudi & Henry O. N.
                 </h2>
 
-                <div className="relative rounded-lg border bg-secondary border-border py-2.5 pl-4">
+                <div className="relative border-l-2 bg-transparent py-2.5 pl-4">
+                  <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/15 blur-3xl" />
                   <p className="font-display text-sm leading-5 text-foreground/90">
                     Logistics is the heartbeat of the global economy. At Supersonic, we've
                     engineered that heartbeat to be cleaner, faster, and smarter than ever before.
                   </p>
                 </div>
 
-                <p className="max-w-[58ch] text-sm leading-6 text-muted-foreground">
+                <p className="max-w-[58ch] italic text-sm leading-6 text-muted-foreground">
                   Under the visionary leadership of Mr. Nweze W. Chukwudi & Henry Obi Ndubuisi,
                   Supersonic Dynamic Services B.V. has evolved from a kinetic concept into a premier
                   logistics powerhouse. Our foundation is built on the belief that speed should
@@ -236,15 +238,15 @@ function About() {
 
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
                   <CTAButton
-                    variant="primary"
-                    className="rounded-md"
+                    variant="outline"
+                    className="rounded-xs border-foreground"
                     onClick={() => setSelectedFounder("nweze")}
                   >
                     CEO Profile
                   </CTAButton>
                   <CTAButton
                     variant="secondary"
-                    className="rounded-md"
+                    className="rounded-xs border border-[#002B73]"
                     onClick={() => setSelectedFounder("henry")}
                   >
                     COO Profile
@@ -253,7 +255,7 @@ function About() {
               </div>
 
               {/* Founders diptych */}
-              <div className="relative rounded-lg border border-border">
+              <div className="relative rounded-xs border border-border">
                 <div className="grid grid-cols-1 sm:grid-cols-2">
                   {(Object.keys(FOUNDER_DATA) as FounderKey[]).map((key) => {
                     const founder = FOUNDER_DATA[key];
@@ -263,9 +265,9 @@ function About() {
                         type="button"
                         onClick={() => setSelectedFounder(key)}
                         aria-label={`View ${founder.name}'s profile`}
-                        className="group relative border-b border-border text-left last:border-b-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:border-b-0 sm:first:border-r"
+                        className="group relative border-b border-border text-left last:border-b-0 hover: focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 sm:border-b-0 sm:first:border-r"
                       >
-                        <div className="relative rounded-lg aspect-3/4 overflow-hidden bg-surface">
+                        <div className="relative rounded-xs aspect-3/4 overflow-hidden bg-surface">
                           {founder.image ? (
                             <img
                               src={founder.image}
@@ -341,7 +343,7 @@ function About() {
                   </p>
                 </div>
                 <div className={i % 2 === 0 ? "order-2" : "order-2 md:order-1"}>
-                  <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+                  <div className="overflow-hidden rounded-xs border border-border shadow-sm">
                     <img
                       src={a.image}
                       alt={a.title}
@@ -363,7 +365,7 @@ function About() {
           transition={{ duration: 0.6 }}
           className="mt-16 md:mt-24 mx-auto max-w-7xl px-4 sm:px-6 text-start"
         >
-          <Pill className="text-black">Proven Excellence</Pill>
+          <Pill className="text-foreground/70">Proven Excellence</Pill>
           <h2 className="mt-4 font-display text-2xl font-bold sm:text-3xl md:text-4xl">
             What Our Customers Say
           </h2>
@@ -424,7 +426,7 @@ function About() {
             transition={{ duration: 0.6 }}
             className="mt-8 mx-auto max-w-7xl mb-15 px-4 sm:px-6"
           >
-            <div className="relative overflow-hidden rounded-3xl border border-dashed border-primary/30 bg-linear-to-br from-primary/5 via-surface to-emerald-500/5 px-6 py-12 sm:py-16 text-center">
+            <div className="relative overflow-hidden rounded-xs border border-dashed border-primary/30 bg-linear-to-br from-primary/5 via-surface to-emerald-500/5 px-6 py-12 sm:py-16 text-center">
               <div className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-16 -right-16 h-48 w-48 rounded-full bg-emerald-400/10 blur-3xl" />
 
@@ -468,13 +470,13 @@ function About() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 10 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="relative bg-white border border-border w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-3xl shadow-xl text-left custom-scrollbar flex flex-col"
+              className="relative bg-surface border border-border w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-xs shadow-xl text-left custom-scrollbar flex flex-col"
             >
               {/* Header Area */}
-              <div className="flex items-start justify-between gap-4 border-b border-border p-6 sm:p-8 md:p-10 pb-5 sticky top-0 bg-white z-10">
+              <div className="flex items-start justify-between gap-4 border-b border-border p-6 sm:p-8 md:p-10 pb-5 sticky top-0 bg-surface z-10">
                 <div className="flex items-start gap-4 min-w-0">
                   {/* Founder avatar */}
-                  <div className="hidden sm:grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl border border-primary/20 bg-linear-to-br from-primary/15 to-primary/5 text-primary">
+                  <div className="hidden sm:grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xs bg-linear-to-br from-primary/15 to-primary/5 text-primary">
                     {FOUNDER_DATA[selectedFounder].image ? (
                       <img
                         src={FOUNDER_DATA[selectedFounder].image}
@@ -488,7 +490,7 @@ function About() {
                     )}
                   </div>
                   <div className="space-y-1 min-w-0">
-                    <span className="text-[10px] font-bold tracking-widest text-primary uppercase px-2.5 py-1 bg-primary/10 rounded-md border border-primary/20 inline-block">
+                    <span className="text-[10px] font-bold tracking-widest text-primary uppercase px-2.5 py-1 bg-primary/10 rounded-xs inline-block">
                       {FOUNDER_DATA[selectedFounder].role}
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-bold font-display tracking-tight text-foreground mt-3">
@@ -510,22 +512,22 @@ function About() {
               {/* Main Content Area Container with consistent padding */}
               <div className="p-6 sm:p-8 md:p-10 pt-2 space-y-8 flex-1">
                 {/* Academic Credentials Box */}
-                <div className="bg-muted border border-border rounded-xl p-5 md:p-6 space-y-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+                <div className="bg-muted rounded-xs p-5 md:p-6 space-y-4">
+                  <h4 className="text-xs font-bold uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
                     <GraduationCap className="h-4 w-4 text-primary" /> Education & Credentials
                   </h4>
                   <ul className="space-y-3 text-xs sm:text-sm text-foreground/85 list-none pl-0">
                     {FOUNDER_DATA[selectedFounder].education.map((edu, idx) => (
                       <li key={idx} className="flex items-start gap-3">
                         <span className="h-1.5 w-1.5 rounded-full bg-primary mt-2 shrink-0 opacity-80" />
-                        <span className="leading-normal font-medium tracking-wide">{edu}</span>
+                        <span className="leading-normal font-medium tracking-wide italic">{edu}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {/* Main Statement Text Area / Professional Biography */}
-                <div className="space-y-5 text-sm sm:text-base text-foreground/80 font-normal leading-relaxed tracking-wide border-l-2 border-primary/25 pl-4 sm:pl-6">
+                <div className="space-y-5 text-sm sm:text-base text-foreground/80 font-normal leading-relaxed tracking-wide border-l-2 border-foreground/70 pl-4 sm:pl-6">
                   {FOUNDER_DATA[selectedFounder].bio.map((paragraph, index) => (
                     <p key={index} className="opacity-95 font-light">
                       {paragraph}
@@ -535,10 +537,10 @@ function About() {
               </div>
 
               {/* Footer Control Box */}
-              <div className="border-t border-border p-6 sm:px-8 md:px-10 py-4 flex justify-end sticky bottom-0 bg-white z-10">
+              <div className="border-t border-border p-6 sm:px-8 md:px-10 py-4 flex justify-end sticky bottom-0 bg-surface z-10">
                 <CTAButton
                   variant="primary"
-                  className="rounded-md px-6 py-2.5 text-xs font-bold tracking-wide"
+                  className="rounded-xs px-6 py-2.5 text-xs font-bold tracking-wide text-white"
                   onClick={() => setSelectedFounder(null)}
                 >
                   Close Profile

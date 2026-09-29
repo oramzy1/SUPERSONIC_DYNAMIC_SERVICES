@@ -276,7 +276,7 @@ export function Header() {
           <Link to="/quoterequest" className="hidden md:block">
             <CTAButton
               variant="primary"
-              className="rounded-md px-5 py-2 text-sm tracking-wide shadow-lg shadow-(--primary)/10"
+              className="rounded-xs px-5 py-2 text-sm tracking-wide text-white shadow-lg shadow-(--primary)/10"
             >
               Request Quote
             </CTAButton>
@@ -354,7 +354,7 @@ export function Header() {
                 <Link to="/quoterequest" onClick={() => setOpen(false)}>
                   <CTAButton
                     variant="primary"
-                    className="w-full rounded-xl py-2.5 text-xs font-semibold"
+                    className="w-full rounded-xs py-2.5 text-xs font-semibold"
                   >
                     Request Quote
                   </CTAButton>

@@ -11,7 +11,7 @@ export function ThemeModal() {
   const options: { mode: ThemeMode; label: string; icon: React.ComponentType<{ className?: string }>; description: string }[] = [
     {
       mode: "light",
-      label: "Light Mode",
+      label: "Light Mode", 
       icon: Sun,
       description: "Clean, bright interface designed for high clarity",
     },
@@ -31,7 +31,7 @@ export function ThemeModal() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-md rounded-2xl bg-surface border border-border text-foreground shadow-2xl p-6 sm:p-7 relative animate-in zoom-in-95 duration-200">
+      <div className="w-full max-w-md rounded-2xl bg-surface border border-border text-foreground shadow-2xl p-6 sm:p-7 relative animate-spring-pop">
         <button
           type="button"
           onClick={() => setIsThemeModalOpen(false)}
