@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import logo from "@/assets/images/logo.png";
 import Logo from "../shared/Logo";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfileSettings } from "@/hooks/useProfileSettings";
 
 
 function isNavActive(pathname: string, to: string) {
@@ -45,6 +46,7 @@ export function CrewDashboardSidebar() {
   const desktopMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const mobileSidebarRef = useRef<HTMLDivElement>(null);
+  const { avatarUrl } = useProfileSettings();
 
   useEffect(() => {
     const handleToggleMobile = () => setIsMobileOpen((prev) => !prev);
@@ -187,7 +189,7 @@ export function CrewDashboardSidebar() {
           <div className="flex items-center gap-3 truncate min-w-0 flex-1">
             <div className="relative shrink-0">
               <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"}
                 alt="Admin User"
                 className="w-9 h-9 rounded-full object-cover border border-white/8"
               />
@@ -241,6 +243,7 @@ export function CrewDashboardSidebar() {
 }
 
 export function AdminDashboardTopbar() {
+  const { avatarUrl } = useProfileSettings();
   const handleOpenMobileSidebar = () => {
     window.dispatchEvent(new Event("toggle-admin-sidebar"));
   };
@@ -276,7 +279,7 @@ export function AdminDashboardTopbar() {
 
         <div className="h-9 w-9 overflow-hidden rounded-full border border-white/8 shrink-0">
           <img
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+            src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"}
             alt="Profile Thumbnail"
             className="w-full h-full object-cover"
           />

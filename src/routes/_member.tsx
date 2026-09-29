@@ -8,6 +8,8 @@ import { CrewDashboardTopbar } from "@/components/crew/CrewDashboardTopbar";
 import { NotificationsSheet } from "@/components/shared/NotificationsSheet";
 import { NotificationsStack } from "@/components/shared/NotificationsStack";
 import { NotificationToastWatcher } from "@/components/shared/NotificationsToastWatcher";
+import { useTheme } from "@/contexts/ThemeContext";
+import { ThemeModal } from "@/components/shared/ThemeModal";
 
 // 1. Create a lightweight Auth Intercept Context so any component on your site can trigger this popup
 const SecurityGuardContext = createContext<{ 
@@ -27,6 +29,7 @@ function CrewLayoutWrapper() {
   const [isGateOpen, setIsGateOpen] = useState(false);
   const [redirectTarget, setRedirectTarget] = useState<string | null>(null);
   const [notifSheetOpen, setNotifSheetOpen] = useState(false);
+  const { setIsThemeModalOpen, isThemeModalOpen } = useTheme();
 
 
   const { isAuthenticated } = useAuth();
@@ -81,6 +84,7 @@ function CrewLayoutWrapper() {
           <NotificationsSheet open={notifSheetOpen} onClose={() => setNotifSheetOpen(false)} role="crew" />
           <NotificationToastWatcher role="crew" />
           <NotificationsStack role="crew" onOpenSheet={() => setNotifSheetOpen(true)} />
+            <ThemeModal open={isThemeModalOpen} onClose={() => setIsThemeModalOpen(false)} />
         </>
       )}
 

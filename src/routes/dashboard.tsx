@@ -5,6 +5,8 @@ import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
 import { NotificationsSheet } from "@/components/shared/NotificationsSheet";
 import { NotificationToastWatcher } from "@/components/shared/NotificationsToastWatcher";
 import { NotificationsStack } from "@/components/shared/NotificationsStack";
+import { ThemeModal } from "@/components/shared/ThemeModal";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -20,6 +22,8 @@ function DashboardLayout() {
   // Shared state to control the mobile slide-out menu drawer
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifSheetOpen, setNotifSheetOpen] = useState(false);
+  
+  const { setIsThemeModalOpen, isThemeModalOpen } = useTheme();
 
   return (
      <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
@@ -37,6 +41,7 @@ function DashboardLayout() {
       <NotificationsSheet open={notifSheetOpen} onClose={() => setNotifSheetOpen(false)} role="customer" />
       <NotificationToastWatcher role="customer" />
       <NotificationsStack role="customer" onOpenSheet={() => setNotifSheetOpen(true)} />
+        <ThemeModal open={isThemeModalOpen} onClose={() => setIsThemeModalOpen(false)} />
     </div>
   );
 }

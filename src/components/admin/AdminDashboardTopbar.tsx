@@ -6,6 +6,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useTheme } from "@/contexts/ThemeContext";
 import { ThemeModal } from "../shared/ThemeModal";
+import { useProfileSettings } from "@/hooks/useProfileSettings";
 
 
 interface TopbarProps {
@@ -20,6 +21,7 @@ export function AdminDashboardTopbar({ onMenuToggle, onNotificationsClick }: Top
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const { setIsThemeModalOpen } = useTheme();
+  const { avatarUrl } = useProfileSettings()
 
   // const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -99,7 +101,7 @@ export function AdminDashboardTopbar({ onMenuToggle, onNotificationsClick }: Top
             aria-label="Profile menu"
           >
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+              src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"}
               alt="Profile Avatar"
               className="w-full h-full object-cover"
             />
@@ -111,7 +113,7 @@ export function AdminDashboardTopbar({ onMenuToggle, onNotificationsClick }: Top
               {/* User info */}
               <div className="flex items-center gap-3 p-2 border-b border-[#1c1e21]">
                 <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"
+                  src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"}
                   className="h-10 w-10 rounded-full object-cover shrink-0"
                   alt="User Thumbnail"
                 />

@@ -3,6 +3,8 @@ import { Bell, HelpCircle, Search, X, Menu } from "lucide-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useTheme } from "@/contexts/ThemeContext";
+import { useProfileSettings } from "@/hooks/useProfileSettings";
 
 interface TopbarProps {
   onMenuToggle: () => void;
@@ -14,6 +16,8 @@ export function CrewDashboardTopbar({ onMenuToggle, onNotificationsClick }: Topb
   const [openNotifications, setOpenNotifications] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const { unread } = useNotifications();
+  const { setIsThemeModalOpen } = useTheme();
+  const { avatarUrl } = useProfileSettings();
 
   // const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -93,7 +97,7 @@ export function CrewDashboardTopbar({ onMenuToggle, onNotificationsClick }: Topb
             aria-label="Profile menu"
           >
             <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+              src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"}
               alt="Profile Avatar"
               className="w-full h-full object-cover"
             />
@@ -105,7 +109,7 @@ export function CrewDashboardTopbar({ onMenuToggle, onNotificationsClick }: Topb
               {/* User info */}
               <div className="flex items-center gap-3 p-2 border-b border-[#1c1e21]">
                 <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"
+                  src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"}
                   className="h-10 w-10 rounded-full object-cover shrink-0"
                   alt="User Thumbnail"
                 />
@@ -133,6 +137,12 @@ export function CrewDashboardTopbar({ onMenuToggle, onNotificationsClick }: Topb
                 >
                   Account Settings
                 </Link> */}
+                <button
+                  onClick={() => setIsThemeModalOpen(true)}
+                  className="text-left px-3 py-2 hover:bg-[#16191c] rounded-md text-slate-300 block transition-colors"
+                >
+                  Themes
+                </button>
                 <button
                   onClick={handleLogout}
                   className="text-left px-3 py-2 hover:bg-rose-500/10 text-rose-400 rounded-md mt-1 cursor-pointer font-semibold transition-colors focus:outline-none"
