@@ -165,7 +165,7 @@ function Home() {
                   className="rounded-xs px-6 py-3.5 flex items-center bg-primary text-white justify-center gap-2 text-foreground"
                 >
                   <FileText className="h-4 w-4 transition-transform text-white duration-300 group-hover:scale-110" />
-                  <span>Request Your Free Quote</span>
+                  <span className="text-white" >Request Your Free Quote</span>
                 </CTAButton>
               </Link>
               <Link to="/services">
