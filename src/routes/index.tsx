@@ -163,7 +163,7 @@ function Home() {
               <Link to="/quoterequest" className="group">
                 <CTAButton
                   variant="primary"
-                  className="rounded-xs px-6 py-3.5 flex items-center justify-center gap-2 text-foreground"
+                  className="rounded-xs px-6 py-3.5 flex items-center text-white justify-center gap-2 text-foreground"
                 >
                   <FileText className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Request Your Free Quote</span>
