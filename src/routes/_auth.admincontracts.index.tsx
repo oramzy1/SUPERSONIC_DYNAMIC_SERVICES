@@ -36,11 +36,11 @@ function RouteComponent() {
             value={idInput}
             onChange={(e) => setIdInput(e.target.value)}
             placeholder="e.g. 14"
-            className="flex-1 bg-background rounded-lg px-3 py-2.5 text-sm text-foreground/60 outline-none focus:border-[#E2A54A]/60"
+            className="flex-1 bg-background rounded-xs px-3 py-2.5 text-sm text-foreground/60 outline-none focus:border-[#E2A54A]/60"
           />
           <button
             type="submit"
-            className="flex items-center gap-1.5 rounded-lg bg-[#E2A54A] px-4 py-2.5 text-xs font-bold text-slate-950 hover:bg-[#d4963b]"
+            className="flex items-center gap-1.5 rounded-xs bg-[#E2A54A] px-4 py-2.5 text-xs font-bold text-slate-950 hover:bg-[#d4963b]"
           >
             <Search className="w-3.5 h-3.5" /> Open
           </button>

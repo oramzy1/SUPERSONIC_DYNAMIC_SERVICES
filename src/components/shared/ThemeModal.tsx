@@ -8,10 +8,15 @@ export function ThemeModal() {
 
   if (!isThemeModalOpen) return null;
 
-  const options: { mode: ThemeMode; label: string; icon: React.ComponentType<{ className?: string }>; description: string }[] = [
+  const options: {
+    mode: ThemeMode;
+    label: string;
+    icon: React.ComponentType<{ className?: string }>;
+    description: string;
+  }[] = [
     {
       mode: "light",
-      label: "Light Mode", 
+      label: "Light Mode",
       icon: Sun,
       description: "Clean, bright interface designed for high clarity",
     },
@@ -35,7 +40,7 @@ export function ThemeModal() {
         <button
           type="button"
           onClick={() => setIsThemeModalOpen(false)}
-          className="absolute top-4 right-4 p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition"
+          className="absolute top-4 right-4 p-2 rounded-xs text-muted-foreground hover:text-foreground hover:bg-accent transition"
           aria-label="Close theme selection"
         >
           <X className="h-5 w-5" />
@@ -69,7 +74,7 @@ export function ThemeModal() {
               >
                 <div className="flex items-center gap-3.5">
                   <div
-                    className={`grid h-10 w-10 place-items-center rounded-lg ${
+                    className={`grid h-10 w-10 place-items-center rounded-xs ${
                       isSelected
                         ? "bg-primary text-primary-foreground"
                         : "bg-accent text-muted-foreground"

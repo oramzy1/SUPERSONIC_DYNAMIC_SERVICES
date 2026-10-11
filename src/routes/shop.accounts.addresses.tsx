@@ -11,8 +11,7 @@ export const Route = createFileRoute("/shop/accounts/addresses")({
 });
 
 function Addresses() {
-  const { addresses, saveAddress, removeAddress, setDefaultAddress } =
-    useCart();
+  const { addresses, saveAddress, removeAddress, setDefaultAddress } = useCart();
   const [adding, setAdding] = useState(false);
   const [draft, setDraft] = useState<Address>({
     id: "",
@@ -66,9 +65,7 @@ function Addresses() {
           <div className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-surface text-primary">
             <MapPin className="h-5 w-5" />
           </div>
-          <p className="mt-4 font-display text-lg font-semibold">
-            No saved addresses
-          </p>
+          <p className="mt-4 font-display text-lg font-semibold">No saved addresses</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Add an address to speed up checkout next time.
           </p>
@@ -205,7 +202,7 @@ function Input({
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-lg border border-white/10 bg-surface-2 px-3 text-sm focus:border-primary/50 focus:outline-none"
+        className="h-11 w-full rounded-xs border border-white/10 bg-surface-2 px-3 text-sm focus:border-primary/50 focus:outline-none"
       />
     </label>
   );

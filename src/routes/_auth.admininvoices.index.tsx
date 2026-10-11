@@ -13,6 +13,7 @@ import {
 import { invoicesApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Pagination } from "@/components/shared/Pagination";
+import { showErrorText } from "@/lib/toast";
 
 export const Route = createFileRoute("/_auth/admininvoices/")({
   component: RouteComponent,
@@ -36,7 +37,7 @@ function DownloadButton({ invoiceId }: { invoiceId: number }) {
       const blob = await invoicesApi.downloadPdf(invoiceId);
       await openBlobInNewTab(blob);
     } catch (err) {
-      console.error(mapPdfError(err));
+      showErrorText(mapPdfError(err));
     } finally {
       setBusy(false);
     }
@@ -122,18 +123,6 @@ function RouteComponent() {
           <h1 className="text-2xl font-bold tracking-tight text-foreground">Financial Tracking</h1>
           <p className="text-sm text-slate-400 mt-1">Track payments and monitor revenue.</p>
         </div>
-        <div className="flex flex-col items-end gap-1 self-start sm:self-auto">
-          <button
-            disabled
-            title="Invoice creation isn't available via the API yet"
-            className="flex items-center gap-1.5 px-4 py-2 bg-white/5 text-foreground/60 font-bold text-xs rounded-lg cursor-not-allowed"
-          >
-            + New Invoice
-          </button>
-          <span className="text-[10px] text-foreground/60">
-            Not connected - no backend endpoint yet
-          </span>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
@@ -166,7 +155,7 @@ function RouteComponent() {
       <div className="bg-surface backdrop-blur-md border border-white/6 rounded-xl overflow-hidden flex flex-col mb-6">
         <div className="flex items-center justify-between gap-4 p-5 border-b border-white/6">
           <h2 className="text-sm font-bold text-foreground tracking-tight">Invoices</h2>
-          <div className="flex items-center bg-surface p-1 rounded-lg border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto">
+          <div className="flex items-center bg-surface p-1 rounded-xs border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto">
             {statusOptions.map((s) => (
               <button
                 key={s}
@@ -210,7 +199,7 @@ function RouteComponent() {
                 <tr>
                   <td colSpan={6} className="py-12 px-6">
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
-                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
+                      <div className="p-2.5 bg-white/2 rounded-xs border border-white/6 text-foreground/60 mb-1">
                         <FileSearch className="w-4 h-4" />
                       </div>
                       <p className="text-sm font-medium text-slate-300">No invoices found</p>
@@ -249,7 +238,6 @@ function RouteComponent() {
                       >
                         {row.status}
                       </span>
-                      #
                     </td>
                     <td className="py-4 px-6 text-xs text-slate-400">
                       {row.job_id && (

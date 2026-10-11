@@ -31,98 +31,61 @@ function extractErrorMessage(err: unknown): string {
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-   const [done, setDone] = useState(false);
+  const [done, setDone] = useState(false);
+  const [slow, setSlow] = useState(false);
   const requestStarted = useRef(false);
 
-    useEffect(() => {
+  // The only submit. The ref keeps StrictMode's double-run from sending it twice.
+  useEffect(() => {
     if (requestStarted.current) return;
 
     const raw = sessionStorage.getItem("sds_quote_payload");
     if (!raw) {
-      navigate({ to: "/quoterequest" });
+      navigate({ to: "/quoterequest", replace: true });
       return;
     }
     requestStarted.current = true;
-    sessionStorage.removeItem("sds_quote_payload");
+    sessionStorage.removeItem("sds_quote_payload"); // a refresh can't resubmit it
 
-    quotesApi
-      .createRequest(JSON.parse(raw))
-      .then(() => {
-        setDone(true);
-        setTimeout(() => navigate({ to: "/quotesuccess" }), 400);
-      })
-      .catch((err: unknown) => {
-        sessionStorage.setItem("sds_quote_error", extractErrorMessage(err));
-        navigate({ to: "/quoterequest" });
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Purely visual progress
-  useEffect(() => {
-    if (done) {
-      setCurrentStepIndex(PROCESSING_STEPS.length - 1);
-      setProgress(100);
+    let payload;
+    try {
+      payload = JSON.parse(raw);
+    } catch {
+      navigate({ to: "/quoterequest", replace: true });
       return;
     }
-    const stepInterval = setInterval(() => {
-      setCurrentStepIndex((prev) => (prev < PROCESSING_STEPS.length - 1 ? prev + 1 : prev));
-    }, 1200);
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev < 90 ? prev + 1 : prev));
-    }, 60);
-    return () => {
-      clearInterval(stepInterval);
-      clearInterval(progressInterval);
-    };
-  }, [done]);
-
-  useEffect(() => {
-    const raw = sessionStorage.getItem("sds_quote_payload");
-    if (!raw) {
-      navigate({ to: "/quoterequest" });
-      return;
-    }
-    const payload = JSON.parse(raw);
-
-    const stepInterval = setInterval(() => {
-      setCurrentStepIndex((prev) => (prev < PROCESSING_STEPS.length - 1 ? prev + 1 : prev));
-    }, 1200);
-
-    // Animate up to 90% while the real request is in flight; only real
-    // success jumps it to 100%.
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev < 90 ? prev + 1 : prev));
-    }, 60);
 
     quotesApi
       .createRequest(payload)
       .then(() => {
-        sessionStorage.removeItem("sds_quote_payload");
-        clearInterval(stepInterval);
-        clearInterval(progressInterval);
-        setCurrentStepIndex(PROCESSING_STEPS.length - 1);
-        setProgress(100);
-        setTimeout(() => navigate({ to: "/quotesuccess" }), 400);
+        sessionStorage.removeItem("sds_quote_draft");
+        setDone(true);
+        setTimeout(() => navigate({ to: "/quotesuccess", replace: true }), 600);
       })
       .catch((err: unknown) => {
-        const msg = extractErrorMessage(err);
-        sessionStorage.setItem("sds_quote_error", msg);
-        sessionStorage.removeItem("sds_quote_payload");
-        navigate({ to: "/quoterequest" });
-      })
-      .finally(() => {
-        clearInterval(stepInterval);
-        clearInterval(progressInterval);
+        sessionStorage.setItem("sds_quote_error", extractErrorMessage(err));
+        navigate({ to: "/quoterequest", replace: true });
       });
-
-    return () => {
-      clearInterval(stepInterval);
-      clearInterval(progressInterval);
-    };
   }, [navigate]);
+
+  // Visual only: ease toward 90%, jump to 100% on real success
+  useEffect(() => {
+    if (done) {
+      setProgress(100);
+      return;
+    }
+    const tick = setInterval(() => setProgress((p) => p + (90 - p) * 0.05), 100);
+    const slowTimer = setTimeout(() => setSlow(true), 8000);
+    return () => {
+      clearInterval(tick);
+      clearTimeout(slowTimer);
+    };
+  }, [done]);
+
+  const currentStepIndex = done
+    ? PROCESSING_STEPS.length - 1
+    : Math.min(PROCESSING_STEPS.length - 1, Math.floor(progress / 25));
 
   return (
     <div className="min-h-[90vh] w-full flex flex-col items-center justify-center px-4">
@@ -138,7 +101,7 @@ function RouteComponent() {
                 className="stroke-white/10 fill-none"
                 strokeWidth="4"
               />
-              <motion.circle
+              <circle
                 cx="56"
                 cy="56"
                 r="48"
@@ -147,7 +110,7 @@ function RouteComponent() {
                 strokeLinecap="round"
                 strokeDasharray={301.6}
                 strokeDashoffset={301.6 - (301.6 * progress) / 100}
-                transition={{ ease: "linear" }}
+                style={{ transition: "stroke-dashoffset 0.4s ease-out" }}
               />
             </svg>
             <Truck className="h-7 w-7 text-primary z-10" />
@@ -155,7 +118,7 @@ function RouteComponent() {
 
           <div className="text-center">
             <span className="font-mono text-2xl font-semibold tracking-tight text-primary">
-              {progress}%
+              {Math.round(progress)}%
             </span>
             <p className="text-[11px] font-medium tracking-wide text-slate-400 uppercase mt-0.5">
               Preparing your quote
@@ -166,13 +129,17 @@ function RouteComponent() {
         {/* Right: step checklist */}
         <div className="md:col-span-7 space-y-6">
           <div className="space-y-1.5 text-left">
-            <span className="text-[11px] font-semibold tracking-wide text-primary uppercase bg-primary/10 px-2.5 py-1 rounded-md border border-primary/25 inline-block">
+            <span className="text-[11px] font-semibold tracking-wide text-primary uppercase bg-primary/10 px-2.5 py-1 rounded-xs border border-primary/25 inline-block">
               Quote in progress
             </span>
-            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-black">
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground/70">
               Processing your request
             </h2>
-            <p className="text-sm text-slate-400">This usually takes just a few seconds.</p>
+            <p className="text-sm text-slate-400" role="status">
+              {slow
+                ? "Taking a little longer than usual. Please keep this page open."
+                : "This usually takes just a few seconds."}
+            </p>
           </div>
 
           <div className="space-y-3.5 text-left">
@@ -190,7 +157,7 @@ function RouteComponent() {
                   <div
                     className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] border shrink-0 transition-colors ${
                       isCompleted
-                        ? "bg-primary border-primary text-black"
+                        ? "bg-primary border-primary text-foreground/70"
                         : isActive
                           ? "border-primary text-primary"
                           : "border-white/20 text-foreground/60"
@@ -199,7 +166,7 @@ function RouteComponent() {
                     {isCompleted ? <Check className="h-3 w-3 stroke-3" /> : index + 1}
                   </div>
                   <span
-                    className={`text-sm ${isActive ? "font-medium text-black" : "text-slate-400"}`}
+                    className={`text-sm ${isActive ? "font-medium text-foreground/70" : "text-slate-400"}`}
                   >
                     {stepText}
                   </span>

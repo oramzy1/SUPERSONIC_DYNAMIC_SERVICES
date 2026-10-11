@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Loader2, Save, Eye, EyeOff, Upload, KeyRound } from "lucide-react";
 import { useProfileSettings } from "@/hooks/useProfileSettings";
-import { cn } from "@/lib/utils";
 
 export function ProfileSettingsPanel() {
   const {
@@ -23,7 +22,6 @@ export function ProfileSettingsPanel() {
     setConfirmPassword,
     savingPassword,
     savePassword,
-    toast,
   } = useProfileSettings();
 
   const [showCurrent, setShowCurrent] = useState(false);
@@ -31,19 +29,6 @@ export function ProfileSettingsPanel() {
 
   return (
     <div className="max-w-2xl">
-      {toast && (
-        <div
-          className={cn(
-            "fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border",
-            toast.type === "success"
-              ? "bg-surface border-emerald-500/30 text-emerald-400"
-              : "bg-surface border-rose-500/30 text-rose-400",
-          )}
-        >
-          {toast.message}
-        </div>
-      )}
-
       <div className="rounded-2xl bg-surface p-6 mb-4">
         <h2 className="font-display text-lg font-bold mb-4">Profile</h2>
         <form onSubmit={saveProfile} className="space-y-4">
@@ -57,7 +42,7 @@ export function ProfileSettingsPanel() {
                 </div>
               )}
             </div>
-            <label className="cursor-pointer rounded-lg bg-white/5 px-3 py-2 text-xs font-semibold hover:bg-white/10 flex items-center gap-2">
+            <label className="cursor-pointer rounded-xs bg-white/5 px-3 py-2 text-xs font-semibold hover:bg-white/10 flex items-center gap-2">
               {uploadingAvatar ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
               ) : (
@@ -85,7 +70,7 @@ export function ProfileSettingsPanel() {
               <input
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full rounded-lg bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
+                className="w-full rounded-xs bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
               />
             </div>
             <div className="space-y-1.5">
@@ -95,7 +80,7 @@ export function ProfileSettingsPanel() {
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full rounded-lg bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
+                className="w-full rounded-xs bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
               />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
@@ -105,7 +90,7 @@ export function ProfileSettingsPanel() {
               <input
                 value={user?.email ?? ""}
                 disabled
-                className="w-full rounded-lg bg-black/10 border border-white/5 px-3 py-2.5 text-sm text-muted-foreground cursor-not-allowed"
+                className="w-full rounded-xs bg-black/10 border border-white/5 px-3 py-2.5 text-sm text-muted-foreground cursor-not-allowed"
               />
               <p className="text-[10px] text-muted-foreground">
                 Email can't be changed here - contact support.
@@ -116,7 +101,7 @@ export function ProfileSettingsPanel() {
           <button
             type="submit"
             disabled={savingProfile}
-            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-xs bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50"
           >
             {savingProfile ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -142,7 +127,7 @@ export function ProfileSettingsPanel() {
                 type={showCurrent ? "text" : "password"}
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full rounded-lg bg-black/20 border border-white/10 px-3 py-2.5 pr-10 text-sm outline-none focus:border-white/25"
+                className="w-full rounded-xs bg-black/20 border border-white/10 px-3 py-2.5 pr-10 text-sm outline-none focus:border-white/25"
               />
               <button
                 type="button"
@@ -163,7 +148,7 @@ export function ProfileSettingsPanel() {
                   type={showNew ? "text" : "password"}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full rounded-lg bg-black/20 border border-white/10 px-3 py-2.5 pr-10 text-sm outline-none focus:border-white/25"
+                  className="w-full rounded-xs bg-black/20 border border-white/10 px-3 py-2.5 pr-10 text-sm outline-none focus:border-white/25"
                 />
                 <button
                   type="button"
@@ -182,14 +167,14 @@ export function ProfileSettingsPanel() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full rounded-lg bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
+                className="w-full rounded-xs bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
               />
             </div>
           </div>
           <button
             type="submit"
             disabled={savingPassword}
-            className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2.5 text-xs font-bold hover:bg-white/15 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-xs bg-white/10 px-4 py-2.5 text-xs font-bold hover:bg-white/15 disabled:opacity-50"
           >
             {savingPassword ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />

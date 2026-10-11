@@ -195,7 +195,7 @@ export function TrackingDashboard() {
             </div>
           </div>
 
-          <div className="flex gap-1 mt-4 bg-surface p-1 rounded-lg">
+          <div className="flex gap-1 mt-4 bg-surface p-1 rounded-xs">
             {(["ALL", "IN TRANSIT", "ALERTS"] as const).map((tab) => (
               <button
                 key={tab}
@@ -262,7 +262,7 @@ export function TrackingDashboard() {
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-surface rounded-lg px-2.5 py-2 ">
+                    <div className="bg-surface rounded-xs px-2.5 py-2 ">
                       <p className="text-[9px] text-foreground/60 uppercase tracking-wider font-bold mb-0.5">
                         ETA
                       </p>
@@ -272,7 +272,7 @@ export function TrackingDashboard() {
                         {node.telemetry.eta}
                       </p>
                     </div>
-                    <div className="bg-surface rounded-lg px-2.5 py-2 border border-surface flex items-center gap-1.5">
+                    <div className="bg-surface rounded-xs px-2.5 py-2 border border-surface flex items-center gap-1.5">
                       <ImageIcon className="h-2.5 w-2.5 text-foreground/60 shrink-0" />
                       <div className="min-w-0">
                         <p className="text-[9px] text-foreground/60 uppercase tracking-wider font-bold mb-0.5">
@@ -339,7 +339,7 @@ export function TrackingDashboard() {
 //  <div className="relative z-0 h-[42vh] lg:h-full lg:flex-1 shrink-0 overflow-hidden">
 //         <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
 
-//         <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#07090e]/80 backdrop-blur-sm border border-[#1c2330] rounded-lg px-3 py-1.5">
+//         <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#07090e]/80 backdrop-blur-sm border border-[#1c2330] rounded-xs px-3 py-1.5">
 //           <Radio className="h-3 w-3 text-[#E2A54A]" />
 //           <span className="text-[10px] font-bold text-white tracking-widest font-mono uppercase">
 //             Job Status Board
@@ -347,7 +347,7 @@ export function TrackingDashboard() {
 //         </div>
 
 //         {/* Zoom controls (kept - map tiles still render for context) */}
-//         <div className="absolute bottom-4 left-4 z-10 bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-lg overflow-hidden shadow-2xl">
+//         <div className="absolute bottom-4 left-4 z-10 bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-xs overflow-hidden shadow-2xl">
 //           <button
 //             onClick={() => mapInstanceRef.current?.zoomIn()}
 //             className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#1c2330] transition-colors text-sm font-medium"
@@ -379,7 +379,7 @@ export function TrackingDashboard() {
 //         </div>
 
 //         {selectedNode?.telemetry.isAlert && (
-//           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 bg-rose-500/10 backdrop-blur-sm border border-rose-500/30 rounded-lg px-3 py-1.5 whitespace-nowrap">
+//           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 bg-rose-500/10 backdrop-blur-sm border border-rose-500/30 rounded-xs px-3 py-1.5 whitespace-nowrap">
 //             <AlertTriangle className="h-3 w-3 text-rose-400 shrink-0" />
 //             <span className="text-[10px] font-bold text-rose-400 font-mono">
 //               {selectedNode.id} - overdue

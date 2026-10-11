@@ -294,7 +294,7 @@ export function Footer() {
               style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
               className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
             >
-              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
+              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-emerald-500/10 text-emerald-500">
                 <MessageSquare className="h-4 w-4" />
               </div>
               <div>
@@ -317,7 +317,7 @@ export function Footer() {
               style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
               className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
             >
-              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-500/10 text-indigo-500">
+              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-indigo-500/10 text-indigo-500">
                 <Palette className="h-4 w-4" />
               </div>
               <div>
@@ -356,9 +356,9 @@ export function Footer() {
               </p>
 
               <div className="space-y-3">
-                <Link to="/support" onClick={() => setShowMessagingModal(false)} className="block">
+                {/* <Link to="/support" onClick={() => setShowMessagingModal(false)} className="block">
                   <div className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3.5 text-left text-xs transition hover:bg-accent group">
-                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-emerald-500/10 text-emerald-500">
                       <MessageCircle className="h-4 w-4" />
                     </div>
                     <div>
@@ -370,11 +370,11 @@ export function Footer() {
                       </div>
                     </div>
                   </div>
-                </Link>
+                </Link> */}
 
-                <Link to="/ticket" onClick={() => setShowMessagingModal(false)} className="block">
+                <Link to="/helpdesk" onClick={() => setShowMessagingModal(false)} className="block">
                   <div className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3.5 text-left text-xs transition hover:bg-accent group">
-                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-emerald-500/10 text-emerald-500">
                       <Ticket className="h-4 w-4" />
                     </div>
                     <div>
@@ -390,7 +390,7 @@ export function Footer() {
 
                 <Link to="/contact" onClick={() => setShowMessagingModal(false)} className="block">
                   <div className="w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3.5 text-left text-xs transition hover:bg-accent group">
-                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                    <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-emerald-500/10 text-emerald-500">
                       <PhoneCall className="h-4 w-4" />
                     </div>
                     <div>

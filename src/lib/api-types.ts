@@ -9,6 +9,7 @@ export interface RegisterRequest {
 
 export interface RegisterResponse {
   user_id: number;
+  role: string;
   access_token: string;
   refresh_token: string;
 }
@@ -20,6 +21,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   access_token: string;
+  role: string;
   refresh_token: string;
 }
 
@@ -112,6 +114,26 @@ export interface QuoteRequestCreate {
   additional_services?: string[] | null;
 }
 
+ export interface QuoteRequestResponse {
+   id: number;
+   move_type: string;
+   address_from: string;
+   address_to: string;
+   description: string;
+   video_url?: string | null;
+   contact_name?: string | null;
+   company?: string | null;
+   contact_email?: string | null;
+   contact_phone?: string | null;
+   move_date?: string | null;
+   delivery_date?: string | null;
+   storage_size?: string | null;
+   freight_weight?: string | null;
+   additional_services?: string[] | null;
+   status: string;
+   created_at: string;
+ }
+
 export interface QuoteCounterOfferResponse {
   id: number;
   offered_by: number;
@@ -129,6 +151,7 @@ export interface QuoteResponse {
   valid_until: string;
   status: string;
   pdf_url?: string | null;
+  line_items?: QuoteLineItem[] | null;
   quote_request_id?: number | null;
   job_id?: number | null;
   tracking_token?: string | null;
@@ -162,25 +185,113 @@ export interface QuoteRejectResponse {
   quote_id: number;
   status: string;
   message: string;
+  reason?: string | null;
 }
 
-// ─── Jobs ───────────────────────────────────────────
+  // ─── Jobs ───────────────────────────────────────────
+ export interface CrewMemberInfo {
+   id: number;
+   full_name: string;
+   phone?: string | null;
+   profile_image_url?: string | null;
+ }
+
+ export interface CustomerContactInfo {
+   full_name: string;
+   phone?: string | null;
+   email?: string | null;
+   company?: string | null;
+ }
+
 export interface JobResponse {
   id: number;
   status: string;
   tracking_token: string;
-  crew_members: string[];
-  scheduled_start?: string | null;
-  move_from: string;
-  move_to: string;
-  crew_ids: string;
-  scheduled_end?: string | null;
-  photos?: unknown[] | null;
+   scheduled_start?: string | null;
+   scheduled_end?: string | null;
+   crew_ids?: number[] | null;
+   dispatcher_id?: number | null;
+   photos?: unknown[] | null;
+   crew_members: CrewMemberInfo[];
+   move_from?: string | null;
+   move_to?: string | null;
+   move_date?: string | null;
+   delivery_date?: string | null;
+   customer_contact?: CustomerContactInfo | null;
+   quote_id?: number | null;
+   quote_number?: string | null;
+   invoice_id?: number | null;
+   invoice_number?: string | null;
+   invoice_status?: string | null;
+   contract_id?: number | null;
+   contract_status?: string | null;
+   contract_url?: string | null;
 }
+
+ export interface JobDetailResponse extends JobResponse {
+   notes?: string | null;
+ }
+
+ export interface JobAssignmentRequest {
+   crew_ids?: number[] | null;
+   dispatcher_id?: number | null;
+ }
+
+ export interface JobUnassignRequest {
+   user_id?: number | null;
+   unassign_dispatcher?: boolean;
+ }
+
+ export interface JobUpdateRequest {
+   notes?: string | null;
+ }
 
 export interface StatusUpdateRequest {
   status: "in_progress" | "completed";
   notes?: string | null;
+}
+
+// ─── Contracts ──────────────────────────────────────
+export interface SignatureInfo {
+  name?: string | null;
+  at?: string | null;
+}
+
+export interface CompanySignatureInfo extends SignatureInfo {
+  by?: number | null;
+}
+
+export interface ContractResponse {
+  id: number;
+  contract_number: string;
+  status: string;
+  customer_name: string;
+  customer_email: string;
+  service_type: string;
+  additional_services: string[];
+  move_date?: string | null;
+  delivery_date?: string | null;
+  amount: string;
+  valid_until?: string | null;
+  customer_signed: SignatureInfo;
+  company_signed: CompanySignatureInfo;
+  terms_url: string;
+  created_at: string;
+  // Not in the current spec: needs the backend change from the previous answer
+  contract_url?: string | null;
+}
+
+export interface ContractSignRequest {
+  full_name: string;
+  consent: boolean;
+}
+
+export interface ContractDeclineRequest {
+  reason?: string | null;
+}
+
+export interface RoleUpdateRequest {
+  role: string;
 }
 
 // ─── Contact ────────────────────────────────────────
@@ -233,6 +344,9 @@ export interface TrackingResponse {
   scheduled_start?: string | null;
   scheduled_end?: string | null;
   photos?: unknown[] | null;
+  contract_id?: number | null;
+  contract_status?: string | null;
+  contract_url?: string | null;
 }
 
 export interface StatusHistoryItem {
@@ -245,10 +359,11 @@ export interface StatusHistoryItem {
 // ─── Invoices ───────────────────────────────────────
 export interface InvoiceResponse {
   id: number;
-  job_id: number;
+  job_id?: number | null;
   invoice_number: string;
   total_amount: string;
-  quote_number: string;
+  quote_number?: string | null;
+  quote_id?: number | null;
   status: string;
   invoice_type: string;
   pdf_url?: string | null;

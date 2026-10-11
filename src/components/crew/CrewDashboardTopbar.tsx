@@ -50,7 +50,7 @@ export function CrewDashboardTopbar({ onMenuToggle, onNotificationsClick }: Topb
         <button
           onClick={onMenuToggle}
           type="button"
-          className="p-2 -ml-1 rounded-lg text-slate-400 hover:text-foreground hover:bg-slate-800/40 transition-colors lg:hidden shrink-0 focus:outline-none"
+          className="p-2 -ml-1 rounded-xs text-slate-400 hover:text-foreground hover:bg-slate-800/40 transition-colors lg:hidden shrink-0 focus:outline-none"
           aria-label="Toggle navigation menu"
         >
           <Menu className="h-5 w-5" />
@@ -72,7 +72,7 @@ export function CrewDashboardTopbar({ onMenuToggle, onNotificationsClick }: Topb
         {/* NOTIFICATIONS */}
         <button
           onClick={onNotificationsClick}
-          className="relative grid h-9 w-9 place-items-center rounded-lg text-slate-400 hover:text-foreground hover:bg-slate-800/40 transition-colors focus:outline-none"
+          className="relative grid h-9 w-9 place-items-center rounded-xs text-slate-400 hover:text-foreground hover:bg-slate-800/40 transition-colors focus:outline-none"
           aria-label="Notifications"
         >
           <Bell className="h-5 w-5" />
@@ -115,8 +115,12 @@ export function CrewDashboardTopbar({ onMenuToggle, onNotificationsClick }: Topb
                   alt="User Thumbnail"
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="text-slate-200 text-sm font-medium truncate">{user?.full_name || "Crew Member"}</p>
-                  <p className="text-slate-500 text-xs truncate">{user?.email || "crew-member@supersonicdynamicservices.comNL"}</p>
+                  <p className="text-slate-200 text-sm font-medium truncate">
+                    {user?.full_name || "Crew Member"}
+                  </p>
+                  <p className="text-slate-500 text-xs truncate">
+                    {user?.email || "crew-member@supersonicdynamicservices.comNL"}
+                  </p>
                   <span className="text-[10px] text-[#E2A54A] font-semibold mt-0.5 block">
                     {user?.role || "Crew Member"}
                   </span>

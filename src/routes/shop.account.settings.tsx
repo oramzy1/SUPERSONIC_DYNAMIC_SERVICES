@@ -21,11 +21,7 @@ function Settings() {
         <h2 className="font-display text-lg font-semibold">Profile</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <Field label="Full name">
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className={input}
-            />
+            <input value={name} onChange={(e) => setName(e.target.value)} className={input} />
           </Field>
           <Field label="Email">
             <input
@@ -46,11 +42,7 @@ function Settings() {
             checked={newsletter}
             onChange={setNewsletter}
           />
-          <Toggle
-            label="SMS delivery alerts"
-            checked={smsAlerts}
-            onChange={setSmsAlerts}
-          />
+          <Toggle label="SMS delivery alerts" checked={smsAlerts} onChange={setSmsAlerts} />
         </div>
       </div>
 
@@ -76,15 +68,9 @@ function Settings() {
 }
 
 const input =
-  "h-11 w-full rounded-lg border border-white/10 bg-surface-2 px-3 text-sm focus:border-primary/50 focus:outline-none";
+  "h-11 w-full rounded-xs border border-white/10 bg-surface-2 px-3 text-sm focus:border-primary/50 focus:outline-none";
 
-function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
       <span className="mb-1 block text-[11px] font-semibold tracking-[0.12em] text-muted-foreground uppercase">

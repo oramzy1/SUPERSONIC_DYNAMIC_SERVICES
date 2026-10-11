@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, CheckCircle2, ShieldCheck, FileText } from "lucide-react";
-import { contractsApi  } from "@/lib/api";
+import { contractsApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { showError, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/_auth/admincontracts/$contractId")({
   component: ContractDetailPage,
@@ -26,10 +27,6 @@ function formatDateTime(iso?: string | null): string {
     minute: "2-digit",
   });
 }
-function errMsg(err: unknown): string {
-  return (err as any)?.response?.data?.detail || "Request failed.";
-}
-
 function ContractDetailPage() {
   const { contractId } = Route.useParams();
   const id = Number(contractId);
@@ -46,7 +43,11 @@ function ContractDetailPage() {
 
   const signMutation = useMutation({
     mutationFn: () => contractsApi.companySign(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin", "contract", id] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "contract", id] });
+      showSuccess("Contract signed as company.");
+    },
+    onError: (err) => showError(err, "Failed to sign the contract."),
   });
 
   if (isLoading) {
@@ -68,7 +69,7 @@ function ContractDetailPage() {
         <Breadcrumbs
           items={[{ label: "Contracts", to: "/admincontracts" }, { label: `#${contractId}` }]}
         />
-        <div className="bg-surface border border-white/6 rounded-xl p-8 text-center text-sm text-foreground/60">
+        <div className="bg-surface border border-white/6 rounded-xs p-8 text-center text-sm text-foreground/60">
           Contract not found.
           <div className="mt-3">
             <Link
@@ -83,9 +84,8 @@ function ContractDetailPage() {
     );
   }
 
-  const canCompanySign = contract.status === "customer_signed"; 
-  const canViewContract = !!contract.customer_signed?.name && !!contract.signing_token;
-  console.log("contract", contract.customer_signed, contract.signing_token);
+  const canCompanySign = contract.status === "customer_signed";
+  const canViewContract = !!contract.customer_signed?.name;
 
   return (
     <div className="w-full text-foreground/80 select-none pb-12">
@@ -102,13 +102,13 @@ function ContractDetailPage() {
             {contract.status.replace("_", " ")} · {contract.customer_name}
           </p>
         </div>
-          <div className="flex items-center gap-2">
-            {canViewContract && (
+        <div className="flex items-center gap-2">
+          {canViewContract && (
             <a
-              href={`/contracts/sign/${contract.signing_token}`}
+              href={contract.contract_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-xs font-bold hover:bg-white/15"
+              className="flex items-center gap-2 rounded-xs bg-white/10 px-4 py-2 text-xs font-bold hover:bg-white/15"
             >
               <FileText className="w-3.5 h-3.5" />
               View Contract
@@ -116,29 +116,23 @@ function ContractDetailPage() {
           )}
           {canCompanySign && (
             <button
-            onClick={() => signMutation.mutate()}
-            disabled={signMutation.isPending}
-            className="flex items-center gap-2 rounded-lg bg-[#E2A54A] px-4 py-2 text-xs font-bold text-slate-950 hover:bg-[#d4963b] disabled:opacity-50"
-          >
-            {signMutation.isPending ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin" />
-            ) : (
-              <ShieldCheck className="w-3.5 h-3.5" />
-            )}
-            Sign as Company
-          </button>
+              onClick={() => signMutation.mutate()}
+              disabled={signMutation.isPending}
+              className="flex items-center gap-2 rounded-xs bg-[#E2A54A] px-4 py-2 text-xs font-bold text-slate-950 hover:bg-[#d4963b] disabled:opacity-50"
+            >
+              {signMutation.isPending ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <ShieldCheck className="w-3.5 h-3.5" />
+              )}
+              Sign as Company
+            </button>
           )}
         </div>
       </div>
 
-      {signMutation.isError && (
-        <div className="mb-6 rounded-lg border border-rose-500/20 bg-rose-500/10 px-3 py-2 text-xs text-rose-400">
-          {errMsg(signMutation.error)}
-        </div>
-      )}
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="bg-surface border border-white/6 rounded-xl p-6 space-y-3">
+        <div className="bg-surface border border-white/6 rounded-xs p-6 space-y-3">
           <h3 className="text-xs font-bold uppercase tracking-wider text-foreground/60 mb-2">
             Details
           </h3>
@@ -182,7 +176,7 @@ function ContractDetailPage() {
           )}
         </div>
 
-        <div className="bg-surface border border-white/6 rounded-xl p-6 space-y-4">
+        <div className="bg-surface border border-white/6 rounded-xs p-6 space-y-4">
           <h3 className="text-xs font-bold uppercase tracking-wider text-foreground/60">
             Signatures
           </h3>

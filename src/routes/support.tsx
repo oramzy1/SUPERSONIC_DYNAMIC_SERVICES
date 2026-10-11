@@ -135,7 +135,7 @@ function SupportChatPage() {
           {/* Mobile sidebar toggle - visible only on small screens */}
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="md:hidden p-1.5 text-muted-foreground hover:text-foreground border border-border rounded-lg bg-background shrink-0 mr-1 shadow-xs"
+            className="md:hidden p-1.5 text-muted-foreground hover:text-foreground border border-border rounded-xs bg-background shrink-0 mr-1 shadow-xs"
             aria-label="Open channels"
           >
             <Menu className="h-4 w-4" />
@@ -162,7 +162,7 @@ function SupportChatPage() {
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={() => setShowCloseModal(true)}
-            className="text-[10px] sm:text-xs font-medium text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2 sm:px-2.5 py-1.5 rounded-lg border border-rose-200 transition flex items-center gap-1 sm:gap-1.5 shadow-xs"
+            className="text-[10px] sm:text-xs font-medium text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2 sm:px-2.5 py-1.5 rounded-xs border border-rose-200 transition flex items-center gap-1 sm:gap-1.5 shadow-xs"
           >
             <LogOut className="h-3.5 w-3.5 shrink-0" />
             <span className="hidden sm:inline">Close chat</span>
@@ -209,7 +209,7 @@ function SupportChatPage() {
                 <SlidersHorizontal className="h-3.5 w-3.5 text-muted-foreground" />
                 <button
                   onClick={() => setIsSidebarOpen(false)}
-                  className="md:hidden p-1 text-muted-foreground hover:text-foreground bg-muted rounded-lg transition"
+                  className="md:hidden p-1 text-muted-foreground hover:text-foreground bg-muted rounded-xs transition"
                   aria-label="Close sidebar"
                 >
                   <X className="h-4 w-4" />
@@ -323,7 +323,7 @@ function SupportChatPage() {
               })
             ) : (
               <div className="flex flex-col items-center justify-center gap-2.5 py-14 px-6 text-center">
-                <div className="w-9 h-9 rounded-lg bg-muted border border-border flex items-center justify-center text-muted-foreground">
+                <div className="w-9 h-9 rounded-xs bg-muted border border-border flex items-center justify-center text-muted-foreground">
                   <Inbox className="h-4 w-4" />
                 </div>
                 <p className="text-[11px] text-muted-foreground max-w-40">
@@ -380,7 +380,7 @@ function SupportChatPage() {
                     } max-w-[90%] sm:max-w-[75%] md:max-w-xl`}
                   >
                     <div
-                      className={`h-7 w-7 rounded-lg shrink-0 flex items-center justify-center border ${
+                      className={`h-7 w-7 rounded-xs shrink-0 flex items-center justify-center border ${
                         isUser
                           ? "bg-primary text-primary-foreground border-primary"
                           : "bg-muted border-border text-foreground"

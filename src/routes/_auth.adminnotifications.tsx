@@ -141,7 +141,7 @@ function RouteComponent() {
                   setActiveTab(tab);
                   setSelectedIds([]);
                 }}
-                className={`px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-semibold capitalize rounded-lg transition-all whitespace-nowrap ${
+                className={`px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-semibold capitalize rounded-xs transition-all whitespace-nowrap ${
                   activeTab === tab
                     ? "bg-[#1c1e21] text-[#E2A54A] border border-slate-800 shadow-lg"
                     : "text-slate-400 hover:text-foreground"
@@ -181,7 +181,7 @@ function RouteComponent() {
                 <button
                   type="button"
                   onClick={markBulkAsRead}
-                  className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-[#1c1e21] px-2.5 py-1 rounded-lg border border-slate-800 transition-colors"
+                  className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-[#1c1e21] px-2.5 py-1 rounded-xs border border-slate-800 transition-colors"
                 >
                   <CheckSquare className="w-3.5 h-3.5 text-slate-400" />
                   Mark Read
@@ -189,7 +189,7 @@ function RouteComponent() {
                 <button
                   type="button"
                   onClick={deleteBulkNotifications}
-                  className="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 bg-rose-500/5 px-2.5 py-1 rounded-lg border border-rose-500/10 transition-colors"
+                  className="flex items-center gap-1.5 text-xs text-rose-400 hover:text-rose-300 bg-rose-500/5 px-2.5 py-1 rounded-xs border border-rose-500/10 transition-colors"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                   Delete
@@ -351,7 +351,7 @@ function RouteComponent() {
                 <button
                   type="button"
                   onClick={() => setInspectingItem(null)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-foreground hover:bg-slate-800/40 transition-colors"
+                  className="p-1.5 rounded-xs text-slate-400 hover:text-foreground hover:bg-slate-800/40 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>

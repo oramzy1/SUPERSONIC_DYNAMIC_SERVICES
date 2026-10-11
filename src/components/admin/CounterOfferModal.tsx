@@ -32,7 +32,7 @@ export function CounterOfferModal({
           inputMode="decimal"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="mt-1.5 w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2 font-mono text-sm text-white outline-none focus:border-[#E2A54A]/40"
+          className="mt-1.5 w-full rounded-xs border border-white/10 bg-black/30 px-3 py-2 font-mono text-sm text-white outline-none focus:border-[#E2A54A]/40"
         />
 
         <label className="mt-4 block text-[10px] font-bold uppercase tracking-wider text-foreground/60">
@@ -43,7 +43,7 @@ export function CounterOfferModal({
           maxLength={2000}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="mt-1.5 w-full resize-none rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-sm text-foreground outline-none focus:border-[#E2A54A]/40"
+          className="mt-1.5 w-full resize-none rounded-xs border border-white/10 bg-black/30 px-3 py-2 text-sm text-foreground outline-none focus:border-[#E2A54A]/40"
         />
 
         <div className="mt-6 flex justify-end gap-2">

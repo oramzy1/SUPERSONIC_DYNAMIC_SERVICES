@@ -219,13 +219,13 @@ function RouteComponent() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={handlePrevMonth}
-                    className="p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-background transition-all border border-transparent hover:border-border"
+                    className="p-1.5 text-muted-foreground hover:text-foreground rounded-xs hover:bg-background transition-all border border-transparent hover:border-border"
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </button>
                   <button
                     onClick={handleNextMonth}
-                    className="p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-background transition-all border border-transparent hover:border-border"
+                    className="p-1.5 text-muted-foreground hover:text-foreground rounded-xs hover:bg-background transition-all border border-transparent hover:border-border"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </button>
@@ -235,7 +235,10 @@ function RouteComponent() {
               {/* Days Header */}
               <div className="grid grid-cols-7 gap-y-4 text-center mb-4">
                 {daysOfWeek.map((day) => (
-                  <span key={day} className="text-[10px] font-bold tracking-wider text-muted-foreground">
+                  <span
+                    key={day}
+                    className="text-[10px] font-bold tracking-wider text-muted-foreground"
+                  >
                     {day}
                   </span>
                 ))}
@@ -257,7 +260,7 @@ function RouteComponent() {
                       }
                       title={item.isWeekend ? "Non-working day" : ""}
                       className={`
-                        py-2 text-xs font-semibold rounded-lg transition-all mx-auto w-8 h-8 flex items-center justify-center
+                        py-2 text-xs font-semibold rounded-xs transition-all mx-auto w-8 h-8 flex items-center justify-center
                         ${!item.currentMonth ? "text-muted-foreground/40 cursor-not-allowed" : ""}
                         ${item.currentMonth && !item.isWeekend ? "text-foreground hover:bg-background" : ""}
                         ${item.isWeekend && item.currentMonth ? "text-muted-foreground/40 bg-background/50 cursor-not-allowed line-through" : ""}

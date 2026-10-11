@@ -179,7 +179,7 @@
 //           </p>
 //         </div>
 //               <div className="flex items-center gap-3">
-//                  <div className="flex items-center gap-2 rounded-lg bg-surface px-3 py-1.5 border border-white/6">
+//                  <div className="flex items-center gap-2 rounded-xs bg-surface px-3 py-1.5 border border-white/6">
 //           <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
 //           <input
 //             value={query}
@@ -396,9 +396,8 @@ function StatusBadge({ status }: { status: string }) {
 function QuotesPage() {
   const [tab, setTab] = useState<(typeof TABS)[number]>("All");
   const [query, setQuery] = useState("");
-const [page, setPage] = useState(1);
-const PAGE_SIZE = 15;
-
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
 
   const { data: requests = [], isLoading } = useQuery({
     queryKey: ["quotes"],
@@ -418,9 +417,8 @@ const PAGE_SIZE = 15;
       })
     : byTab;
 
-
-const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -428,18 +426,23 @@ const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="font-display text-foreground text-3xl font-bold md:text-5xl">Quote History</h1>
+          <h1 className="font-display text-foreground text-3xl font-bold md:text-5xl">
+            Quote History
+          </h1>
           <p className="mt-3 max-w-md text-sm text-foreground">
             Track your logistic efficiency and manage upcoming fleet deployments.
           </p>
         </div>
       </div>
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-         <div className="flex items-center gap-2 rounded-lg bg-surface px-3 py-2 border border-white/6">
+        <div className="flex items-center gap-2 rounded-xs bg-surface px-3 py-2 border border-white/6">
           <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
           <input
             value={query}
-onChange={(e) => { setQuery(e.target.value); setPage(1); }}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setPage(1);
+            }}
             placeholder="Search ID or route..."
             className="bg-transparent text-xs outline-none placeholder:text-muted-foreground w-60"
           />
@@ -448,7 +451,10 @@ onChange={(e) => { setQuery(e.target.value); setPage(1); }}
           {TABS.map((t) => (
             <button
               key={t}
-              onClick={() => { setTab(t); setPage(1); }}
+              onClick={() => {
+                setTab(t);
+                setPage(1);
+              }}
               className={cn(
                 "rounded-full px-5 py-2 text-sm font-medium transition",
                 tab === t
@@ -579,12 +585,12 @@ onChange={(e) => { setQuery(e.target.value); setPage(1); }}
           </table>
         </div>
         <div className="flex items-center justify-between border-t border-white/5 px-6 py-4">
-  <span className="text-xs text-muted-foreground">
-    Showing <span className="text-foreground font-medium">{paginated.length}</span> of{" "}
-    <span className="text-foreground font-medium">{filtered.length}</span> requests
-  </span>
-  <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-</div>
+          <span className="text-xs text-muted-foreground">
+            Showing <span className="text-foreground font-medium">{paginated.length}</span> of{" "}
+            <span className="text-foreground font-medium">{filtered.length}</span> requests
+          </span>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+        </div>
       </div>
     </div>
   );

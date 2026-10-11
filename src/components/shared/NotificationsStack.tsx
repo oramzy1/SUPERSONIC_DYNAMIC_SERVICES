@@ -40,7 +40,7 @@ export function NotificationsStack({
   const totalUnread = notifications.filter((n) => !n.is_read).length;
   const overflow = totalUnread > MAX_CASCADE + 1;
 
-    // Auto-dismiss oldest-first: 10s for the first card, then 2-3s between each after.
+  // Auto-dismiss oldest-first: 10s for the first card, then 2-3s between each after.
   useEffect(() => {
     if (overflow || cards.length === 0) return;
     const delay = firstDismissDone.current ? 2000 + Math.random() * 1000 : 10000;
@@ -54,7 +54,6 @@ export function NotificationsStack({
     }, delay);
     return () => clearTimeout(timer);
   }, [cards, overflow]);
-
 
   const dismissCard = (id: number) => setCards((prev) => prev.filter((c) => c.id !== id));
 
@@ -87,7 +86,7 @@ export function NotificationsStack({
           </div>
           <button
             onClick={() => setOverflowDismissed(true)}
-            className="text-foreground/60 hover:text-slate-300"
+            className="text-slate-400 hover:text-slate-300"
           >
             <X className="h-4 w-4" />
           </button>
@@ -100,7 +99,7 @@ export function NotificationsStack({
             setOverflowDismissed(true);
             onOpenSheet();
           }}
-          className="mt-3 w-full rounded-lg bg-[#E2A54A] text-slate-950 text-xs font-bold py-2"
+          className="mt-3 w-full rounded-xs bg-[#E2A54A] text-slate-950 text-xs font-bold py-2"
         >
           View all
         </button>

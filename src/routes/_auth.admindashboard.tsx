@@ -217,7 +217,7 @@ function RouteComponent() {
               className="bg-surface backdrop-blur-md border border-white/6 rounded-xl p-4 flex flex-col justify-between group hover:border-white/15 transition duration-200"
             >
               <div className="flex items-center justify-between w-full">
-                <div className="p-2 bg-white/2 rounded-lg border border-white/6 text-[#E2A54A]">
+                <div className="p-2 bg-white/2 rounded-xs border border-white/6 text-[#E2A54A]">
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
@@ -258,7 +258,7 @@ function RouteComponent() {
                 <tr>
                   <td colSpan={5} className="py-12 px-6">
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
-                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
+                      <div className="p-2.5 bg-white/2 rounded-xs border border-white/6 text-foreground/60 mb-1">
                         <Radar className="w-4 h-4" />
                       </div>
                       <p className="text-sm font-medium text-slate-300">No moves in progress yet</p>
@@ -348,7 +348,7 @@ function RouteComponent() {
 
           {recentQuotes.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-2 text-center py-8">
-              <div className="p-2.5 bg-background rounded-lg border border-white/6 text-foreground/60 mb-1">
+              <div className="p-2.5 bg-background rounded-xs border border-white/6 text-foreground/60 mb-1">
                 <Inbox className="w-4 h-4" />
               </div>
               <p className="text-sm font-medium text-foreground/90">No quotes yet</p>

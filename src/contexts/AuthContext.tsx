@@ -18,6 +18,7 @@ import type {
   LoginRequest,
   RegisterRequest,
 } from "@/lib/api-types";
+import { showSuccess } from "@/lib/toast";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface AuthState {
@@ -80,6 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       clearTokens();
       setUser(null);
       queryClient.clear();
+      showSuccess("You have been signed out.");
     }
   }, [queryClient]);
 

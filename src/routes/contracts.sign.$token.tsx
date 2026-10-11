@@ -1,9 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2, XCircle, FileText, Loader2, ShieldCheck, AlertTriangle } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { contractsApi } from "@/lib/api";
+import { useAuth } from "@/contexts/AuthContext";
+import { showErrorText, showInfo, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/contracts/sign/$token")({
   component: ContractSignPage,
@@ -46,6 +48,20 @@ function ContractSignPage() {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [loadingPdf, setLoadingPdf] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
+  // Re-runs whenever auth state changes, so a logout or cleared session bounces the user out too
+  useEffect(() => {
+    if (authLoading || isAuthenticated) return;
+    showInfo("Please sign in to sign this contract.");
+    navigate({
+      to: "/login" as any,
+      search: { redirect: `/contracts/sign/${token}` } as any,
+      replace: true,
+    });
+  }, [authLoading, isAuthenticated, token, navigate]);
+  const isAdmin = user?.role === "admin";
 
   const {
     data: contract,
@@ -55,6 +71,7 @@ function ContractSignPage() {
     queryKey: ["contract", token],
     queryFn: () => contractsApi.getByToken(token),
     retry: false,
+    enabled: isAuthenticated,
   });
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["contract", token] });
@@ -64,8 +81,13 @@ function ContractSignPage() {
     onSuccess: () => {
       invalidate();
       setError(null);
+      showSuccess("Contract signed successfully.");
     },
-    onError: (err) => setError(errMsg(err, "Failed to sign the contract. Please try again.")),
+    onError: (err) => {
+      const msg = errMsg(err, "Failed to sign the contract. Please try again.");
+      showErrorText(msg);
+      setError(msg);
+    },
   });
 
   const declineMutation = useMutation({
@@ -74,8 +96,28 @@ function ContractSignPage() {
       invalidate();
       setError(null);
       setDeclining(false);
+      showSuccess("Contract declined.");
     },
-    onError: (err) => setError(errMsg(err, "Failed to decline the contract. Please try again.")),
+    onError: (err) => {
+      const msg = errMsg(err, "Failed to decline the contract. Please try again.");
+      showErrorText(msg);
+      setError(msg);
+    },
+  });
+
+  const companySignMutation = useMutation({
+    mutationFn: () => contractsApi.companySign(contract!.id),
+    onSuccess: () => {
+      invalidate();
+      queryClient.invalidateQueries({ queryKey: ["admin", "contract"] });
+      setError(null);
+      showSuccess("Contract signed as company.");
+    },
+    onError: (err) => {
+      const msg = errMsg(err, "Failed to sign as company. Please try again.");
+      showErrorText(msg);
+      setError(msg);
+    },
   });
 
   const loadPdf = async () => {
@@ -84,7 +126,9 @@ function ContractSignPage() {
       const blob = await contractsApi.downloadPdf(token);
       setPdfUrl(URL.createObjectURL(blob));
     } catch (err) {
-      setError(errMsg(err, "Failed to load the contract PDF."));
+      const msg = errMsg(err, "Failed to load the contract PDF.");
+      showErrorText(msg);
+      setError(msg);
     } finally {
       setLoadingPdf(false);
     }
@@ -93,10 +137,12 @@ function ContractSignPage() {
   const handleSign = (e: React.FormEvent) => {
     e.preventDefault();
     if (fullName.trim().length < 2) {
+      showErrorText("Enter your full legal name.");
       setError("Enter your full legal name.");
       return;
     }
     if (!consent) {
+      showErrorText("You must confirm consent to sign.");
       setError("You must confirm consent to sign.");
       return;
     }
@@ -104,7 +150,7 @@ function ContractSignPage() {
     signMutation.mutate();
   };
 
-  if (isLoading) {
+  if (authLoading || !isAuthenticated || isLoading) {
     return (
       <SiteLayout>
         <div className="mx-auto max-w-3xl px-4 py-20 text-center text-muted-foreground">
@@ -140,7 +186,7 @@ function ContractSignPage() {
         </p>
 
         {error && (
-          <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium">
+          <div className="mb-6 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xs p-3 font-medium">
             {error}
           </div>
         )}
@@ -197,14 +243,16 @@ function ContractSignPage() {
             <iframe
               src={pdfUrl}
               title="Contract PDF"
-              className="w-full h-125 rounded-lg border border-white/10"
+              className="w-full h-125 rounded-xs border border-white/10"
             />
           )}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div className="rounded-2xl bg-surface p-5">
-            <p className="text-[10px] uppercase text-muted-foreground mb-1">Your Signature</p>
+            <p className="text-[10px] uppercase text-muted-foreground mb-1">
+              {isAdmin ? "Client Signature" : "Your Signature"}
+            </p>
             {contract.customer_signed?.name ? (
               <>
                 <p className="text-sm font-semibold flex items-center gap-1.5 text-emerald-400">
@@ -219,7 +267,9 @@ function ContractSignPage() {
             )}
           </div>
           <div className="rounded-2xl bg-surface p-5">
-            <p className="text-[10px] uppercase text-muted-foreground mb-1">Company Signature</p>
+            <p className="text-[10px] uppercase text-muted-foreground mb-1">
+              {isAdmin ? "Your Signature" : "Company Signature"}
+            </p>
             {contract.company_signed?.name ? (
               <>
                 <p className="text-sm font-semibold flex items-center gap-1.5 text-emerald-400">
@@ -230,7 +280,13 @@ function ContractSignPage() {
                 </p>
               </>
             ) : (
-              <p className="text-sm text-muted-foreground">Awaiting company signature</p>
+              <p className="text-sm text-muted-foreground">
+                {isAdmin
+                  ? contract.status === "customer_signed"
+                    ? "Ready to sign"
+                    : "Awaiting client signature first"
+                  : "Awaiting company signature"}
+              </p>
             )}
           </div>
         </div>
@@ -259,7 +315,30 @@ function ContractSignPage() {
         {contract.status === "customer_signed" && (
           <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6 text-center">
             <p className="text-sm font-semibold text-blue-400">
-              You've signed - awaiting our countersignature.
+              {isAdmin
+                ? "The client has signed - ready for your countersignature."
+                : "You've signed - awaiting our countersignature."}
+            </p>
+            {isAdmin && (
+              <button
+                onClick={() => companySignMutation.mutate()}
+                disabled={companySignMutation.isPending}
+                className="mt-4 inline-flex items-center gap-2 rounded-xs bg-primary text-primary-foreground px-6 py-2.5 text-sm font-bold hover:opacity-90 disabled:opacity-50"
+              >
+                {companySignMutation.isPending ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <ShieldCheck className="h-4 w-4" />
+                )}
+                Sign as Company
+              </button>
+            )}
+          </div>
+        )}
+        {contract.status === "sent" && isAdmin && (
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+            <p className="text-sm font-semibold text-muted-foreground">
+              Awaiting client signature.
             </p>
           </div>
         )}
@@ -275,7 +354,7 @@ function ContractSignPage() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="As it should appear on the contract"
-                className="w-full rounded-lg bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
+                className="w-full rounded-xs bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
               />
             </div>
             <label className="flex items-start gap-2.5 cursor-pointer">
@@ -294,7 +373,7 @@ function ContractSignPage() {
               <button
                 type="submit"
                 disabled={signMutation.isPending}
-                className="flex-1 rounded-xl bg-primary text-primary-foreground py-3 text-sm font-bold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
+                className="flex-1 rounded-xs bg-primary text-white py-3 text-sm font-bold hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {signMutation.isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -306,7 +385,7 @@ function ContractSignPage() {
               <button
                 type="button"
                 onClick={() => setDeclining(true)}
-                className="rounded-xl border border-rose-500/20 text-rose-400 py-3 px-6 text-sm font-bold hover:bg-rose-500/10"
+                className="rounded-xs border border-rose-500/20 text-rose-400 py-3 px-6 text-sm font-bold hover:bg-rose-500/10"
               >
                 Decline
               </button>
@@ -322,19 +401,19 @@ function ContractSignPage() {
               onChange={(e) => setDeclineReason(e.target.value)}
               placeholder="Optional - let us know why"
               rows={3}
-              className="w-full rounded-lg bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
+              className="w-full rounded-xs bg-black/20 border border-white/10 px-3 py-2.5 text-sm outline-none focus:border-white/25"
             />
             <div className="flex gap-3">
               <button
                 onClick={() => setDeclining(false)}
-                className="rounded-xl border border-white/10 py-2.5 px-5 text-xs font-semibold hover:bg-white/5"
+                className="rounded-xs border border-white/10 py-2.5 px-5 text-xs font-semibold hover:bg-white/5"
               >
                 Back
               </button>
               <button
                 onClick={() => declineMutation.mutate()}
                 disabled={declineMutation.isPending}
-                className="flex-1 rounded-xl bg-rose-500/20 text-rose-400 py-2.5 text-sm font-bold hover:bg-rose-500/30 disabled:opacity-50"
+                className="flex-1 rounded-xs bg-rose-500/20 text-rose-400 py-2.5 text-sm font-bold hover:bg-rose-500/30 disabled:opacity-50"
               >
                 {declineMutation.isPending ? "Declining..." : "Confirm Decline"}
               </button>

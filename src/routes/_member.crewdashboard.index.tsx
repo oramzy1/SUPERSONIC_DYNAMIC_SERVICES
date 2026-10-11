@@ -50,7 +50,7 @@ function CrewHome() {
     .slice(0, 3);
 
   return (
-    <div className="mx-auto max-w-5xl w-full text-foreground pb-12">
+    <div className="mx-auto max-w-6xl w-full text-foreground pb-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
@@ -76,11 +76,6 @@ function CrewHome() {
                 <span className="text-[10px] font-bold tracking-wider text-foreground/60 uppercase">
                   {m.title}
                 </span>
-                <div
-                  className={`p-1.5 bg-white/2 rounded-lg border border-white/6 ${m.tone ?? "text-[#E2A54A]"}`}
-                >
-                  <Icon className="w-4 h-4" />
-                </div>
               </div>
               <h3
                 className={`text-3xl font-bold tracking-tight font-mono ${m.tone ?? "text-white"}`}
@@ -142,7 +137,7 @@ function CrewHome() {
           to="/crewdashboard/job"
           className="flex items-center gap-3 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 hover:bg-white/2 transition"
         >
-          <div className="p-2 bg-white/2 rounded-lg border border-white/6 text-[#E2A54A]">
+          <div className="p-2 bg-white/2 rounded-xs border border-white/6 text-[#E2A54A]">
             <Truck className="w-4 h-4" />
           </div>
           <div>
@@ -154,7 +149,7 @@ function CrewHome() {
           to="/crewdashboard/profile"
           className="flex items-center gap-3 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 hover:bg-white/2 transition"
         >
-          <div className="p-2 bg-white/2 rounded-lg border border-white/6 text-[#E2A54A]">
+          <div className="p-2 bg-white/2 rounded-xs border border-white/6 text-[#E2A54A]">
             <User className="w-4 h-4" />
           </div>
           <div>

@@ -71,7 +71,7 @@
 //       </div>
 
 //       {statusOptions.length > 1 && (
-//         <div className="flex items-center gap-1.5 bg-[#0d111a]/40 border border-white/6 p-1 rounded-lg text-xs font-medium text-slate-400 overflow-x-auto w-fit mb-4">
+//         <div className="flex items-center gap-1.5 bg-[#0d111a]/40 border border-white/6 p-1 rounded-xs text-xs font-medium text-slate-400 overflow-x-auto w-fit mb-4">
 //           {statusOptions.map((s) => (
 //             <button
 //               key={s}
@@ -222,7 +222,7 @@ function CrewDashboard() {
       <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl overflow-hidden flex flex-col mb-6">
         {statusOptions.length > 1 && (
           <div className="flex items-center gap-1.5 p-5 border-b border-white/6">
-            <div className="flex items-center bg-black/20 p-1 rounded-lg border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto w-fit">
+            <div className="flex items-center bg-black/20 p-1 rounded-xs border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto w-fit">
               {statusOptions.map((s) => (
                 <button
                   key={s}
@@ -265,7 +265,7 @@ function CrewDashboard() {
                 <tr>
                   <td colSpan={5} className="py-12 px-6">
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
-                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
+                      <div className="p-2.5 bg-white/2 rounded-xs border border-white/6 text-foreground/60 mb-1">
                         <PackageSearch className="w-4 h-4" />
                       </div>
                       <p className="text-sm font-medium text-slate-300">No assignments yet</p>

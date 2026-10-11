@@ -10,9 +10,9 @@ import {
   FileSignature,
   Receipt,
 } from "lucide-react";
-import { quotesApi, mapPdfError, openBlobInNewTab, accountApi } from "@/lib/api";
+import { quotesApi, jobsApi, mapPdfError, openBlobInNewTab, accountApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { cn } from "@/lib/utils";
+import { showError, showErrorText, showSuccess } from "@/lib/toast";
 import type { QuoteAcceptResponse } from "@/lib/api-types";
 
 export const Route = createFileRoute("/dashboard/quotes/$quoteId")({
@@ -40,16 +40,16 @@ function QuoteDetailPage() {
   const { quoteId } = Route.useParams();
   const id = Number(quoteId);
   const queryClient = useQueryClient();
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [busy, setBusy] = useState<"accept" | "reject" | "counter" | "pdf" | null>(null);
   const [counterOpen, setCounterOpen] = useState(false);
   const [counterAmount, setCounterAmount] = useState("");
   const [counterMessage, setCounterMessage] = useState("");
   const [acceptResult, setAcceptResult] = useState<{
     contract_id: number;
-    contract_status: string; 
+    contract_status: string;
     signing_token?: string | null;
     message?: string;
+    job_id?: number;
   } | null>(null);
 
   // No GET /quotes/request/{id} - reuse the shared list query (same key as
@@ -73,6 +73,15 @@ function QuoteDetailPage() {
     staleTime: 5 * 60_000,
   });
 
+  const { data: tracking, isLoading: trackingLoading } = useQuery({
+    queryKey: ["job-tracking", quote?.tracking_token],
+    queryFn: () => jobsApi.track(quote!.tracking_token!),
+    enabled: !!quote?.tracking_token && !!quote?.contract_id,
+  });
+  const contractHref =
+    tracking?.contract_url ??
+    (acceptResult?.signing_token ? `/contracts/sign/${acceptResult.signing_token}` : undefined);
+
   const latestCounter = quote?.counter_offers?.length
     ? quote.counter_offers[quote.counter_offers.length - 1]
     : null;
@@ -95,12 +104,9 @@ function QuoteDetailPage() {
       const res = await quotesApi.accept(id);
       setAcceptResult(res);
       refresh();
-      setToast({ type: "success", message: res.message || "Quote accepted." });
+      showSuccess(res.message || "Quote accepted.");
     } catch (err: unknown) {
-      setToast({
-        type: "error",
-        message: (err as any)?.response?.data?.detail || "Failed to accept quote.",
-      });
+      showError(err, "Failed to accept quote.");
     } finally {
       setBusy(null);
     }
@@ -110,12 +116,9 @@ function QuoteDetailPage() {
     try {
       await quotesApi.reject(id);
       refresh();
-      setToast({ type: "success", message: "Quote declined." });
+      showSuccess("Quote declined.");
     } catch (err: unknown) {
-      setToast({
-        type: "error",
-        message: (err as any)?.response?.data?.detail || "Failed to decline quote.",
-      });
+      showError(err, "Failed to decline quote.");
     } finally {
       setBusy(null);
     }
@@ -123,7 +126,7 @@ function QuoteDetailPage() {
 
   const sendCounter = async () => {
     if (!counterAmount) {
-      setToast({ type: "error", message: "Enter a counter amount first." });
+      showErrorText("Enter a counter amount first.");
       return;
     }
     setBusy("counter");
@@ -133,15 +136,12 @@ function QuoteDetailPage() {
         message: counterMessage || undefined,
       });
       refresh();
-      setToast({ type: "success", message: "Counter offer sent." });
+      showSuccess("Counter offer sent.");
       setCounterOpen(false);
       setCounterAmount("");
       setCounterMessage("");
     } catch (err: unknown) {
-      setToast({
-        type: "error",
-        message: (err as any)?.response?.data?.detail || "Failed to send counter offer.",
-      });
+      showError(err, "Failed to send counter offer.");
     } finally {
       setBusy(null);
     }
@@ -153,7 +153,7 @@ function QuoteDetailPage() {
       const blob = await quotesApi.downloadPdf(id);
       await openBlobInNewTab(blob);
     } catch (err) {
-      setToast({ type: "error", message: mapPdfError(err) });
+      showErrorText(mapPdfError(err));
     } finally {
       setBusy(null);
     }
@@ -161,7 +161,7 @@ function QuoteDetailPage() {
 
   if (requestsLoading) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-6xl">
         <Breadcrumbs
           items={[{ label: "Quotes", to: "/dashboard/quotes" }, { label: `Request #${quoteId}` }]}
         />
@@ -172,7 +172,7 @@ function QuoteDetailPage() {
 
   if (!request && !quote) {
     return (
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-6xl">
         <Breadcrumbs
           items={[{ label: "Quotes", to: "/dashboard/quotes" }, { label: `Request #${quoteId}` }]}
         />
@@ -192,27 +192,14 @@ function QuoteDetailPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl pb-12">
+    <div className="mx-auto max-w-6xl pb-12">
       <Breadcrumbs
         items={[{ label: "Quotes", to: "/dashboard/quotes" }, { label: `Request #${request?.id}` }]}
       />
 
-      {toast && (
-        <div
-          className={cn(
-            "fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border",
-            toast.type === "success"
-              ? "bg-surface border-emerald-500/30 text-emerald-400"
-              : "bg-surface border-rose-500/30 text-rose-400",
-          )}
-        >
-          {toast.message}
-        </div>
-      )}
-
       <div className="flex items-center gap-3 mb-1">
         <h1 className="font-display text-2xl font-bold">Request #{request?.id}</h1>
-        <span className="rounded-md bg-white/10 px-3 py-1 text-[10px] font-bold uppercase">
+        <span className="rounded-xs bg-white/10 px-3 py-1 text-[10px] font-bold uppercase">
           {STATUS_LABELS[request?.status] ?? request?.status}
         </span>
       </div>
@@ -220,7 +207,7 @@ function QuoteDetailPage() {
         {request?.move_type.replace("-", " ")}
       </p>
 
-      {acceptResult && (
+      {acceptResult && quote?.contract_status === "signed" && (
         <div className="rounded-2xl bg-surface p-6 mb-4 border border-emerald-500/20">
           <p className="text-sm font-semibold text-emerald-400 flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4" /> Job #{acceptResult.job_id} created
@@ -258,21 +245,17 @@ function QuoteDetailPage() {
               <Link
                 to="/dashboard/jobs/$jobId"
                 params={{ jobId: String(quote.job_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold rounded-lg px-3 py-2 bg-white/10 hover:bg-white/15"
+                className="flex items-center gap-1.5 text-xs font-bold rounded-xs px-3 py-2 bg-white/10 hover:bg-white/15"
               >
                 <Truck className="w-3.5 h-3.5" /> Track Job #{quote.job_id}
               </Link>
             )}
-            {(quote?.contract_id || acceptResult?.signing_token) && (
+            {contractHref && (
               <a
-                href={
-                  acceptResult?.signing_token
-                    ? `/contracts/sign/${acceptResult.signing_token}`
-                    : undefined
-                }
+                href={contractHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-xs font-bold rounded-lg px-3 py-2 bg-white/10 hover:bg-white/15"
+                className="flex items-center gap-1.5 text-xs font-bold rounded-xs px-3 py-2 bg-white/10 hover:bg-white/15"
               >
                 <FileSignature className="w-3.5 h-3.5" />
                 {quote?.contract_status === "signed" ? "View Contract" : "Sign Contract"}
@@ -282,13 +265,14 @@ function QuoteDetailPage() {
               <Link
                 to="/dashboard/invoices/$invoiceId"
                 params={{ invoiceId: String(quote.invoice_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold rounded-lg px-3 py-2 bg-white/10 hover:bg-white/15"
+                className="flex items-center gap-1.5 text-xs font-bold rounded-xs px-3 py-2 bg-white/10 hover:bg-white/15"
               >
                 <Receipt className="w-3.5 h-3.5" /> Invoice {quote.invoice_number ?? ""}
               </Link>
             )}
           </div>
-          {!acceptResult?.signing_token &&
+          {!contractHref &&
+            !trackingLoading &&
             quote?.contract_id &&
             quote.contract_status !== "signed" && (
               <p className="text-xs text-muted-foreground">
@@ -299,7 +283,7 @@ function QuoteDetailPage() {
       )}
 
       {(request?.status === "quoted" || quote?.status === "counter_offered") && (
-        <div className="rounded-2xl bg-surface p-6 mb-4 border border-blue-500/20">
+        <div className="rounded-xs bg-surface p-6 mb-4">
           {quoteLoading ? (
             <p className="text-xs text-muted-foreground">Loading your quote...</p>
           ) : quote ? (
@@ -344,7 +328,7 @@ function QuoteDetailPage() {
                   <button
                     onClick={downloadPdf}
                     disabled={busy === "pdf"}
-                    className="flex items-center gap-1.5 rounded-md bg-white/5 px-4 py-2 text-xs font-bold uppercase text-foreground/80 hover:bg-white/10 disabled:opacity-50"
+                    className="flex items-center gap-1.5 rounded-xs bg-white/5 px-4 py-2 text-xs font-bold uppercase text-foreground/80 hover:bg-white/10 disabled:opacity-50"
                   >
                     {busy === "pdf" ? (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -356,7 +340,7 @@ function QuoteDetailPage() {
                   <button
                     onClick={accept}
                     disabled={busy !== null}
-                    className="rounded-md bg-primary/20 px-4 py-2 text-xs font-bold uppercase text-primary hover:bg-primary/30 disabled:opacity-50"
+                    className="rounded-xs bg-black/70 px-4 py-2 text-xs font-bold uppercase text-white hover:bg-black/50 disabled:opacity-50"
                   >
                     {busy === "accept"
                       ? "Accepting…"
@@ -367,14 +351,14 @@ function QuoteDetailPage() {
                   <button
                     onClick={() => setCounterOpen((v) => !v)}
                     disabled={busy !== null}
-                    className="rounded-md bg-blue-500/15 px-4 py-2 text-xs font-bold uppercase text-blue-400 hover:bg-blue-500/25 disabled:opacity-50"
+                    className="rounded-xs bg-black/70 px-4 py-2 text-xs font-bold uppercase text-white hover:bg-black/50 disabled:opacity-50"
                   >
                     Counter Offer
                   </button>
                   <button
                     onClick={reject}
                     disabled={busy !== null}
-                    className="rounded-md bg-red-500/15 px-4 py-2 text-xs font-bold uppercase text-red-400 hover:bg-red-500/25 disabled:opacity-50"
+                    className="rounded-xs bg-red-500/15 px-4 py-2 text-xs font-bold uppercase text-red-400 hover:bg-red-500/25 disabled:opacity-50"
                   >
                     {busy === "reject" ? "Declining…" : "Decline"}
                   </button>
@@ -386,7 +370,7 @@ function QuoteDetailPage() {
               )}
 
               {counterOpen && (
-                <div className="mt-4 rounded-lg border border-white/10 bg-black/30 p-4">
+                <div className="mt-4 ">
                   <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                     Your counter amount (€)
                   </label>
@@ -394,28 +378,28 @@ function QuoteDetailPage() {
                     value={counterAmount}
                     onChange={(e) => setCounterAmount(e.target.value)}
                     placeholder="e.g. 950"
-                    className="mb-3 w-full rounded-md bg-black/40 border border-white/10 px-3 py-2 text-sm outline-none focus:border-white/25"
+                    className="mb-3 w-full rounded-xs bg-background border border-white/10 px-3 py-2 text-sm outline-none focus:border-white/25"
                   />
-                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground">
                     Message (optional)
                   </label>
                   <textarea
                     value={counterMessage}
                     onChange={(e) => setCounterMessage(e.target.value)}
                     rows={2}
-                    className="mb-3 w-full rounded-md bg-black/40 border border-white/10 px-3 py-2 text-sm outline-none focus:border-white/25"
+                    className="mb-3 w-full rounded-xs bg-background border border-white/10 px-3 py-2 text-sm outline-none focus:border-white/25"
                   />
                   <div className="flex justify-end gap-2">
                     <button
                       onClick={() => setCounterOpen(false)}
-                      className="rounded-md px-4 py-2 text-xs font-bold uppercase text-muted-foreground hover:text-foreground"
+                      className="rounded-xs px-4 py-2 text-xs font-bold uppercase text-foreground hover:text-foreground/70"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={sendCounter}
                       disabled={busy === "counter"}
-                      className="rounded-md bg-blue-500/20 px-4 py-2 text-xs font-bold uppercase text-blue-400 hover:bg-blue-500/30 disabled:opacity-50"
+                      className="rounded-xs bg-black/70 px-4 py-2 text-xs font-bold uppercase text-white hover:bg-black/50 disabled:opacity-50"
                     >
                       {busy === "counter" ? "Sending…" : "Send Counter"}
                     </button>
@@ -429,8 +413,8 @@ function QuoteDetailPage() {
         </div>
       )}
 
-      {request?.status === "accepted" && (
-        <div className="rounded-2xl bg-surface p-6 mb-4 border border-emerald-500/20 flex items-center justify-between">
+      {request?.status === "accepted" && quote?.contract_status === "customer_signed" && (
+        <div className="rounded-xs bg-surface p-6 mb-4 border border-emerald-500/20 flex items-center justify-between">
           <span className="flex items-center gap-2 text-sm font-semibold text-emerald-400">
             <CheckCircle2 className="w-4 h-4" /> Quote accepted
           </span>
@@ -439,12 +423,12 @@ function QuoteDetailPage() {
             params={{ jobId: String(quote?.job_id) }}
             className="text-[#E2A54A] hover:opacity-80 text-xs font-semibold"
           >
-            Track your job →
+            Track your job
           </Link>
         </div>
       )}
 
-      <div className="rounded-2xl bg-surface p-6 space-y-4">
+      <div className="rounded-xs bg-surface p-6 space-y-4">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
             Route
@@ -459,7 +443,9 @@ function QuoteDetailPage() {
           <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
             Description
           </p>
-          <p className="text-sm text-foreground/90 leading-relaxed">{request?.description}</p>
+          <p className="text-sm text-foreground/90 leading-relaxed truncate w-full">
+            {request?.description}
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
@@ -486,7 +472,7 @@ function QuoteDetailPage() {
               Additional Services
             </p>
             <div className="flex flex-wrap gap-1.5">
-              {request?.additional_services.map((s, i) => (
+              {request?.additional_services.map((s: any, i: any) => (
                 <span
                   key={i}
                   className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-muted-foreground text-[10px]"

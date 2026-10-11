@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Lock, ShieldCheck, ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { authApi } from "@/lib/api";
+import { showError, showErrorText, showSuccess } from "@/lib/toast";
 import { useSearch } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_user/setnewpassword")({
@@ -16,10 +17,8 @@ function UserSetNewPasswordPage() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { token } = Route.useSearch();
 
   // Password validation checklist tracking states
@@ -42,19 +41,18 @@ function UserSetNewPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMsg(null);
 
     const allCriteriaMet = Object.values(validation).every(Boolean);
     if (!allCriteriaMet) {
-      setErrorMsg("Please fulfill all security criteria below before proceeding.");
+      showErrorText("Please fulfill all security criteria below before proceeding.");
       return;
     }
     if (password !== confirmPassword) {
-      setErrorMsg("Passwords do not match. Please re-enter.");
+      showErrorText("Passwords do not match. Please re-enter.");
       return;
     }
     if (!token) {
-      setErrorMsg("Invalid or missing reset token. Please request a new link.");
+      showErrorText("Invalid or missing reset token. Please request a new link.");
       return;
     }
 
@@ -65,12 +63,10 @@ function UserSetNewPasswordPage() {
         new_password: password,
         password_confirmation: confirmPassword,
       });
+      showSuccess("Password updated. You can now sign in.");
       setIsSuccess(true);
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-        "Failed to reset password. The token may have expired.";
-      setErrorMsg(msg);
+      showError(err, "Failed to reset password. The token may have expired.");
     } finally {
       setIsSubmitting(false);
     }
@@ -94,13 +90,6 @@ function UserSetNewPasswordPage() {
         <div className="rounded-[24px] border border-white/10 bg-white/2 p-6 sm:p-8 backdrop-blur-xl shadow-2xl transition-all">
           {!isSuccess ? (
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Validation Error Alerts Banner */}
-              {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
-                  {error}
-                </div>
-              )}
-
               {/* New Password Input Box */}
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">

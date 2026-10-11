@@ -219,8 +219,12 @@ export function AnalyticsDashboard() {
       {/* TOP CONTEXT BAR */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground/80 tracking-tight">Analytics Overview</h1>
-          <p className="text-xs text-foreground/60 mt-1">Performance metrics for the current period</p>
+          <h1 className="text-2xl font-bold text-foreground/80 tracking-tight">
+            Analytics Overview
+          </h1>
+          <p className="text-xs text-foreground/60 mt-1">
+            Performance metrics for the current period
+          </p>
         </div>
 
         <div className="flex items-center gap-3 self-stretch sm:self-auto justify-between sm:justify-end">
@@ -230,7 +234,9 @@ export function AnalyticsDashboard() {
                 key={tab}
                 onClick={() => setTimeframe(tab)}
                 className={`px-3 py-1 text-[11px] font-medium tracking-wide rounded transition-all ${
-                  timeframe === tab ? "bg-surface text-foreground/80" : "text-foreground/60 hover:text-foreground"
+                  timeframe === tab
+                    ? "bg-surface text-foreground/80"
+                    : "text-foreground/60 hover:text-foreground"
                 }`}
               >
                 {tab}
@@ -254,7 +260,9 @@ export function AnalyticsDashboard() {
         <div className="xl:col-span-2 bg-surface rounded-xl p-6 flex flex-col justify-between relative min-w-0">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">Revenue Growth</h2>
+              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">
+                Revenue Growth
+              </h2>
               <p className="text-xs text-foreground/60 mt-0.5">
                 Paid invoices,{" "}
                 {timeframe === "YTD" ? "year to date" : `last ${timeframe.toLowerCase()}`}
@@ -311,7 +319,9 @@ export function AnalyticsDashboard() {
         <div className="bg-surface rounded-xl p-6 flex flex-col justify-between min-w-0">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">Acquisition</h2>
+              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">
+                Acquisition
+              </h2>
               <p className="text-xs text-foreground/60 mt-0.5">NEW CUSTOMER ACCOUNTS</p>
             </div>
             <Users className="h-4 w-4 text-foreground/60" />
@@ -420,7 +430,7 @@ export function AnalyticsDashboard() {
                   <tr>
                     <td colSpan={2} className="py-10">
                       <div className="flex flex-col items-center justify-center gap-2 text-center">
-                        <div className="p-2.5 bg-white/2 rounded-lg border border-[#161b22] text-foreground/60 mb-1">
+                        <div className="p-2.5 bg-white/2 rounded-xs border border-[#161b22] text-foreground/60 mb-1">
                           <Users className="w-4 h-4" />
                         </div>
                         <p className="text-sm font-medium text-foreground/80">No crew data yet</p>

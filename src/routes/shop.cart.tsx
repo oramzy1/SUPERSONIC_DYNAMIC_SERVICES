@@ -58,8 +58,9 @@ function CartPage() {
             {items.map((item) => {
               const line = computeLineTotal(item);
               const effectiveUnit = effectiveUnitPrice(item);
-              const baseUnit = item.mode === "buy" ? (item.buyPrice ?? item.unitPrice) : item.unitPrice;
-                
+              const baseUnit =
+                item.mode === "buy" ? (item.buyPrice ?? item.unitPrice) : item.unitPrice;
+
               return (
                 <li
                   key={item.id}
@@ -118,7 +119,7 @@ function CartPage() {
                         </button>
                       </div>
 
-                      {item.mode === 'rent' && (
+                      {item.mode === "rent" && (
                         <label className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                           Rental days
                           <input
@@ -128,7 +129,7 @@ function CartPage() {
                             onChange={(e) =>
                               updateDuration(item.id, Math.max(1, Number(e.target.value) || 1))
                             }
-                            className="h-9 w-20 rounded-lg border border-white/10 bg-surface-2 px-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
+                            className="h-9 w-20 rounded-xs border border-white/10 bg-surface-2 px-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
                           />
                         </label>
                       )}
@@ -219,20 +220,20 @@ function CartPage() {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   placeholder="WELCOME10"
-                  className="h-10 flex-1 rounded-lg border border-white/10 bg-surface-2 px-3 text-sm focus:border-primary/50 focus:outline-none"
+                  className="h-10 flex-1 rounded-xs border border-white/10 bg-surface-2 px-3 text-sm focus:border-primary/50 focus:outline-none"
                 />
                 <button
                   onClick={() => {
                     const r = applyPromo(code);
                     r.ok ? toast.success(r.message) : toast.error(r.message);
                   }}
-                  className="rounded-lg bg-primary px-4 text-xs font-semibold text-primary-foreground"
+                  className="rounded-xs bg-primary px-4 text-xs font-semibold text-primary-foreground"
                 >
                   Apply
                 </button>
               </div>
               {promo && (
-                <div className="mt-3 flex items-center justify-between rounded-lg border border-[#79FF5B]/30 bg-[#79FF5B]/10 px-3 py-2 text-xs">
+                <div className="mt-3 flex items-center justify-between rounded-xs border border-[#79FF5B]/30 bg-[#79FF5B]/10 px-3 py-2 text-xs">
                   <span className="flex items-center gap-1.5 font-semibold text-[#79FF5B]">
                     <Tag className="h-3 w-3" /> {promo} applied
                   </span>

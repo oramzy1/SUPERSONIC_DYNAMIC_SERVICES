@@ -55,7 +55,7 @@ function Services() {
                 needs of every customer.
               </p>
               {/* <a href="#services" className="mt-6 block w-full sm:w-auto">
-                <CTAButton className="bg-blue-50 text-black group rounded-lg w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2">
+                <CTAButton className="bg-blue-50 text-black group rounded-xs w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2">
                   <span>Browse All Services</span>
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </CTAButton>
@@ -86,7 +86,7 @@ function Services() {
               </div>
               <div className="flex flex-1 flex-col p-6">
                 <h3 className="font-display leading-6 text-lg font-semibold">{s.heroTitle}</h3>
-                <p className="mt-4 rounded-lg border border-border bg-muted/60 p-3 text-xs leading-relaxed text-muted-foreground">
+                <p className="mt-4 rounded-xs border border-border bg-muted/60 p-3 text-xs leading-relaxed text-muted-foreground">
                   {s.intro}
                 </p>
                 <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-foreground/70">
@@ -107,7 +107,7 @@ function Services() {
                   params={{ slug: s.slug }}
                   className="group/cta mt-6 block"
                 >
-                  <CTAButton variant="primary" className="w-full rounded-lg text-white">
+                  <CTAButton variant="primary" className="w-full rounded-xs text-white">
                     See More Details
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1" />
                   </CTAButton>

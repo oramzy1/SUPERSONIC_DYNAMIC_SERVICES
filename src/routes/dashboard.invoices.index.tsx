@@ -2,10 +2,11 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Download, Loader2, ChevronRight, FileSearch } from "lucide-react";
-import { invoicesApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
+import { invoicesApi, jobsApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { cn } from "@/lib/utils";
 import { Pagination } from "@/components/shared/Pagination";
+import { showError, showErrorText } from "@/lib/toast";
 
 export const Route = createFileRoute("/dashboard/invoices/")({
   component: InvoicesPage,
@@ -28,7 +29,7 @@ async function handlePay(invoiceId: number) {
     );
     window.location.href = checkout_url;
   } catch (err) {
-    console.error("Payment failed:", err);
+    showError(err, "Payment failed. Please try again.");
   }
 }
 
@@ -41,7 +42,7 @@ function DownloadButton({ invoiceId }: { invoiceId: number }) {
       const blob = await invoicesApi.downloadPdf(invoiceId);
       await openBlobInNewTab(blob);
     } catch (err) {
-      console.error(mapPdfError(err));
+      showErrorText(mapPdfError(err));
     } finally {
       setBusy(false);
     }
@@ -50,7 +51,7 @@ function DownloadButton({ invoiceId }: { invoiceId: number }) {
     <button
       onClick={download}
       disabled={busy}
-      className="grid h-8 w-8 place-items-center rounded-md bg-white/5 text-muted-foreground hover:text-foreground disabled:opacity-50"
+      className="grid h-8 w-8 place-items-center rounded-xs bg-white/5 text-muted-foreground hover:text-foreground disabled:opacity-50"
     >
       {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
     </button>
@@ -67,6 +68,12 @@ function InvoicesPage() {
     queryKey: ["invoices"],
     queryFn: () => invoicesApi.list(),
   });
+
+  const { data: jobs = [] } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: () => jobsApi.list(),
+  });
+  const jobStatusById = new Map(jobs.map((j) => [j.id, j.status]));
 
   const statusOptions = ["All", ...Array.from(new Set(invoices.map((i) => i.status)))];
   const visible =
@@ -101,7 +108,9 @@ function InvoicesPage() {
           <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-foreground">
             Financial Hub
           </p>
-          <h1 className="mt-2 font-display text-foreground text-3xl font-bold md:text-5xl">Invoices</h1>
+          <h1 className="mt-2 font-display text-foreground text-3xl font-bold md:text-5xl">
+            Invoices
+          </h1>
         </div>
         <div className="inline-flex flex-wrap rounded-full bg-surface p-1">
           {statusOptions.map((s) => (
@@ -169,10 +178,14 @@ function InvoicesPage() {
                 </tr>
               ) : (
                 paginated.map((inv) => {
-                  const needsPay =
+                  const invoiceNeedsPay =
                     inv.status.toLowerCase() === "pending" ||
                     inv.status.toLowerCase() === "overdue" ||
                     inv.status.toLowerCase() === "draft";
+                  const needsPay =
+                    invoiceNeedsPay &&
+                    inv.job_id != null &&
+                    jobStatusById.get(inv.job_id) === "completed";
                   return (
                     <tr
                       key={inv.id}
@@ -214,7 +227,7 @@ function InvoicesPage() {
                           {needsPay && (
                             <button
                               onClick={() => handlePay(inv.id)}
-                              className="rounded-md bg-[#3B82F6]/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#9DB4FE] hover:bg-[#3B82F6]/30"
+                              className="rounded-xs bg-[#3B82F6]/20 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-[#9DB4FE] hover:bg-[#3B82F6]/30"
                             >
                               Pay Now
                             </button>

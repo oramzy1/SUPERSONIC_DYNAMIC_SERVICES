@@ -17,6 +17,10 @@ export function getNotificationRoute(n: NotificationResponse, role: Role) {
         return { to: "/admininvoices/$invoiceId", params: { invoiceId: id } };
       case "contract":
         return { to: "/admincontracts/$contractId", params: { contractId: id } };
+      case "support_ticket":
+      case "ticket":
+      case "support":
+        return { to: "/adminsupport", search: { ticket: id } };
       default:
         return null;
     }
@@ -32,8 +36,17 @@ export function getNotificationRoute(n: NotificationResponse, role: Role) {
         return { to: "/dashboard/jobs/$jobId", params: { jobId: id } };
       case "invoice":
         return { to: "/dashboard/invoices/$invoiceId", params: { invoiceId: id } };
+      case "profile":
+      case "profile_update":
+      case "account":
+      case "account_update":
+      case "user":
       case "settings":
         return { to: "/dashboard/profile", params: {} };
+      case "support_ticket":
+      case "ticket":
+      case "support":
+        return { to: "/dashboard/support", params: {} };
       default:
         return null;
     }

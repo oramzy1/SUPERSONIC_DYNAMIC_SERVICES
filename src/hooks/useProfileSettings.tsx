@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 import { accountApi, quotesApi } from "@/lib/api";
 import { useAuth } from "@/contexts/AuthContext";
-
-function errMsg(err: unknown): string {
-  return (
-    (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-    "Something went wrong. Please try again."
-  );
-}
+import { showError, showErrorText, showSuccess } from "@/lib/toast";
 
 export function useProfileSettings() {
   const { user, refreshUser } = useAuth();
@@ -16,7 +10,6 @@ export function useProfileSettings() {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -41,7 +34,7 @@ export function useProfileSettings() {
       if (!putRes.ok) throw new Error(`Upload failed with status ${putRes.status}`);
       setAvatarUrl(presigned.url.split("?")[0]);
     } catch (err) {
-      setToast({ type: "error", message: errMsg(err) });
+      showError(err, "Failed to upload photo. Please try again.");
     } finally {
       setUploadingAvatar(false);
     }
@@ -60,9 +53,9 @@ export function useProfileSettings() {
       // screen reads user from useAuth(), so this one call propagates the
       // change everywhere (headers, avatars, greetings) without a reload.
       await refreshUser();
-      setToast({ type: "success", message: "Profile updated." });
+      showSuccess("Profile updated.");
     } catch (err) {
-      setToast({ type: "error", message: errMsg(err) });
+      showError(err, "Failed to update profile. Please try again.");
     } finally {
       setSavingProfile(false);
     }
@@ -76,15 +69,15 @@ export function useProfileSettings() {
   const savePassword = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!currentPassword) {
-      setToast({ type: "error", message: "Enter your current password." });
+      showErrorText("Enter your current password.");
       return;
     }
     if (newPassword.length < 8) {
-      setToast({ type: "error", message: "New password must be at least 8 characters." });
+      showErrorText("New password must be at least 8 characters.");
       return;
     }
     if (newPassword !== confirmPassword) {
-      setToast({ type: "error", message: "New passwords don't match." });
+      showErrorText("New passwords don't match.");
       return;
     }
     setSavingPassword(true);
@@ -96,9 +89,9 @@ export function useProfileSettings() {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setToast({ type: "success", message: "Password changed." });
+      showSuccess("Password changed.");
     } catch (err) {
-      setToast({ type: "error", message: errMsg(err) });
+      showError(err, "Failed to change password. Please try again.");
     } finally {
       setSavingPassword(false);
     }
@@ -123,7 +116,5 @@ export function useProfileSettings() {
     setConfirmPassword,
     savingPassword,
     savePassword,
-    toast,
-    setToast,
   };
 }

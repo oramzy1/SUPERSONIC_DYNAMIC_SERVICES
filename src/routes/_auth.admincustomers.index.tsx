@@ -103,7 +103,7 @@ function RouteComponent() {
 
       <div className="bg-surface backdrop-blur-md border border-white/6 rounded-xl overflow-hidden flex flex-col mb-6">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-5 border-b border-white/6">
-          <div className="flex items-center bg-background p-1 rounded-lg border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 w-fit overflow-x-auto">
+          <div className="flex items-center bg-background p-1 rounded-xs border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 w-fit overflow-x-auto">
             {roleOptions.map((r) => (
               <button
                 key={r}
@@ -146,7 +146,7 @@ function RouteComponent() {
                 <tr>
                   <td colSpan={6} className="py-12 px-6">
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
-                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
+                      <div className="p-2.5 bg-white/2 rounded-xs border border-white/6 text-foreground/60 mb-1">
                         <UsersRound className="w-4 h-4" />
                       </div>
                       <p className="text-sm font-medium text-slate-300">No accounts found</p>

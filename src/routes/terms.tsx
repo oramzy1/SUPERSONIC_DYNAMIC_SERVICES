@@ -116,13 +116,12 @@ const ARTICLES = [
 
         <p>
           <span className="font-semibold text-foreground">The assignment:</span> The agreement to
-          move a range of goods and items as specified by the client: Students moving
-          between apartments, dormitories and student housing, Private households relocations,
-          Family relocations, Apartment moves, Senior and elderly relocation, Care facility
-          transfers, Full or partial house clearances, Office relocations, Corporate headquarters
-          moves, Warehouse transfers, Educational institutions moves, Healthcare facilities moves,
-          Retail and logistics operations moves, goods freight by small, medium and large
-          businesses.
+          move a range of goods and items as specified by the client: Students moving between
+          apartments, dormitories and student housing, Private households relocations, Family
+          relocations, Apartment moves, Senior and elderly relocation, Care facility transfers, Full
+          or partial house clearances, Office relocations, Corporate headquarters moves, Warehouse
+          transfers, Educational institutions moves, Healthcare facilities moves, Retail and
+          logistics operations moves, goods freight by small, medium and large businesses.
         </p>
       </div>
     ),
@@ -137,10 +136,10 @@ const ARTICLES = [
           The assignment to perform work for all categories of services offered by SUPERSONIC
           DYNAMIC SERVICES B.V. can be given by customers filling out a quote form and with uploads
           of a written description of the job to be executed and a short video showing an overview
-          of the items to be moved and the estimated space they occupy for all service categories with
-          an exception for the Standard medium enterprise move and Large enterprise move, for which
-          the assignment to perform work which must be done both in writing and a physical site
-          visit as these services requires a pre-project planning / site survey.
+          of the items to be moved and the estimated space they occupy for all service categories
+          with an exception for the Standard medium enterprise move and Large enterprise move, for
+          which the assignment to perform work which must be done both in writing and a physical
+          site visit as these services requires a pre-project planning / site survey.
         </p>
 
         <p>
@@ -265,7 +264,8 @@ const ARTICLES = [
         <p>
           SUPERSONIC DYNAMIC SERVICES B.V. ‘s liability is limited to direct damage caused by us
           during execution of the assignment for a client, up to a maximum as stipulated in
-          SUPERSONIC DYNAMIC SERVICES B.V. ‘s All-in Movers Verhuizerspolis (full mover coverage for all handling, transport, and temporary storage).
+          SUPERSONIC DYNAMIC SERVICES B.V. ‘s All-in Movers Verhuizerspolis (full mover coverage for
+          all handling, transport, and temporary storage).
         </p>
       </div>
     ),
@@ -289,7 +289,9 @@ const ARTICLES = [
     title: "Article 9: Final provision",
     body: (
       <p className="text-sm leading-7 text-muted-foreground">
-        In all cases not provided for in these General Terms and Conditions, any such matters shall be handled in accordance with applicable law and, where appropriate, agreed upon between the client and SUPERSONIC DYNAMIC SERVICES B.V.
+        In all cases not provided for in these General Terms and Conditions, any such matters shall
+        be handled in accordance with applicable law and, where appropriate, agreed upon between the
+        client and SUPERSONIC DYNAMIC SERVICES B.V.
       </p>
     ),
   },
@@ -317,7 +319,7 @@ function Terms() {
                 <a
                   key={a.n}
                   href={`#a${a.n}`}
-                  className="block rounded-lg border-l-2 border-transparent px-3 py-2 text-sm text-muted-foreground transition hover:border-primary hover:bg-primary/5 hover:text-primary"
+                  className="block rounded-xs border-l-2 border-transparent px-3 py-2 text-sm text-muted-foreground transition hover:border-primary hover:bg-primary/5 hover:text-primary"
                 >
                   {a.title}
                 </a>

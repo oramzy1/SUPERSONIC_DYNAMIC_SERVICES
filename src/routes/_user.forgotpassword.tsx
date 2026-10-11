@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Mail, ArrowRight, ArrowLeft, MailCheck } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { authApi } from "@/lib/api";
+import { showError, showErrorText, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/_user/forgotpassword")({
   component: UserForgotPasswordPage,
@@ -11,29 +12,24 @@ export const Route = createFileRoute("/_user/forgotpassword")({
 function UserForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMsg(null);
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(email)) {
-      setErrorMsg("Please enter a valid email address.");
+      showErrorText("Please enter a valid email address.");
       return;
     }
 
     setIsSubmitting(true);
     try {
       await authApi.forgotPassword({ email });
+      showSuccess("Password reset link sent. Check your inbox.");
       setIsSubmitted(true);
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-        "Failed to send reset link. Please try again.";
-      setErrorMsg(msg);
+      showError(err, "Failed to send reset link. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -59,13 +55,6 @@ function UserForgotPasswordPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Validation Error Banner */}
-              {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl p-3 font-medium animate-in fade-in duration-200">
-                  {error}
-                </div>
-              )}
-
               {/* Email Address Input Block */}
               <div className="space-y-1.5">
                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
@@ -78,7 +67,7 @@ function UserForgotPasswordPage() {
                     placeholder="name@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-lg border border-white/10 bg-white/4 py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-xs border border-white/10 bg-white/4 py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
                   {/* Subtle right aligned text decoration placeholder element from original graphic placeholder */}
                   <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-600 font-sans font-medium">
@@ -92,7 +81,7 @@ function UserForgotPasswordPage() {
                 variant="primary"
                 type="submit"
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-lg py-3 text-xs sm:text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
+                className="w-full rounded-xs py-3 text-xs sm:text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2"
               >
                 Send Reset Link <ArrowRight className="h-4 w-4 text-slate-900" />
               </CTAButton>

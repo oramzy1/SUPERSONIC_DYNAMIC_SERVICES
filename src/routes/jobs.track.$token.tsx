@@ -92,7 +92,7 @@ function JobTrackPage() {
               {tracking.crew_members.map((c) => (
                 <div
                   key={c.id}
-                  className="flex items-center gap-2.5 rounded-lg bg-black/20 border border-white/10 px-3 py-2"
+                  className="flex items-center gap-2.5 rounded-xs bg-black/20 border border-white/10 px-3 py-2"
                 >
                   {c.profile_image_url ? (
                     <img src={c.profile_image_url} className="w-8 h-8 rounded-full object-cover" />

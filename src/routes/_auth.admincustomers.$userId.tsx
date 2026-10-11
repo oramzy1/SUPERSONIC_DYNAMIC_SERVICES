@@ -4,20 +4,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Trash2, Save, ShieldAlert } from "lucide-react";
 import { accountApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { showError, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/_auth/admincustomers/$userId")({
   component: UserDetailPage,
 });
 
 const ROLE_OPTIONS = ["customer", "crew", "admin"];
-
-function errMsg(err: unknown): string {
-  return (
-    (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-    (err as Error)?.message ||
-    "Request failed."
-  );
-}
 
 function formatDate(iso?: string | null): string {
   if (!iso) return "-";
@@ -33,7 +26,6 @@ function UserDetailPage() {
   const id = Number(userId);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [role, setRole] = useState<string | null>(null);
 
   const { data: user, isLoading } = useQuery({
@@ -46,18 +38,19 @@ function UserDetailPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "user", id] });
       queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
-      setToast({ type: "success", message: "Role updated." });
+      showSuccess("Role updated.");
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to update role."),
   });
 
   const deleteMutation = useMutation({
     mutationFn: () => accountApi.deleteUserAdmin(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
+      showSuccess("Account deleted.");
       navigate({ to: "/admincustomers" });
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to delete account."),
   });
 
   const handleDelete = () => {
@@ -112,18 +105,6 @@ function UserDetailPage() {
       <Breadcrumbs
         items={[{ label: "Customers", to: "/admincustomers" }, { label: user.full_name }]}
       />
-
-      {toast && (
-        <div
-          className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border ${
-            toast.type === "success"
-              ? "bg-[#0c1017] border-emerald-500/30 text-emerald-400"
-              : "bg-[#0c1017] border-rose-500/30 text-rose-400"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
@@ -197,7 +178,7 @@ function UserDetailPage() {
             </div>
           </div>
           {user.is_anonymized && (
-            <div className="flex items-start gap-2 rounded-lg border border-amber-500/20 bg-amber-500/5 p-3 text-xs text-amber-400">
+            <div className="flex items-start gap-2 rounded-xs border border-amber-500/20 bg-amber-500/5 p-3 text-xs text-amber-400">
               <ShieldAlert className="w-3.5 h-3.5 mt-0.5 shrink-0" />
               This account has been anonymized - some fields above may be redacted by the backend
               rather than reflecting live data.
@@ -212,7 +193,7 @@ function UserDetailPage() {
           <select
             value={role ?? user.role}
             onChange={(e) => setRole(e.target.value)}
-            className="w-full bg-background rounded-lg px-3 py-2.5 text-xs text-foreground outline-none focus:border-[#E2A54A]/60 mb-3"
+            className="w-full bg-background rounded-xs px-3 py-2.5 text-xs text-foreground outline-none focus:border-[#E2A54A]/60 mb-3"
           >
             {ROLE_OPTIONS.map((r) => (
               <option key={r} value={r}>
@@ -223,7 +204,7 @@ function UserDetailPage() {
           <button
             onClick={() => roleMutation.mutate(role ?? user.role)}
             disabled={roleMutation.isPending || (role ?? user.role) === user.role}
-            className="w-full flex items-center justify-center gap-2 rounded-lg bg-[#E2A54A] px-4 py-2 text-xs font-bold text-slate-950 hover:bg-[#d4963b] disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 rounded-xs bg-[#E2A54A] px-4 py-2 text-xs font-bold text-slate-950 hover:bg-[#d4963b] disabled:opacity-50"
           >
             {roleMutation.isPending ? (
               <Loader2 className="w-3 h-3 animate-spin" />

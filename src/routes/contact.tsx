@@ -1,3 +1,4 @@
+import { contactApi } from "@/lib/api";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +9,7 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Pill } from "@/components/shared/Pill";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
-import { useState } from "react";
+import { showError, showSuccess } from "@/lib/toast";
 import vanHero from "@/assets/images/hero-van.jpg";
 
 export const Route = createFileRoute("/contact")({
@@ -36,7 +37,6 @@ type FormData = z.infer<typeof schema>;
 
 function Contact() {
   const { show, hide } = useLoading();
-  const [sent, setSent] = useState(false);
   const {
     register,
     handleSubmit,
@@ -49,11 +49,21 @@ function Contact() {
 
   const onSubmit = async (data: FormData) => {
     show("Sending your message…");
-    await new Promise((r) => setTimeout(r, 1100));
-    hide();
-    setSent(true);
-    reset();
-    setTimeout(() => setSent(false), 4000);
+    try {
+      const company = data.company?.trim();
+      await contactApi.create({
+        name: data.fullName,
+        email: data.email,
+        subject: data.subject,
+        message: company ? `${data.message}\n\n- ${company}` : data.message,
+      });
+      reset();
+      showSuccess("Message sent - we'll be in touch shortly.");
+    } catch (err: unknown) {
+      showError(err, "Couldn't send your message. Please try again.");
+    } finally {
+      hide();
+    }
   };
 
   return (
@@ -149,14 +159,14 @@ function Contact() {
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <Field label="Full Name" error={errors.fullName?.message}>
                 <input
-                  className="field w-full rounded-lg px-3 py-3.5 text-xs"
+                  className="field w-full rounded-xs px-3 py-3.5 text-xs"
                   placeholder="your full name"
                   {...register("fullName")}
                 />
               </Field>
               <Field label="Company">
                 <input
-                  className="field w-full rounded-lg px-3 py-3.5 text-xs"
+                  className="field w-full rounded-xs px-3 py-3.5 text-xs"
                   placeholder="your company name"
                   {...register("company")}
                 />
@@ -165,7 +175,7 @@ function Contact() {
             <div className="mt-4">
               <Field label="Email Address" error={errors.email?.message}>
                 <input
-                  className="field w-full rounded-lg px-3 py-3.5 text-xs"
+                  className="field w-full rounded-xs px-3 py-3.5 text-xs"
                   placeholder="name@company.com"
                   {...register("email")}
                 />
@@ -174,7 +184,7 @@ function Contact() {
             <div className="mt-4">
               <Field label="Subject of Inquiry">
                 <select
-                  className="field w-full rounded-lg px-3 py-3.5 text-xs cursor-pointer pr-10"
+                  className="field w-full rounded-xs px-3 py-3.5 text-xs cursor-pointer pr-10"
                   {...register("subject")}
                 >
                   <option>General Inquiry</option>
@@ -188,7 +198,7 @@ function Contact() {
               <Field label="Your Message" error={errors.message?.message}>
                 <textarea
                   rows={5}
-                  className="field w-full rounded-lg px-3 py-2.5 text-sm"
+                  className="field w-full rounded-xs px-3 py-2.5 text-sm"
                   placeholder="How can we accelerate your dynamic growth?"
                   {...register("message")}
                 />
@@ -196,21 +206,12 @@ function Contact() {
             </div>
             <CTAButton
               variant="primary"
-              className="group mt-6 w-full rounded-lg py-3.5"
+              className="group mt-6 w-full rounded-xs py-3.5"
               type="submit"
             >
               Send Now{" "}
               <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </CTAButton>
-            {sent && (
-              <motion.p
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mt-4 text-center text-sm text-primary"
-              >
-                Message sent - we'll be in touch shortly.
-              </motion.p>
-            )}
           </motion.form>
         </div>
       </section>

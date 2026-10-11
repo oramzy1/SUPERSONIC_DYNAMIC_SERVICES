@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Edit3, X, Plus, Save, Info, Layers, Sparkles, Trash2 } from "lucide-react";
+import { showErrorText, showSuccess } from "@/lib/toast";
 
 // Local Asset fallbacks if bundler paths resolve asynchronously
 import micromoving from "@/assets/images/micro-moving.jpg";
@@ -219,7 +220,7 @@ export function RouteComponent() {
 
     if (isNewService) {
       if (services.some((s) => s.slug === editingService.slug)) {
-        alert("A service configuration card with this slug identifier already exists.");
+        showErrorText("A service configuration card with this slug identifier already exists.");
         return;
       }
       setServices((prev) => [...prev, editingService]);
@@ -229,7 +230,7 @@ export function RouteComponent() {
     }
 
     closeCustomizer();
-    console.log("POST Matrix Stream updated successfully for element:", editingService.slug);
+    showSuccess(`Service "${editingService.slug}" saved successfully.`);
   };
 
   return (
@@ -246,7 +247,7 @@ export function RouteComponent() {
 
         <button
           onClick={openNewServiceModal}
-          className="flex items-center gap-1.5 px-4 py-2 bg-[#E2A54A] text-slate-950 font-bold text-xs rounded-lg hover:bg-[#d4963b] transition duration-200 self-start md:self-auto"
+          className="flex items-center gap-1.5 px-4 py-2 bg-[#E2A54A] text-slate-950 font-bold text-xs rounded-xs hover:bg-[#d4963b] transition duration-200 self-start md:self-auto"
         >
           <span className="text-base font-normal leading-none">+</span> New Service
         </button>
@@ -372,7 +373,7 @@ export function RouteComponent() {
               </div>
               <button
                 onClick={closeCustomizer}
-                className="p-1 rounded-lg border border-slate-800 text-slate-400 hover:text-white transition"
+                className="p-1 rounded-xs border border-slate-800 text-slate-400 hover:text-white transition"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -391,7 +392,7 @@ export function RouteComponent() {
                   value={editingService.title}
                   onChange={(e) => handleInputChange("title", e.target.value)}
                   placeholder="e.g., Commercial Moving Support"
-                  className="bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
+                  className="bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                   required
                 />
               </div>
@@ -406,7 +407,7 @@ export function RouteComponent() {
                     value={editingService.slug}
                     readOnly
                     placeholder="auto-generated-from-title"
-                    className="bg-[#090b0c] border border-slate-900 rounded-lg p-2.5 text-[#E2A54A] font-mono focus:outline-none"
+                    className="bg-[#090b0c] border border-slate-900 rounded-xs p-2.5 text-[#E2A54A] font-mono focus:outline-none"
                   />
                 </div>
               )}
@@ -420,7 +421,7 @@ export function RouteComponent() {
                   value={editingService.heroTitle}
                   onChange={(e) => handleInputChange("heroTitle", e.target.value)}
                   placeholder="High-impact hero layout banner statement"
-                  className="bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
+                  className="bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                   required
                 />
               </div>
@@ -432,7 +433,7 @@ export function RouteComponent() {
                   </label>
                   <select
                     onChange={(e) => handleInputChange("image", e.target.value)}
-                    className="bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-slate-300 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
+                    className="bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-slate-300 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                     required
                   >
                     <option value="">Select illustrative archetype wrapper...</option>
@@ -454,7 +455,7 @@ export function RouteComponent() {
                   value={editingService.intro}
                   onChange={(e) => handleInputChange("intro", e.target.value)}
                   placeholder="Brief paragraph summary displayed inside catalog indexes..."
-                  className="bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium leading-relaxed resize-none transition"
+                  className="bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium leading-relaxed resize-none transition"
                   required
                 />
               </div>
@@ -468,7 +469,7 @@ export function RouteComponent() {
                   value={editingService.expertise}
                   onChange={(e) => handleInputChange("expertise", e.target.value)}
                   placeholder="Target niche qualifications, separated by commas..."
-                  className="bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium leading-relaxed resize-none transition"
+                  className="bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium leading-relaxed resize-none transition"
                 />
               </div>
 
@@ -492,7 +493,7 @@ export function RouteComponent() {
                       value={paragraph}
                       onChange={(e) => handleArrayChange("body", index, e.target.value)}
                       placeholder="Comprehensive operational details context chunk..."
-                      className="flex-1 bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium leading-relaxed resize-none transition"
+                      className="flex-1 bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium leading-relaxed resize-none transition"
                     />
                     <button
                       type="button"
@@ -526,7 +527,7 @@ export function RouteComponent() {
                         value={tag}
                         placeholder="e.g., Ultra-Secure"
                         onChange={(e) => handleArrayChange("tags", index, e.target.value)}
-                        className="flex-1 bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 font-medium"
+                        className="flex-1 bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 font-medium"
                       />
                       <button
                         type="button"
@@ -560,7 +561,7 @@ export function RouteComponent() {
                       value={benefit}
                       placeholder="e.g., 24/7 client dispatch pipeline transparency"
                       onChange={(e) => handleArrayChange("benefits", index, e.target.value)}
-                      className="flex-1 bg-[#0d0f11] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium"
+                      className="flex-1 bg-[#0d0f11] border border-slate-800 rounded-xs p-2.5 text-white focus:outline-none focus:border-[#E2A54A]/60 font-medium"
                     />
                     <button
                       type="button"
@@ -577,13 +578,13 @@ export function RouteComponent() {
                 <button
                   type="button"
                   onClick={closeCustomizer}
-                  className="px-4 py-2 rounded-lg bg-transparent border border-slate-800 text-slate-400 font-semibold hover:text-white transition"
+                  className="px-4 py-2 rounded-xs bg-transparent border border-slate-800 text-slate-400 font-semibold hover:text-white transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex items-center gap-1.5 px-4 py-2 bg-[#E2A54A] text-slate-950 font-bold rounded-lg hover:bg-[#d4963b] transition"
+                  className="flex items-center gap-1.5 px-4 py-2 bg-[#E2A54A] text-slate-950 font-bold rounded-xs hover:bg-[#d4963b] transition"
                 >
                   <Save className="w-3.5 h-3.5" />{" "}
                   {isNewService ? "Deploy & Post Service" : "Save Changes & Post"}

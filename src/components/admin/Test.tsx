@@ -15,6 +15,7 @@ import {
 import { quotesApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { GenerateQuoteModal } from "@/components/admin/GeneralQuoteModal";
+import { showError, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/_auth/adminquotes/$quoteId")({
   component: QuoteDetailPage,
@@ -28,13 +29,6 @@ const STATUS_STYLES: Record<string, string> = {
   rejected: "bg-rose-500/5 border-rose-500/20 text-rose-400",
 };
 
-function errMsg(err: unknown): string {
-  return (
-    (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-    (err as Error)?.message ||
-    "Request failed. Please try again."
-  );
-}
 function formatDate(iso?: string | null): string {
   if (!iso) return "-";
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -48,7 +42,6 @@ function QuoteDetailPage() {
   const { quoteId } = Route.useParams();
   const id = Number(quoteId);
   const queryClient = useQueryClient();
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [generating, setGenerating] = useState(false);
 
   const { data: requests = [], isLoading: requestsLoading } = useQuery({
@@ -73,18 +66,18 @@ function QuoteDetailPage() {
       setGenerating(false);
       queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
       queryClient.invalidateQueries({ queryKey: ["admin", "quote-detail", id] });
-      setToast({ type: "success", message: "Quote sent - awaiting customer response." });
+      showSuccess("Quote sent - awaiting customer response.");
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to send quote."),
   });
 
   const rejectMutation = useMutation({
     mutationFn: () => quotesApi.reject(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
-      setToast({ type: "success", message: "Quote request rejected." });
+      showSuccess("Quote request rejected.");
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to reject quote."),
   });
 
   if (requestsLoading || quoteLoading) {
@@ -115,7 +108,7 @@ function QuoteDetailPage() {
           <div className="mt-5">
             <Link
               to="/adminquotes"
-              className="inline-flex items-center justify-center rounded-lg bg-[#E2A54A]/10 border border-[#E2A54A]/20 px-4 py-2 text-xs font-semibold text-[#E2A54A] hover:bg-[#E2A54A]/20 transition"
+              className="inline-flex items-center justify-center rounded-xs bg-[#E2A54A]/10 border border-[#E2A54A]/20 px-4 py-2 text-xs font-semibold text-[#E2A54A] hover:bg-[#E2A54A]/20 transition"
             >
               Back to Quotes
             </Link>
@@ -141,18 +134,6 @@ function QuoteDetailPage() {
   return (
     <div className="w-full text-slate-300 select-none pb-12">
       <Breadcrumbs items={[{ label: "Quotes", to: "/adminquotes" }, { label: `Quote #${id}` }]} />
-
-      {toast && (
-        <div
-          className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border transition-all ${
-            toast.type === "success"
-              ? "bg-[#0c1017] border-emerald-500/30 text-emerald-400"
-              : "bg-[#0c1017] border-rose-500/30 text-rose-400"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
@@ -202,7 +183,7 @@ function QuoteDetailPage() {
               <Link
                 to="/adminjobs/$jobId"
                 params={{ jobId: String(quote.job_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/15 rounded-lg px-3 py-2"
+                className="flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/15 rounded-xs px-3 py-2"
               >
                 <Truck className="w-3.5 h-3.5" /> View Job #{quote.job_id}
               </Link>
@@ -211,7 +192,7 @@ function QuoteDetailPage() {
               <Link
                 to="/admincontracts/$contractId"
                 params={{ contractId: String(quote.contract_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/15 rounded-lg px-3 py-2"
+                className="flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/15 rounded-xs px-3 py-2"
               >
                 <FileSignature className="w-3.5 h-3.5" /> Contract (
                 {(quote.contract_status ?? "sent").replace("_", " ")})
@@ -221,7 +202,7 @@ function QuoteDetailPage() {
               <Link
                 to="/admininvoices/$invoiceId"
                 params={{ invoiceId: String(quote.invoice_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/15 rounded-lg px-3 py-2"
+                className="flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/15 rounded-xs px-3 py-2"
               >
                 <Receipt className="w-3.5 h-3.5" /> Invoice {quote.invoice_number ?? ""}
               </Link>

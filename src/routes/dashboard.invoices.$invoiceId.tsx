@@ -2,8 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Download, Loader2, CreditCard } from "lucide-react";
-import { invoicesApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
+import { invoicesApi, jobsApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { showErrorText } from "@/lib/toast";
 
 export const Route = createFileRoute("/dashboard/invoices/$invoiceId")({
   component: InvoiceDetailPage,
@@ -21,7 +22,6 @@ function formatDate(iso?: string | null): string {
 function InvoiceDetailPage() {
   const { invoiceId } = Route.useParams();
   const id = Number(invoiceId);
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [paying, setPaying] = useState(false);
 
@@ -30,13 +30,19 @@ function InvoiceDetailPage() {
     queryFn: () => invoicesApi.get(id),
   });
 
+  const { data: job } = useQuery({
+    queryKey: ["job", invoice?.job_id],
+    queryFn: () => jobsApi.get(invoice!.job_id as number),
+    enabled: !!invoice?.job_id,
+  });
+
   const download = async () => {
     setDownloading(true);
     try {
       const blob = await invoicesApi.downloadPdf(id);
       await openBlobInNewTab(blob);
     } catch (err) {
-      setToast({ type: "error", message: mapPdfError(err) });
+      showErrorText(mapPdfError(err));
     } finally {
       setDownloading(false);
     }
@@ -51,7 +57,7 @@ function InvoiceDetailPage() {
       );
       window.location.href = checkout_url;
     } catch (err) {
-      setToast({ type: "error", message: "Failed to start payment. Please try again." });
+      showErrorText("Failed to start payment. Please try again.");
       setPaying(false);
     }
   };
@@ -97,9 +103,10 @@ function InvoiceDetailPage() {
   }
 
   const needsPay =
-    invoice.status.toLowerCase() === "pending" ||
-    invoice.status.toLowerCase() === "overdue" ||
-    invoice.status.toLowerCase() === "draft";
+    (invoice.status.toLowerCase() === "pending" ||
+      invoice.status.toLowerCase() === "overdue" ||
+      invoice.status.toLowerCase() === "draft") &&
+    job?.status === "completed";
 
   return (
     <div className="mx-auto max-w-2xl pb-12">
@@ -109,12 +116,6 @@ function InvoiceDetailPage() {
           { label: invoice.invoice_number },
         ]}
       />
-
-      {toast && (
-        <div className="fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border bg-surface border-rose-500/30 text-rose-400">
-          {toast.message}
-        </div>
-      )}
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
@@ -128,7 +129,7 @@ function InvoiceDetailPage() {
             <button
               onClick={pay}
               disabled={paying}
-              className="flex items-center gap-2 rounded-lg bg-[#3B82F6] px-4 py-2 text-xs font-bold text-white hover:opacity-90 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-xs bg-[#3B82F6] px-4 py-2 text-xs font-bold text-white hover:opacity-90 disabled:opacity-50"
             >
               {paying ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -141,7 +142,7 @@ function InvoiceDetailPage() {
           <button
             onClick={download}
             disabled={downloading}
-            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-xs bg-primary px-4 py-2 text-xs font-bold text-white hover:opacity-90 disabled:opacity-50"
           >
             {downloading ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />

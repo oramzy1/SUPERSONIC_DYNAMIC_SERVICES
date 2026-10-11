@@ -8,9 +8,9 @@ export const Route = createFileRoute("/_member/crewdashboard/profile")({
 
 function CrewProfilePage() {
   return (
-    <div className="mx-auto max-w-3xl w-full text-foreground pb-12">
-      <h1 className="text-2xl font-bold tracking-tight text-white mb-1">Profile Settings</h1>
-      <p className="text-sm text-slate-400 mb-6">Update your details and password.</p>
+    <div className="mx-auto max-w-6xl w-full text-foreground pb-12">
+      <h1 className="text-2xl font-bold tracking-tight text-foreground mb-1">Profile Settings</h1>
+      <p className="text-sm text-foreground/60 mb-6">Update your details and password.</p>
       <ProfileSettingsPanel />
     </div>
   );

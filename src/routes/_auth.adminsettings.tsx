@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router";
 import { useProfileSettings } from "@/hooks/useProfileSettings";
+import { showErrorText, showSuccess } from "@/lib/toast";
 
 type SettingsTab = "profile" | "security" | "notifications" | "api";
 
@@ -37,7 +38,6 @@ export function AdminSettingsDashboard() {
   const activeTab: SettingsTab = search.tab ?? "profile";
 
   const [isSaving, setIsSaving] = useState(false);
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [copiedKey, setCopiedKey] = useState<"public" | "secret" | null>(null);
   const {
     user,
@@ -58,7 +58,6 @@ export function AdminSettingsDashboard() {
     setConfirmPassword,
     savingPassword,
     savePassword,
-    toast: profileToast,
   } = useProfileSettings();
 
   const [profile, setProfile] = useState({
@@ -80,13 +79,6 @@ export function AdminSettingsDashboard() {
   });
 
   useEffect(() => {
-    if (toast) {
-      const timer = setTimeout(() => setToast(null), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [toast]);
-
-  useEffect(() => {
     if (copiedKey) {
       const timer = setTimeout(() => setCopiedKey(null), 2000);
       return () => clearTimeout(timer);
@@ -106,13 +98,13 @@ export function AdminSettingsDashboard() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
-        setToast({ type: "error", message: "Image sizing boundary limit exceeded (Max 2MB)." });
+        showErrorText("Image sizing boundary limit exceeded (Max 2MB).");
         return;
       }
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfile((prev) => ({ ...prev, avatarUrl: reader.result as string }));
-        setToast({ type: "success", message: "Local profile avatar asset staged successfully." });
+        showSuccess("Local profile avatar asset staged successfully.");
       };
       reader.readAsDataURL(file);
     }
@@ -121,7 +113,7 @@ export function AdminSettingsDashboard() {
   const handleCopyClipboard = (text: string, type: "public" | "secret") => {
     navigator.clipboard.writeText(text);
     setCopiedKey(type);
-    setToast({ type: "success", message: "Key copied to secure clipboard wrapper safely." });
+    showSuccess("Key copied to secure clipboard wrapper safely.");
   };
 
   const handleSaveSettings = (e: React.FormEvent) => {
@@ -134,7 +126,7 @@ export function AdminSettingsDashboard() {
       if (currentPassword || newPassword || confirmPassword) {
         savePassword(e);
       } else {
-        setToast({ type: "success", message: "No password changes to save." });
+        showSuccess("No password changes to save.");
       }
       return;
     }
@@ -143,10 +135,7 @@ export function AdminSettingsDashboard() {
     setIsSaving(true);
     setTimeout(() => {
       setIsSaving(false);
-      setToast({
-        type: "success",
-        message: "System configuration matrix safely compiled and active.",
-      });
+      showSuccess("System configuration matrix safely compiled and active.");
     }, 1000);
   };
 
@@ -160,37 +149,12 @@ export function AdminSettingsDashboard() {
         Math.floor(Math.random() * 16).toString(16),
       ).join("");
       setApiConfig((prev) => ({ ...prev, secretKey: `sk_test_${generatedHex}` }));
-      setToast({ type: "success", message: "New encryption client gateway secrets compiled." });
+      showSuccess("New encryption client gateway secrets compiled.");
     }
   };
 
   return (
     <div className="w-full min-h-full text-foreground/60 font-sans antialiased px-0 py-4 sm:p-8">
-      {/* Toast */}
-      {toast && (
-        <div
-          className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border transition-all ${
-            toast.type === "success"
-              ? "bg-[#0c1017] border-emerald-500/30 text-emerald-400"
-              : "bg-[#0c1017] border-rose-500/30 text-rose-400"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
-
-      {profileToast && (
-        <div
-          className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border transition-all ${
-            profileToast.type === "success"
-              ? "bg-[#0c1017] border-emerald-500/30 text-emerald-400"
-              : "bg-[#0c1017] border-rose-500/30 text-rose-400"
-          }`}
-        >
-          {profileToast.message}
-        </div>
-      )}
-
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 px-4 sm:px-0">
@@ -212,7 +176,7 @@ export function AdminSettingsDashboard() {
                   ? savingPassword
                   : isSaving
             }
-            className="bg-[#E2A54A] hover:bg-[#cb923c] disabled:bg-slate-800 text-[#07090e] disabled:text-foreground/60 font-bold text-xs tracking-wide px-5 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 uppercase disabled:cursor-not-allowed"
+            className="bg-[#E2A54A] hover:bg-[#cb923c] disabled:bg-slate-800 text-[#07090e] disabled:text-foreground/60 font-bold text-xs tracking-wide px-5 py-2.5 rounded-xs transition-all flex items-center justify-center gap-2 uppercase disabled:cursor-not-allowed"
           >
             {(
               activeTab === "profile"
@@ -252,7 +216,7 @@ export function AdminSettingsDashboard() {
                   key={t}
                   type="button"
                   onClick={() => handleTabChange(t)}
-                  className={`flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-lg transition-all tracking-wide text-left ${
+                  className={`flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-xs transition-all tracking-wide text-left ${
                     activeTab === t
                       ? "bg-background text-[#E2A54A]"
                       : "hover:text-white text-foreground/60"
@@ -293,7 +257,7 @@ export function AdminSettingsDashboard() {
                       )}
                     </div>
                     <div className="flex flex-col gap-1.5 items-center sm:items-start text-center sm:text-left">
-                      <label className="cursor-pointer bg-[#16191c] hover:bg-slate-800 border border-slate-800 text-foreground text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center gap-2">
+                      <label className="cursor-pointer bg-[#16191c] hover:bg-slate-800 border border-slate-800 text-foreground text-xs font-semibold px-3 py-2 rounded-xs transition flex items-center gap-2">
                         <Upload className="h-3.5 w-3.5 text-slate-400" />
                         Upload New Image
                         <input
@@ -324,7 +288,7 @@ export function AdminSettingsDashboard() {
                         required
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        className="bg-background rounded-lg px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
+                        className="bg-background rounded-xs px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
@@ -336,7 +300,7 @@ export function AdminSettingsDashboard() {
                         required
                         value={user?.email ?? ""}
                         disabled
-                        className="bg-background rounded-lg px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
+                        className="bg-background rounded-xs px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
@@ -347,7 +311,7 @@ export function AdminSettingsDashboard() {
                         type="text"
                         value={user?.role ?? ""}
                         disabled
-                        className="capitalize bg-[#07090e]/50 rounded-lg px-4 py-2.5 text-xs text-foreground/60 font-mono cursor-not-allowed"
+                        className="capitalize bg-[#07090e]/50 rounded-xs px-4 py-2.5 text-xs text-foreground/60 font-mono cursor-not-allowed"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
@@ -359,7 +323,7 @@ export function AdminSettingsDashboard() {
                         required
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="bg-background rounded-lg px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
+                        className="bg-background rounded-xs px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                       />
                     </div>
                   </div>
@@ -386,7 +350,7 @@ export function AdminSettingsDashboard() {
                         type={showCurrentPassword ? "text" : "password"}
                         value={currentPassword}
                         onChange={(e) => setCurrentPassword(e.target.value)}
-                        className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 pr-10 transition"
+                        className="w-full bg-[#07090e] border border-[#161b22] rounded-xs px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 pr-10 transition"
                       />
                       <button
                         type="button"
@@ -411,7 +375,7 @@ export function AdminSettingsDashboard() {
                           type={showNewPassword ? "text" : "password"}
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
-                          className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 pr-10 transition"
+                          className="w-full bg-[#07090e] border border-[#161b22] rounded-xs px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 pr-10 transition"
                         />
                         <button
                           type="button"
@@ -434,7 +398,7 @@ export function AdminSettingsDashboard() {
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 transition"
+                        className="bg-[#07090e] border border-[#161b22] rounded-xs px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 transition"
                       />
                     </div>
                   </div>
@@ -467,7 +431,7 @@ export function AdminSettingsDashboard() {
                     <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider block">
                       Active Platform Terminals
                     </label>
-                    <div className="flex items-center justify-between p-3.5 bg-[#07090e]/40 border border-[#161b22] rounded-lg text-xs gap-4">
+                    <div className="flex items-center justify-between p-3.5 bg-[#07090e]/40 border border-[#161b22] rounded-xs text-xs gap-4">
                       <div className="flex items-center gap-3 min-w-0">
                         <Laptop className="h-4 w-4 text-slate-400 shrink-0" />
                         <div className="truncate">

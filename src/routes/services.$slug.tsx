@@ -143,7 +143,7 @@ function ServiceDetail() {
               {service.benefits.map((b, i) => (
                 <li
                   key={i}
-                  className="-mx-2 flex items-start gap-3 rounded-lg px-2 py-1.5 text-sm text-foreground/85 transition-colors duration-200 hover:bg-muted"
+                  className="-mx-2 flex items-start gap-3 rounded-xs px-2 py-1.5 text-sm text-foreground/85 transition-colors duration-200 hover:bg-muted"
                 >
                   <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary">
                     <CheckCircle2 className="h-3.5 w-3.5 text-primary-foreground" />
@@ -178,7 +178,7 @@ function ServiceDetail() {
             <Link to="/quoterequest" className="group inline-block">
               <CTAButton
                 variant="primary"
-                className="rounded-lg px-12 mb-3 py-3 tracking-tight mt-4 text-base"
+                className="rounded-xs px-12 mb-3 py-3 tracking-tight mt-4 text-base"
               >
                 Request Your Free Quote
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

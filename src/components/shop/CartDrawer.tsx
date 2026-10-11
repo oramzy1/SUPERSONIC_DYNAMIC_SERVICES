@@ -5,13 +5,7 @@ import { useCart } from "@/lib/shop/cart";
 import { formatEUR, computeLineTotal } from "@/lib/shop/format";
 import { cn } from "@/lib/utils";
 
-export function CartDrawer({
-  open,
-  onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
+export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { items, updateQuantity, removeItem, totals } = useCart();
 
   useEffect(() => {
@@ -47,9 +41,7 @@ export function CartDrawer({
           <div className="flex items-center gap-2">
             <ShoppingBag className="h-4 w-4 text-primary" />
             <h2 className="font-display text-lg font-semibold">Your cart</h2>
-            <span className="text-sm text-muted-foreground">
-              ({totals.itemCount})
-            </span>
+            <span className="text-sm text-muted-foreground">({totals.itemCount})</span>
           </div>
           <button
             onClick={onClose}
@@ -66,9 +58,7 @@ export function CartDrawer({
               <div className="grid h-14 w-14 place-items-center rounded-2xl border border-white/8 bg-surface-2 text-primary">
                 <ShoppingBag className="h-5 w-5" />
               </div>
-              <p className="mt-4 font-display text-base font-semibold">
-                Your cart is empty
-              </p>
+              <p className="mt-4 font-display text-base font-semibold">Your cart is empty</p>
               <p className="mt-1 text-sm text-muted-foreground">
                 Add eco-friendly supplies to get started.
               </p>
@@ -92,14 +82,12 @@ export function CartDrawer({
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="h-20 w-20 shrink-0 rounded-lg object-cover"
+                      className="h-20 w-20 shrink-0 rounded-xs object-cover"
                       loading="lazy"
                     />
                     <div className="flex min-w-0 flex-1 flex-col">
                       <div className="flex items-start justify-between gap-2">
-                        <p className="min-w-0 truncate text-sm font-semibold">
-                          {item.name}
-                        </p>
+                        <p className="min-w-0 truncate text-sm font-semibold">{item.name}</p>
                         <button
                           aria-label="Remove"
                           onClick={() => removeItem(item.id)}
@@ -118,9 +106,7 @@ export function CartDrawer({
                         <div className="inline-flex items-center rounded-full border border-white/10">
                           <button
                             aria-label="Decrease"
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
-                            }
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             className="grid h-7 w-7 place-items-center text-muted-foreground hover:text-foreground"
                           >
                             <Minus className="h-3 w-3" />
@@ -130,17 +116,13 @@ export function CartDrawer({
                           </span>
                           <button
                             aria-label="Increase"
-                            onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
-                            }
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             className="grid h-7 w-7 place-items-center text-muted-foreground hover:text-foreground"
                           >
                             <Plus className="h-3 w-3" />
                           </button>
                         </div>
-                        <p className="text-sm font-semibold text-primary">
-                          {formatEUR(line)}
-                        </p>
+                        <p className="text-sm font-semibold text-primary">{formatEUR(line)}</p>
                       </div>
                     </div>
                   </li>
@@ -165,9 +147,7 @@ export function CartDrawer({
               )}
               <div className="flex justify-between text-muted-foreground">
                 <span>Shipping</span>
-                <span>
-                  {totals.shipping === 0 ? "Free" : formatEUR(totals.shipping)}
-                </span>
+                <span>{totals.shipping === 0 ? "Free" : formatEUR(totals.shipping)}</span>
               </div>
               <div className="flex justify-between text-muted-foreground">
                 <span>VAT (21%)</span>

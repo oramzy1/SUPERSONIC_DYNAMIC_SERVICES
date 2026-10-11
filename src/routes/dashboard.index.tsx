@@ -19,7 +19,7 @@ function StatusBadge({ status }: { status: string }) {
   const cls = map[status] || "bg-white/10 text-foreground border-white/10";
   return (
     <span
-      className={`inline-flex rounded-md border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${cls}`}
+      className={`inline-flex rounded-xs border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${cls}`}
     >
       {status.replace("_", " ")}
     </span>
@@ -69,12 +69,12 @@ function DashboardHome() {
       note: "Quotes sent to you",
     },
     { icon: Truck, label: "Active Jobs", value: String(activeJobs.length), note: "" },
-    {
-      icon: CreditCard,
-      label: "Outstanding",
-      value: `€${pendingInvoices.reduce((s, i) => s + parseFloat(i.total_amount), 0).toFixed(2)}`,
-      note: `${pendingInvoices.length} pending`,
-    },
+    // {
+    //   icon: CreditCard,
+    //   label: "Outstanding",
+    //   value: `€${pendingInvoices.reduce((s, i) => s + parseFloat(i.total_amount), 0).toFixed(2)}`,
+    //   note: `${pendingInvoices.length} pending`,
+    // },
   ];
 
   return (
@@ -98,7 +98,7 @@ function DashboardHome() {
               className="rounded-2xl bg-surface p-5"
             >
               <div className="flex items-start justify-between">
-                <div className="grid h-9 w-9 place-items-center rounded-lg bg-surface">
+                <div className="grid h-9 w-9 place-items-center rounded-xs bg-surface">
                   <Icon className="h-4 w-4 text-foreground/80" />
                 </div>
                 {s.note && (

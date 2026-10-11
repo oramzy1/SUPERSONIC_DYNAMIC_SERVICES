@@ -11,23 +11,14 @@ export const Route = createFileRoute("/shop/account/orders/$id")({
   notFoundComponent: () => (
     <div className="rounded-2xl border border-white/8 bg-surface p-8 text-center">
       <p className="font-display text-lg font-semibold">Order not found</p>
-      <Link
-        to="/shop/account/orders"
-        className="mt-4 inline-block text-sm text-primary"
-      >
+      <Link to="/shop/account/orders" className="mt-4 inline-block text-sm text-primary">
         Back to orders
       </Link>
     </div>
   ),
 });
 
-const STATUS_FLOW: OrderStatus[] = [
-  "processing",
-  "confirmed",
-  "shipped",
-  "delivered",
-  "completed",
-];
+const STATUS_FLOW: OrderStatus[] = ["processing", "confirmed", "shipped", "delivered", "completed"];
 
 function OrderDetail() {
   const { id } = Route.useParams();
@@ -51,12 +42,8 @@ function OrderDetail() {
             <p className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase">
               Order
             </p>
-            <h2 className="mt-1 font-display text-2xl font-bold">
-              {order.number}
-            </h2>
-            <p className="text-xs text-muted-foreground">
-              Placed {formatDate(order.createdAt)}
-            </p>
+            <h2 className="mt-1 font-display text-2xl font-bold">{order.number}</h2>
+            <p className="text-xs text-muted-foreground">Placed {formatDate(order.createdAt)}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <button
@@ -117,22 +104,17 @@ function OrderDetail() {
               {order.address.line1}
               {order.address.line2 && `, ${order.address.line2}`}
               <br />
-              {order.address.postcode} {order.address.city},{" "}
-              {order.address.country}
+              {order.address.postcode} {order.address.city}, {order.address.country}
             </span>
           </p>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Method: {order.shippingMethod}
-          </p>
+          <p className="mt-3 text-xs text-muted-foreground">Method: {order.shippingMethod}</p>
         </div>
         <div className="rounded-2xl border border-white/8 bg-surface p-5">
           <h3 className="font-display text-base font-semibold">Payment</h3>
           <p className="mt-2 text-sm text-muted-foreground">
             {order.paymentMethod} · {order.paymentStatus}
           </p>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Receipt sent to {order.email}
-          </p>
+          <p className="mt-3 text-xs text-muted-foreground">Receipt sent to {order.email}</p>
         </div>
       </div>
 
@@ -140,26 +122,17 @@ function OrderDetail() {
         <h3 className="font-display text-base font-semibold">Items</h3>
         <ul className="mt-3 divide-y divide-white/8">
           {order.items.map((i) => (
-            <li
-              key={i.id}
-              className="grid grid-cols-[56px_1fr_auto] items-center gap-3 py-3"
-            >
-              <img
-                src={i.image}
-                alt=""
-                className="h-14 w-14 rounded-lg object-cover"
-              />
+            <li key={i.id} className="grid grid-cols-[56px_1fr_auto] items-center gap-3 py-3">
+              <img src={i.image} alt="" className="h-14 w-14 rounded-xs object-cover" />
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold">{i.name}</p>
                 <p className="text-[11px] text-muted-foreground">
                   Qty {i.quantity}
-                  {i.mode === 'rent' && ` · ${i.durationDays}d rental`}
+                  {i.mode === "rent" && ` · ${i.durationDays}d rental`}
                   {i.color?.name && ` · ${i.color.name}`}
                 </p>
               </div>
-              <p className="text-sm font-semibold">
-                {formatEUR(computeLineTotal(i))}
-              </p>
+              <p className="text-sm font-semibold">{formatEUR(computeLineTotal(i))}</p>
             </li>
           ))}
         </ul>
@@ -168,10 +141,7 @@ function OrderDetail() {
           {order.discount > 0 && (
             <Row label="Discount" value={`−${formatEUR(order.discount)}`} accent />
           )}
-          <Row
-            label="Shipping"
-            value={order.shipping === 0 ? "Free" : formatEUR(order.shipping)}
-          />
+          <Row label="Shipping" value={order.shipping === 0 ? "Free" : formatEUR(order.shipping)} />
           <Row label="VAT (21%)" value={formatEUR(order.vat)} />
           <div className="mt-2 flex justify-between border-t border-white/8 pt-2 text-base font-semibold">
             <span>Total</span>
@@ -183,15 +153,7 @@ function OrderDetail() {
   );
 }
 
-function Row({
-  label,
-  value,
-  accent,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-}) {
+function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
   return (
     <div className="flex justify-between text-muted-foreground">
       <span>{label}</span>

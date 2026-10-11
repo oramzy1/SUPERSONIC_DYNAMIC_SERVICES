@@ -483,7 +483,7 @@ function CheckoutPage() {
                 <img
                   src={i.image}
                   alt=""
-                  className="h-12 w-12 rounded-lg object-cover border border-border"
+                  className="h-12 w-12 rounded-xs object-cover border border-border"
                 />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium text-foreground">{i.name}</p>
@@ -520,7 +520,7 @@ function CheckoutPage() {
 }
 
 const input =
-  "h-11 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none shadow-xs";
+  "h-11 w-full rounded-xs border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none shadow-xs";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (

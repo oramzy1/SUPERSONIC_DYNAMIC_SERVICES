@@ -7,7 +7,6 @@ import {
   Bot,
   Zap,
   CheckCircle2,
-  AlertCircle,
   Paperclip,
   Loader2,
   FileText,
@@ -18,6 +17,7 @@ import {
 } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { supportApi } from "@/lib/api";
+import { showError, showErrorText, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/ticket")({
   component: RouteComponent,
@@ -45,7 +45,6 @@ function RouteComponent() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [attachments, setAttachments] = useState<File[]>([]);
   const [ticketId, setTicketId] = useState<string | null>(null);
 
@@ -81,14 +80,13 @@ function RouteComponent() {
 
   const handleSubmitTicket = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMsg(null);
 
     if (!form.subject || !form.description) {
-      setErrorMsg("Subject and description are required.");
+      showErrorText("Subject and description are required.");
       return;
     }
     if (form.description.length < 10) {
-      setErrorMsg("Description must be at least 10 characters.");
+      showErrorText("Description must be at least 10 characters.");
       return;
     }
 
@@ -101,11 +99,9 @@ function RouteComponent() {
       });
       setTicketId(String(res.id));
       setIsSuccess(true);
+      showSuccess("Support request submitted. We'll be in touch shortly.");
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-        "Failed to submit ticket. Please try again.";
-      setErrorMsg(msg);
+      showError(err, "Failed to submit ticket. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -195,7 +191,7 @@ function RouteComponent() {
 
               <div className="space-y-4 pt-2">
                 <div className="flex items-start gap-3 text-xs text-white">
-                  <div className="p-2 rounded-lg bg-emerald-400/15 border border-emerald-300/30 text-emerald-300 mt-0.5 shrink-0">
+                  <div className="p-2 rounded-xs bg-emerald-400/15 border border-emerald-300/30 text-emerald-300 mt-0.5 shrink-0">
                     <Clock className="h-3.5 w-3.5" />
                   </div>
                   <div>
@@ -209,7 +205,7 @@ function RouteComponent() {
                 </div>
 
                 <div className="flex items-start gap-3 text-xs text-white">
-                  <div className="p-2 rounded-lg bg-white/10 border border-white/25 text-white mt-0.5 shrink-0">
+                  <div className="p-2 rounded-xs bg-white/10 border border-white/25 text-white mt-0.5 shrink-0">
                     <Headphones className="h-3.5 w-3.5" />
                   </div>
                   <div>
@@ -296,13 +292,13 @@ function RouteComponent() {
                       setTicketId(null);
                       setIsSuccess(false);
                     }}
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold hover:bg-primary/5 hover:border-primary/50 text-slate-800 transition"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xs border border-slate-300 bg-white text-xs font-semibold hover:bg-primary/5 hover:border-primary/50 text-slate-800 transition"
                   >
                     Send another message
                   </button>
                   <Link
                     to="/"
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-primary text-primary-foreground text-xs font-semibold shadow-md shadow-primary/25 hover:opacity-90 text-center transition"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xs bg-primary text-primary-foreground text-xs font-semibold shadow-md shadow-primary/25 hover:opacity-90 text-center transition"
                   >
                     Done
                   </Link>
@@ -315,7 +311,7 @@ function RouteComponent() {
                   {/* Form Header */}
                   <div className="px-6 py-5 border-b border-slate-200 bg-slate-50">
                     <h2 className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight flex items-center gap-2">
-                      <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary shrink-0">
+                      <span className="grid h-8 w-8 place-items-center rounded-xs bg-primary/10 text-primary shrink-0">
                         <FileText className="h-4 w-4" />
                       </span>
                       Submit Support Request
@@ -327,13 +323,6 @@ function RouteComponent() {
 
                   {/* Form Body Inputs */}
                   <div className="p-6 space-y-5">
-                    {errorMsg && (
-                      <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-lg flex items-start gap-2.5 animate-in fade-in duration-200">
-                        <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
-                        <span>{errorMsg}</span>
-                      </div>
-                    )}
-
                     {/* Team Selection Cards */}
                     <div className="space-y-1.5">
                       <label className="text-xs font-semibold tracking-wide text-slate-900 block">
@@ -356,7 +345,7 @@ function RouteComponent() {
                             >
                               <div className="flex items-center justify-between w-full mb-2">
                                 <div
-                                  className={`p-1.5 rounded-lg transition-colors ${
+                                  className={`p-1.5 rounded-xs transition-colors ${
                                     isActive
                                       ? "bg-primary text-primary-foreground"
                                       : "bg-slate-100 text-slate-600"
@@ -400,7 +389,7 @@ function RouteComponent() {
                           value={form.subject}
                           onChange={handleInputChange}
                           placeholder="e.g., Update delivery address"
-                          className="w-full rounded-lg border border-slate-300 bg-slate-50 py-3 px-3 text-xs text-slate-900 placeholder:text-foreground/60 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
+                          className="w-full rounded-xs border border-slate-300 bg-slate-50 py-3 px-3 text-xs text-slate-900 placeholder:text-foreground/60 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 disabled:opacity-60"
                         />
                       </div>
 
@@ -420,7 +409,7 @@ function RouteComponent() {
                           value={form.nodeIdentifier}
                           onChange={handleInputChange}
                           placeholder="e.g., BRK-90210"
-                          className="w-full rounded-lg border border-slate-300 bg-slate-50 py-3 px-3 text-xs text-slate-900 placeholder:text-foreground/60 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 disabled:opacity-60 uppercase"
+                          className="w-full rounded-xs border border-slate-300 bg-slate-50 py-3 px-3 text-xs text-slate-900 placeholder:text-foreground/60 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 disabled:opacity-60 uppercase"
                         />
                       </div>
                     </div>
@@ -456,7 +445,7 @@ function RouteComponent() {
                               type="button"
                               disabled={isSubmitting}
                               onClick={() => handleSelectPriority(prio)}
-                              className={`py-1.5 px-3 border text-center rounded-lg text-[11px] capitalize transition ${styleClass}`}
+                              className={`py-1.5 px-3 border text-center rounded-xs text-[11px] capitalize transition ${styleClass}`}
                             >
                               {prio === "critical" ? "Urgent" : prio}
                             </button>
@@ -482,7 +471,7 @@ function RouteComponent() {
                         value={form.description}
                         onChange={handleInputChange}
                         placeholder="Please provide details about your issue or question..."
-                        className="w-full rounded-lg border border-slate-300 bg-slate-50 py-2 px-3 text-xs text-slate-900 placeholder:text-foreground/60 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 disabled:opacity-60 resize-none leading-relaxed"
+                        className="w-full rounded-xs border border-slate-300 bg-slate-50 py-2 px-3 text-xs text-slate-900 placeholder:text-foreground/60 outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20 disabled:opacity-60 resize-none leading-relaxed"
                       />
                     </div>
 
@@ -507,7 +496,7 @@ function RouteComponent() {
                           type="button"
                           disabled={isSubmitting || attachments.length >= 3}
                           onClick={handleAttachClick}
-                          className="flex items-center gap-2 border border-dashed border-slate-400 hover:border-primary/60 bg-slate-50 hover:bg-primary/5 px-3 py-1.5 rounded-lg text-xs text-slate-800 transition shrink-0 disabled:opacity-40 disabled:pointer-events-none"
+                          className="flex items-center gap-2 border border-dashed border-slate-400 hover:border-primary/60 bg-slate-50 hover:bg-primary/5 px-3 py-1.5 rounded-xs text-xs text-slate-800 transition shrink-0 disabled:opacity-40 disabled:pointer-events-none"
                         >
                           <Paperclip className="h-3.5 w-3.5 shrink-0 text-primary" />
                           <span>Attach File</span>
@@ -523,7 +512,7 @@ function RouteComponent() {
                           {attachments.map((file, index) => (
                             <div
                               key={`${file.name}-${index}`}
-                              className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 animate-in slide-in-from-top-1 duration-150"
+                              className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xs px-3 py-1.5 animate-in slide-in-from-top-1 duration-150"
                             >
                               <div className="flex items-center gap-2 min-w-0">
                                 <FileText className="h-3.5 w-3.5 text-primary shrink-0" />
@@ -556,7 +545,7 @@ function RouteComponent() {
                   <div className="flex items-center gap-2 w-full sm:w-auto">
                     <Link
                       to="/"
-                      className="flex-1 sm:flex-none px-4 py-3 text-center text-xs font-semibold border border-slate-300 hover:border-primary/50 bg-white text-slate-700 hover:text-slate-900 rounded-lg transition"
+                      className="flex-1 sm:flex-none px-4 py-3 text-center text-xs font-semibold border border-slate-300 hover:border-primary/50 bg-white text-slate-700 hover:text-slate-900 rounded-xs transition"
                     >
                       Cancel
                     </Link>
@@ -565,7 +554,7 @@ function RouteComponent() {
                       variant="primary"
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-primary-foreground text-xs font-semibold transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+                      className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-3 rounded-xs text-primary-foreground text-xs font-semibold transition hover:opacity-90 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
                     >
                       {isSubmitting ? (
                         <>

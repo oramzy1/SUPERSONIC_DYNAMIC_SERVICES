@@ -16,6 +16,7 @@ import {
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useAuth } from "@/contexts/AuthContext";
 import Logo from "@/components/shared/Logo";
+import { showError, showErrorText, showSuccess } from "@/lib/toast";
 
 interface AdminAuthGuardProps {
   children: React.ReactNode;
@@ -57,7 +58,6 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
   const isAdminRole =
     isAuthenticated && user && ["admin", "dispatcher", "crew", "finance"].includes(user.role);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [errors, setErrors] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [armed, setArmed] = useState(false);
@@ -96,15 +96,14 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors(null);
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
-      setErrors("Please enter a valid email address.");
+      showErrorText("Please enter a valid email address.");
       return;
     }
     if (formData.password.length < 1) {
-      setErrors("Password field cannot be empty.");
+      showErrorText("Password field cannot be empty.");
       return;
     }
 
@@ -112,13 +111,11 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
     try {
       await login({ email: formData.email, password: formData.password });
       writeRemembered(formData.rememberMe ? formData.email.trim() : null);
+      showSuccess("Signed in successfully.");
       setIsSuccess(true);
       if (onSuccess) onSuccess();
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-        "Invalid email or password. Please try again.";
-      setErrors(msg);
+      showError(err, "Invalid email or password. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -190,12 +187,6 @@ export function AdminAuthGuard({ children, onSuccess }: AdminAuthGuardProps) {
               </div>
 
               <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
-                {errors && (
-                  <div className="border-l-4 border-red-600 bg-red-50 text-red-700 text-xs p-3 font-medium">
-                    {errors}
-                  </div>
-                )}
-
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/80">
                     Email Address

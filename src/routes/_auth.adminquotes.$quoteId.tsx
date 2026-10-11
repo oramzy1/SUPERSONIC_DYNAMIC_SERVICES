@@ -15,8 +15,8 @@ import {
 import { accountApi, quotesApi } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { GenerateQuoteModal } from "@/components/admin/GeneralQuoteModal";
-import { CounterOfferModal } from "@/components/admin/CounterOfferModal";
 import { QuoteLineItem } from "@/lib/api-types";
+import { showError, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/_auth/adminquotes/$quoteId")({
   component: QuoteDetailPage,
@@ -30,13 +30,6 @@ const STATUS_STYLES: Record<string, string> = {
   rejected: "bg-rose-500/5 border-rose-500/20 text-rose-400",
 };
 
-function errMsg(err: unknown): string {
-  return (
-    (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-    (err as Error)?.message ||
-    "Request failed. Please try again."
-  );
-}
 function formatDate(iso?: string | null): string {
   if (!iso) return "-";
   return new Date(iso).toLocaleDateString("en-GB", {
@@ -50,13 +43,11 @@ function QuoteDetailPage() {
   const { quoteId } = Route.useParams();
   const id = Number(quoteId);
   const queryClient = useQueryClient();
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [generating, setGenerating] = useState(false);
-  const [countering, setCountering] = useState(false);
 
   const { data: requests = [], isLoading: requestsLoading } = useQuery({
     queryKey: ["admin", "quotes", "all"],
-    queryFn: () => quotesApi.listRequests(),
+    queryFn: () => quotesApi.listAllRequests(),
   });
   const row = requests.find((r) => r.id === id);
 
@@ -89,30 +80,18 @@ function QuoteDetailPage() {
       setGenerating(false);
       queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
       queryClient.invalidateQueries({ queryKey: ["admin", "quote-detail", id] });
-      setToast({ type: "success", message: "Quote sent - awaiting customer response." });
+      showSuccess("Quote sent - awaiting customer response.");
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to send quote."),
   });
 
   const rejectMutation = useMutation({
     mutationFn: () => quotesApi.reject(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
-      setToast({ type: "success", message: "Quote request rejected." });
+      showSuccess("Quote request rejected.");
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
-  });
-
-  const counterMutation = useMutation({
-    mutationFn: ({ amount, message }: { amount: string; message?: string }) =>
-      quotesApi.counterOffer(id, { amount, message }),
-    onSuccess: () => {
-      setCountering(false);
-      queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
-      queryClient.invalidateQueries({ queryKey: ["admin", "quote-detail", id] });
-      setToast({ type: "success", message: "Counter sent - awaiting customer response." });
-    },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to reject quote."),
   });
 
   const acceptMutation = useMutation({
@@ -120,12 +99,11 @@ function QuoteDetailPage() {
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["admin", "quotes"] });
       queryClient.invalidateQueries({ queryKey: ["admin", "quote-detail", id] });
-      setToast({
-        type: "success",
-        message: `Counter offer accepted - contract #${res.contract_id} (${res.contract_status}).`,
-      });
+      showSuccess(
+        `Counter offer accepted - contract #${res.contract_id} (${res.contract_status}).`,
+      );
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to accept counter offer."),
   });
 
   if (requestsLoading || quoteLoading) {
@@ -145,7 +123,7 @@ function QuoteDetailPage() {
         <Breadcrumbs
           items={[{ label: "Quotes", to: "/adminquotes" }, { label: `Quote #${quoteId}` }]}
         />
-        <div className="bg-surface border border-white/6 rounded-xl p-8 text-center">
+        <div className="bg-surface border border-white/6 rounded-xs p-8 text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#E2A54A]/10 border border-[#E2A54A]/20">
             <span className="text-[#E2A54A] text-lg">!</span>
           </div>
@@ -156,7 +134,7 @@ function QuoteDetailPage() {
           <div className="mt-5">
             <Link
               to="/adminquotes"
-              className="inline-flex items-center justify-center rounded-lg bg-[#E2A54A]/10 border border-[#E2A54A]/20 px-4 py-2 text-xs font-semibold text-[#E2A54A] hover:bg-[#E2A54A]/20 transition"
+              className="inline-flex items-center justify-center rounded-xs bg-[#E2A54A]/10 border border-[#E2A54A]/20 px-4 py-2 text-xs font-semibold text-[#E2A54A] hover:bg-[#E2A54A]/20 transition"
             >
               Back to Quotes
             </Link>
@@ -175,13 +153,12 @@ function QuoteDetailPage() {
   const awaitingAdmin =
     status === "counter_offered" && !!latestCounter && latestCounter.offered_by !== me?.id;
 
-  const canGenerate = status === "pending"; // first price only
-  const canCounter = awaitingAdmin;
+  const canGenerate = status === "pending" || awaitingAdmin; // first price only
   const canAccept = awaitingAdmin;
   const canReject = status === "pending" || status === "quoted" || awaitingAdmin;
   const modalTitle =
     status === "counter_offered"
-      ? "Send New Quote"
+      ? "Send New Offer"
       : status === "quoted"
         ? "Re-quote"
         : "Generate Quote";
@@ -190,24 +167,12 @@ function QuoteDetailPage() {
     <div className="w-full text-foreground/80 select-none pb-12">
       <Breadcrumbs items={[{ label: "Quotes", to: "/adminquotes" }, { label: `Quote #${id}` }]} />
 
-      {toast && (
-        <div
-          className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border transition-all ${
-            toast.type === "success"
-              ? "bg-[#0c1017] border-emerald-500/30 text-emerald-400"
-              : "bg-[#0c1017] border-rose-500/30 text-rose-400"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
-
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold tracking-tight text-foreground/80">Quote #{id}</h1>
             <span
-              className={`inline-flex items-center px-2 py-0.5 rounded border text-[9px] font-bold tracking-wider uppercase ${STATUS_STYLES[status] || "bg-white/4 text-slate-400 border-white/4"}`}
+              className={`inline-flex items-center px-2 py-0.5 rounded-xs border text-[9px] font-bold tracking-wider uppercase ${STATUS_STYLES[status] || "bg-white/4 text-slate-400 border-white/4"}`}
             >
               {status.replace("_", " ")}
             </span>
@@ -220,28 +185,20 @@ function QuoteDetailPage() {
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          {canAccept && (
+          {/* {canAccept && (
             <button
               onClick={() => acceptMutation.mutate()}
               disabled={acceptMutation.isPending}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-md hover:bg-emerald-500/10 transition duration-150 disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-xs hover:bg-emerald-500/10 transition duration-150 disabled:opacity-50"
             >
               <CheckCircle2 className="w-3 h-3" /> Accept €{latestCounter?.amount}
             </button>
-          )}
-          {canCounter && (
-            <button
-              onClick={() => setCountering(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E2A54A] text-slate-950 text-[10px] font-bold rounded-md hover:bg-[#d4963b] transition duration-150"
-            >
-              <ArrowLeftRight className="w-3 h-3" /> Counter
-            </button>
-          )}
+          )} */}
           {canReject && (
             <button
               onClick={() => rejectMutation.mutate()}
               disabled={rejectMutation.isPending}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-rose-500/20 text-rose-400 text-[10px] font-bold rounded-md hover:bg-rose-500/10 transition duration-150 disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-rose-500/20 text-rose-400 text-[10px] font-bold rounded-xs hover:bg-rose-500/10 transition duration-150 disabled:opacity-50"
             >
               <XCircle className="w-3 h-3" /> Reject
             </button>
@@ -249,7 +206,7 @@ function QuoteDetailPage() {
           {canGenerate && (
             <button
               onClick={() => setGenerating(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E2A54A] text-slate-950 text-[10px] font-bold rounded-md hover:bg-[#d4963b] transition duration-150"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#E2A54A] text-slate-950 text-[10px] font-bold rounded-xs hover:bg-[#d4963b] transition duration-150"
             >
               <Wand2 className="w-3 h-3" /> {modalTitle}
             </button>
@@ -258,7 +215,7 @@ function QuoteDetailPage() {
       </div>
 
       {status === "accepted" && quote && (
-        <div className="mb-6 rounded-xl border border-emerald-500/20 bg-surface p-5 space-y-3">
+        <div className="mb-6 rounded-xs border border-emerald-500/20 bg-surface p-5 space-y-3">
           <p className="text-sm font-semibold text-emerald-400 flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4" /> Quote accepted
           </p>
@@ -267,7 +224,7 @@ function QuoteDetailPage() {
               <Link
                 to="/adminjobs/$jobId"
                 params={{ jobId: String(quote.job_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold text-foreground/70 bg-white/10 hover:bg-white/15 rounded-lg px-3 py-2"
+                className="flex items-center gap-1.5 text-xs font-bold text-foreground/70 bg-white/10 hover:bg-white/15 rounded-xs px-3 py-2"
               >
                 <Truck className="w-3.5 h-3.5" /> View Job #{quote.job_id}
               </Link>
@@ -276,7 +233,7 @@ function QuoteDetailPage() {
               <Link
                 to="/admincontracts/$contractId"
                 params={{ contractId: String(quote.contract_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold text-foreground/70 bg-white/10 hover:bg-white/15 rounded-lg px-3 py-2"
+                className="flex items-center gap-1.5 text-xs font-bold text-foreground/70 bg-white/10 hover:bg-white/15 rounded-xs px-3 py-2"
               >
                 <FileSignature className="w-3.5 h-3.5" /> Contract (
                 {(quote.contract_status ?? "sent").replace("_", " ")})
@@ -286,7 +243,7 @@ function QuoteDetailPage() {
               <Link
                 to="/admininvoices/$invoiceId"
                 params={{ invoiceId: String(quote.invoice_id) }}
-                className="flex items-center gap-1.5 text-xs font-bold text-foreground/70 bg-white/10 hover:bg-white/15 rounded-lg px-3 py-2"
+                className="flex items-center gap-1.5 text-xs font-bold text-foreground/70 bg-white/10 hover:bg-white/15 rounded-xs px-3 py-2"
               >
                 <Receipt className="w-3.5 h-3.5" /> Invoice {quote.invoice_number ?? ""}
               </Link>
@@ -296,7 +253,7 @@ function QuoteDetailPage() {
       )}
 
       {status === "counter_offered" && latestCounter && (
-        <div className="mb-6 rounded-xl border border-violet-500/20 bg-violet-500/5 p-5">
+        <div className="mb-6 rounded-xs border border-violet-500/20 bg-violet-500/5 p-5">
           <div className="flex items-center gap-2 text-violet-400 mb-1">
             <ArrowLeftRight className="w-4 h-4" />
             <h3 className="text-xs font-bold uppercase tracking-wider">
@@ -319,12 +276,39 @@ function QuoteDetailPage() {
               <span className="text-slate-300 font-semibold">€{quote.total_price}</span>
             </p>
           )}
+          {awaitingAdmin && (
+            <p className="text-xs text-violet-300/80 mt-3 border-t border-violet-500/10 pt-3">
+              {quote?.line_items?.length
+                ? "Revise the line items to reflect your new price. Quotes sent to customers should carry a breakdown."
+                : "Your last quote had no line items. Add a breakdown to your new offer so the customer can see what the price covers."}
+            </p>
+          )}
         </div>
       )}
 
+      {quote?.line_items?.length ? (
+        <div className="mb-6 bg-surface border border-white/6 rounded-xs p-6">
+          <p className="text-[10px] font-bold uppercase tracking-wider text-foreground/80 mb-3">
+            {status === "counter_offered" ? "Your Last Quote" : "Quote Breakdown"}
+          </p>
+          <div className="divide-y divide-white/5">
+            {quote.line_items.map((li, i) => (
+              <div key={i} className="flex items-center justify-between py-2 text-sm">
+                <span className="text-foreground/70">{li.description}</span>
+                <span className="font-mono text-foreground/80">€{li.amount}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center justify-between pt-3 mt-1 border-t border-white/6 text-sm font-bold">
+            <span>Total</span>
+            <span className="font-mono">€{quote.total_price}</span>
+          </div>
+        </div>
+      ) : null}
+
       {row && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="lg:col-span-2 bg-surface border border-white/6 rounded-xl p-6 space-y-4">
+          <div className="lg:col-span-2 bg-surface border border-white/6 rounded-xs p-6 space-y-4">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-foreground/80 mb-1">
                 Route
@@ -345,20 +329,30 @@ function QuoteDetailPage() {
                 Move:{" "}
                 <span className="text-foreground/60 font-semibold">{row.move_date || "-"}</span>
               </span>
-              <span className="text-foreground/80">
-                Delivery:{" "}
-                <span className="text-foreground/60 font-semibold">{row.delivery_date || "-"}</span>
-              </span>
-              <span className="text-foreground/80">
-                Weight:{" "}
-                <span className="text-foreground/60 font-semibold">
-                  {row.freight_weight || "-"}
+              {row.delivery_date && (
+                <span className="text-foreground/80">
+                  Delivery:{" "}
+                  <span className="text-foreground/60 font-semibold">
+                    {row.delivery_date || "-"}
+                  </span>
                 </span>
-              </span>
-              <span className="text-foreground/80">
-                Storage:{" "}
-                <span className="text-foreground/60 font-semibold">{row.storage_size || "-"}</span>
-              </span>
+              )}
+              {row.freight_weight && (
+                <span className="text-foreground/80">
+                  Weight:{" "}
+                  <span className="text-foreground/60 font-semibold">
+                    {row.freight_weight || "-"}
+                  </span>
+                </span>
+              )}
+              {row.storage_size && (
+                <span className="text-foreground/80">
+                  Storage:{" "}
+                  <span className="text-foreground/60 font-semibold">
+                    {row.storage_size || "-"}
+                  </span>
+                </span>
+              )}
             </div>
             {row.additional_services?.length ? (
               <div>
@@ -369,9 +363,9 @@ function QuoteDetailPage() {
                   {row.additional_services.map((s, i) => (
                     <span
                       key={i}
-                      className="px-2 py-0.5 rounded bg-white/4 border border-white/6 text-slate-400 text-[10px]"
+                      className="px-2 py-0.5 rounded-xs bg-white/4 border border-white/6 text-slate-400 text-[10px]"
                     >
-                      {s}
+                      {s.replace("_", " ")}
                     </span>
                   ))}
                 </div>
@@ -391,7 +385,7 @@ function QuoteDetailPage() {
             )}
           </div>
 
-          <div className="bg-surface border border-white/6 rounded-xl p-6 space-y-1">
+          <div className="bg-surface border border-white/6 rounded-xs p-6 space-y-1">
             <p className="text-[10px] font-bold uppercase tracking-wider text-foreground/80 mb-2">
               Contact
             </p>
@@ -414,7 +408,7 @@ function QuoteDetailPage() {
       )}
 
       {!row && quote && (
-        <div className="bg-[#0d111a]/40 border border-white/6 rounded-xl p-6 text-sm text-foreground/60">
+        <div className="bg-[#0d111a]/40 border border-white/6 rounded-xs p-6 text-sm text-foreground/60">
           This quote's originating request details aren't available - showing pricing only. Quote{" "}
           {quote.quote_number}: €{quote.total_price}, valid until {formatDate(quote.valid_until)}.
         </div>
@@ -426,19 +420,11 @@ function QuoteDetailPage() {
           busy={generateMutation.isPending}
           title={modalTitle}
           initialAmount={status === "counter_offered" ? latestCounter?.amount : undefined}
+          initialLineItems={status === "counter_offered" ? quote?.line_items : undefined}
           onClose={() => setGenerating(false)}
           onSubmit={(amount, days, lineItems) =>
             generateMutation.mutate({ amount, days, lineItems })
           }
-        />
-      )}
-
-      {countering && (
-        <CounterOfferModal
-          currentAmount={quote?.total_price}
-          busy={counterMutation.isPending}
-          onClose={() => setCountering(false)}
-          onSubmit={(amount, message) => counterMutation.mutate({ amount, message })}
         />
       )}
     </div>

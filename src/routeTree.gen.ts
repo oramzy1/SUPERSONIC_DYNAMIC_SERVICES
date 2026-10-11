@@ -21,6 +21,7 @@ import { Route as QuoterequestRouteImport } from './routes/quoterequest'
 import { Route as QuoteprocessingRouteImport } from './routes/quoteprocessing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as HelpdeskRouteImport } from './routes/helpdesk'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CookiesRouteImport } from './routes/cookies'
@@ -42,6 +43,7 @@ import { Route as ShopAccountRouteImport } from './routes/shop.account'
 import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
 import { Route as ServicesSlugRouteImport } from './routes/services.$slug'
 import { Route as PaymentSuccessRouteImport } from './routes/payment.success'
+import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as UserSetnewpasswordRouteImport } from './routes/_user.setnewpassword'
 import { Route as UserRegisterRouteImport } from './routes/_user.register'
@@ -49,6 +51,7 @@ import { Route as UserLoginRouteImport } from './routes/_user.login'
 import { Route as UserForgotpasswordRouteImport } from './routes/_user.forgotpassword'
 import { Route as UserCrewregisterRouteImport } from './routes/_user.crewregister'
 import { Route as AuthAdmintrackingRouteImport } from './routes/_auth.admintracking'
+import { Route as AuthAdminsupportRouteImport } from './routes/_auth.adminsupport'
 import { Route as AuthAdminsettingsRouteImport } from './routes/_auth.adminsettings'
 import { Route as AuthAdminservicesRouteImport } from './routes/_auth.adminservices'
 import { Route as AuthAdminnotificationsRouteImport } from './routes/_auth.adminnotifications'
@@ -142,6 +145,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpdeskRoute = HelpdeskRouteImport.update({
+  id: '/helpdesk',
+  path: '/helpdesk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqsRoute = FaqsRouteImport.update({
@@ -246,6 +254,11 @@ const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
   path: '/payment/success',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardSupportRoute = DashboardSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardProfileRoute = DashboardProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -279,6 +292,11 @@ const UserCrewregisterRoute = UserCrewregisterRouteImport.update({
 const AuthAdmintrackingRoute = AuthAdmintrackingRouteImport.update({
   id: '/admintracking',
   path: '/admintracking',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthAdminsupportRoute = AuthAdminsupportRouteImport.update({
+  id: '/adminsupport',
+  path: '/adminsupport',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthAdminsettingsRoute = AuthAdminsettingsRouteImport.update({
@@ -467,6 +485,7 @@ export interface FileRoutesByFullPath {
   '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
+  '/helpdesk': typeof HelpdeskRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
@@ -484,6 +503,7 @@ export interface FileRoutesByFullPath {
   '/adminnotifications': typeof AuthAdminnotificationsRoute
   '/adminservices': typeof AuthAdminservicesRoute
   '/adminsettings': typeof AuthAdminsettingsRoute
+  '/adminsupport': typeof AuthAdminsupportRoute
   '/admintracking': typeof AuthAdmintrackingRoute
   '/crewregister': typeof UserCrewregisterRoute
   '/forgotpassword': typeof UserForgotpasswordRoute
@@ -491,6 +511,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof UserRegisterRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/support': typeof DashboardSupportRoute
   '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
@@ -539,6 +560,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/faqs': typeof FaqsRoute
+  '/helpdesk': typeof HelpdeskRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
@@ -554,6 +576,7 @@ export interface FileRoutesByTo {
   '/adminnotifications': typeof AuthAdminnotificationsRoute
   '/adminservices': typeof AuthAdminservicesRoute
   '/adminsettings': typeof AuthAdminsettingsRoute
+  '/adminsupport': typeof AuthAdminsupportRoute
   '/admintracking': typeof AuthAdmintrackingRoute
   '/crewregister': typeof UserCrewregisterRoute
   '/forgotpassword': typeof UserForgotpasswordRoute
@@ -561,6 +584,7 @@ export interface FileRoutesByTo {
   '/register': typeof UserRegisterRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/support': typeof DashboardSupportRoute
   '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
@@ -613,6 +637,7 @@ export interface FileRoutesById {
   '/cookies': typeof CookiesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/faqs': typeof FaqsRoute
+  '/helpdesk': typeof HelpdeskRoute
   '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/quoteprocessing': typeof QuoteprocessingRoute
@@ -630,6 +655,7 @@ export interface FileRoutesById {
   '/_auth/adminnotifications': typeof AuthAdminnotificationsRoute
   '/_auth/adminservices': typeof AuthAdminservicesRoute
   '/_auth/adminsettings': typeof AuthAdminsettingsRoute
+  '/_auth/adminsupport': typeof AuthAdminsupportRoute
   '/_auth/admintracking': typeof AuthAdmintrackingRoute
   '/_user/crewregister': typeof UserCrewregisterRoute
   '/_user/forgotpassword': typeof UserForgotpasswordRoute
@@ -637,6 +663,7 @@ export interface FileRoutesById {
   '/_user/register': typeof UserRegisterRoute
   '/_user/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/profile': typeof DashboardProfileRoute
+  '/dashboard/support': typeof DashboardSupportRoute
   '/payment/success': typeof PaymentSuccessRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
@@ -688,6 +715,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/dashboard'
     | '/faqs'
+    | '/helpdesk'
     | '/notifications'
     | '/privacy'
     | '/quoteprocessing'
@@ -705,6 +733,7 @@ export interface FileRouteTypes {
     | '/adminnotifications'
     | '/adminservices'
     | '/adminsettings'
+    | '/adminsupport'
     | '/admintracking'
     | '/crewregister'
     | '/forgotpassword'
@@ -712,6 +741,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/setnewpassword'
     | '/dashboard/profile'
+    | '/dashboard/support'
     | '/payment/success'
     | '/services/$slug'
     | '/shop/$slug'
@@ -760,6 +790,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cookies'
     | '/faqs'
+    | '/helpdesk'
     | '/notifications'
     | '/privacy'
     | '/quoteprocessing'
@@ -775,6 +806,7 @@ export interface FileRouteTypes {
     | '/adminnotifications'
     | '/adminservices'
     | '/adminsettings'
+    | '/adminsupport'
     | '/admintracking'
     | '/crewregister'
     | '/forgotpassword'
@@ -782,6 +814,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/setnewpassword'
     | '/dashboard/profile'
+    | '/dashboard/support'
     | '/payment/success'
     | '/services/$slug'
     | '/shop/$slug'
@@ -833,6 +866,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/dashboard'
     | '/faqs'
+    | '/helpdesk'
     | '/notifications'
     | '/privacy'
     | '/quoteprocessing'
@@ -850,6 +884,7 @@ export interface FileRouteTypes {
     | '/_auth/adminnotifications'
     | '/_auth/adminservices'
     | '/_auth/adminsettings'
+    | '/_auth/adminsupport'
     | '/_auth/admintracking'
     | '/_user/crewregister'
     | '/_user/forgotpassword'
@@ -857,6 +892,7 @@ export interface FileRouteTypes {
     | '/_user/register'
     | '/_user/setnewpassword'
     | '/dashboard/profile'
+    | '/dashboard/support'
     | '/payment/success'
     | '/services/$slug'
     | '/shop/$slug'
@@ -910,6 +946,7 @@ export interface RootRouteChildren {
   CookiesRoute: typeof CookiesRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   FaqsRoute: typeof FaqsRoute
+  HelpdeskRoute: typeof HelpdeskRoute
   NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   QuoteprocessingRoute: typeof QuoteprocessingRoute
@@ -1013,6 +1050,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/helpdesk': {
+      id: '/helpdesk'
+      path: '/helpdesk'
+      fullPath: '/helpdesk'
+      preLoaderRoute: typeof HelpdeskRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faqs': {
@@ -1162,6 +1206,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PaymentSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/support': {
+      id: '/dashboard/support'
+      path: '/support'
+      fullPath: '/dashboard/support'
+      preLoaderRoute: typeof DashboardSupportRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/profile': {
       id: '/dashboard/profile'
       path: '/profile'
@@ -1209,6 +1260,13 @@ declare module '@tanstack/react-router' {
       path: '/admintracking'
       fullPath: '/admintracking'
       preLoaderRoute: typeof AuthAdmintrackingRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/adminsupport': {
+      id: '/_auth/adminsupport'
+      path: '/adminsupport'
+      fullPath: '/adminsupport'
+      preLoaderRoute: typeof AuthAdminsupportRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/adminsettings': {
@@ -1458,6 +1516,7 @@ interface AuthRouteChildren {
   AuthAdminnotificationsRoute: typeof AuthAdminnotificationsRoute
   AuthAdminservicesRoute: typeof AuthAdminservicesRoute
   AuthAdminsettingsRoute: typeof AuthAdminsettingsRoute
+  AuthAdminsupportRoute: typeof AuthAdminsupportRoute
   AuthAdmintrackingRoute: typeof AuthAdmintrackingRoute
   AuthAdmincontractsContractIdRoute: typeof AuthAdmincontractsContractIdRoute
   AuthAdmincustomersUserIdRoute: typeof AuthAdmincustomersUserIdRoute
@@ -1477,6 +1536,7 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthAdminnotificationsRoute: AuthAdminnotificationsRoute,
   AuthAdminservicesRoute: AuthAdminservicesRoute,
   AuthAdminsettingsRoute: AuthAdminsettingsRoute,
+  AuthAdminsupportRoute: AuthAdminsupportRoute,
   AuthAdmintrackingRoute: AuthAdmintrackingRoute,
   AuthAdmincontractsContractIdRoute: AuthAdmincontractsContractIdRoute,
   AuthAdmincustomersUserIdRoute: AuthAdmincustomersUserIdRoute,
@@ -1529,6 +1589,7 @@ const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
 
 interface DashboardRouteChildren {
   DashboardProfileRoute: typeof DashboardProfileRoute
+  DashboardSupportRoute: typeof DashboardSupportRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardInvoicesInvoiceIdRoute: typeof DashboardInvoicesInvoiceIdRoute
   DashboardJobsJobIdRoute: typeof DashboardJobsJobIdRoute
@@ -1540,6 +1601,7 @@ interface DashboardRouteChildren {
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardProfileRoute: DashboardProfileRoute,
+  DashboardSupportRoute: DashboardSupportRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardInvoicesInvoiceIdRoute: DashboardInvoicesInvoiceIdRoute,
   DashboardJobsJobIdRoute: DashboardJobsJobIdRoute,
@@ -1629,6 +1691,7 @@ const rootRouteChildren: RootRouteChildren = {
   CookiesRoute: CookiesRoute,
   DashboardRoute: DashboardRouteWithChildren,
   FaqsRoute: FaqsRoute,
+  HelpdeskRoute: HelpdeskRoute,
   NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   QuoteprocessingRoute: QuoteprocessingRoute,

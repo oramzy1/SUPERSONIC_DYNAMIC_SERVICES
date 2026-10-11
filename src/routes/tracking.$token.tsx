@@ -166,7 +166,7 @@ function TrackingPage() {
                   key={i}
                   src={photo as string}
                   alt={`Move photo ${i + 1}`}
-                  className="rounded-lg w-full h-32 object-cover"
+                  className="rounded-xs w-full h-32 object-cover"
                 />
               ))}
             </div>

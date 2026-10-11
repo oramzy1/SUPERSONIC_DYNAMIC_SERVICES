@@ -11,7 +11,7 @@ export function SystemThemePromptBanner() {
     <div className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-40 max-w-sm w-[calc(100vw-2rem)] sm:w-96 rounded-2xl bg-surface border border-border p-4 shadow-xl text-foreground backdrop-blur-xl animate-in slide-in-from-bottom-5 fade-in duration-300">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-secondary text-secondary-foreground">
+          <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xs bg-secondary text-secondary-foreground">
             <Laptop className="h-4 w-4" />
           </div>
           <div>
@@ -19,7 +19,8 @@ export function SystemThemePromptBanner() {
               Theme Preference
             </h5>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-              We've set your theme to automatically match your system settings. Would you like to maintain this preference?
+              We've set your theme to automatically match your system settings. Would you like to
+              maintain this preference?
             </p>
           </div>
         </div>
@@ -37,14 +38,14 @@ export function SystemThemePromptBanner() {
         <button
           type="button"
           onClick={() => respondToSystemPrompt("rejected")}
-          className="px-3 py-1.5 rounded-lg border border-border bg-surface-2 hover:bg-accent text-foreground transition font-medium"
+          className="px-3 py-1.5 rounded-xs border border-border bg-surface-2 hover:bg-accent text-foreground transition font-medium"
         >
           Customize
         </button>
         <button
           type="button"
           onClick={() => respondToSystemPrompt("maintained")}
-          className="px-3 py-1.5 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition font-medium"
+          className="px-3 py-1.5 rounded-xs bg-primary text-primary-foreground hover:opacity-90 transition font-medium"
         >
           Maintain
         </button>

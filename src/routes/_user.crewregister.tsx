@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useAuth } from "@/contexts/AuthContext";
+import { showError, showErrorText, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/_user/crewregister")({
   component: CrewRegisterPage,
@@ -24,7 +25,6 @@ function CrewRegisterPage() {
   const { register } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [errors, setErrors] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -39,23 +39,22 @@ function CrewRegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors(null);
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
-      setErrors("Please enter a valid email address.");
+      showErrorText("Please enter a valid email address.");
       return;
     }
     if (formData.password !== formData.confirmPassword) {
-      setErrors("Passwords do not match. Please re-enter.");
+      showErrorText("Passwords do not match. Please re-enter.");
       return;
     }
     if (formData.password.length < 8) {
-      setErrors("Password must be at least 8 characters.");
+      showErrorText("Password must be at least 8 characters.");
       return;
     }
     if (!formData.agreeTerms) {
-      setErrors("You must accept the Terms of Service to create an account.");
+      showErrorText("You must accept the Terms of Service to create an account.");
       return;
     }
 
@@ -69,15 +68,11 @@ function CrewRegisterPage() {
         phone: formData.phoneNumber || undefined,
         role: "crew",
       });
-      // Crew registration always resolves to the crew dashboard - no need to
-      // inspect a role value that may not have re-rendered yet.
+      showSuccess("Crew account created. Ride On!💪");
       setIsSuccess(true);
       setTimeout(() => navigate({ to: "/crewdashboard" as any }), 1500);
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-        "Registration failed. Please try again.";
-      setErrors(msg);
+      showError(err, "Registration failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -125,12 +120,6 @@ function CrewRegisterPage() {
 
           <div className="rounded-[24px] border border-white/10 bg-white/2 p-6 sm:p-8 backdrop-blur-xl shadow-1xl w-full">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {errors && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium">
-                  {errors}
-                </div>
-              )}
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
@@ -144,7 +133,7 @@ function CrewRegisterPage() {
                       placeholder="Jane Crewman"
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                      className="w-full rounded-xs border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                     />
                   </div>
                 </div>
@@ -160,7 +149,7 @@ function CrewRegisterPage() {
                       placeholder="+31 (6) 000-0000"
                       value={formData.phoneNumber}
                       onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                      className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                      className="w-full rounded-xs border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                     />
                   </div>
                 </div>
@@ -178,7 +167,7 @@ function CrewRegisterPage() {
                     placeholder="name@supersonic.nl"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                    className="w-full rounded-xs border border-white/10 bg-white/4 py-3 pl-11 pr-4 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
                 </div>
               </div>
@@ -196,7 +185,7 @@ function CrewRegisterPage() {
                       placeholder="••••••••"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                      className="w-full rounded-xs border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                     />
                     <button
                       type="button"
@@ -221,7 +210,7 @@ function CrewRegisterPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, confirmPassword: e.target.value })
                       }
-                      className="w-full rounded-lg border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
+                      className="w-full rounded-xs border border-white/10 bg-white/4 py-3 pl-11 pr-12 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                     />
                     <button
                       type="button"
@@ -267,7 +256,7 @@ function CrewRegisterPage() {
                 type="submit"
                 disabled={isSubmitting}
                 style={{ backgroundColor: "var(--primary)" }}
-                className="w-full rounded-lg py-3 text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
+                className="w-full rounded-xs py-3 text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 mt-4 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>

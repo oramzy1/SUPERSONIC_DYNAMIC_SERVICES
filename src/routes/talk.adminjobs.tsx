@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { adminApi, jobsApi, accountApi } from "@/lib/api";
 import type { DashboardJob, ProfileResponse } from "@/lib/api-types";
+import { showError, showSuccess } from "@/lib/toast";
 
 export const Route = createFileRoute("/talk/adminjobs")({
   component: RouteComponent,
@@ -96,14 +97,6 @@ const JOB_STATUS_STYLES: Record<string, string> = {
   cancelled: "bg-white/4 text-foreground/60 border-white/4",
 };
 
-function errMsg(err: unknown): string {
-  return (
-    (err as { response?: { data?: { detail?: string } } })?.response?.data?.detail ||
-    (err as Error)?.message ||
-    "Request failed. Please try again."
-  );
-}
-
 function formatDate(iso?: string | null): string {
   if (!iso) return "-";
   return new Date(iso).toLocaleString("en-GB", {
@@ -118,7 +111,6 @@ function RouteComponent() {
   const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("All");
   const [assigning, setAssigning] = useState<DashboardJob | null>(null);
-  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const { data: dash, isLoading: dashLoading } = useQuery({
     queryKey: ["admin", "dashboard"],
@@ -159,9 +151,9 @@ function RouteComponent() {
       jobsApi.updateStatus(id, { status }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin", "dashboard"] });
-      setToast({ type: "success", message: "Job status updated." });
+      showSuccess("Job status updated.");
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to update job status."),
   });
 
   const scheduleMutation = useMutation({
@@ -180,9 +172,9 @@ function RouteComponent() {
       queryClient.invalidateQueries({ queryKey: ["admin", "dashboard"] });
       queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
       setAssigning(null);
-      setToast({ type: "success", message: "Crew assigned and job scheduled." });
+      showSuccess("Crew assigned and job scheduled.");
     },
-    onError: (err) => setToast({ type: "error", message: errMsg(err) }),
+    onError: (err) => showError(err, "Failed to assign crew."),
   });
 
   const summaryMetrics = [
@@ -199,18 +191,6 @@ function RouteComponent() {
 
   return (
     <div className="w-full text-foreground select-none pb-12">
-      {toast && (
-        <div
-          className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border transition-all ${
-            toast.type === "success"
-              ? "bg-[#0c1017] border-emerald-500/30 text-emerald-400"
-              : "bg-[#0c1017] border-rose-500/30 text-rose-400"
-          }`}
-        >
-          {toast.message}
-        </div>
-      )}
-
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">Active Assignments</h1>
@@ -240,7 +220,7 @@ function RouteComponent() {
                   {card.title}
                 </span>
                 <div
-                  className={`p-1.5 bg-white/2 rounded-lg border border-white/6 ${card.tone ?? "text-[#E2A54A]"}`}
+                  className={`p-1.5 bg-white/2 rounded-xs border border-white/6 ${card.tone ?? "text-[#E2A54A]"}`}
                 >
                   <Icon className="w-4 h-4" />
                 </div>
@@ -256,7 +236,7 @@ function RouteComponent() {
       </div>
 
       {statusOptions.length > 1 && (
-        <div className="flex items-center gap-1.5 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 p-1 rounded-lg text-xs font-medium text-slate-400 overflow-x-auto w-fit mb-4">
+        <div className="flex items-center gap-1.5 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 p-1 rounded-xs text-xs font-medium text-slate-400 overflow-x-auto w-fit mb-4">
           {statusOptions.map((s) => (
             <button
               key={s}
@@ -275,7 +255,7 @@ function RouteComponent() {
 
       {visible.length === 0 ? (
         <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl py-16 px-5 flex flex-col items-center justify-center gap-2 text-center">
-          <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
+          <div className="p-2.5 bg-white/2 rounded-xs border border-white/6 text-foreground/60 mb-1">
             <PackageSearch className="w-4 h-4" />
           </div>
           <p className="text-sm font-medium text-slate-300">No assigned jobs found</p>
@@ -484,7 +464,7 @@ function AssignJobModal({
                 required
                 value={start}
                 onChange={(e) => setStart(e.target.value)}
-                className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#E2A54A]/60"
+                className="w-full bg-[#07090e] border border-[#161b22] rounded-xs px-3 py-2 text-xs text-white focus:outline-none focus:border-[#E2A54A]/60"
               />
             </div>
             <div className="space-y-1.5">
@@ -496,7 +476,7 @@ function AssignJobModal({
                 required
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
-                className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#E2A54A]/60"
+                className="w-full bg-[#07090e] border border-[#161b22] rounded-xs px-3 py-2 text-xs text-white focus:outline-none focus:border-[#E2A54A]/60"
               />
             </div>
           </div>
@@ -514,7 +494,7 @@ function AssignJobModal({
                 crewMembers.map((member) => (
                   <label
                     key={member.id}
-                    className={`flex items-center justify-between gap-3 cursor-pointer px-3 py-2 rounded-lg border transition ${
+                    className={`flex items-center justify-between gap-3 cursor-pointer px-3 py-2 rounded-xs border transition ${
                       crew.includes(member.id)
                         ? "bg-[#E2A54A]/10 border-[#E2A54A]/30"
                         : "bg-[#07090e] border-[#161b22] hover:border-[#252c3a]"
@@ -547,14 +527,14 @@ function AssignJobModal({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg border border-white/6 text-xs font-semibold text-slate-400 hover:bg-white/5 transition"
+              className="px-4 py-2 rounded-xs border border-white/6 text-xs font-semibold text-slate-400 hover:bg-white/5 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting || crew.length === 0 || !start || !end}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#E2A54A] text-slate-950 text-xs font-bold hover:bg-[#d4963b] transition disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 rounded-xs bg-[#E2A54A] text-slate-950 text-xs font-bold hover:bg-[#d4963b] transition disabled:opacity-50"
             >
               {isSubmitting && <Loader2 className="w-3 h-3 animate-spin" />} Assign & Schedule
             </button>
