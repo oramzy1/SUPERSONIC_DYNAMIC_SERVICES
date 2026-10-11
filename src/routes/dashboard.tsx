@@ -26,16 +26,16 @@ function DashboardLayout() {
   const { setIsThemeModalOpen, isThemeModalOpen } = useTheme();
 
   return (
-     <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
+     <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
       <DashboardSidebar />
       <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
         <DashboardTopbar
-          onMenuOpen={() => setSidebarOpen(true)}
+          onMenuOpen={() => window.dispatchEvent(new Event("toggle-user-sidebar"))}
           onNotificationsClick={() => setNotifSheetOpen(true)}
         />
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
           <Outlet />
-        </main>
+        </main> 
       </div>
 
       <NotificationsSheet open={notifSheetOpen} onClose={() => setNotifSheetOpen(false)} role="customer" />

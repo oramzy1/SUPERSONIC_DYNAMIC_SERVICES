@@ -162,7 +162,7 @@ function Home() {
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/quoterequest" className="group">
                 <CTAButton
-                  className="rounded-xs px-6 py-3.5 flex items-center bg-primary text-white justify-center gap-2 text-foreground"
+                  className="rounded-xs px-6 py-3.5 flex items-center bg-primary text-white justify-center gap-2"
                 >
                   <FileText className="h-4 w-4 transition-transform text-white duration-300 group-hover:scale-110" />
                   <span className="text-white" >Request Your Free Quote</span>

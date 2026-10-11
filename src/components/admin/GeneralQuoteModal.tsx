@@ -3,7 +3,12 @@ import { Loader2, Wand2 } from "lucide-react";
 import type { QuoteLineItem, QuoteRequestResponse } from "@/lib/api-types";
 
 export function GenerateQuoteModal({
-  quote, busy, title = "Generate Quote", initialAmount, onClose, onSubmit,
+  quote,
+  busy,
+  title = "Generate Quote",
+  initialAmount,
+  onClose,
+  onSubmit,
 }: {
   quote: QuoteRequestResponse;
   busy: boolean;
@@ -46,7 +51,9 @@ export function GenerateQuoteModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
       <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0d111a] p-6 shadow-2xl">
-        <h3 className="text-lg font-bold text-white">{title} #{quote.id}</h3>
+        <h3 className="text-lg font-bold text-white">
+          {title} #{quote.id}
+        </h3>
         <p className="mt-1 text-xs text-slate-400">
           {quote.move_type.replace("-", " ")} · {quote.address_from} → {quote.address_to}
         </p>
@@ -59,23 +66,25 @@ export function GenerateQuoteModal({
 
         <div className="mt-4 space-y-4">
           <div>
-            <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground/60">
               Price (€)
             </label>
- <input
-    value={effectiveAmount}
-    onChange={(e) => setAmount(e.target.value)}
-    disabled={lineItems.length > 0}
-    placeholder="e.g. 1250.00"
-    inputMode="decimal"
-    className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-white outline-none focus:border-[#E2A54A]/50 disabled:opacity-60"
-  />
-  {lineItems.length > 0 && (
-    <p className="mt-1 text-[10px] text-slate-500">Auto-calculated from line items below.</p>
-  )}
+            <input
+              value={effectiveAmount}
+              onChange={(e) => setAmount(e.target.value)}
+              disabled={lineItems.length > 0}
+              placeholder="e.g. 1250.00"
+              inputMode="decimal"
+              className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-white outline-none focus:border-[#E2A54A]/50 disabled:opacity-60"
+            />
+            {lineItems.length > 0 && (
+              <p className="mt-1 text-[10px] text-foreground/60">
+                Auto-calculated from line items below.
+              </p>
+            )}
           </div>
           <div>
-            <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-foreground/60">
               Valid for (days)
             </label>
             <input
@@ -86,47 +95,55 @@ export function GenerateQuoteModal({
               onChange={(e) => setValidDays(Number(e.target.value))}
               className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-white outline-none focus:border-[#E2A54A]/50"
             />
-            <p className="mt-1 text-[10px] text-slate-500">Max 90 days.</p>
+            <p className="mt-1 text-[10px] text-foreground/60">Max 90 days.</p>
           </div>
-            <div>
-    <div className="flex items-center justify-between mb-1">
-      <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">
-        Line Items (optional)
-      </label>
-      <button onClick={addItem} type="button" className="text-[10px] font-bold text-[#E2A54A] hover:underline">
-        + Add item
-      </button>
-    </div>
-    <div className="space-y-2">
-      {lineItems.map((li, i) => (
-        <div key={i} className="flex gap-2">
-          <input
-            value={li.description}
-            onChange={(e) => updateItem(i, { description: e.target.value })}
-            placeholder="Description"
-            className="flex-1 rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
-          />
-          <input
-            value={li.amount}
-            onChange={(e) => updateItem(i, { amount: e.target.value })}
-            placeholder="€"
-            inputMode="decimal"
-            className="w-24 rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
-          />
-          <button onClick={() => removeItem(i)} type="button" className="text-slate-500 hover:text-rose-400 px-1">
-            ✕
-          </button>
-        </div>
-      ))}
-    </div>
-  </div>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-foreground/60">
+                Line Items (optional)
+              </label>
+              <button
+                onClick={addItem}
+                type="button"
+                className="text-[10px] font-bold text-[#E2A54A] hover:underline"
+              >
+                + Add item
+              </button>
+            </div>
+            <div className="space-y-2">
+              {lineItems.map((li, i) => (
+                <div key={i} className="flex gap-2">
+                  <input
+                    value={li.description}
+                    onChange={(e) => updateItem(i, { description: e.target.value })}
+                    placeholder="Description"
+                    className="flex-1 rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
+                  />
+                  <input
+                    value={li.amount}
+                    onChange={(e) => updateItem(i, { amount: e.target.value })}
+                    placeholder="€"
+                    inputMode="decimal"
+                    className="w-24 rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
+                  />
+                  <button
+                    onClick={() => removeItem(i)}
+                    type="button"
+                    className="text-foreground/60 hover:text-rose-400 px-1"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="mt-6 flex justify-end gap-3">
           <button
             onClick={onClose}
             disabled={busy}
-            className="rounded-lg px-4 py-2 text-xs font-semibold text-slate-400 hover:text-slate-200 disabled:opacity-50"
+            className="rounded-lg px-4 py-2 text-xs font-semibold text-slate-400 hover:text-foreground disabled:opacity-50"
           >
             Cancel
           </button>

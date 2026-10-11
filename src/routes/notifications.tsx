@@ -132,7 +132,7 @@ function RouteComponent() {
             <span className="text-[11px] font-black tracking-tight text-primary uppercase leading-tight">
               Supersonic <span>Dynamic Services B.V.</span>
             </span>
-            <span className="text-[9px] text-slate-500 tracking-widest uppercase hidden sm:block mt-0.5">
+            <span className="text-[9px] text-foreground/60 tracking-widest uppercase hidden sm:block mt-0.5">
               Operations Terminal · Live Customer Updates
             </span>
           </div>
@@ -166,7 +166,7 @@ function RouteComponent() {
                 </span>
               )}
             </div>
-            <p className="text-[11px] text-slate-500 mb-4">
+            <p className="text-[11px] text-foreground/60 mb-4">
               Real-time status, dispatch tracking, receipts, & account actions.
             </p>
 
@@ -189,13 +189,13 @@ function RouteComponent() {
                     className={`relative px-3 py-2 text-[11px] font-semibold rounded-t-lg flex items-center gap-1.5 shrink-0 whitespace-nowrap transition-all duration-150 ${
                       isActive
                         ? "bg-primary/10 text-primary border-t border-x border-primary/20 border-b-transparent -mb-px pb-2.25"
-                        : "text-slate-400 hover:text-slate-200 hover:bg-white/3 border border-transparent"
+                        : "text-slate-400 hover:text-foreground hover:bg-white/3 border border-transparent"
                     }`}
                   >
                     {tab.label}
                     <span
                       className={`text-[10px] px-1.5 py-px rounded font-mono ${
-                        isActive ? "bg-primary/20 text-primary" : "bg-white/5 text-slate-500"
+                        isActive ? "bg-primary/20 text-primary" : "bg-white/5 text-foreground/60"
                       }`}
                     >
                       {count}
@@ -269,7 +269,7 @@ function RouteComponent() {
                           {log.time}
                         </span>
                       </div>
-                      <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-2">
+                      <p className="text-[11px] text-foreground/60 leading-relaxed line-clamp-2">
                         {log.message}
                       </p>
                     </div>
@@ -300,12 +300,12 @@ function RouteComponent() {
               })
             ) : (
               <div className="flex flex-col items-center justify-center gap-3 py-16 px-8 text-center">
-                <div className="w-11 h-11 rounded-xl bg-white/4 border border-white/6 flex items-center justify-center text-slate-500">
+                <div className="w-11 h-11 rounded-xl bg-white/4 border border-white/6 flex items-center justify-center text-foreground/60">
                   <Inbox className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-slate-300 mb-1">No notifications yet</p>
-                  <p className="text-[11px] text-slate-500 max-w-xs">
+                  <p className="text-[11px] text-foreground/60 max-w-xs">
                     You're all caught up. New activity in this category will appear here.
                   </p>
                 </div>
@@ -353,7 +353,7 @@ function RouteComponent() {
                   <h2 className="text-[15px] font-bold text-white leading-snug tracking-tight">
                     {selectedNotification.title}
                   </h2>
-                  <p className="text-[11px] text-slate-500 font-medium">
+                  <p className="text-[11px] text-foreground/60 font-medium">
                     Logged event · {selectedNotification.time}
                   </p>
                 </div>
@@ -370,7 +370,7 @@ function RouteComponent() {
                 {/* Manifest */}
                 {selectedNotification.detailedContent && (
                   <div className="space-y-2">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-foreground/60">
                       Manifest &amp; Detailed Context
                     </p>
                     <pre className="rounded-[10px] bg-[#050810] border border-white/5 p-4 text-[11px] font-mono text-slate-400 leading-[1.7] whitespace-pre-wrap overflow-x-auto">
@@ -400,7 +400,7 @@ function RouteComponent() {
               </div>
               <div>
                 <p className="text-xs font-semibold text-slate-300 mb-1">Select a notification</p>
-                <p className="text-[11px] text-slate-500 max-w-50">
+                <p className="text-[11px] text-foreground/60 max-w-50">
                   Click any item in the feed to view its full details here.
                 </p>
               </div>

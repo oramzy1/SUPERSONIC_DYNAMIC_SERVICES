@@ -35,7 +35,12 @@ function CrewHome() {
   const metrics = [
     { title: "TOTAL ASSIGNMENTS", value: String(jobs.length), icon: Truck },
     { title: "IN PROGRESS", value: String(inProgressCount), icon: Clock, tone: "text-[#E2A54A]" },
-    { title: "COMPLETED", value: String(completedCount), icon: CheckCircle2, tone: "text-emerald-400" },
+    {
+      title: "COMPLETED",
+      value: String(completedCount),
+      icon: CheckCircle2,
+      tone: "text-emerald-400",
+    },
   ];
 
   // Up next: soonest-scheduled jobs that aren't finished/cancelled yet.
@@ -45,8 +50,7 @@ function CrewHome() {
     .slice(0, 3);
 
   return (
-    <div className="mx-auto max-w-5xl w-full text-slate-200 pb-12">
-
+    <div className="mx-auto max-w-5xl w-full text-foreground pb-12">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white">
@@ -64,14 +68,25 @@ function CrewHome() {
         {metrics.map((m, i) => {
           const Icon = m.icon;
           return (
-            <div key={i} className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-32">
+            <div
+              key={i}
+              className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-32"
+            >
               <div className="flex items-start justify-between w-full">
-                <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">{m.title}</span>
-                <div className={`p-1.5 bg-white/2 rounded-lg border border-white/6 ${m.tone ?? "text-[#E2A54A]"}`}>
+                <span className="text-[10px] font-bold tracking-wider text-foreground/60 uppercase">
+                  {m.title}
+                </span>
+                <div
+                  className={`p-1.5 bg-white/2 rounded-lg border border-white/6 ${m.tone ?? "text-[#E2A54A]"}`}
+                >
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
-              <h3 className={`text-3xl font-bold tracking-tight font-mono ${m.tone ?? "text-white"}`}>{m.value}</h3>
+              <h3
+                className={`text-3xl font-bold tracking-tight font-mono ${m.tone ?? "text-white"}`}
+              >
+                {m.value}
+              </h3>
             </div>
           );
         })}
@@ -80,17 +95,20 @@ function CrewHome() {
       <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl overflow-hidden flex flex-col mb-6">
         <div className="flex items-center justify-between p-5 border-b border-white/6">
           <h2 className="text-sm font-bold text-white tracking-tight">Up Next</h2>
-          <Link to="/crewdashboard/job" className="text-[10px] font-bold uppercase tracking-wider text-[#E2A54A] hover:opacity-80 flex items-center gap-1">
+          <Link
+            to="/crewdashboard/job"
+            className="text-[10px] font-bold uppercase tracking-wider text-[#E2A54A] hover:opacity-80 flex items-center gap-1"
+          >
             View All <ChevronRight className="w-3 h-3" />
           </Link>
         </div>
 
         {isLoading ? (
-          <p className="text-sm text-slate-500 py-10 text-center">Loading assignments...</p>
+          <p className="text-sm text-foreground/60 py-10 text-center">Loading assignments...</p>
         ) : upNext.length === 0 ? (
           <div className="py-10 px-5 text-center">
             <p className="text-sm font-medium text-slate-300">Nothing scheduled right now</p>
-            <p className="text-xs text-slate-500 mt-1">New assignments will show up here.</p>
+            <p className="text-xs text-foreground/60 mt-1">New assignments will show up here.</p>
           </div>
         ) : (
           <div className="divide-y divide-white/4">
@@ -108,7 +126,7 @@ function CrewHome() {
                       {job.status.replace("_", " ")}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1.5 flex items-center gap-1.5">
+                  <p className="text-xs text-foreground/60 mt-1.5 flex items-center gap-1.5">
                     <Calendar className="w-3 h-3" /> {formatDate(job.scheduled_start)}
                   </p>
                 </div>
@@ -124,20 +142,24 @@ function CrewHome() {
           to="/crewdashboard/job"
           className="flex items-center gap-3 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 hover:bg-white/2 transition"
         >
-          <div className="p-2 bg-white/2 rounded-lg border border-white/6 text-[#E2A54A]"><Truck className="w-4 h-4" /></div>
+          <div className="p-2 bg-white/2 rounded-lg border border-white/6 text-[#E2A54A]">
+            <Truck className="w-4 h-4" />
+          </div>
           <div>
             <p className="text-xs font-bold text-white">My Assignments</p>
-            <p className="text-[11px] text-slate-500">See all jobs assigned to you</p>
+            <p className="text-[11px] text-foreground/60">See all jobs assigned to you</p>
           </div>
         </Link>
         <Link
           to="/crewdashboard/profile"
           className="flex items-center gap-3 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 hover:bg-white/2 transition"
         >
-          <div className="p-2 bg-white/2 rounded-lg border border-white/6 text-[#E2A54A]"><User className="w-4 h-4" /></div>
+          <div className="p-2 bg-white/2 rounded-lg border border-white/6 text-[#E2A54A]">
+            <User className="w-4 h-4" />
+          </div>
           <div>
             <p className="text-xs font-bold text-white">Profile Settings</p>
-            <p className="text-[11px] text-slate-500">Update your details and password</p>
+            <p className="text-[11px] text-foreground/60">Update your details and password</p>
           </div>
         </Link>
       </div>

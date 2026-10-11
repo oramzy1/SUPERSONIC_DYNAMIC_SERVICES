@@ -19,9 +19,9 @@ import {
   Menu,
   X,
   Signature,
+  LifeBuoy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import logo from "@/assets/images/logo.png";
 import Logo from "../shared/Logo";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfileSettings } from "@/hooks/useProfileSettings";
@@ -29,14 +29,15 @@ import { useProfileSettings } from "@/hooks/useProfileSettings";
 const NAV = [
   { to: "/admindashboard", label: "Dashboard", icon: LayoutGrid },
   { to: "/adminquotes", label: "Quotes", icon: FileText },
-  { to: "/adminjobs", label: "Jobs", icon: Briefcase },
   { to: "/admincontracts", label: "Contracts", icon: Signature },
+  { to: "/adminjobs", label: "Jobs", icon: Briefcase },
   { to: "/admincustomers", label: "Customers", icon: Users },
   { to: "/admininvoices", label: "Invoices", icon: Receipt },
+  { to: "/adminsupport", label: "Support", icon: LifeBuoy },
   { to: "/adminservices", label: "Services", icon: Wrench },
   { to: "/admintracking", label: "Tracking", icon: MapPin },
   { to: "/adminanalytics", label: "Analytics", icon: BarChart3 },
-  { to: "/adminnotifications", label: "Notifications", icon: Bell },
+  // { to: "/adminnotifications", label: "Notifications", icon: Bell },
   { to: "/adminsettings", label: "Settings", icon: Settings },
 ] as const;
 
@@ -46,7 +47,7 @@ export function AdminDashboardSidebar() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const { avatarUrl } = useProfileSettings()
+  const { avatarUrl } = useProfileSettings();
 
   const desktopMenuRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -104,7 +105,7 @@ export function AdminDashboardSidebar() {
           <Logo />
           <button
             onClick={() => setIsMobileOpen(false)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-white/4 hover:text-slate-200 md:hidden focus:outline-none"
+            className="flex h-8 w-8 items-center justify-center rounded-xs text-slate-400 hover:bg-white/4 hover:text-foreground md:hidden focus:outline-none"
           >
             <X className="h-5 w-5" />
           </button>
@@ -120,10 +121,10 @@ export function AdminDashboardSidebar() {
                 key={n.to}
                 to={n.to}
                 className={cn(
-                  "relative flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition duration-200 group w-full",
+                  "relative flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xs group w-full",
                   active
                     ? "text-[#E2A54A] bg-[#E2A54A]/5 font-semibold"
-                    : "text-slate-400 hover:bg-white/3 hover:text-slate-200",
+                    : "text-foreground/70 hover:bg-white/3 hover:text-foreground/50",
                 )}
               >
                 {active && (
@@ -148,21 +149,21 @@ export function AdminDashboardSidebar() {
         className="relative flex flex-col gap-4 px-3 border-t border-white/6 pt-4 shrink-0 w-full"
       >
         {isMenuOpen && (
-          <div className="absolute bottom-full left-3 right-3 mb-2 z-60 flex flex-col gap-1 bg-[#0d111a] border border-white/8 backdrop-blur-xl rounded-xl p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150 max-w-full overflow-hidden">
+          <div className="absolute bottom-full left-3 right-3 mb-2 z-60 flex flex-col gap-1 bg-[#0d111a] border border-white/8 backdrop-blur-xl rounded-xs p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150 max-w-full overflow-hidden">
             {/* <button
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate focus:outline-none"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-foreground hover:bg-white/4 rounded-xs transition truncate focus:outline-none"
             >
-              <User className="h-4 w-4 shrink-0 text-slate-500" />
+              <User className="h-4 w-4 shrink-0 text-foreground/60" />
               <span className="truncate">View Profile</span>
             </button> */}
 
             <Link
               to={"/adminsettings" as any}
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-foreground hover:bg-white/4 rounded-xs transition truncate"
             >
-              <Settings className="h-4 w-4 shrink-0 text-slate-500" />
+              <Settings className="h-4 w-4 shrink-0 text-foreground/60" />
               <span className="truncate">Account Settings</span>
             </Link>
 
@@ -170,7 +171,7 @@ export function AdminDashboardSidebar() {
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 rounded-lg transition truncate focus:outline-none"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 rounded-xs transition truncate focus:outline-none"
             >
               <LogOut className="h-4 w-4 shrink-0 text-rose-400/80" />
               <span className="truncate">Log Out</span>
@@ -181,14 +182,17 @@ export function AdminDashboardSidebar() {
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className={cn(
-            "flex items-center justify-between w-full gap-2 px-3 py-2 bg-white/2 rounded-xl border border-white/6 text-left outline-none transition focus:border-white/15 hover:bg-white/4 overflow-hidden",
+            "flex items-center justify-between w-full gap-2 px-3 py-2 bg-white/2 rounded-xs border border-white/6 text-left outline-none transition focus:border-white/15 hover:bg-white/4 overflow-hidden",
             isMenuOpen && "border-white/15 bg-white/4",
           )}
         >
           <div className="flex items-center gap-3 truncate min-w-0 flex-1">
             <div className="relative shrink-0">
               <img
-                src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"}
+                src={
+                  avatarUrl ||
+                  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+                }
                 alt="Admin User"
                 className="w-9 h-9 rounded-full object-cover border border-white/8"
               />
@@ -196,16 +200,16 @@ export function AdminDashboardSidebar() {
             </div>
 
             <div className="flex flex-col truncate min-w-0">
-              <span className="text-xs font-semibold text-slate-200 truncate capitalize leading-tight">
-               {user?.full_name || "Admin"}
+              <span className="text-xs font-semibold text-foreground/70 truncate capitalize leading-tight">
+                {user?.full_name || "Admin"}
               </span>
-              <span className="text-[11px] text-slate-500 truncate leading-none mt-0.5">
+              <span className="text-[11px] text-foreground/60 truncate leading-none my-0.5">
                 {user?.email || "admin@supersonicdynamicservices.nl"}
               </span>
             </div>
           </div>
 
-          <span className="h-4 w-4 text-slate-500 shrink-0 pointer-events-none">
+          <span className="h-4 w-4 text-foreground/60 shrink-0 pointer-events-none">
             <ChevronsUpDown className="h-4 w-4" />
           </span>
         </button>
@@ -216,20 +220,20 @@ export function AdminDashboardSidebar() {
   return (
     <>
       {/* 1. DESKTOP VIEW SIDEBAR PANEL LAYOUT */}
-      <aside className="hidden md:flex w-60 shrink-0 flex-col justify-between border-r border-white/6 bg-[#0d111a]/40 backdrop-blur-md pb-6 pt-6 relative z-40 select-none h-screen top-0">
+      <aside className="hidden md:flex w-60 shrink-0 flex-col justify-between border-r border-white/6 bg-surface backdrop-blur-md pb-6 pt-6 relative z-40 select-none h-screen top-0">
         <SidebarContent menuRef={desktopMenuRef} />
       </aside>
 
       {/* 2. MOBILE VIEW SLIDEOUT SIDEBAR DRAWER PANEL LAYOUT */}
       <div
         className={cn(
-          "fixed inset-0 z-100 bg-[#100315]/80 backdrop-blur-sm transition-opacity duration-300 md:hidden select-none",
+          "fixed inset-0 z-100 bg-background backdrop-blur-sm transition-opacity duration-300 md:hidden select-none",
           isMobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         )}
       >
         <div
           className={cn(
-            "fixed top-0 bottom-0 left-0 flex w-64 max-w-[80vw] flex-col justify-between border-r border-white/6 bg-[#0d111a] pb-6 pt-6 transition-transform duration-300 ease-in-out z-105",
+            "fixed top-0 bottom-0 left-0 flex w-64 max-w-[80vw] flex-col justify-between border-r border-white/6 bg-background pb-6 pt-6 transition-transform duration-300 ease-in-out z-105",
             isMobileOpen ? "translate-x-0" : "-translate-x-full",
           )}
           ref={mobileSidebarRef}
@@ -242,35 +246,35 @@ export function AdminDashboardSidebar() {
 }
 
 export function AdminDashboardTopbar() {
-  const { avatarUrl } = useProfileSettings
+  const { avatarUrl } = useProfileSettings();
   const handleOpenMobileSidebar = () => {
     window.dispatchEvent(new Event("toggle-admin-sidebar"));
   };
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/6 bg-surface px-4 sm:px-6 lg:px-8 py-4 backdrop-blur-xl gap-4 w-full box-border">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/6 bg-white px-4 sm:px-6 lg:px-8 py-4 backdrop-blur-xl gap-4 w-full box-border">
       <button
         onClick={handleOpenMobileSidebar}
-        className="mobile-sidebar-toggle-btn flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/2 border border-white/6 text-slate-400 hover:text-slate-200 md:hidden transition focus:outline-none"
+        className="mobile-sidebar-toggle-btn flex h-9 w-9 shrink-0 items-center justify-center rounded-xs bg-white/2 border border-white/6 text-slate-400 hover:text-foreground md:hidden transition focus:outline-none"
       >
         <Menu className="h-5 w-5" />
       </button>
 
-      <div className="flex flex-1 items-center gap-3 rounded-xl bg-white/2 px-4 py-2.5 max-w-xs sm:max-w-md border border-white/4 min-w-0">
-        <Search className="h-4 w-4 text-slate-500 shrink-0" />
+      <div className="flex flex-1 items-center gap-3 rounded-xs bg-white/2 px-4 py-2.5 max-w-xs sm:max-w-md border border-white/4 min-w-0">
+        <Search className="h-4 w-4 text-foreground/60 shrink-0" />
         <input
           placeholder="Search..."
-          className="w-full bg-transparent text-sm text-slate-200 outline-none placeholder:text-slate-500 min-w-0"
+          className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-foreground/60 min-w-0"
         />
       </div>
 
       <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-        <button className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-white/4 focus:outline-none">
+        <button className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-foreground hover:bg-white/4 focus:outline-none">
           <Bell className="h-5 w-5" />
           <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#E2A54A] rounded-full" />
         </button>
 
-        <button className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-white/4 focus:outline-none">
+        <button className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-foreground hover:bg-white/4 focus:outline-none">
           <HelpCircle className="h-5 w-5" />
         </button>
 
@@ -278,7 +282,10 @@ export function AdminDashboardTopbar() {
 
         <div className="h-9 w-9 overflow-hidden rounded-full border border-white/8 shrink-0">
           <img
-            src={avatarUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"}
+            src={
+              avatarUrl ||
+              "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
+            }
             alt="Profile Thumbnail"
             className="w-full h-full object-cover"
           />

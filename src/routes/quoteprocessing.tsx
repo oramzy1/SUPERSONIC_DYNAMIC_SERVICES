@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, Truck, Check } from "lucide-react";
 import { quotesApi } from "@/lib/api";
@@ -33,6 +33,51 @@ function RouteComponent() {
   const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+   const [done, setDone] = useState(false);
+  const requestStarted = useRef(false);
+
+    useEffect(() => {
+    if (requestStarted.current) return;
+
+    const raw = sessionStorage.getItem("sds_quote_payload");
+    if (!raw) {
+      navigate({ to: "/quoterequest" });
+      return;
+    }
+    requestStarted.current = true;
+    sessionStorage.removeItem("sds_quote_payload");
+
+    quotesApi
+      .createRequest(JSON.parse(raw))
+      .then(() => {
+        setDone(true);
+        setTimeout(() => navigate({ to: "/quotesuccess" }), 400);
+      })
+      .catch((err: unknown) => {
+        sessionStorage.setItem("sds_quote_error", extractErrorMessage(err));
+        navigate({ to: "/quoterequest" });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Purely visual progress
+  useEffect(() => {
+    if (done) {
+      setCurrentStepIndex(PROCESSING_STEPS.length - 1);
+      setProgress(100);
+      return;
+    }
+    const stepInterval = setInterval(() => {
+      setCurrentStepIndex((prev) => (prev < PROCESSING_STEPS.length - 1 ? prev + 1 : prev));
+    }, 1200);
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => (prev < 90 ? prev + 1 : prev));
+    }, 60);
+    return () => {
+      clearInterval(stepInterval);
+      clearInterval(progressInterval);
+    };
+  }, [done]);
 
   useEffect(() => {
     const raw = sessionStorage.getItem("sds_quote_payload");
@@ -148,7 +193,7 @@ function RouteComponent() {
                         ? "bg-primary border-primary text-black"
                         : isActive
                           ? "border-primary text-primary"
-                          : "border-white/20 text-slate-500"
+                          : "border-white/20 text-foreground/60"
                     }`}
                   >
                     {isCompleted ? <Check className="h-3 w-3 stroke-3" /> : index + 1}
@@ -163,7 +208,7 @@ function RouteComponent() {
             })}
           </div>
 
-          <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-medium text-slate-500">
+          <div className="pt-4 border-t border-white/10 flex items-center gap-2 text-xs font-medium text-foreground/60">
             <ShieldCheck className="h-4 w-4 text-primary/70" />
             Your information is encrypted and secure
           </div>

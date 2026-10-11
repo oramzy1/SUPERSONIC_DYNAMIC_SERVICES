@@ -16,7 +16,7 @@ export function Pill({
 }) {
   const styles: Record<Variant, string> = {
     primary: "border-primary/50 text-primary",
-    cyan: "border-[#6FE5FF]/50 text-[#6FE5FF]",
+    cyan: "border-[#E2A54A]/50 text-[#E2A54A]",
     muted: "border-white/10 text-muted-foreground",
     text: "border-transparent text-primary",
     none: "border-transparent text-foreground",

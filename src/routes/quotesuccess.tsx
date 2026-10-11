@@ -135,7 +135,7 @@ function RouteComponent() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="mt-10 inline-flex items-center gap-2 text-[11px] text-slate-500 font-medium"
+          className="mt-10 inline-flex items-center gap-2 text-[11px] text-foreground/60 font-medium"
         >
           <ShieldCheck className="h-3.5 w-3.5 text-primary/60" />
           <span>Carbon-neutral fleet, guaranteed</span>

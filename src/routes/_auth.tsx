@@ -24,7 +24,7 @@ function AuthLayout() {
   return (
     <AdminAuthGuard>
       {/* OUTER SHELL: locks viewport perfectly, handles all device screens safely */}
-      <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
+      <div className="flex h-screen w-full overflow-hidden bg-background">
 
         <AdminDashboardSidebar />
         <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">

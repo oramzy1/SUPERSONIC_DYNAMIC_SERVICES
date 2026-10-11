@@ -115,7 +115,7 @@ export interface QuoteRequestCreate {
 export interface QuoteCounterOfferResponse {
   id: number;
   offered_by: number;
-  offered_by_name?: string | null;
+  offered_by_name?: string | null; 
   amount: string;
   message?: string | null;
   created_at: string;
@@ -169,7 +169,11 @@ export interface JobResponse {
   id: number;
   status: string;
   tracking_token: string;
+  crew_members: string[];
   scheduled_start?: string | null;
+  move_from: string;
+  move_to: string;
+  crew_ids: string;
   scheduled_end?: string | null;
   photos?: unknown[] | null;
 }
@@ -177,6 +181,44 @@ export interface JobResponse {
 export interface StatusUpdateRequest {
   status: "in_progress" | "completed";
   notes?: string | null;
+}
+
+// ─── Contact ────────────────────────────────────────
+export interface ContactMessageCreate {
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject: string;
+  message: string;
+}
+
+export interface ContactMessageResponse {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject: string;
+  message: string;
+  is_read: boolean;
+  created_at: string;
+}
+
+export interface ContactMessageListResponse {
+  total: number;
+  messages: ContactMessageResponse[];
+}
+
+// ─── Support / Tickets (extend existing) ────────────
+export interface TicketDetail {
+  id: number;
+  customer_id?: number | null;
+  email: string;
+  subject: string;
+  message: string;
+  is_resolved: boolean;
+  resolved_at?: string | null;
+  resolved_by?: number | null;
+  created_at: string;
 }
 
 export interface ScheduleRequest {
@@ -203,8 +245,10 @@ export interface StatusHistoryItem {
 // ─── Invoices ───────────────────────────────────────
 export interface InvoiceResponse {
   id: number;
+  job_id: number;
   invoice_number: string;
   total_amount: string;
+  quote_number: string;
   status: string;
   invoice_type: string;
   pdf_url?: string | null;

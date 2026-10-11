@@ -101,7 +101,7 @@ export const DARK_THEME: ThemeColors = {
     accent: "#1B232B",
     accentForeground: "#E8EEF4",
     ring: "#79FF5B",
-    cyan: "#6FE5FF",
+    cyan: "#E2A54A",
   },
   ui: {
     border: "rgba(255, 255, 255, 0.08)",

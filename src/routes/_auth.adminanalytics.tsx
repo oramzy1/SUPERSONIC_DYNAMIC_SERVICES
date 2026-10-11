@@ -95,7 +95,10 @@ export function AnalyticsDashboard() {
   );
 
   const revenueTotalNum = paidInPeriod.reduce((s, i) => s + parseFloat(i.total_amount || "0"), 0);
-  const prevRevenueTotalNum = paidInPrevPeriod.reduce((s, i) => s + parseFloat(i.total_amount || "0"), 0);
+  const prevRevenueTotalNum = paidInPrevPeriod.reduce(
+    (s, i) => s + parseFloat(i.total_amount || "0"),
+    0,
+  );
   const revenueTotal = `€${revenueTotalNum.toFixed(2)}`;
   const revenueChange = pctChangeLabel(revenueTotalNum, prevRevenueTotalNum);
 
@@ -109,7 +112,9 @@ export function AnalyticsDashboard() {
       }
       paidInPeriod.forEach((inv) => {
         const d = new Date(inv.created_at);
-        const idx = (d.getFullYear() - periodStart.getFullYear()) * 12 + (d.getMonth() - periodStart.getMonth());
+        const idx =
+          (d.getFullYear() - periodStart.getFullYear()) * 12 +
+          (d.getMonth() - periodStart.getMonth());
         if (months[idx]) months[idx].total += parseFloat(inv.total_amount || "0");
       });
       return months;
@@ -117,7 +122,10 @@ export function AnalyticsDashboard() {
     const days: RevenueBucket[] = [];
     const cur = new Date(periodStart);
     while (cur <= now) {
-      days.push({ label: cur.toLocaleDateString("en-GB", { day: "2-digit", month: "short" }), total: 0 });
+      days.push({
+        label: cur.toLocaleDateString("en-GB", { day: "2-digit", month: "short" }),
+        total: 0,
+      });
       cur.setDate(cur.getDate() + 1);
     }
     paidInPeriod.forEach((inv) => {
@@ -156,7 +164,9 @@ export function AnalyticsDashboard() {
     },
   ];
 
-  const customersInPeriod = users.filter((u) => u.role === "customer" && new Date(u.created_at) >= periodStart);
+  const customersInPeriod = users.filter(
+    (u) => u.role === "customer" && new Date(u.created_at) >= periodStart,
+  );
   const customersInPrevPeriod = users.filter(
     (u) =>
       u.role === "customer" &&
@@ -189,10 +199,12 @@ export function AnalyticsDashboard() {
         crewCounts.set(c.id, entry);
       });
     });
-  const topCrews = [...crewCounts.values()].sort((a, b) => b.completedJobs - a.completedJobs).slice(0, 5);
+  const topCrews = [...crewCounts.values()]
+    .sort((a, b) => b.completedJobs - a.completedJobs)
+    .slice(0, 5);
 
   return (
-    <div className="w-full max-w-7xl mx-auto text-[#626d7c] font-sans antialiased space-y-6">
+    <div className="w-full max-w-7xl mx-auto text-foreground/80 font-sans antialiased space-y-6">
       <style>{`
         @keyframes countUp {
           from { opacity: 0; transform: translateY(6px); }
@@ -207,18 +219,18 @@ export function AnalyticsDashboard() {
       {/* TOP CONTEXT BAR */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Analytics Overview</h1>
-          <p className="text-xs text-[#626d7c] mt-1">Performance metrics for the current period</p>
+          <h1 className="text-2xl font-bold text-foreground/80 tracking-tight">Analytics Overview</h1>
+          <p className="text-xs text-foreground/60 mt-1">Performance metrics for the current period</p>
         </div>
 
         <div className="flex items-center gap-3 self-stretch sm:self-auto justify-between sm:justify-end">
-          <div className="flex bg-[#0c1017] p-1 rounded-md border border-[#161b22]">
+          <div className="flex bg-surface p-1 rounded-md">
             {(["7D", "30D", "YTD"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setTimeframe(tab)}
                 className={`px-3 py-1 text-[11px] font-medium tracking-wide rounded transition-all ${
-                  timeframe === tab ? "bg-[#1c2330] text-white" : "text-[#626d7c] hover:text-white"
+                  timeframe === tab ? "bg-surface text-foreground/80" : "text-foreground/60 hover:text-foreground"
                 }`}
               >
                 {tab}
@@ -229,7 +241,7 @@ export function AnalyticsDashboard() {
           <button
             disabled
             title="No export endpoint exists in the API yet"
-            className="flex items-center gap-1.5 bg-white/5 text-slate-500 font-bold text-[11px] tracking-wide px-3 py-1.5 rounded transition-all uppercase whitespace-nowrap cursor-not-allowed"
+            className="flex items-center gap-1.5 bg-surface text-foreground/60 font-bold text-[11px] tracking-wide px-3 py-1.5 rounded transition-all uppercase whitespace-nowrap cursor-not-allowed"
           >
             <Download className="h-3.5 w-3.5 stroke-[2.5]" />
             Export Report
@@ -239,24 +251,25 @@ export function AnalyticsDashboard() {
 
       {/* GRID ROW 1: REVENUE GROWTH GRAPH & ACQUISITION FUNNEL */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <div className="xl:col-span-2 bg-[#0c1017] border border-[#161b22] rounded-xl p-6 flex flex-col justify-between relative min-w-0">
+        <div className="xl:col-span-2 bg-surface rounded-xl p-6 flex flex-col justify-between relative min-w-0">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-base font-semibold text-white tracking-wide">Revenue Growth</h2>
-              <p className="text-xs text-[#626d7c] mt-0.5">
-                Paid invoices, {timeframe === "YTD" ? "year to date" : `last ${timeframe.toLowerCase()}`}
+              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">Revenue Growth</h2>
+              <p className="text-xs text-foreground/60 mt-0.5">
+                Paid invoices,{" "}
+                {timeframe === "YTD" ? "year to date" : `last ${timeframe.toLowerCase()}`}
               </p>
             </div>
             <div className="text-right">
               <div
-                className="text-3xl font-bold text-[#e2a54a] tracking-tight animate-stat-pop"
+                className="text-3xl font-bold text-[#E2A54A] tracking-tight animate-stat-pop"
                 style={{ animationDelay: "0.1s" }}
               >
                 {revenueTotal}
               </div>
-              <div className="text-[11px] text-[#626d7c] flex items-center justify-end gap-1 mt-1 font-medium">
+              <div className="text-[11px] text-foreground/60 flex items-center justify-end gap-1 mt-1 font-medium">
                 <span>{revenueChange}</span>
-                <span className="text-[#626d7c]">vs previous period</span>
+                <span className="text-foreground/60">vs previous period</span>
               </div>
             </div>
           </div>
@@ -265,7 +278,7 @@ export function AnalyticsDashboard() {
             {revenueBuckets.map((b, idx) => (
               <div key={idx} className="flex-1 h-full flex flex-col items-center justify-end group">
                 <div
-                  className="w-full bg-[#e2a54a]/70 group-hover:bg-[#e2a54a] rounded-sm transition-all"
+                  className="w-full bg-[#E2A54A]/70 group-hover:bg-[#E2A54A] rounded-sm transition-all"
                   style={{
                     height: isLoaded ? `${Math.max(2, (b.total / maxBucket) * 100)}%` : "0%",
                     transitionDuration: "1s",
@@ -281,37 +294,37 @@ export function AnalyticsDashboard() {
             {revenueBuckets
               .filter((_, idx) => idx % labelStep === 0)
               .map((b, idx) => (
-                <span key={idx} className="text-[10px] font-medium font-sans text-[#2d3643]">
+                <span key={idx} className="text-[10px] font-medium font-sans text-foreground/60 ">
                   {b.label}
                 </span>
               ))}
           </div>
 
           {paidInPeriod.length === 0 && (
-            <p className="text-[11px] font-medium text-[#2d3643] text-center mt-2">
+            <p className="text-[11px] font-medium text-foreground/60 text-center mt-2">
               No paid invoices in this window yet
             </p>
           )}
         </div>
 
         {/* Client Acquisition */}
-        <div className="bg-[#0c1017] border border-[#161b22] rounded-xl p-6 flex flex-col justify-between min-w-0">
+        <div className="bg-surface rounded-xl p-6 flex flex-col justify-between min-w-0">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-base font-semibold text-white tracking-wide">Acquisition</h2>
-              <p className="text-xs text-[#626d7c] mt-0.5">NEW CUSTOMER ACCOUNTS</p>
+              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">Acquisition</h2>
+              <p className="text-xs text-foreground/60 mt-0.5">NEW CUSTOMER ACCOUNTS</p>
             </div>
-            <Users className="h-4 w-4 text-[#626d7c]" />
+            <Users className="h-4 w-4 text-foreground/60" />
           </div>
 
           <div className="mt-4 flex items-baseline gap-2">
             <div
-              className="text-4xl font-bold text-white tracking-tight animate-stat-pop"
+              className="text-4xl font-bold text-foreground/80 tracking-tight animate-stat-pop"
               style={{ animationDelay: "0.2s" }}
             >
               {newClients}
             </div>
-            <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] bg-white/5 text-[#626d7c] font-bold mt-1 font-mono">
+            <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] bg-white/5 text-foreground/60 font-bold mt-1 font-mono">
               {newClientsChange}
             </span>
           </div>
@@ -320,12 +333,12 @@ export function AnalyticsDashboard() {
             {acquisitionFunnel.map((item, index) => (
               <div key={index}>
                 <div className="flex justify-between text-[11px] font-medium mb-1.5">
-                  <span className="text-[#626d7c]">{item.segment}</span>
-                  <span className="text-white font-mono">{item.qty}</span>
+                  <span className="text-foreground/60">{item.segment}</span>
+                  <span className="text-foreground/80 font-mono">{item.qty}</span>
                 </div>
                 <div className="h-2 bg-[#07090e] rounded-sm overflow-hidden">
                   <div
-                    className="h-full bg-[#e2a54a] rounded-sm transition-all cubic-bezier(0.4, 0, 0.2, 1)"
+                    className="h-full bg-[#E2A54A] rounded-sm transition-all cubic-bezier(0.4, 0, 0.2, 1)"
                     style={{
                       width: isLoaded ? item.width : "0%",
                       transitionDuration: "1.4s",
@@ -341,27 +354,31 @@ export function AnalyticsDashboard() {
 
       {/* GRID ROW 2: SERVICE VOLUME AND CREW LEADERBOARD */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <div className="bg-[#0c1017] border border-[#161b22] rounded-xl p-6 min-w-0">
+        <div className="bg-surface rounded-xl p-6 min-w-0">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-base font-semibold text-white tracking-wide">Volume by Service Type</h2>
+              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">
+                Volume by Service Type
+              </h2>
             </div>
-            <BarChart3 className="h-4 w-4 text-[#626d7c]" />
+            <BarChart3 className="h-4 w-4 text-foreground/60" />
           </div>
 
           <div className="space-y-4">
             {serviceVolume.length === 0 ? (
-              <p className="text-[11px] text-[#626d7c] text-center py-8">No quote requests in this window yet</p>
+              <p className="text-[11px] text-foreground/60 text-center py-8">
+                No quote requests in this window yet
+              </p>
             ) : (
               serviceVolume.map((item, idx) => (
                 <div key={idx}>
                   <div className="flex justify-between text-[11px] font-medium mb-1.5">
-                    <span className="text-white">{item.label}</span>
-                    <span className="text-[#626d7c] font-mono">{item.value}</span>
+                    <span className="text-foreground/80">{item.label}</span>
+                    <span className="text-foreground/60 font-mono">{item.value}</span>
                   </div>
                   <div className="h-2 bg-[#07090e] rounded-sm overflow-hidden">
                     <div
-                      className="h-full bg-[#e2a54a] rounded-sm transition-all cubic-bezier(0.4, 0, 0.2, 1)"
+                      className="h-full bg-[#E2A54A] rounded-sm transition-all cubic-bezier(0.4, 0, 0.2, 1)"
                       style={{
                         width: isLoaded ? item.pct : "0%",
                         transitionDuration: "1.2s",
@@ -376,13 +393,15 @@ export function AnalyticsDashboard() {
         </div>
 
         {/* Crew leaderboard */}
-        <div className="bg-[#0c1017] border border-[#161b22] rounded-xl p-6 flex flex-col justify-between min-w-0">
+        <div className="bg-surface rounded-xl p-6 flex flex-col justify-between min-w-0">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-base font-semibold text-white tracking-wide">Top Performing Crews</h2>
-              <p className="text-[11px] text-[#626d7c] mt-0.5">All-time completed jobs</p>
+              <h2 className="text-base font-semibold text-foreground/80 tracking-wide">
+                Top Performing Crews
+              </h2>
+              <p className="text-[11px] text-foreground/60 mt-0.5">All-time completed jobs</p>
             </div>
-            <button className="text-[11px] text-[#e2a54a] hover:underline font-bold tracking-wider flex items-center gap-0.5 uppercase">
+            <button className="text-[11px] text-[#E2A54A] hover:underline font-bold tracking-wider flex items-center gap-0.5 uppercase">
               View All
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
@@ -391,7 +410,7 @@ export function AnalyticsDashboard() {
           <div className="flex-1 overflow-x-auto w-full hidden-scrollbar">
             <table className="w-full text-left border-collapse min-w-100">
               <thead>
-                <tr className="border-b border-[#161b22] text-[10px] uppercase font-bold tracking-wider text-[#2d3643]">
+                <tr className="border-b border-[#161b22] text-[10px] uppercase font-bold tracking-wider text-foreground/60">
                   <th className="pb-3 font-semibold">Crew Member</th>
                   <th className="pb-3 font-semibold text-right">Completed Jobs</th>
                 </tr>
@@ -401,11 +420,11 @@ export function AnalyticsDashboard() {
                   <tr>
                     <td colSpan={2} className="py-10">
                       <div className="flex flex-col items-center justify-center gap-2 text-center">
-                        <div className="p-2.5 bg-white/2 rounded-lg border border-[#161b22] text-[#626d7c] mb-1">
+                        <div className="p-2.5 bg-white/2 rounded-lg border border-[#161b22] text-foreground/60 mb-1">
                           <Users className="w-4 h-4" />
                         </div>
-                        <p className="text-sm font-medium text-white">No crew data yet</p>
-                        <p className="text-[11px] text-[#626d7c] max-w-2xs">
+                        <p className="text-sm font-medium text-foreground/80">No crew data yet</p>
+                        <p className="text-[11px] text-foreground/60 max-w-2xs">
                           Rankings will appear once jobs start completing.
                         </p>
                       </div>
@@ -413,9 +432,14 @@ export function AnalyticsDashboard() {
                   </tr>
                 ) : (
                   topCrews.map((crew, idx) => (
-                    <tr key={idx} className="text-xs hover:bg-[#1c2330]/20 transition-colors duration-150">
-                      <td className="py-3.5 font-bold text-white font-mono">{crew.name}</td>
-                      <td className="py-3.5 text-right text-white font-bold font-mono">{crew.completedJobs}</td>
+                    <tr
+                      key={idx}
+                      className="text-xs hover:bg-[#1c2330]/20 transition-colors duration-150"
+                    >
+                      <td className="py-3.5 font-bold text-foreground/80 font-mono">{crew.name}</td>
+                      <td className="py-3.5 text-right text-foreground/80 font-bold font-mono">
+                        {crew.completedJobs}
+                      </td>
                     </tr>
                   ))
                 )}
@@ -426,40 +450,44 @@ export function AnalyticsDashboard() {
       </div>
 
       {/* SUSTAINABILITY ROW */}
-      <div className="bg-[#0c1017] border border-[#161b22] rounded-xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 min-w-0">
+      {/* <div className="bg-[#0c1017] border border-[#161b22] rounded-xl p-5 flex flex-col md:flex-row items-center justify-between gap-4 min-w-0">
         <div className="flex items-center gap-4">
           <div className="h-10 w-10 rounded-xl bg-[#4ade80]/5 border border-[#4ade80]/10 flex items-center justify-center text-[#4ade80]">
             <Leaf className="h-5 w-5 stroke-[1.75]" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-white tracking-wide">Carbon Offset Tracking</h3>
+            <h3 className="text-base font-semibold text-white tracking-wide">
+              Carbon Offset Tracking
+            </h3>
             <p className="text-xs text-[#626d7c] mt-0.5">
-              Not tracked by the API yet — no sustainability endpoint exists
+              Not tracked by the API yet - no sustainability endpoint exists
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-8 text-right self-end md:self-center">
           <div>
-            <span className="text-[10px] font-bold uppercase text-[#2d3643] tracking-wider block">CO2 Reduced</span>
-            <span className="text-base font-bold text-slate-600 font-mono mt-0.5 block">—</span>
+            <span className="text-[10px] font-bold uppercase text-foreground/60 tracking-wider block">
+              CO2 Reduced
+            </span>
+            <span className="text-base font-bold text-slate-600 font-mono mt-0.5 block">-</span>
           </div>
           <div className="h-8 w-px bg-[#161b22]"></div>
           <div>
-            <span className="text-[10px] font-bold uppercase text-[#2d3643] tracking-wider block">
+            <span className="text-[10px] font-bold uppercase text-foreground/60 tracking-wider block">
               EV Fleet Usage
             </span>
-            <span className="text-base font-bold text-slate-600 font-mono mt-0.5 block">—</span>
+            <span className="text-base font-bold text-slate-600 font-mono mt-0.5 block">-</span>
           </div>
           <div className="h-8 w-px bg-[#161b22]"></div>
           <div>
-            <span className="text-[10px] font-bold uppercase text-[#2d3643] tracking-wider block">
+            <span className="text-[10px] font-bold uppercase text-foreground/60 tracking-wider block">
               Goal Progress
             </span>
-            <span className="text-base font-bold text-slate-600 font-mono mt-0.5 block">—</span>
+            <span className="text-base font-bold text-slate-600 font-mono mt-0.5 block">-</span>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

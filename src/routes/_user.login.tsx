@@ -93,7 +93,7 @@
 //              <Logo />
 //               <p className="text-xs sm:text-sm text-foreground/80 font-medium">
 //                 Welcome Back! <br />
-//                 <span className="text-slate-500 font-normal">Enter your credentials to continue</span>
+//                 <span className="text-foreground/60 font-normal">Enter your credentials to continue</span>
 //               </p>
 //             </div>
 
@@ -192,7 +192,7 @@
 //             </form>
 
 //             {/* Dynamic Route Switching Links */}
-//             <p className="mt-8 text-center text-xs text-slate-500">
+//             <p className="mt-8 text-center text-xs text-foreground/60">
 //               Don't Have An Account?{" "}
 //               <a href="/register" className="text-primary hover:underline font-semibold">
 //                 Register
@@ -219,7 +219,7 @@
 //             {/* Micro details panel indicating the designated destination pipeline */}
 //             <div className="rounded-xl bg-slate-50 border border-slate-200 p-3.5 max-w-xs mx-auto flex items-center justify-between gap-3 text-left">
 //               <div className="space-y-0.5 min-w-0">
-//                 <span className="text-[9px] uppercase font-bold tracking-widest text-slate-500 block">
+//                 <span className="text-[9px] uppercase font-bold tracking-widest text-foreground/60 block">
 //                   Redirecting Destination
 //                 </span>
 //                 <span className="text-xs text-primary font-mono font-medium block truncate">
@@ -242,7 +242,6 @@
 //     </div>
 //   );
 // }
-
 
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
@@ -297,33 +296,35 @@ function dashboardPathForRole(role?: string): string {
 
 function dashboardLabelForRole(role?: string): string {
   if (role === "crew") return "Crew Dashboard (/crewdashboard)";
-  if (role && ["admin", "dispatcher", "finance"].includes(role)) return "Admin Dashboard (/admindashboard)";
+  if (role && ["admin", "dispatcher", "finance"].includes(role))
+    return "Admin Dashboard (/admindashboard)";
   return "Home Dashboard (/dashboard)";
 }
 
 const inputClass =
- "w-full h-12 rounded-none border border-slate-300 bg-transparent text-foreground/80 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition-colors focus:border-primary";
+  "w-full h-12 rounded-none border border-slate-300 bg-transparent text-foreground/80 pl-11 pr-4 text-sm placeholder-slate-400 outline-none transition-colors focus:border-primary";
 
 function UserLoginPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
   const { login, isAuthenticated, user } = useAuth();
-  const isAdminRole = isAuthenticated && user && ["admin", "dispatcher", "crew", "finance"].includes(user.role);
+  const isAdminRole =
+    isAuthenticated && user && ["admin", "dispatcher", "crew", "finance"].includes(user.role);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errors, setErrors] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [armed, setArmed] = useState(false);
   const [formData, setFormData] = useState(() => {
-  const saved = readRemembered();
-  return { email: saved, password: "", rememberMe: saved !== "" };
-});
+    const saved = readRemembered();
+    return { email: saved, password: "", rememberMe: saved !== "" };
+  });
 
   const noAutofill = {
-  autoComplete: "off",
-  readOnly: !armed,
-  onFocus: () => setArmed(true),
-};
+    autoComplete: "off",
+    readOnly: !armed,
+    onFocus: () => setArmed(true),
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -401,10 +402,12 @@ function UserLoginPage() {
 
           <ul className="border-t border-white/20 pt-6 space-y-4">
             <li className="flex items-center gap-3 text-sm text-white/90">
-              <Truck className="h-4 w-4 text-primary shrink-0" /> Moving &amp; freight haulage across the Netherlands &amp; Europe
+              <Truck className="h-4 w-4 text-primary shrink-0" /> Moving &amp; freight haulage
+              across the Netherlands &amp; Europe
             </li>
             <li className="flex items-center gap-3 text-sm text-white/90">
-              <Warehouse className="h-4 w-4 text-primary shrink-0" /> Smart, secure storage solutions
+              <Warehouse className="h-4 w-4 text-primary shrink-0" /> Smart, secure storage
+              solutions
             </li>
             <li className="flex items-center gap-3 text-sm text-white/90">
               <Leaf className="h-4 w-4 text-primary shrink-0" /> 100% electric, zero-emission fleet
@@ -428,7 +431,7 @@ function UserLoginPage() {
                   <h2 className="font-display text-2xl font-bold tracking-tight text-foreground">
                     Welcome back
                   </h2>
-                  <p className="text-sm text-slate-500">Enter your credentials to continue</p>
+                  <p className="text-sm text-foreground/60">Enter your credentials to continue</p>
                 </div>
               </div>
 
@@ -494,7 +497,10 @@ function UserLoginPage() {
                       onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
                       className="h-4 w-4 rounded-none border-slate-300 bg-white accent-primary focus:ring-0 cursor-pointer"
                     />
-                    <label htmlFor="rememberMe" className="text-foreground/70 cursor-pointer text-[11px]">
+                    <label
+                      htmlFor="rememberMe"
+                      className="text-foreground/70 cursor-pointer text-[11px]"
+                    >
                       Remember me
                     </label>
                   </div>
@@ -545,7 +551,10 @@ function UserLoginPage() {
                 </h3>
                 <p className="text-xs text-slate-600 max-w-xs mx-auto leading-relaxed">
                   Authenticated session authorized for{" "}
-                  <span className="text-foreground/80 font-semibold break-all">{formData.email}</span>.
+                  <span className="text-foreground/80 font-semibold break-all">
+                    {formData.email}
+                  </span>
+                  .
                 </p>
               </div>
 

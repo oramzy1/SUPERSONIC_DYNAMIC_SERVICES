@@ -23,10 +23,11 @@ import { SiteLayout } from "@/components/layout/SiteLayout";
 import { CTAButton } from "@/components/shared/CTAButton";
 import { useLoading } from "@/contexts/LoadingContext";
 import vanHero from "@/assets/images/hero-van.png";
-import newVan5 from "@/assets/images/newVan5.jpg"
+import newVan5 from "@/assets/images/newVan5.jpg";
 import ecoVan from "@/assets/images/home-eco.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import { quotesApi } from "@/lib/api";
+import { showErrorText, showInfo } from "@/lib/toast";
 
 const quoteSearchSchema = z.object({
   redirect: z.string().optional(),
@@ -144,7 +145,6 @@ function QuoteRequest() {
   const [descFile, setDescFile] = useState<string>("");
   const { show, hide } = useLoading();
   const navigate = useNavigate();
-  const [error, setErrors] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
 
@@ -152,7 +152,8 @@ function QuoteRequest() {
     if (authLoading) return;
     if (!isAuthenticated) {
       sessionStorage.setItem("sds_quote_draft", JSON.stringify(getValues()));
-      navigate({ to: "/login" as any, search: { redirect: "/quoterequest" } });
+      showInfo("Please sign in to submit your quote request.");
+      navigate({ to: "/login" as any, search: { redirect: "/quoterequest" }, replace: true });
     }
   }, [authLoading, isAuthenticated]);
 
@@ -174,7 +175,7 @@ function QuoteRequest() {
   useEffect(() => {
     const err = sessionStorage.getItem("sds_quote_error");
     if (err) {
-      setErrors(err);
+      showErrorText(err);
       sessionStorage.removeItem("sds_quote_error");
     }
   }, []);
@@ -293,13 +294,12 @@ function QuoteRequest() {
     } catch (err: unknown) {
       const detail = (err as { response?: { data?: { detail?: unknown } } })?.response?.data
         ?.detail;
-      console.error("video upload failed:", detail ?? err);
-      setErrors(
+      showErrorText(
         Array.isArray(detail)
           ? detail
               .map((d: { msg?: string }) => d.msg)
               .filter(Boolean)
-              .join(", ")
+              .join(", ") || "Failed to upload video. Please try again."
           : "Failed to upload video. Please try again.",
       );
     }
@@ -308,7 +308,7 @@ function QuoteRequest() {
   //     if (step !== 2) return;
   //     if (!isAuthenticated) {
   //     sessionStorage.setItem("sds_quote_draft", JSON.stringify(data));
-  //     navigate({ to: "/login" as any, search: { redirect: "/quoterequest" } });
+  //     navigate({ to: "/login" as any, search: { redirect: "/quoterequest" }, replace: true });
   //     return;
   //   }
   //     try {
@@ -349,7 +349,7 @@ function QuoteRequest() {
     if (step !== 2) return;
     if (!isAuthenticated) {
       sessionStorage.setItem("sds_quote_draft", JSON.stringify(data));
-      navigate({ to: "/login" as any, search: { redirect: "/quoterequest" } });
+      navigate({ to: "/login" as any, search: { redirect: "/quoterequest" }, replace: true });
       return;
     }
 
@@ -361,6 +361,7 @@ function QuoteRequest() {
         .filter(Boolean)
         .join(", ");
 
+      sessionStorage.setItem("sds_quote_draft", JSON.stringify(data));
       sessionStorage.setItem(
         "sds_quote_payload",
         JSON.stringify({
@@ -384,8 +385,8 @@ function QuoteRequest() {
       );
 
       navigate({ to: "/quoteprocessing" });
-    } catch (err) {
-      setErrors("Something went wrong preparing your quote. Please try again.");
+    } catch {
+      showErrorText("Something went wrong preparing your quote. Please try again.");
       setIsSubmitting(false);
     }
   };
@@ -416,7 +417,7 @@ function QuoteRequest() {
                   {step === 1 ? "Information Collection" : "Final Verification"}
                 </span>
               </div>
-              <span className="text-[11px] font-medium tracking-wide text-slate-500 uppercase">
+              <span className="text-[11px] font-medium tracking-wide text-foreground/60 uppercase">
                 Step {step} of 2
               </span>
             </div>
@@ -438,10 +439,10 @@ function QuoteRequest() {
           <form
             onSubmit={handleSubmit(onSubmit, (formErrors) => {
               const firstMessage = Object.values(formErrors)[0]?.message as string | undefined;
-              setErrors(
+              showErrorText(
                 firstMessage
                   ? `Please fix: ${firstMessage}`
-                  : "Some fields need attention. Go back to Step 1 to review.",
+                  : "Please review the highlighted fields before continuing.",
               );
             })}
             className="rounded-2xl border border-border bg-surface p-4 sm:p-6 md:p-8 relative h-fit"
@@ -466,7 +467,7 @@ function QuoteRequest() {
                     <button
                       type="button"
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="w-full text-left rounded-lg pl-9 pr-10 py-3 text-xs sm:text-sm text-foreground border border-border focus:border-primary focus:outline-none flex items-center justify-between transition-all relative z-20"
+                      className="w-full text-left rounded-xs pl-9 pr-10 py-3 text-xs sm:text-sm text-foreground border border-border focus:border-primary focus:outline-none flex items-center justify-between transition-all relative z-20"
                     >
                       <span className="truncate">
                         {SERVICE_OPTIONS.find((o) => o.v === selectedService)?.label ||
@@ -493,7 +494,7 @@ function QuoteRequest() {
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.15 }}
-                            className="absolute left-0 right-0 z-30 mt-1 max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-surface p-1 shadow-md backdrop-blur-md"
+                            className="absolute left-0 right-0 z-30 mt-1 max-h-64 overflow-y-auto rounded-xs border border-white/10 bg-surface p-1 shadow-md backdrop-blur-md"
                           >
                             {SERVICE_OPTIONS.map((o) => (
                               <li key={o.v}>
@@ -504,7 +505,7 @@ function QuoteRequest() {
                                     await trigger("serviceType");
                                     setIsDropdownOpen(false);
                                   }}
-                                  className={`w-full text-left rounded-lg px-4 py-2.5 my-0.5 text-xs sm:text-sm transition-colors flex items-center ${
+                                  className={`w-full text-left rounded-xs px-4 py-2.5 my-0.5 text-xs sm:text-sm transition-colors flex items-center ${
                                     selectedService === o.v
                                       ? "bg-primary text-primary-foreground font-medium"
                                       : "text-foreground/90 hover:bg-white/5"
@@ -528,7 +529,7 @@ function QuoteRequest() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="mb-6 p-4 rounded-xl border border-primary/20 bg-primary/5 space-y-3"
+                        className="mb-6 p-4 rounded-xs border border-primary/20 bg-primary/5 space-y-3"
                       >
                         <div className="flex items-center gap-2 text-primary">
                           <Layers className="h-4 w-4" />
@@ -543,7 +544,7 @@ function QuoteRequest() {
                           {SERVICE_DETAILS[selectedService].features.map((feature, idx) => (
                             <div
                               key={idx}
-                              className="flex items-start gap-1.5 text-[10px] text-foreground/80 bg-black/30 p-2 rounded-md"
+                              className="flex items-start gap-1.5 text-[10px] text-foreground/80 bg-black/30 p-2 rounded-xs"
                             >
                               <span className="text-primary font-bold">✓</span>
                               <span>{feature}</span>
@@ -570,7 +571,7 @@ function QuoteRequest() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
                             placeholder="Johndoe Alenn"
                             disabled
                             {...register("name")}
@@ -578,7 +579,7 @@ function QuoteRequest() {
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -589,7 +590,7 @@ function QuoteRequest() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm opacity-60 cursor-not-allowed"
                             placeholder="johndoe@email.com"
                             disabled
                             {...register("email")}
@@ -601,7 +602,7 @@ function QuoteRequest() {
                           error={errors.phone?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="+31 (123) 456 789"
                             {...register("phone")}
                           />
@@ -612,7 +613,7 @@ function QuoteRequest() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Moving out of address"
                             {...register("residentAddress")}
                           />
@@ -623,14 +624,14 @@ function QuoteRequest() {
                           error={errors.destinationAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Moving into address"
                             {...register("destinationAddress")}
                           />
                         </Field>
                         <Field label="Current Post Code" error={errors.currentPostCode?.message}>
                           <input
-                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -640,7 +641,7 @@ function QuoteRequest() {
                           error={errors.destinationPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs px-3 py-3.5 text-sm"
                             placeholder="5678CD"
                             {...register("destinationPostCode")}
                           />
@@ -652,7 +653,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -660,7 +661,7 @@ function QuoteRequest() {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-primary has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-primary has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="waste_removal"
@@ -669,7 +670,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -680,12 +681,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Waste removal/recycling
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="storage_short_long_term"
@@ -694,7 +695,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -705,12 +706,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Storage short-term/long-term
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="after_hour_holiday_weekend_move"
@@ -719,7 +720,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-white/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -730,12 +731,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     After hours/weekend/holiday move
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-black/10 bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="disasembling_assembling"
@@ -744,7 +745,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-black/20 bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -755,7 +756,7 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Disassembling/Assembling
                                   </span>
                                 </label>
@@ -783,14 +784,14 @@ function QuoteRequest() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Johndoe Alenn"
                             {...register("name")}
                           />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -801,7 +802,7 @@ function QuoteRequest() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="johndoe@email.com"
                             {...register("email")}
                           />
@@ -812,7 +813,7 @@ function QuoteRequest() {
                           error={errors.phone?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="+31 (123) 456 789"
                             {...register("phone")}
                           />
@@ -823,14 +824,14 @@ function QuoteRequest() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Storage Address"
                             {...register("residentAddress")}
                           />
                         </Field>
                         <Field label="Post Code" error={errors.currentPostCode?.message}>
                           <input
-                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -842,7 +843,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm bg-black text-foreground/70 border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -853,7 +854,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm bg-black text-foreground/70 border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -863,7 +864,7 @@ function QuoteRequest() {
                         >
                           <div className="relative w-full">
                             <select
-                              className="field w-full rounded-lg px-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none appearance-none cursor-pointer pr-10"
+                              className="field w-full rounded-xs px-3 py-3.5 text-sm bg-black text-foreground/70 border border-border focus:outline-none appearance-none cursor-pointer pr-10"
                               {...register("storageSize")}
                             >
                               <option value="" className="bg-[#0E141A] text-muted-foreground">
@@ -906,7 +907,7 @@ function QuoteRequest() {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-black/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-black/40">
                                   <input
                                     type="checkbox"
                                     value="packing_support"
@@ -915,7 +916,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -926,12 +927,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Packing Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="disassembling_support"
@@ -940,7 +941,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -951,12 +952,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Disassembling Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="hours_weekend_holiday_move"
@@ -965,7 +966,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -976,12 +977,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Work hours/weekdays collection support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-white/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="hours_weekend_holiday_move"
@@ -990,7 +991,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-black/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1001,7 +1002,7 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     After hours/weekend/holiday collection support
                                   </span>
                                 </label>
@@ -1029,14 +1030,14 @@ function QuoteRequest() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Johndoe Alenn"
                             {...register("name")}
                           />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -1047,7 +1048,7 @@ function QuoteRequest() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="johndoe@email.com"
                             {...register("email")}
                           />
@@ -1058,7 +1059,7 @@ function QuoteRequest() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Collection address location"
                             {...register("residentAddress")}
                           />
@@ -1068,7 +1069,7 @@ function QuoteRequest() {
                           error={errors.currentPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -1080,7 +1081,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm bg-black text-foreground/70 border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1088,7 +1089,7 @@ function QuoteRequest() {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="waste_sorting_support"
@@ -1097,7 +1098,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1108,12 +1109,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Waste sorting support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="disassembling_support"
@@ -1122,7 +1123,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1133,12 +1134,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Disassembling support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="support"
@@ -1147,7 +1148,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1158,7 +1159,7 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     After hours/weekend/holiday removal support
                                   </span>
                                 </label>
@@ -1186,7 +1187,7 @@ function QuoteRequest() {
                           error={errors.name?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Johndoe Alenn"
                             {...register("name")}
                           />
@@ -1197,14 +1198,14 @@ function QuoteRequest() {
                           error={errors.email?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="johndoe@email.com"
                             {...register("email")}
                           />
                         </Field>
                         <Field icon={<User className="h-4 w-4" />} label="Company Name (Optional)">
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Company name"
                             {...register("company")}
                           />
@@ -1215,7 +1216,7 @@ function QuoteRequest() {
                           error={errors.phone?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="+31 (123) 456 789"
                             {...register("phone")}
                           />
@@ -1226,7 +1227,7 @@ function QuoteRequest() {
                           error={errors.residentAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Pick up origin address"
                             {...register("residentAddress")}
                           />
@@ -1237,7 +1238,7 @@ function QuoteRequest() {
                           error={errors.destinationAddress?.message}
                         >
                           <input
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm"
                             placeholder="Drop off arrival address"
                             {...register("destinationAddress")}
                           />
@@ -1247,7 +1248,7 @@ function QuoteRequest() {
                           error={errors.currentPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs px-3 py-3.5 text-sm"
                             placeholder="1234AB"
                             {...register("currentPostCode")}
                           />
@@ -1257,7 +1258,7 @@ function QuoteRequest() {
                           error={errors.destinationPostCode?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs px-3 py-3.5 text-sm"
                             placeholder="5678CD"
                             {...register("destinationPostCode")}
                           />
@@ -1269,7 +1270,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-black border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm bg-black text-foreground/70 border border-border focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("date")}
                           />
                         </Field>
@@ -1280,7 +1281,7 @@ function QuoteRequest() {
                         >
                           <input
                             type="date"
-                            className="field w-full rounded-lg pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
+                            className="field w-full rounded-xs pl-9 pr-3 py-3.5 text-sm bg-black text-white border border-white/10 focus:outline-none focus:border-white/20 scheme-dark cursor-pointer transition-colors"
                             {...register("deliveryDate")}
                           />
                         </Field>
@@ -1289,7 +1290,7 @@ function QuoteRequest() {
                           error={errors.freightWeight?.message}
                         >
                           <input
-                            className="field w-full rounded-lg px-3 py-3.5 text-sm"
+                            className="field w-full rounded-xs px-3 py-3.5 text-sm"
                             placeholder="e.g. 1500 kg"
                             {...register("freightWeight")}
                           />
@@ -1298,7 +1299,7 @@ function QuoteRequest() {
                           <Field label="DO YOU NEED ANY OF THE FOLLOWING ADDITIONAL SERVICES? CHOOSE AS MANY ADDITIONAL SERVICES YOU DESIRE FROM THE LIST.(Optional)">
                             <div className="relative w-full">
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="Loading_Support"
@@ -1307,7 +1308,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1318,12 +1319,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Loading Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="Unloading_Support"
@@ -1332,7 +1333,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1343,12 +1344,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Unloading Support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-white/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="transport"
@@ -1357,7 +1358,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1368,12 +1369,12 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     After hours/weekend/holiday transport support
                                   </span>
                                 </label>
 
-                                <label className="relative flex items-start gap-3 rounded-lg border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
+                                <label className="relative flex items-start gap-3 rounded-xs border border-border bg-blend-color p-3.5 cursor-pointer transition-colors group hover:border-black/20 has-checked:border-black has-checked:bg-black/10 has-checked:ring-1 has-checked:ring-white/40">
                                   <input
                                     type="checkbox"
                                     value="storage_support"
@@ -1382,7 +1383,7 @@ function QuoteRequest() {
                                   />
                                   <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border border-border bg-[#0E141A] peer-checked:bg-black peer-checked:border-black peer-focus-visible:ring-2 peer-focus-visible:ring-white/50 transition-colors">
                                     <svg
-                                      className="h-3 w-3 text-black opacity-0 peer-checked:opacity-100 transition-opacity"
+                                      className="h-3 w-3 text-foreground/70 opacity-0 peer-checked:opacity-100 transition-opacity"
                                       viewBox="0 0 24 24"
                                       fill="none"
                                       stroke="currentColor"
@@ -1393,7 +1394,7 @@ function QuoteRequest() {
                                       <path d="M20 6 9 17l-5-5" />
                                     </svg>
                                   </span>
-                                  <span className="text-xs text-black font-small select-none">
+                                  <span className="text-xs text-foreground/70 font-small select-none">
                                     Overnight freight storage support
                                   </span>
                                 </label>
@@ -1426,7 +1427,7 @@ function QuoteRequest() {
                         <textarea
                           rows={5}
                           placeholder="Tell us more about what needs to move, any special handling, access constraints, or timing notes..."
-                          className="field w-full rounded-lg px-3 py-3 text-sm resize-none"
+                          className="field w-full rounded-xs px-3 py-3 text-sm resize-none"
                           {...register("description")}
                         />
                         <div className="mt-1 flex justify-end">
@@ -1455,11 +1456,6 @@ function QuoteRequest() {
                   exit={{ opacity: 0, x: -20 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {error && (
-                    <div className="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg p-3 font-medium">
-                      {error}
-                    </div>
-                  )}
                   <h3 className="font-display text-xl font-semibold">Final Preview</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     preview all inputed information
@@ -1583,7 +1579,7 @@ function QuoteRequest() {
                       </div>
 
                       {getValues("description") && (
-                        <div className="rounded-lg bg-black/40 p-3 border border-white/5 text-xs">
+                        <div className="rounded-xs bg-black/40 p-3 border border-white/5 text-xs">
                           <p className="text-foreground leading-relaxed font-normal">
                             {getValues("description")}
                           </p>
@@ -1601,7 +1597,7 @@ function QuoteRequest() {
                 <CTAButton
                   type="button"
                   variant="outline"
-                  className="rounded-xl w-full sm:w-auto"
+                  className="rounded-xs w-full sm:w-auto"
                   onClick={handleBackStep}
                 >
                   Modify Information
@@ -1613,7 +1609,7 @@ function QuoteRequest() {
                 <CTAButton
                   type="button"
                   variant="white"
-                  className="rounded-xl w-full sm:w-auto"
+                  className="rounded-xs w-full sm:w-auto"
                   onClick={handleNextStep}
                   disabled={!isAnyServiceSelected}
                 >
@@ -1623,7 +1619,7 @@ function QuoteRequest() {
                 <CTAButton
                   type="submit"
                   variant="white"
-                  className="rounded-xl w-full inline-flex items-center justify-center gap-2"
+                  className="rounded-xs w-full inline-flex items-center justify-center gap-2"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Submitting..." : "Confirm & Submit Quote"}
@@ -1635,7 +1631,7 @@ function QuoteRequest() {
           {/* Sticky sidebar - image + contact strips */}
           {step === 1 && (
             <aside className="self-start sticky top-[calc(var(--navbar-height,64px)+52px+8px)] h-fit w-full space-y-3 sm:space-y-4 max-h-[calc(100vh-var(--navbar-height,64px)-52px-24px)]">
-              <div className="overflow-hidden rounded-lg border border-white/5 bg-surface shadow-xl">
+              <div className="overflow-hidden rounded-xs border border-white/5 bg-surface shadow-xl">
                 <div className="relative">
                   <img
                     src={newVan5}
@@ -1753,7 +1749,7 @@ function PreviewBox({
   return (
     <label
       htmlFor={inputId}
-      className="rounded-xl border border-white/5 bg-black/40 p-4 flex flex-col justify-between text-left relative overflow-hidden min-h-35 cursor-pointer"
+      className="rounded-xs border border-white/5 bg-black/40 p-4 flex flex-col justify-between text-left relative overflow-hidden min-h-35 cursor-pointer"
     >
       <div className="text-primary mb-2 shrink-0">{icon}</div>
       <h4 className="text-[10px] font-bold uppercase tracking-wide text-foreground/90 leading-tight">
@@ -1783,7 +1779,7 @@ function PreviewBox({
 
 function Row({ label, value }: { label: string; value?: string }) {
   return (
-    <div className="flex items-center justify-between rounded-lg bg-black/20 px-3 py-2.5 text-xs gap-3 border border-white/2">
+    <div className="flex items-center justify-between rounded-xs bg-black/20 px-3 py-2.5 text-xs gap-3 border border-white/2">
       <span className="text-muted-foreground shrink-0">{label}</span>
       <span className="font-medium truncate max-w-45 text-right text-foreground">
         {value || "-"}

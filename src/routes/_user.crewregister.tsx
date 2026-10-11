@@ -107,7 +107,7 @@ function CrewRegisterPage() {
                   <Truck className="h-3.5 w-3.5" />
                 </div>
                 <p className="text-xs text-slate-400">
-                  <strong className="text-slate-200">Live Assignments:</strong> See every job
+                  <strong className="text-foreground">Live Assignments:</strong> See every job
                   dispatch assigns to you, with schedule and status in one place.
                 </p>
               </div>
@@ -116,7 +116,7 @@ function CrewRegisterPage() {
                   <ShieldCheck className="h-3.5 w-3.5" />
                 </div>
                 <p className="text-xs text-slate-400">
-                  <strong className="text-slate-200">Photo Evidence:</strong> Upload proof of
+                  <strong className="text-foreground">Photo Evidence:</strong> Upload proof of
                   completed work straight from the job screen.
                 </p>
               </div>
@@ -137,7 +137,7 @@ function CrewRegisterPage() {
                     Full Name
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                    <User className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
                     <input
                       type="text"
                       required
@@ -153,7 +153,7 @@ function CrewRegisterPage() {
                     Phone Number
                   </label>
                   <div className="relative">
-                    <Phone className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                    <Phone className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
                     <input
                       type="tel"
                       required
@@ -171,7 +171,7 @@ function CrewRegisterPage() {
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                  <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
                   <input
                     type="email"
                     required
@@ -189,7 +189,7 @@ function CrewRegisterPage() {
                     Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                    <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
                     <input
                       type={showPassword ? "text" : "password"}
                       required
@@ -201,7 +201,7 @@ function CrewRegisterPage() {
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/60 hover:text-slate-300 transition"
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
@@ -212,7 +212,7 @@ function CrewRegisterPage() {
                     Confirm Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                    <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
                     <input
                       type={showConfirmPassword ? "text" : "password"}
                       required
@@ -226,7 +226,7 @@ function CrewRegisterPage() {
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/60 hover:text-slate-300 transition"
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="h-4 w-4" />
@@ -298,7 +298,7 @@ function CrewRegisterPage() {
             <h3 className="font-display text-lg font-bold tracking-tight text-white">
               Account Created
             </h3>
-            <p className="text-xs text-slate-500 max-w-60 mx-auto">
+            <p className="text-xs text-foreground/60 max-w-60 mx-auto">
               Taking you to your assignments...
             </p>
           </div>

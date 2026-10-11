@@ -54,12 +54,12 @@ function Services() {
                 reliable, flexible, and professional logistics solutions tailored to meet the unique
                 needs of every customer.
               </p>
-              <a href="#services" className="mt-6 block w-full sm:w-auto">
+              {/* <a href="#services" className="mt-6 block w-full sm:w-auto">
                 <CTAButton className="bg-blue-50 text-black group rounded-lg w-full sm:w-auto px-6 py-3.5 flex items-center justify-center gap-2">
                   <span>Browse All Services</span>
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </CTAButton>
-              </a>
+              </a> */}
             </motion.div>
           </div>
         </div>
@@ -72,7 +72,7 @@ function Services() {
             <SurfaceCard
               key={s.slug}
               padded={false}
-              className="group flex flex-col overflow-hidden border border-border transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-sm"
+              className="group flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-sm"
               transition={{ delay: i * 0.06, duration: 0.5 }}
             >
               <div className="relative overflow-hidden">
@@ -95,7 +95,7 @@ function Services() {
                 <ul className="mt-3 space-y-2.5">
                   {s.benefits.slice(0, 6).map((b, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-xs text-muted-foreground">
-                      <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full  text-black">
+                      <span className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full  text-foreground">
                         <CheckCircle2 className="h-3 w-3" />
                       </span>
                       <span>{b}</span>
@@ -107,7 +107,7 @@ function Services() {
                   params={{ slug: s.slug }}
                   className="group/cta mt-6 block"
                 >
-                  <CTAButton variant="primary" className="w-full rounded-lg">
+                  <CTAButton variant="primary" className="w-full rounded-lg text-white">
                     See More Details
                     <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/cta:translate-x-1" />
                   </CTAButton>

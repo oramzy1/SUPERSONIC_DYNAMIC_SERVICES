@@ -313,13 +313,17 @@ import type {
   InvoiceResponse,
   PayResponse,
   DashboardResponse,
-  TicketCreate,
-  TicketResponse,
   QuoteGenerateRequest,
   MarkAllReadResponse,
   NotificationListResponse,
   UnreadCountResponse,
   NotificationResponse,
+  TicketCreate,
+  TicketResponse,
+  TicketDetail,
+  ContactMessageCreate,
+  ContactMessageResponse,
+  ContactMessageListResponse,
 } from "./api-types";
 
 // const BASE = import.meta.env.VITE_API_BASE_URL as string;
@@ -633,6 +637,32 @@ export const adminApi = {
 export const supportApi = {
   createTicket: (body: TicketCreate) =>
     api.post<TicketResponse>("/support/ticket", body).then((r) => r.data),
+
+  listTickets: (isResolved?: boolean) =>
+    api
+      .get<TicketDetail[]>("/support/tickets", {
+        params: isResolved === undefined ? undefined : { is_resolved: isResolved },
+      })
+      .then((r) => r.data),
+
+  getTicket: (ticketId: number) =>
+    api.get<TicketDetail>(`/support/ticket/${ticketId}`).then((r) => r.data),
+
+  closeTicket: (ticketId: number) =>
+    api.post<TicketDetail>(`/support/ticket/${ticketId}/close`).then((r) => r.data),
+};
+
+// ─── Contact endpoints ──────────────────────────────
+export const contactApi = {
+  create: (body: ContactMessageCreate) =>
+    api.post<ContactMessageResponse>("/contact", body).then((r) => r.data),
+
+  list: (isRead?: boolean) =>
+    api
+      .get<ContactMessageListResponse>("/contact", {
+        params: isRead === undefined ? undefined : { is_read: isRead },
+      })
+      .then((r) => r.data),
 };
 
 // ─── Notifications endpoints ──────────────────────────────

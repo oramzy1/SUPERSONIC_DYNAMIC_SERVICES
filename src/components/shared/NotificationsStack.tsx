@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Bell, Layers } from "lucide-react";
@@ -23,6 +23,7 @@ export function NotificationsStack({
   const [cards, setCards] = useState<NotificationResponse[]>([]);
   const [overflowDismissed, setOverflowDismissed] = useState(false);
   const [shown, setShown] = useState(false);
+  const firstDismissDone = useRef(false);
 
   const sessionKey = user ? `sds_notif_stack_seen_${user.id}` : null;
 
@@ -38,6 +39,22 @@ export function NotificationsStack({
 
   const totalUnread = notifications.filter((n) => !n.is_read).length;
   const overflow = totalUnread > MAX_CASCADE + 1;
+
+    // Auto-dismiss oldest-first: 10s for the first card, then 2-3s between each after.
+  useEffect(() => {
+    if (overflow || cards.length === 0) return;
+    const delay = firstDismissDone.current ? 2000 + Math.random() * 1000 : 10000;
+    const timer = setTimeout(() => {
+      firstDismissDone.current = true;
+      setCards((prev) => {
+        if (prev.length === 0) return prev;
+        const oldest = prev.reduce((a, b) => (a.id < b.id ? a : b));
+        return prev.filter((c) => c.id !== oldest.id);
+      });
+    }, delay);
+    return () => clearTimeout(timer);
+  }, [cards, overflow]);
+
 
   const dismissCard = (id: number) => setCards((prev) => prev.filter((c) => c.id !== id));
 
@@ -68,13 +85,21 @@ export function NotificationsStack({
             <Layers className="h-4 w-4" />
             <span className="text-sm font-bold">{totalUnread} new notifications</span>
           </div>
-          <button onClick={() => setOverflowDismissed(true)} className="text-slate-500 hover:text-slate-300">
+          <button
+            onClick={() => setOverflowDismissed(true)}
+            className="text-foreground/60 hover:text-slate-300"
+          >
             <X className="h-4 w-4" />
           </button>
         </div>
-        <p className="text-xs text-slate-400 mt-2">Too many to preview individually. Swipe away or view all.</p>
+        <p className="text-xs text-slate-400 mt-2">
+          Too many to preview individually. Swipe away or view all.
+        </p>
         <button
-          onClick={() => { setOverflowDismissed(true); onOpenSheet(); }}
+          onClick={() => {
+            setOverflowDismissed(true);
+            onOpenSheet();
+          }}
           className="mt-3 w-full rounded-lg bg-[#E2A54A] text-slate-950 text-xs font-bold py-2"
         >
           View all
@@ -100,7 +125,8 @@ export function NotificationsStack({
             }}
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0, transition: { delay: i * 0.06 } }}
-            exit={{ opacity: 0, x: 300, transition: { duration: 0.15 } }}
+            // exit={{ opacity: 0, x: 300, transition: { duration: 0.15 } }}
+            exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.6, ease: "easeOut" } }}
             onClick={() => handleCardOpen(n)}
             className="w-72 cursor-grab active:cursor-grabbing rounded-xl border border-white/10 bg-[#0f1113] shadow-xl p-3.5"
           >
@@ -110,13 +136,18 @@ export function NotificationsStack({
                 <span className="text-xs font-bold text-white line-clamp-1">{n.title}</span>
               </div>
               <button
-                onClick={(e) => { e.stopPropagation(); dismissCard(n.id); }}
-                className="text-slate-500 hover:text-slate-300 shrink-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dismissCard(n.id);
+                }}
+                className="text-foreground/60 hover:text-slate-300 shrink-0"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
             </div>
-            {n.message && <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{n.message}</p>}
+            {n.message && (
+              <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{n.message}</p>
+            )}
           </motion.div>
         ))}
       </AnimatePresence>

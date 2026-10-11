@@ -47,7 +47,7 @@ const COOKIE_TYPES = [
     color: "text-foreground",
     border: "border-slate-300",
     bg: "bg-slate-50",
-    dot: "bg-slate-500",
+    dot: "bg-foreground/60",
     required: false,
     description:
       "Enhance your experience by remembering preferences such as language and region settings across sessions.",
@@ -123,7 +123,9 @@ function Cookies() {
             <div className="grid h-10 w-10 place-items-center rounded-full border border-primary/30 bg-primary/10 text-primary">
               <ShieldCheck className="h-5 w-5" />
             </div>
-            <h2 className="mt-5 font-display text-xl font-semibold text-foreground">GDPR Compliant</h2>
+            <h2 className="mt-5 font-display text-xl font-semibold text-foreground">
+              GDPR Compliant
+            </h2>
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
               Our cookie practices comply with the General Data Protection Regulation (GDPR) and
               Dutch national data law (UAVG).
@@ -158,7 +160,9 @@ function Cookies() {
         <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
           <div className="flex items-center gap-3 mb-6">
             <ToggleLeft className="h-5 w-5 text-primary" />
-            <h2 className="font-display text-xl font-semibold text-foreground">02. Cookie Types We Use</h2>
+            <h2 className="font-display text-xl font-semibold text-foreground">
+              02. Cookie Types We Use
+            </h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {COOKIE_TYPES.map((c) => {
@@ -252,7 +256,9 @@ function Cookies() {
         {/* YOUR RIGHTS */}
         <div className="grid gap-6 md:grid-cols-2">
           <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
-            <h2 className="font-display text-xl font-semibold mb-4 text-foreground">04. Your Rights</h2>
+            <h2 className="font-display text-xl font-semibold mb-4 text-foreground">
+              04. Your Rights
+            </h2>
             <ul className="space-y-4">
               {[
                 [
@@ -284,7 +290,9 @@ function Cookies() {
           </div>
 
           <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm md:p-8">
-            <h2 className="font-display text-xl font-semibold mb-4 text-foreground">05. Contact & Questions</h2>
+            <h2 className="font-display text-xl font-semibold mb-4 text-foreground">
+              05. Contact & Questions
+            </h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               For questions about our cookie practices or to exercise your data rights, contact our
               Data Protection Officer directly.
@@ -295,7 +303,9 @@ function Cookies() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Email
                 </p>
-                <p className="mt-1 text-xs font-medium text-primary">info@supersonicdynamicservices.nl</p>
+                <p className="mt-1 text-xs font-medium text-primary">
+                  info@supersonicdynamicservices.nl
+                </p>
               </div>
             </div>
             <p className="mt-5 text-xs text-muted-foreground">

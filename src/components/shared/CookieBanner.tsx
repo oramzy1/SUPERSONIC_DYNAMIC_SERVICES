@@ -86,10 +86,10 @@ export function CookieBanner({
             <div className="grid gap-3 sm:grid-cols-3">
               <div className="rounded-xl border border-white/5 bg-white/5 p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#6FE5FF]">
+                  <span className="text-xs font-semibold uppercase tracking-[0.15em] text-[#E2A54A]">
                     Essential
                   </span>
-                  <span className="flex items-center gap-1 rounded-full border border-[#6FE5FF]/30 px-2 py-0.5 text-[10px] text-[#6FE5FF]">
+                  <span className="flex items-center gap-1 rounded-full border border-[#E2A54A]/30 px-2 py-0.5 text-[10px] text-[#E2A54A]">
                     <ShieldCheck className="h-3 w-3" /> Always on
                   </span>
                 </div>

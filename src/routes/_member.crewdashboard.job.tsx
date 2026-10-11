@@ -42,7 +42,7 @@
 //   ];
 
 //   return (
-//     <div className="mx-auto max-w-5xl w-full text-slate-200 pb-12">
+//     <div className="mx-auto max-w-5xl w-full text-foreground pb-12">
 //       <Breadcrumbs items={[{ label: "My Assignments" }]} />
 
 //       <h1 className="text-2xl font-bold tracking-tight text-white">My Assignments</h1>
@@ -59,7 +59,7 @@
 //               className="bg-[#0d111a]/40 border border-white/6 rounded-xl p-4 flex flex-col justify-between h-24"
 //             >
 //               <div className="flex items-center justify-between">
-//                 <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500">
+//                 <span className="text-[9px] font-bold uppercase tracking-wider text-foreground/60">
 //                   {m.title}
 //                 </span>
 //                 <Icon className="w-3.5 h-3.5 text-[#E2A54A]" />
@@ -79,7 +79,7 @@
 //               className={`px-3 py-1 rounded-md whitespace-nowrap transition-colors uppercase ${
 //                 statusFilter === s
 //                   ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10 font-semibold"
-//                   : "hover:text-slate-200"
+//                   : "hover:text-foreground"
 //               }`}
 //             >
 //               {s.replace("_", " ")}
@@ -89,12 +89,12 @@
 //       )}
 
 //       {isLoading ? (
-//         <p className="text-sm text-slate-500 py-10 text-center">Loading assignments...</p>
+//         <p className="text-sm text-foreground/60 py-10 text-center">Loading assignments...</p>
 //       ) : visible.length === 0 ? (
 //         <div className="bg-[#0d111a]/40 border border-white/6 rounded-xl py-16 flex flex-col items-center gap-2 text-center">
 //           <PackageSearch className="w-5 h-5 text-slate-600" />
 //           <p className="text-sm font-medium text-slate-300">No assignments yet</p>
-//           <p className="text-xs text-slate-500 max-w-xs">
+//           <p className="text-xs text-foreground/60 max-w-xs">
 //             Jobs will appear here once you're assigned to one.
 //           </p>
 //         </div>
@@ -114,7 +114,7 @@
 //                     {job.status.replace("_", " ")}
 //                   </span>
 //                 </div>
-//                 <p className="text-xs text-slate-500 mt-1.5 flex items-center gap-1.5">
+//                 <p className="text-xs text-foreground/60 mt-1.5 flex items-center gap-1.5">
 //                   <Calendar className="w-3 h-3" /> {formatDate(job.scheduled_start)}
 //                 </p>
 //               </div>
@@ -127,13 +127,18 @@
 //   );
 // }
 
-
-
-
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Truck, Clock, CheckCircle2, Calendar, MapPin, ChevronRight, PackageSearch } from "lucide-react";
+import {
+  Truck,
+  Clock,
+  CheckCircle2,
+  Calendar,
+  MapPin,
+  ChevronRight,
+  PackageSearch,
+} from "lucide-react";
 import { jobsApi } from "@/lib/api";
 import type { JobResponse } from "@/lib/api-types";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
@@ -182,7 +187,7 @@ function CrewDashboard() {
   const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <div className="mx-auto max-w-5xl w-full text-slate-200 pb-12">
+    <div className="mx-auto max-w-5xl w-full text-foreground pb-12">
       <Breadcrumbs items={[{ label: "My Assignments" }]} />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -203,7 +208,7 @@ function CrewDashboard() {
               className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-24"
             >
               <div className="flex items-center justify-between">
-                <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-foreground/60">
                   {m.title}
                 </span>
                 <Icon className="w-3.5 h-3.5 text-[#E2A54A]" />
@@ -221,11 +226,14 @@ function CrewDashboard() {
               {statusOptions.map((s) => (
                 <button
                   key={s}
-                  onClick={() => { setStatusFilter(s); setPage(1); }}
+                  onClick={() => {
+                    setStatusFilter(s);
+                    setPage(1);
+                  }}
                   className={`px-3 py-1 rounded-md whitespace-nowrap transition-colors ${
                     statusFilter === s
                       ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10"
-                      : "hover:text-slate-200"
+                      : "hover:text-foreground"
                   }`}
                 >
                   {s === "All" ? "All" : s.replace("_", " ")}
@@ -238,7 +246,7 @@ function CrewDashboard() {
         <div className="w-full overflow-x-auto">
           <table className="w-full min-w-[560px] text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/4 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">
+              <tr className="border-b border-white/4 text-[10px] font-bold uppercase tracking-[0.15em] text-foreground/60">
                 <th className="py-4 px-6">JOB ID</th>
                 <th className="py-4 px-6">ROUTE</th>
                 <th className="py-4 px-6">SCHEDULED</th>
@@ -249,7 +257,7 @@ function CrewDashboard() {
             <tbody className="divide-y divide-white/2">
               {isLoading ? (
                 <tr>
-                  <td colSpan={5} className="py-14 px-6 text-center text-xs text-slate-500">
+                  <td colSpan={5} className="py-14 px-6 text-center text-xs text-foreground/60">
                     Loading assignments...
                   </td>
                 </tr>
@@ -257,11 +265,11 @@ function CrewDashboard() {
                 <tr>
                   <td colSpan={5} className="py-12 px-6">
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
-                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-slate-500 mb-1">
+                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
                         <PackageSearch className="w-4 h-4" />
                       </div>
                       <p className="text-sm font-medium text-slate-300">No assignments yet</p>
-                      <p className="text-xs text-slate-500 max-w-xs">
+                      <p className="text-xs text-foreground/60 max-w-xs">
                         Jobs will appear here once you're assigned to one.
                       </p>
                     </div>
@@ -271,17 +279,22 @@ function CrewDashboard() {
                 paginated.map((job: JobResponse) => (
                   <tr
                     key={job.id}
-                    onClick={() => navigate({ to: "/crewdashboard/$jobId", params: { jobId: String(job.id) } })}
+                    onClick={() =>
+                      navigate({ to: "/crewdashboard/$jobId", params: { jobId: String(job.id) } })
+                    }
                     className="hover:bg-white/2 transition duration-150 cursor-pointer"
                   >
-                    <td className="py-3.5 px-6 font-mono font-bold text-[#E2A54A]/80 text-xs">#{job.id}</td>
+                    <td className="py-3.5 px-6 font-mono font-bold text-[#E2A54A]/80 text-xs">
+                      #{job.id}
+                    </td>
                     <td className="py-3.5 px-6">
                       {job.move_from || job.move_to ? (
                         <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-mono">
-                          <MapPin className="w-2.5 h-2.5" /> {job.move_from || "-"} → {job.move_to || "-"}
+                          <MapPin className="w-2.5 h-2.5" /> {job.move_from || "-"} →{" "}
+                          {job.move_to || "-"}
                         </span>
                       ) : (
-                        <span className="text-xs text-slate-500">-</span>
+                        <span className="text-xs text-foreground/60">-</span>
                       )}
                     </td>
                     <td className="py-3.5 px-6 text-xs font-medium text-slate-400">
@@ -307,7 +320,7 @@ function CrewDashboard() {
         </div>
 
         <div className="flex items-center justify-between px-6 py-4 border-t border-white/6 bg-white/1">
-          <span className="text-xs text-slate-500 font-medium">
+          <span className="text-xs text-foreground/60 font-medium">
             Showing <span className="text-slate-400 font-semibold">{paginated.length}</span> of{" "}
             <span className="text-slate-400 font-semibold">{visible.length}</span> assignments
           </span>

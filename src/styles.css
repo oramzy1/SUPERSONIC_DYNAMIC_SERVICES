@@ -43,7 +43,7 @@
 
 :root {
   --background: #fefefe;
-  --surface: #fdf8f8fd;
+  --surface: #e9e6e6fd;
   --surface-2: #fcfcfc;
   --footer: #0e141a;
 
@@ -120,7 +120,7 @@
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --cyan: #6fe5ff;
+  --cyan: #e2a54a;
 
   --popover: #161c22;
   --popover-foreground: #e8eef4;
@@ -314,7 +314,7 @@ body,
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 html {

@@ -332,7 +332,7 @@
 //                 </CTAButton>
 //               </form>
 
-//               <p className="mt-6 text-center text-xs text-slate-500">
+//               <p className="mt-6 text-center text-xs text-foreground/60">
 //                 Already Have An Account?{" "}
 //                 <Link to={'/login' as any} className="text-primary hover:underline font-semibold">
 //                   Sign In
@@ -413,7 +413,7 @@
 //           </form>
 
 //           <div className="mt-6 text-center text-xs space-y-2">
-//             <p className="text-slate-500">
+//             <p className="text-foreground/60">
 //               Didn't receive the email code?{" "}
 //               <button
 //                 type="button"
@@ -426,7 +426,7 @@
 //             <button
 //               type="button"
 //               onClick={() => setFormStep("INPUT")}
-//               className="text-[11px] text-slate-500 hover:text-slate-900 transition underline block mx-auto"
+//               className="text-[11px] text-foreground/60 hover:text-slate-900 transition underline block mx-auto"
 //             >
 //               Change email address
 //             </button>
@@ -436,8 +436,6 @@
 //     </div>
 //   );
 // }
-
-
 
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
@@ -478,11 +476,11 @@ function UserRegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [armed, setArmed] = useState(false);
-const noAutofill = {
-  autoComplete: "off",
-  readOnly: !armed,
-  onFocus: () => setArmed(true),
-};
+  const noAutofill = {
+    autoComplete: "off",
+    readOnly: !armed,
+    onFocus: () => setArmed(true),
+  };
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -491,7 +489,7 @@ const noAutofill = {
     password: "",
     confirmPassword: "",
     agreeTerms: false,
-  }); 
+  });
   const { register, user } = useAuth();
   const isAdminRole = user && ["admin", "dispatcher", "crew", "finance"].includes(user.role);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -593,44 +591,44 @@ const noAutofill = {
                 <span className="text-primary">Logistics.</span>
               </h1>
               <p className="text-sm leading-relaxed text-white/80">
-                Create an account to book moving and freight haulage, reserve smart storage, and track
-                every job in real time across the Netherlands and Europe.
+                Create an account to book moving and freight haulage, reserve smart storage, and
+                track every job in real time across the Netherlands and Europe.
               </p>
 
               <div className="border-t border-white/20 pt-6 space-y-4">
                 <div className="flex gap-3 items-start">
                   <Truck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <p className="text-xs leading-relaxed text-white/80">
-                    <strong className="text-white font-semibold">Freight &amp; Moving:</strong> Local and
-                    nationwide haulage with a vetted, professional crew.
+                    <strong className="text-white font-semibold">Freight &amp; Moving:</strong>{" "}
+                    Local and nationwide haulage with a vetted, professional crew.
                   </p>
                 </div>
                 <div className="flex gap-3 items-start">
                   <Warehouse className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <p className="text-xs leading-relaxed text-white/80">
-                    <strong className="text-white font-semibold">Smart Storage:</strong> Secure, monitored
-                    storage for goods and equipment.
+                    <strong className="text-white font-semibold">Smart Storage:</strong> Secure,
+                    monitored storage for goods and equipment.
                   </p>
                 </div>
                 <div className="flex gap-3 items-start">
                   <Zap className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <p className="text-xs leading-relaxed text-white/80">
-                    <strong className="text-white font-semibold">Live Tracking:</strong> Follow your job
-                    from request to delivery.
+                    <strong className="text-white font-semibold">Live Tracking:</strong> Follow your
+                    job from request to delivery.
                   </p>
                 </div>
                 <div className="flex gap-3 items-start">
                   <Leaf className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <p className="text-xs leading-relaxed text-white/80">
-                    <strong className="text-white font-semibold">Eco-Responsible:</strong> 100% electric,
-                    zero-emission operations.
+                    <strong className="text-white font-semibold">Eco-Responsible:</strong> 100%
+                    electric, zero-emission operations.
                   </p>
                 </div>
                 <div className="flex gap-3 items-start">
                   <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                   <p className="text-xs leading-relaxed text-white/80">
-                    <strong className="text-white font-semibold">Certified Care:</strong> Fully insured
-                    handling of your goods.
+                    <strong className="text-white font-semibold">Certified Care:</strong> Fully
+                    insured handling of your goods.
                   </p>
                 </div>
               </div>
@@ -681,7 +679,8 @@ const noAutofill = {
                       <input
                         type="text"
                         required
-                        name="sds-reg-fullname" {...noAutofill}
+                        name="sds-reg-fullname"
+                        {...noAutofill}
                         placeholder="John Doe"
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
@@ -699,7 +698,8 @@ const noAutofill = {
                       <input
                         type="tel"
                         required
-                        name="sds-reg-phone" {...noAutofill}
+                        name="sds-reg-phone"
+                        {...noAutofill}
                         placeholder="+31 6 1234 5678"
                         value={formData.phoneNumber}
                         onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
@@ -718,7 +718,8 @@ const noAutofill = {
                     <input
                       type="email"
                       required
-                      name="sds-reg-email" {...noAutofill}
+                      name="sds-reg-email"
+                      {...noAutofill}
                       placeholder="name@company.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -732,12 +733,13 @@ const noAutofill = {
                     <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/80">
                       Password
                     </label>
-                    <div className="relative">  
+                    <div className="relative">
                       <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/80" />
                       <input
                         type={showPassword ? "text" : "password"}
                         required
-                        name="sds-reg-password" {...noAutofill}
+                        name="sds-reg-password"
+                        {...noAutofill}
                         placeholder="••••••••"
                         autoComplete="new-password"
                         value={formData.password}
@@ -749,7 +751,11 @@ const noAutofill = {
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3.5 top-1/2 -translate-y-1/2 text-foreground/80 hover:text-foreground/80 transition-colors"
                       >
-                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -872,7 +878,10 @@ const noAutofill = {
               </h2>
               <p className="text-xs text-foreground/70 max-w-xs mx-auto leading-relaxed">
                 We have sent a 6-digit verification security code to{" "}
-                <span className="text-foreground/70 font-semibold">{formData.email || "your email"}</span>.
+                <span className="text-foreground/70 font-semibold">
+                  {formData.email || "your email"}
+                </span>
+                .
               </p>
             </div>
 

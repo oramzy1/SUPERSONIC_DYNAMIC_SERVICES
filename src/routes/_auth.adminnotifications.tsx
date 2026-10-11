@@ -111,7 +111,7 @@ function RouteComponent() {
 
         <div className="flex gap-3 sm:self-start md:self-auto shrink-0">
           <div className="bg-[#16191c] border border-slate-800/60 rounded-xl px-4 py-2 text-center min-w-20 flex-1 sm:flex-none">
-            <span className="block text-[11px] text-slate-500 font-medium uppercase tracking-wider">
+            <span className="block text-[11px] text-foreground/60 font-medium uppercase tracking-wider">
               Total
             </span>
             <span className="text-base sm:text-lg font-bold text-white">
@@ -119,7 +119,7 @@ function RouteComponent() {
             </span>
           </div>
           <div className="bg-[#16191c] border border-slate-800/60 rounded-xl px-4 py-2 text-center min-w-20 flex-1 sm:flex-none">
-            <span className="block text-[11px] text-slate-500 font-medium uppercase tracking-wider">
+            <span className="block text-[11px] text-foreground/60 font-medium uppercase tracking-wider">
               Unread
             </span>
             <span className="text-base sm:text-lg font-bold text-[#E2A54A]">
@@ -144,7 +144,7 @@ function RouteComponent() {
                 className={`px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs font-semibold capitalize rounded-lg transition-all whitespace-nowrap ${
                   activeTab === tab
                     ? "bg-[#1c1e21] text-[#E2A54A] border border-slate-800 shadow-lg"
-                    : "text-slate-400 hover:text-slate-200"
+                    : "text-slate-400 hover:text-foreground"
                 }`}
               >
                 {tab === "all" ? "All Communications" : tab}
@@ -155,17 +155,17 @@ function RouteComponent() {
 
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:max-w-2xl justify-end">
           <div className="flex items-center gap-2.5 bg-[#16191c] border border-slate-800/50 rounded-xl px-3 py-2 w-full focus-within:border-[#E2A54A]/60 transition-colors">
-            <Search className="w-4 h-4 text-slate-500 shrink-0" />
+            <Search className="w-4 h-4 text-foreground/60 shrink-0" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Filter by keyword, title, name..."
-              className="bg-transparent text-xs sm:text-sm text-slate-200 w-full outline-none placeholder:text-slate-500"
+              className="bg-transparent text-xs sm:text-sm text-foreground w-full outline-none placeholder:text-foreground/60"
             />
             {searchQuery && (
               <X
-                className="w-3.5 h-3.5 text-slate-500 cursor-pointer hover:text-slate-300"
+                className="w-3.5 h-3.5 text-foreground/60 cursor-pointer hover:text-slate-300"
                 onClick={() => setSearchQuery("")}
               />
             )}
@@ -243,7 +243,7 @@ function RouteComponent() {
                             ? "No notifications yet"
                             : "No communication data found"}
                         </p>
-                        <p className="text-xs text-slate-500 mt-1">
+                        <p className="text-xs text-foreground/60 mt-1">
                           {notifications.length === 0
                             ? "System alerts and messages will show up here as they come in."
                             : "Try modifying your filter query or clearing the selected tab."}
@@ -310,7 +310,7 @@ function RouteComponent() {
                               {item.title}
                             </span>
                             {item.metaId && (
-                              <span className="text-[10px] font-mono font-medium text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
+                              <span className="text-[10px] font-mono font-medium text-foreground/60 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800">
                                 {item.metaId}
                               </span>
                             )}
@@ -321,7 +321,7 @@ function RouteComponent() {
                         </div>
                       </td>
 
-                      <td className="py-3.5 px-4 text-right whitespace-nowrap text-slate-500 font-medium text-xs">
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap text-foreground/60 font-medium text-xs">
                         <div className="flex items-center justify-end gap-1.5 group-hover:text-slate-300 transition-colors">
                           <Clock className="w-3 h-3 text-slate-600" />
                           {item.timestamp}
@@ -343,7 +343,7 @@ function RouteComponent() {
               {/* PANEL HEADER */}
               <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800/60 bg-[#1c1e21]/40">
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-[10px] font-mono text-slate-500">
+                  <span className="text-[10px] font-mono text-foreground/60">
                     ID Reference: {inspectingItem.id}
                   </span>
                   <h2 className="text-sm font-semibold text-white">Transmission Details</h2>
@@ -351,7 +351,7 @@ function RouteComponent() {
                 <button
                   type="button"
                   onClick={() => setInspectingItem(null)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-colors"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-foreground hover:bg-slate-800/40 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -380,7 +380,7 @@ function RouteComponent() {
                       {inspectingItem.type}
                     </span>
                     <div className="flex items-center gap-1 text-xs text-slate-400 font-medium">
-                      <Clock className="w-3.5 h-3.5 text-slate-500" />
+                      <Clock className="w-3.5 h-3.5 text-foreground/60" />
                       {inspectingItem.timestamp}
                     </div>
                   </div>
@@ -390,7 +390,7 @@ function RouteComponent() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-foreground/60 block">
                     Sender Origin
                   </span>
                   <div className="bg-[#111315]/60 border border-slate-800/40 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white">
@@ -399,7 +399,7 @@ function RouteComponent() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-foreground/60 block">
                     Message Content Payload
                   </span>
                   <div className="bg-[#111315]/60 border border-slate-800/40 p-4 rounded-xl text-xs text-slate-300 leading-relaxed font-sans min-h-24 whitespace-pre-wrap">
@@ -409,7 +409,7 @@ function RouteComponent() {
 
                 {inspectingItem.metaId && (
                   <div className="space-y-1.5">
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-foreground/60 block">
                       Linked System Assets
                     </span>
                     <div className="flex items-center justify-between bg-slate-900/60 border border-slate-800/80 px-3.5 py-2.5 rounded-xl gap-2">
@@ -448,7 +448,7 @@ function RouteComponent() {
                 <button
                   type="button"
                   onClick={() => setInspectingItem(null)}
-                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl transition-colors"
+                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-foreground text-xs font-semibold rounded-xl transition-colors"
                 >
                   Close View
                 </button>

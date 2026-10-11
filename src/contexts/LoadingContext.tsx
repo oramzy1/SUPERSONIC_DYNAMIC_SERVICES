@@ -49,7 +49,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </LoadingContext.Provider>
+    </LoadingContext.Provider> 
   );
 }
 

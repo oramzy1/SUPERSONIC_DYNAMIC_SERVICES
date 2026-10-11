@@ -6,7 +6,9 @@ export default function PageLoader() {
   const [mounted, setMounted] = useState(false);
 
   const isLoading = useRouterState({
-    select: (s) => s.isLoading || s.isTransitioning,
+    select: (s) => 
+      (s.isLoading || s.isTransitioning) &&
+    s.location.pathname !== s.resolvedLocation?.pathname
   });
 
   const [show, setShow] = useState(true);

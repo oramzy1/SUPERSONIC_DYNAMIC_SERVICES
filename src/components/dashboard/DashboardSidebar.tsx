@@ -18,6 +18,7 @@ import {
   ChevronsUpDown,
   Menu,
   X,
+  LifeBuoy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/images/logo.png";
@@ -34,9 +35,8 @@ const NAV = [
   { to: "/dashboard/quotes", label: "Quotes", icon: FileText },
   { to: "/dashboard/jobs", label: "Jobs", icon: Briefcase },
   { to: "/dashboard/invoices", label: "Invoices", icon: Receipt },
+  { to: "/dashboard/support", label: "Support", icon: LifeBuoy },
 ] as const;
-
-
 
 export function DashboardSidebar() {
   const { location } = useRouterState();
@@ -51,8 +51,8 @@ export function DashboardSidebar() {
 
   useEffect(() => {
     const handleToggleMobile = () => setIsMobileOpen((prev) => !prev);
-    window.addEventListener("toggle-admin-sidebar", handleToggleMobile);
-    return () => window.removeEventListener("toggle-admin-sidebar", handleToggleMobile);
+    window.addEventListener("toggle-user-sidebar", handleToggleMobile);
+    return () => window.removeEventListener("toggle-user-sidebar", handleToggleMobile);
   }, []);
 
   useEffect(() => {
@@ -83,9 +83,8 @@ export function DashboardSidebar() {
   }, [isMenuOpen, isMobileOpen]);
 
   const activeTo = [...NAV]
-  .sort((a, b) => b.to.length - a.to.length)
-  .find((n) => isNavActive(location.pathname, n.to))?.to;
-
+    .sort((a, b) => b.to.length - a.to.length)
+    .find((n) => isNavActive(location.pathname, n.to))?.to;
 
   const handleLogout = async () => {
     await logout();
@@ -106,7 +105,7 @@ export function DashboardSidebar() {
           <Logo />
           <button
             onClick={() => setIsMobileOpen(false)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-white/4 hover:text-slate-200 md:hidden focus:outline-none"
+            className="flex h-8 w-8 items-center justify-center rounded-xs text-slate-400 hover:bg-white/4 hover:text-foreground md:hidden focus:outline-none"
           >
             <X className="h-5 w-5" />
           </button>
@@ -122,10 +121,10 @@ export function DashboardSidebar() {
                 key={n.to}
                 to={n.to}
                 className={cn(
-                  "relative flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition duration-200 group w-full",
+                  "relative flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xs group w-full",
                   active
                     ? "text-[#E2A54A] bg-[#E2A54A]/5 font-semibold"
-                    : "text-slate-400 hover:bg-white/3 hover:text-slate-200",
+                    : "text-foreground/70 hover:bg-white/3 hover:text-foreground/50",
                 )}
               >
                 {active && (
@@ -150,22 +149,22 @@ export function DashboardSidebar() {
         className="relative flex flex-col gap-4 px-3 border-t border-white/6 pt-4 shrink-0 w-full"
       >
         {isMenuOpen && (
-          <div className="absolute bottom-full left-3 right-3 mb-2 z-60 flex flex-col gap-1 bg-[#0d111a] border border-white/8 backdrop-blur-xl rounded-xl p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150 max-w-full overflow-hidden">
+          <div className="absolute bottom-full left-3 right-3 mb-2 z-60 flex flex-col gap-1 bg-[#0d111a] border border-white/8 backdrop-blur-xl rounded-xs p-1.5 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150 max-w-full overflow-hidden">
             <Link
-            to={"/dashboard/profile" as any}
+              to={"/dashboard/profile" as any}
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate focus:outline-none"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-foreground hover:bg-white/4 rounded-xs transition truncate focus:outline-none"
             >
-              <User className="h-4 w-4 shrink-0 text-slate-500" />
+              <User className="h-4 w-4 shrink-0 text-slate-600" />
               <span className="truncate">View Profile</span>
             </Link>
-{/* 
+            {/* 
             <Link
               to={"/adminsettings" as any}
               onClick={() => setIsMenuOpen(false)}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-white/4 rounded-lg transition truncate"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-medium text-slate-400 hover:text-foreground hover:bg-white/4 rounded-xs transition truncate"
             >
-              <Settings className="h-4 w-4 shrink-0 text-slate-500" />
+              <Settings className="h-4 w-4 shrink-0 text-foreground/60" />
               <span className="truncate">Account Settings</span>
             </Link> */}
 
@@ -173,7 +172,7 @@ export function DashboardSidebar() {
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 rounded-lg transition truncate focus:outline-none"
+              className="flex items-center gap-2.5 w-full text-left px-3 py-2 text-xs font-semibold text-rose-400 hover:bg-rose-500/10 rounded-xs transition truncate focus:outline-none"
             >
               <LogOut className="h-4 w-4 shrink-0 text-rose-400/80" />
               <span className="truncate">Log Out</span>
@@ -184,7 +183,7 @@ export function DashboardSidebar() {
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className={cn(
-            "flex items-center justify-between w-full gap-2 px-3 py-2 bg-white/2 rounded-xl border border-white/6 text-left outline-none transition focus:border-white/15 hover:bg-white/4 overflow-hidden",
+            "flex items-center justify-between w-full gap-2 px-3 py-2 bg-white/2 rounded-xs border border-white/6 text-left outline-none transition focus:border-white/15 hover:bg-white/4 overflow-hidden",
             isMenuOpen && "border-white/15 bg-white/4",
           )}
         >
@@ -199,16 +198,16 @@ export function DashboardSidebar() {
             </div>
 
             <div className="flex flex-col truncate min-w-0">
-              <span className="text-xs font-semibold text-slate-200 truncate capitalize leading-tight">
-               {user?.full_name || "Admin"}
+              <span className="text-xs font-semibold text-foreground/70 truncate capitalize leading-tight">
+                {user?.full_name || "Admin"}
               </span>
-              <span className="text-[11px] text-slate-500 truncate leading-none mt-0.5">
+              <span className="text-[11px] text-foreground/60 truncate leading-none mt-0.5">
                 {user?.email || "admin@supersonicdynamicservices.nl"}
               </span>
             </div>
           </div>
 
-          <span className="h-4 w-4 text-slate-500 shrink-0 pointer-events-none">
+          <span className="h-4 w-4 text-foreground/60 shrink-0 pointer-events-none">
             <ChevronsUpDown className="h-4 w-4" />
           </span>
         </button>
@@ -219,7 +218,7 @@ export function DashboardSidebar() {
   return (
     <>
       {/* 1. DESKTOP VIEW SIDEBAR PANEL LAYOUT */}
-      <aside className="hidden md:flex w-60 shrink-0 flex-col justify-between border-r border-white/6 bg-[#0d111a]/40 backdrop-blur-md pb-6 pt-6 relative z-40 select-none h-screen top-0">
+      <aside className="hidden md:flex w-60 shrink-0 flex-col justify-between border-r border-white/6 bg-surface backdrop-blur-md pb-6 pt-6 relative z-40 select-none h-screen top-0">
         <SidebarContent menuRef={desktopMenuRef} />
       </aside>
 
@@ -253,26 +252,26 @@ export function DashboardTopbar() {
     <header className="sticky top-0 z-30 flex items-center justify-between border-b border-white/6 bg-surface px-4 sm:px-6 lg:px-8 py-4 backdrop-blur-xl gap-4 w-full box-border">
       <button
         onClick={handleOpenMobileSidebar}
-        className="mobile-sidebar-toggle-btn flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/2 border border-white/6 text-slate-400 hover:text-slate-200 md:hidden transition focus:outline-none"
+        className="mobile-sidebar-toggle-btn flex h-9 w-9 shrink-0 items-center justify-center rounded-xs bg-white/2 border border-white/6 text-slate-400 hover:text-foreground md:hidden transition focus:outline-none"
       >
         <Menu className="h-5 w-5" />
       </button>
 
-      <div className="flex flex-1 items-center gap-3 rounded-xl bg-white/2 px-4 py-2.5 max-w-xs sm:max-w-md border border-white/4 min-w-0">
-        <Search className="h-4 w-4 text-slate-500 shrink-0" />
+      <div className="flex flex-1 items-center gap-3 rounded-xs bg-white/2 px-4 py-2.5 max-w-xs sm:max-w-md border border-white/4 min-w-0">
+        <Search className="h-4 w-4 text-foreground/60 shrink-0" />
         <input
           placeholder="Search..."
-          className="w-full bg-transparent text-sm text-slate-200 outline-none placeholder:text-slate-500 min-w-0"
+          className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-foreground/60 min-w-0"
         />
       </div>
 
       <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-        <button className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-white/4 focus:outline-none">
+        <button className="relative grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-foreground hover:bg-white/4 focus:outline-none">
           <Bell className="h-5 w-5" />
           <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#E2A54A] rounded-full" />
         </button>
 
-        <button className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-slate-200 hover:bg-white/4 focus:outline-none">
+        <button className="hidden sm:grid h-9 w-9 shrink-0 place-items-center rounded-full text-slate-400 hover:text-foreground hover:bg-white/4 focus:outline-none">
           <HelpCircle className="h-5 w-5" />
         </button>
 

@@ -18,13 +18,19 @@ function PaymentSuccessPage() {
         </div>
         <h1 className="font-display text-2xl font-bold mb-2">Payment Received</h1>
         <p className="text-sm text-muted-foreground mb-8">
-          Thanks — your payment has gone through. A receipt will be emailed to you shortly.
+          Thanks - your payment has gone through. A receipt will be emailed to you shortly.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link to="/dashboard/jobs" className="rounded-xl bg-primary text-primary-foreground px-5 py-2.5 text-sm font-bold hover:opacity-90">
+          <Link
+            to="/dashboard/jobs"
+            className="rounded-xl bg-primary text-primary-foreground px-5 py-2.5 text-sm font-bold hover:opacity-90"
+          >
             View My Jobs
           </Link>
-          <Link to="/dashboard" className="rounded-xl border border-white/10 px-5 py-2.5 text-sm font-semibold hover:bg-white/5">
+          <Link
+            to="/dashboard"
+            className="rounded-xl border border-white/10 px-5 py-2.5 text-sm font-semibold hover:bg-white/5"
+          >
             Back to Dashboard
           </Link>
         </div>

@@ -168,7 +168,7 @@ function ShopIndex() {
             <p className="font-display text-lg font-semibold text-slate-900">
               No products match your filters.
             </p>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-foreground/60">
               Try clearing search or category to see everything we stock.
             </p>
           </div>

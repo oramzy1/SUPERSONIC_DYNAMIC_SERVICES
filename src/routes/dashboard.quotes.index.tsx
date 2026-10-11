@@ -73,7 +73,7 @@
 //           href={quote.pdf_url}
 //           target="_blank"
 //           rel="noopener noreferrer"
-//           className="text-[#6FE5FF] text-xs underline"
+//           className="text-[#E2A54A] text-xs underline"
 //         >
 //           PDF
 //         </a>
@@ -105,7 +105,7 @@
 // };
 
 // const STATUS_STYLES: Record<string, string> = {
-//   pending: "bg-[#6FE5FF]/5 border-[#6FE5FF]/20 text-[#6FE5FF]",
+//   pending: "bg-[#E2A54A]/5 border-[#E2A54A]/20 text-[#E2A54A]",
 //   reviewed: "bg-blue-500/5 border-blue-500/20 text-blue-400",
 //   accepted: "bg-emerald-500/5 border-emerald-500/20 text-emerald-400",
 //   rejected: "bg-rose-500/5 border-rose-500/20 text-rose-400",
@@ -268,7 +268,7 @@
 //       return (
 //         <>
 //           <tr key={q.id} className="text-sm">
-//             <td className="px-6 py-5 font-mono font-bold text-[#6FE5FF]/80">#{q.id}</td>
+//             <td className="px-6 py-5 font-mono font-bold text-[#E2A54A]/80">#{q.id}</td>
 //             <td className="px-6 py-5">
 //               <p className="font-medium capitalize">{q.move_type.replace("-", " ")}</p>
 //               <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground font-mono">
@@ -282,7 +282,7 @@
 //                 {q.status === "quoted" ? (
 //                   <QuoteActionCell requestId={q.id} onToast={setToast} />
 //                 ) : q.status === "accepted" ? (
-//                   <a href="/dashboard/jobs" className="text-[#6FE5FF] hover:opacity-80 text-xs font-semibold">Track Job</a>
+//                   <a href="/dashboard/jobs" className="text-[#E2A54A] hover:opacity-80 text-xs font-semibold">Track Job</a>
 //                 ) : (
 //                   <span className="text-xs text-muted-foreground">-</span>
 //                 )}
@@ -319,7 +319,7 @@
 //                     <p className="text-muted-foreground">{q.company || ""}</p>
 //                     <p className="text-muted-foreground">{q.contact_email || ""}</p>
 //                     {q.video_url && (
-//                       <a href={q.video_url} target="_blank" rel="noopener noreferrer" className="text-[#6FE5FF] hover:underline font-semibold">
+//                       <a href={q.video_url} target="_blank" rel="noopener noreferrer" className="text-[#E2A54A] hover:underline font-semibold">
 //                         View Uploaded Video
 //                       </a>
 //                     )}
@@ -364,7 +364,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  pending: "bg-[#6FE5FF]/5 border-[#6FE5FF]/20 text-[#6FE5FF]",
+  pending: "bg-[#E2A54A]/5 border-[#E2A54A]/20 text-[#E2A54A]",
   quoted: "bg-blue-500/5 border-blue-500/20 text-blue-400",
   accepted: "bg-emerald-500/5 border-emerald-500/20 text-emerald-400",
   rejected: "bg-rose-500/5 border-rose-500/20 text-rose-400",
@@ -428,18 +428,20 @@ const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="font-display text-white text-3xl font-bold md:text-5xl">Quote History</h1>
-          <p className="mt-3 max-w-md text-sm text-white">
+          <h1 className="font-display text-foreground text-3xl font-bold md:text-5xl">Quote History</h1>
+          <p className="mt-3 max-w-md text-sm text-foreground">
             Track your logistic efficiency and manage upcoming fleet deployments.
           </p>
         </div>
-        <div className="flex items-center gap-2 rounded-lg bg-surface px-3 py-1.5 border border-white/6">
+      </div>
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+         <div className="flex items-center gap-2 rounded-lg bg-surface px-3 py-2 border border-white/6">
           <Search className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
           <input
             value={query}
 onChange={(e) => { setQuery(e.target.value); setPage(1); }}
             placeholder="Search ID or route..."
-            className="bg-transparent text-xs outline-none placeholder:text-muted-foreground w-40"
+            className="bg-transparent text-xs outline-none placeholder:text-muted-foreground w-60"
           />
         </div>
         <div className="inline-flex flex-wrap rounded-full bg-surface p-1">
@@ -521,7 +523,7 @@ onChange={(e) => { setQuery(e.target.value); setPage(1); }}
               ) : (
                 paginated.map((q: QuoteRequestResponse) => (
                   <tr key={q.id} className="text-sm hover:bg-white/[0.02]">
-                    <td className="px-6 py-5 font-mono font-bold text-[#6FE5FF]/80">
+                    <td className="px-6 py-5 font-mono font-bold text-[#E2A54A]/80">
                       <Link
                         to="/dashboard/quotes/$quoteId"
                         params={{ quoteId: String(q.id) }}
@@ -564,7 +566,7 @@ onChange={(e) => { setQuery(e.target.value); setPage(1); }}
                       <Link
                         to="/dashboard/quotes/$quoteId"
                         params={{ quoteId: String(q.id) }}
-                        className="inline-flex items-center gap-1 text-[#6FE5FF] hover:opacity-80 text-xs font-semibold"
+                        className="inline-flex items-center gap-1 text-[#E2A54A] hover:opacity-80 text-xs font-semibold"
                       >
                         {q.status === "quoted" ? "Review Quote" : "View Details"}{" "}
                         <ChevronRight className="w-3.5 h-3.5" />

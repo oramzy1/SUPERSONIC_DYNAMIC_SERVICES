@@ -82,7 +82,7 @@ function DashboardHome() {
       <p className="text-xs text-info font-semibold uppercase tracking-[0.25em] text-muted-foreground">
         Status Report
       </p>
-      <h1 className="mt-2 text-white font-display text-3xl font-bold md:text-5xl">
+      <h1 className="mt-2 text-foreground font-display text-3xl font-bold md:text-5xl">
         Welcome back, {user?.full_name?.split(" ")[0] || "there"}
       </h1>
 
@@ -98,7 +98,7 @@ function DashboardHome() {
               className="rounded-2xl bg-surface p-5"
             >
               <div className="flex items-start justify-between">
-                <div className="grid h-9 w-9 place-items-center rounded-lg bg-white/5">
+                <div className="grid h-9 w-9 place-items-center rounded-lg bg-surface">
                   <Icon className="h-4 w-4 text-foreground/80" />
                 </div>
                 {s.note && (
@@ -121,7 +121,7 @@ function DashboardHome() {
           <h2 className="font-display text-xl font-semibold">Recent Quotes</h2>
           <a
             href="/dashboard/quotes"
-            className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6FE5FF] hover:opacity-80"
+            className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#E2A54A] hover:opacity-80"
           >
             View All
           </a>
@@ -142,7 +142,7 @@ function DashboardHome() {
                 <tr>
                   <td colSpan={4} className="py-10 text-center text-sm text-muted-foreground">
                     No quote requests yet.{" "}
-                    <a href="/quoterequest" className="text-[#6FE5FF] hover:underline">
+                    <a href="/quoterequest" className="text-[#E2A54A] hover:underline">
                       Request one now
                     </a>
                   </td>
@@ -161,7 +161,7 @@ function DashboardHome() {
                       {q.status === "reviewed" && (
                         <a
                           href="/dashboard/quotes"
-                          className="text-[#6FE5FF] hover:underline text-xs font-semibold"
+                          className="text-[#E2A54A] hover:underline text-xs font-semibold"
                         >
                           Review Quote
                         </a>

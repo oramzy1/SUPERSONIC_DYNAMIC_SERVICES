@@ -11,11 +11,19 @@ import {
   Users,
   PackageSearch,
   ChevronRight,
+  Search,
 } from "lucide-react";
 import { adminApi, jobsApi, accountApi } from "@/lib/api";
 import type { JobResponse, DashboardJob, ProfileResponse } from "@/lib/api-types";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { Pagination } from "@/components/shared/Pagination";
+import {
+  AvatarStack,
+  DocStatusBadge,
+  JobStatusBadge,
+  formatDay,
+  resolveCrew,
+} from "@/components/shared/JobParts";
 
 export const Route = createFileRoute("/_auth/adminjobs/")({
   component: RouteComponent,
@@ -31,20 +39,11 @@ function formatDate(iso?: string | null): string {
   });
 }
 
-function initials(name?: string | null): string {
-  if (!name) return "?";
-  return name
-    .split(" ")
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
-}
-
 function RouteComponent() {
   const [statusFilter, setStatusFilter] = useState("All");
-const [page, setPage] = useState(1);
-const PAGE_SIZE = 10;
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   // Full, real job list - no more relying on dashboard buckets for the primary list.
   const { data: jobs = [], isLoading: jobsLoading } = useQuery({
@@ -74,9 +73,22 @@ const PAGE_SIZE = 10;
   const usersById = new Map<number, ProfileResponse>(users.map((u) => [u.id, u]));
 
   const statusOptions = ["All", ...Array.from(new Set(jobs.map((j) => j.status)))];
-  const visible = statusFilter === "All" ? jobs : jobs.filter((j) => j.status === statusFilter);
+  const q = query.trim().toLowerCase();
+  const byStatus = statusFilter === "All" ? jobs : jobs.filter((j) => j.status === statusFilter);
+  const visible = q
+    ? byStatus.filter((j) =>
+        [
+          String(j.id),
+          j.customer_contact?.full_name,
+          j.customer_contact?.company,
+          j.quote_number,
+          j.move_from,
+          j.move_to,
+        ].some((v) => v?.toLowerCase().includes(q)),
+      )
+    : byStatus;
   const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
-const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   // Metrics always come from the FULL unfiltered list, not `visible` -
   // otherwise switching tabs makes the cards look "broken" the same way
@@ -99,17 +111,19 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   ];
 
   return (
-    <div className="w-full text-slate-200 select-none pb-12">
+    <div className="w-full text-foreground/80 select-none pb-12">
       <Breadcrumbs items={[{ label: "Jobs" }]} />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Active Assignments</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground/70">
+            Active Assignments
+          </h1>
+          <p className="text-sm text-foreground/60 mt-1">
             All jobs created from accepted quotes. Click a row to view, assign, or reassign crew.
           </p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-full text-xs font-medium text-emerald-400 self-start sm:self-auto">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-surface backdrop-blur-md border border-white/6 rounded-full text-xs font-medium text-emerald-400 self-start sm:self-auto">
           <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
           {jobsLoading ? "Syncing..." : "System Operational"}
         </div>
@@ -121,13 +135,13 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
           return (
             <div
               key={idx}
-              className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-32"
+              className="bg-surface backdrop-blur-md border border-white/6 rounded-xs p-5 flex flex-col justify-between h-32"
             >
               <div className="flex items-start justify-between w-full">
-                <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
+                <span className="text-[10px] font-bold tracking-wider text-foreground/60 uppercase">
                   {card.title}
                 </span>
-                <div className={`p-1.5 bg-white/2 rounded-lg border border-white/6 ${card.tone}`}>
+                <div className={`p-1.5 bg-white/2 rounded-xs border border-white/6 ${card.tone}`}>
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
@@ -139,91 +153,129 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
         })}
       </div>
 
-      {statusOptions.length > 1 && (
-        <div className="flex items-center gap-1.5 bg-[#0d111a]/40 backdrop-blur-md border border-white/6 p-1 rounded-lg text-xs font-medium text-slate-400 overflow-x-auto w-fit mb-4">
-          {statusOptions.map((s) => (
-            <button
-              key={s}
-              onClick={() => { setStatusFilter(s); setPage(1); }}
-              className={`px-3 py-1 rounded-md whitespace-nowrap transition-colors uppercase ${
-                statusFilter === s
-                  ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10 font-semibold"
-                  : "hover:text-slate-200"
-              }`}
-            >
-              {s.replace("_", " ")}
-            </button>
-          ))}
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        {statusOptions.length > 1 && (
+          <div className="flex items-center gap-1.5 bg-surface backdrop-blur-md border border-white/6 p-1 rounded-xs text-xs font-medium text-foreground/70 overflow-x-auto w-fit">
+            {statusOptions.map((s) => (
+              <button
+                key={s}
+                onClick={() => {
+                  setStatusFilter(s);
+                  setPage(1);
+                }}
+                className={`px-3 py-1 rounded-xs whitespace-nowrap transition-colors uppercase ${
+                  statusFilter === s
+                    ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10 font-semibold"
+                    : "hover:text-foreground"
+                }`}
+              >
+                {s.replace("_", " ")}
+              </button>
+            ))}
+          </div>
+        )}
+        <div className="flex items-center gap-2 rounded-xs border border-white/6 bg-surface px-3 py-1.5 sm:ml-auto sm:w-64">
+          <Search className="h-3.5 w-3.5 shrink-0 text-foreground/60" />
+          <input
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search customer, quote, route..."
+            className="w-full bg-transparent text-xs text-foreground/70 outline-none placeholder:text-foreground/50"
+          />
         </div>
-      )}
+      </div>
 
       {jobsLoading ? (
-        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl py-16 px-5 text-center text-sm text-slate-500">
+        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xs py-16 px-5 text-center text-sm text-foreground/60">
           Loading jobs...
         </div>
       ) : visible.length === 0 ? (
-        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl py-16 px-5 flex flex-col items-center justify-center gap-2 text-center">
-          <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-slate-500 mb-1">
+        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xs py-16 px-5 flex flex-col items-center justify-center gap-2 text-center">
+          <div className="p-2.5 bg-white/2 rounded-xs border border-white/6 text-foreground/60 mb-1">
             <PackageSearch className="w-4 h-4" />
           </div>
-          <p className="text-sm font-medium text-slate-300">No jobs found</p>
-          <p className="text-xs text-slate-500 max-w-xs">
+          <p className="text-sm font-medium text-foreground/70">No jobs found</p>
+          <p className="text-xs text-foreground/60 max-w-xs">
             Jobs appear here once a customer accepts a quote.
           </p>
         </div>
       ) : (
         <div className="flex flex-col gap-3">
           {paginated.map((job: JobResponse) => {
-            const dashInfo = dashboardById.get(job.id);
-            const crewNames = (job.crew_ids ?? [])
-              .map((id) => usersById.get(id)?.full_name)
-              .filter(Boolean) as string[];
-
+            const crew = resolveCrew(job, usersById);
+            const customer = job.customer_contact;
             return (
               <Link
                 key={job.id}
                 to="/adminjobs/$jobId"
                 params={{ jobId: String(job.id) }}
-                className="block bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 hover:bg-white/2 hover:border-white/12 transition duration-150"
+                className="block rounded-xs border border-white/6 bg-surface p-5 transition duration-150 hover:border-white/12 hover:bg-white/2"
               >
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                  <div className="flex flex-col min-w-52.5">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-center">
+                  <div className="min-w-0 lg:w-64">
                     <div className="flex items-center gap-2">
                       <span className="font-mono text-xs font-bold text-[#E2A54A]">#{job.id}</span>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded border text-[9px] font-extrabold tracking-wider uppercase bg-white/6 text-slate-400 border-white/4">
-                        {job.status.replace("_", " ")}
-                      </span>
+                      <JobStatusBadge status={job.status} />
                     </div>
-                    <h4 className="text-sm font-bold text-white mt-2 tracking-tight">
-                      {dashInfo?.customer_name || "Customer info unavailable"}
+                    <h4 className="mt-2 truncate text-sm font-bold text-foreground/80">
+                      {customer?.full_name || "Customer info unavailable"}
                     </h4>
-                    {job.scheduled_start && (
-                      <span className="text-xs font-medium text-slate-500 mt-1 flex items-center gap-1.5">
-                        <Calendar className="w-3 h-3 text-slate-600" />{" "}
-                        {formatDate(job.scheduled_start)}
+                    <p className="truncate text-xs text-foreground/50">
+                      {[customer?.company, job.quote_number && `Quote ${job.quote_number}`]
+                        .filter(Boolean)
+                        .join(" · ") || "-"}
+                    </p>
+                  </div>
+
+                  <div className="min-w-0 flex-1 space-y-1.5 text-xs">
+                    <div className="flex items-center gap-2 text-foreground/70">
+                      <MapPin className="h-3 w-3 shrink-0" />
+                      <span className="truncate font-semibold">{job.move_from || "-"}</span>
+                      <span className="shrink-0">→</span>
+                      <span className="truncate font-semibold">{job.move_to || "-"}</span>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-foreground/50">
+                      {job.move_date && (
+                        <span className="flex items-center gap-1.5">
+                          <Truck className="h-3 w-3" /> Move: {formatDay(job.move_date)}
+                        </span>
+                      )}
+                      {job.delivery_date && (
+                        <span className="flex items-center gap-1.5">
+                          <Truck className="h-3 w-3" /> Delivery: {formatDay(job.delivery_date)}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="h-3 w-3" />
+                        {job.scheduled_start
+                          ? `Scheduled: ${formatDate(job.scheduled_start)} - ${formatDate(job.scheduled_end)}`
+                          : "Not scheduled"}
                       </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-4 lg:justify-end">
+                    <div className="flex flex-col items-end gap-1">
+                      {job.contract_id ? (
+                        <DocStatusBadge label="Contract" status={job.contract_status} />
+                      ) : (
+                        <span className="text-[10px] font-semibold uppercase text-rose-400">
+                          No contract
+                        </span>
+                      )}
+                      {job.invoice_id ? (
+                        <DocStatusBadge label="Invoice" status={job.invoice_status} />
+                      ) : null}
+                    </div>
+                    {crew.length > 0 ? (
+                      <AvatarStack people={crew} />
+                    ) : (
+                      <span className="text-xs text-foreground/50">Unassigned</span>
                     )}
-                  </div>
-
-                  <div className="flex-1 flex items-center justify-center min-w-65 px-2 py-4 lg:py-0">
-                    <div className="flex items-center gap-2 text-[11px] text-slate-300 w-full max-w-120">
-                      <MapPin className="w-3 h-3 text-slate-600 shrink-0" />
-                      <span className="text-slate-100 font-semibold truncate">
-                        {dashInfo?.address_from || "-"}
-                      </span>
-                      <span className="text-slate-600 shrink-0 mx-1">→</span>
-                      <span className="text-slate-100 font-semibold truncate">
-                        {dashInfo?.address_to || "-"}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 justify-end">
-                    <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                      <Users className="w-3.5 h-3.5 text-slate-600" />
-                      {crewNames.length > 0 ? crewNames.join(", ") : "Unassigned"}
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                    <ChevronRight className="h-4 w-4 text-foreground/60" />
                   </div>
                 </div>
               </Link>
@@ -233,21 +285,21 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
       )}
 
       <div className="flex justify-end mt-4">
-  <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-</div>
+        <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-slate-500 font-medium">
+        <div className="bg-surface backdrop-blur-md border border-white/6 rounded-xs p-4 flex items-center justify-between text-xs text-foreground/60 font-medium">
           <span className="flex items-center gap-2">
-            <Users className="w-3.5 h-3.5 text-slate-500" /> Crew Members Available:
+            <Users className="w-3.5 h-3.5 text-foreground/60" /> Crew Members Available:
           </span>
-          <span className="text-[11px] font-mono text-slate-400 font-bold">{crewCount}</span>
+          <span className="text-[11px] font-mono text-foreground/60 font-bold">{crewCount}</span>
         </div>
-        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-slate-500 font-medium">
+        <div className="bg-surface backdrop-blur-md border border-white/6 rounded-xs p-4 flex items-center justify-between text-xs text-foreground/60 font-medium">
           <span className="flex items-center gap-2">
-            <MapPin className="w-3.5 h-3.5 text-slate-500" /> Total Assignments Tracked:
+            <MapPin className="w-3.5 h-3.5 text-foreground/60" /> Total Assignments Tracked:
           </span>
-          <span className="text-[11px] font-mono text-slate-400 font-bold">{jobs.length}</span>
+          <span className="text-[11px] font-mono text-foreground/60 font-bold">{jobs.length}</span>
         </div>
       </div>
     </div>

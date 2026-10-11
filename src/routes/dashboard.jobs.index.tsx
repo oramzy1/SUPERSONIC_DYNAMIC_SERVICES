@@ -21,7 +21,7 @@
 //       <p className="mt-3 text-sm text-muted-foreground">
 //         Track scheduling and status updates for accepted jobs.
 //       </p>
- 
+
 //       <div className="mt-8 space-y-3">
 //         {isLoading ? (
 //           <p className="text-sm text-muted-foreground">Loading jobs...</p>
@@ -64,7 +64,15 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Truck, CheckCircle2, Clock, Calendar, MapPin, ChevronRight, PackageSearch } from "lucide-react";
+import {
+  Truck,
+  CheckCircle2,
+  Clock,
+  Calendar,
+  MapPin,
+  ChevronRight,
+  PackageSearch,
+} from "lucide-react";
 import { jobsApi } from "@/lib/api";
 import type { JobResponse } from "@/lib/api-types";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
@@ -118,8 +126,8 @@ function JobsPage() {
 
       <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="font-display text-white text-3xl font-bold md:text-5xl">Your Jobs</h1>
-          <p className="mt-3 text-white max-w-md text-sm text-muted-foreground">
+          <h1 className="font-display text-foreground text-3xl font-bold md:text-5xl">Your Jobs</h1>
+          <p className="mt-3 text-foreground max-w-md text-sm">
             Track scheduling and status updates for accepted jobs.
           </p>
         </div>
@@ -128,7 +136,10 @@ function JobsPage() {
             {statusOptions.map((s) => (
               <button
                 key={s}
-                onClick={() => { setStatusFilter(s); setPage(1); }}
+                onClick={() => {
+                  setStatusFilter(s);
+                  setPage(1);
+                }}
                 className={cn(
                   "rounded-full px-5 py-2 text-sm font-medium transition capitalize",
                   statusFilter === s
@@ -152,7 +163,7 @@ function JobsPage() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   {m.title}
                 </p>
-                <Icon className="h-4 w-4 text-[#6FE5FF]" />
+                <Icon className="h-4 w-4 text-[#E2A54A]" />
               </div>
               <p className="mt-4 font-display text-3xl font-bold">{m.value}</p>
             </div>
@@ -184,7 +195,7 @@ function JobsPage() {
                   <td colSpan={5} className="px-6 py-10 text-center text-sm text-muted-foreground">
                     <div className="flex flex-col items-center gap-2">
                       <PackageSearch className="h-4 w-4" />
-                      No jobs yet — jobs appear here once you accept a quote.
+                      No jobs yet - jobs appear here once you accept a quote.
                     </div>
                   </td>
                 </tr>
@@ -192,14 +203,17 @@ function JobsPage() {
                 paginated.map((job: JobResponse) => (
                   <tr
                     key={job.id}
-                    onClick={() => navigate({ to: "/dashboard/jobs/$jobId", params: { jobId: String(job.id) } })}
+                    onClick={() =>
+                      navigate({ to: "/dashboard/jobs/$jobId", params: { jobId: String(job.id) } })
+                    }
                     className="text-sm hover:bg-white/[0.02] cursor-pointer"
                   >
-                    <td className="px-6 py-5 font-mono font-bold text-[#6FE5FF]/80">#{job.id}</td>
+                    <td className="px-6 py-5 font-mono font-bold text-[#E2A54A]/80">#{job.id}</td>
                     <td className="px-6 py-5">
                       {job.move_from || job.move_to ? (
                         <span className="inline-flex items-center gap-1 text-xs text-muted-foreground font-mono">
-                          <MapPin className="w-2.5 h-2.5" /> {job.move_from || "-"} → {job.move_to || "-"}
+                          <MapPin className="w-2.5 h-2.5" /> {job.move_from || "-"} →{" "}
+                          {job.move_to || "-"}
                         </span>
                       ) : (
                         <span className="text-xs text-muted-foreground">-</span>
@@ -220,7 +234,7 @@ function JobsPage() {
                         to="/dashboard/jobs/$jobId"
                         params={{ jobId: String(job.id) }}
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1 text-[#6FE5FF] hover:opacity-80 text-xs font-semibold"
+                        className="inline-flex items-center gap-1 text-[#E2A54A] hover:opacity-80 text-xs font-semibold"
                       >
                         View <ChevronRight className="w-3.5 h-3.5" />
                       </Link>

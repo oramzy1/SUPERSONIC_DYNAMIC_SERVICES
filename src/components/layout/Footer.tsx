@@ -51,7 +51,7 @@ export function Footer() {
   const [showMessagingModal, setShowMessagingModal] = useState(false);
   const [menuToggled, setMenuToggled] = useState(false);
   const { setIsThemeModalOpen } = useTheme();
-const floatingMenuRef = useRef<HTMLDivElement>(null);
+  const floatingMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScrollToggle = () => {
@@ -67,21 +67,21 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
   }, []);
 
   useEffect(() => {
-  if (!showPlusMenu) return;
+    if (!showPlusMenu) return;
 
-  const handleOutside = (e: MouseEvent | TouchEvent) => {
-    if (floatingMenuRef.current && !floatingMenuRef.current.contains(e.target as Node)) {
-      setShowPlusMenu(false);
-    }
-  };
+    const handleOutside = (e: MouseEvent | TouchEvent) => {
+      if (floatingMenuRef.current && !floatingMenuRef.current.contains(e.target as Node)) {
+        setShowPlusMenu(false);
+      }
+    };
 
-  document.addEventListener("mousedown", handleOutside);
-  document.addEventListener("touchstart", handleOutside);
-  return () => {
-    document.removeEventListener("mousedown", handleOutside);
-    document.removeEventListener("touchstart", handleOutside);
-  };
-}, [showPlusMenu]);
+    document.addEventListener("mousedown", handleOutside);
+    document.addEventListener("touchstart", handleOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleOutside);
+      document.removeEventListener("touchstart", handleOutside);
+    };
+  }, [showPlusMenu]);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -117,7 +117,7 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
 
         {/* Shortened Opening Hours Section */}
         <div>
-          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground">
             Opening Hours
           </h4>
           <ul className="space-y-3 text-sm">
@@ -144,7 +144,7 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
 
         {/* Quick Navigation Links */}
         <div className="my-0">
-          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground">
             Quick Navigation
           </h4>
           <ul className="space-y-3 text-sm">
@@ -161,7 +161,7 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
 
         {/* Legal & Support Links */}
         <div>
-          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">
+          <h4 className="mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-foreground">
             Legal & Support
           </h4>
           <ul className="space-y-3 text-sm">
@@ -179,11 +179,11 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
 
       {/* Bottom Bar Details */}
       <div className="border-t border-slate-900 bg-slate-950/60">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-6 text-[11px] uppercase tracking-[0.18em] text-slate-500 md:flex-row md:items-center md:justify-between md:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-6 text-[11px] uppercase tracking-[0.18em] text-foreground/60 md:flex-row md:items-center md:justify-between md:px-8">
           <div className="space-y-1 text-slate-400">
             <div>KvK: 42113033</div>
             <div>BTW-NUMBER: NL869789491B01</div>
-            <div className="text-slate-500">SUPERSONIC DYNAMIC SERVICES B.V. © 2026</div>
+            <div className="text-foreground/60">SUPERSONIC DYNAMIC SERVICES B.V. © 2026</div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 text-sm text-slate-400 font-medium">
@@ -250,87 +250,87 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
 
       {/* FLOATING ACTION MENU & MODALS */}
       <div
-      ref={floatingMenuRef}
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 select-none">
+        ref={floatingMenuRef}
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3 select-none"
+      >
         {/* Plus Menu Popup Options */}
-<div
-  aria-hidden={!showPlusMenu}
-  className={`absolute bottom-16 right-0 w-[calc(100vw-2rem)] sm:w-72 origin-bottom-right bg-popover border border-border rounded-2xl p-4 text-foreground backdrop-blur-xl shadow-2xl ${
-    showPlusMenu
-      ? "visible animate-menu-bounce"
-      : menuToggled
-        ? "pointer-events-none animate-menu-bounce-out"
-        : "invisible opacity-0 pointer-events-none"
-  }`}
->
-            <div className="flex items-center justify-between border-b border-border pb-2.5 mb-3">
-              <div className="flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span className="text-xs font-bold uppercase tracking-wider text-foreground">
-                  Supersonic Hub
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setShowPlusMenu(false)}
-                className="text-muted-foreground hover:text-foreground transition p-1"
-              >
-                <X className="h-4 w-4" />
-              </button>
+        <div
+          aria-hidden={!showPlusMenu}
+          className={`absolute bottom-16 right-0 w-[calc(100vw-2rem)] sm:w-72 origin-bottom-right bg-popover border border-border rounded-2xl p-4 text-foreground backdrop-blur-xl shadow-2xl ${
+            showPlusMenu
+              ? "visible animate-menu-bounce"
+              : menuToggled
+                ? "pointer-events-none animate-menu-bounce-out"
+                : "invisible opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="flex items-center justify-between border-b border-border pb-2.5 mb-3">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-xs font-bold uppercase tracking-wider text-foreground">
+                Supersonic Hub
+              </span>
             </div>
-
-            <div className="space-y-2">
-              {/* Option 1: Existing Messaging / Support Hub Option */}
-              <button
-                type="button"
-                onClick={() => {
-                  setShowPlusMenu(false);
-                  setShowMessagingModal(true);
-                }}
-                style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
-                className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'}`}
-              >
-                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
-                  <MessageSquare className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="font-semibold text-foreground group-hover:text-primary">
-                    Support & Messaging
-                  </div>
-                  <div className="text-[11px] text-muted-foreground">
-                    Live chat, support tickets & contact
-                  </div>
-                </div>
-              </button>
-
-              {/* Option 2: Theme Modal Option */}
-              <button
-                type="button"
-                onClick={() => {
-                  setShowPlusMenu(false);
-                  setIsThemeModalOpen(true);
-                }}
-                style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
-                className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'}`}
-              >
-                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-500/10 text-indigo-500">
-                  <Palette className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="font-semibold text-foreground group-hover:text-primary">
-                    Theme Appearance
-                  </div>
-                  <div className="text-[11px] text-muted-foreground">
-                    Switch Light, Dark or System theme
-                  </div>
-                </div>
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setShowPlusMenu(false)}
+              className="text-muted-foreground hover:text-foreground transition p-1"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
+          <div className="space-y-2">
+            {/* Option 1: Existing Messaging / Support Hub Option */}
+            <button
+              type="button"
+              onClick={() => {
+                setShowPlusMenu(false);
+                setShowMessagingModal(true);
+              }}
+              style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
+              className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+            >
+              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-emerald-500/10 text-emerald-500">
+                <MessageSquare className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="font-semibold text-foreground group-hover:text-primary">
+                  Support & Messaging
+                </div>
+                <div className="text-[11px] text-muted-foreground">
+                  Live chat, support tickets & contact
+                </div>
+              </div>
+            </button>
+
+            {/* Option 2: Theme Modal Option */}
+            <button
+              type="button"
+              onClick={() => {
+                setShowPlusMenu(false);
+                setIsThemeModalOpen(true);
+              }}
+              style={{ transitionDelay: showPlusMenu ? "70ms" : "0ms" }}
+              className={`w-full flex items-center gap-3 rounded-xl bg-surface border border-border p-3 text-left text-xs hover:bg-accent group ... transition-all duration-300 ${showPlusMenu ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+            >
+              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-indigo-500/10 text-indigo-500">
+                <Palette className="h-4 w-4" />
+              </div>
+              <div>
+                <div className="font-semibold text-foreground group-hover:text-primary">
+                  Theme Appearance
+                </div>
+                <div className="text-[11px] text-muted-foreground">
+                  Switch Light, Dark or System theme
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
         {/* Existing Support Channels Modal */}
         {showMessagingModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
@@ -365,7 +365,9 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
                       <div className="font-semibold text-foreground group-hover:text-primary">
                         Live Chat Support
                       </div>
-                      <div className="text-[11px] text-muted-foreground">Chat with our online support team</div>
+                      <div className="text-[11px] text-muted-foreground">
+                        Chat with our online support team
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -379,7 +381,9 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
                       <div className="font-semibold text-foreground group-hover:text-primary">
                         Submit a Ticket
                       </div>
-                      <div className="text-[11px] text-muted-foreground">Open a detailed inquiry or request</div>
+                      <div className="text-[11px] text-muted-foreground">
+                        Open a detailed inquiry or request
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -393,7 +397,9 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
                       <div className="font-semibold text-foreground group-hover:text-primary">
                         Contact Us
                       </div>
-                      <div className="text-[11px] text-muted-foreground">Get in touch via phone or email</div>
+                      <div className="text-[11px] text-muted-foreground">
+                        Get in touch via phone or email
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -401,33 +407,32 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
             </div>
           </div>
         )}
-
         {/* Toggle Support Trigger Button (PLUS button) */}
-       <button
-  type="button"
-  onClick={() => {
-  setMenuToggled(true);
-  setShowPlusMenu((v) => !v);
-}}
-  className={`grid h-12 w-12 animate-float place-items-center rounded-full transition-all duration-300 shadow-xl hover:opacity-95 active:scale-90 ${
-    showPlusMenu
-      ? "bg-slate-800 text-slate-200 border-slate-700 rotate-90"
-      : "bg-slate-800 text-slate-200 border-slate-700 font-bold rotate-0"
-  }`}
-  aria-label="Toggle supersonic options"
-  aria-expanded={showPlusMenu}
->
-  <Plus
-    className={`col-start-1 row-start-1 h-6 w-6 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-      showPlusMenu ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
-    }`}
-  />
-  <X
-    className={`col-start-1 row-start-1 h-6 w-6 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-      showPlusMenu ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
-    }`}
-  />
-</button>x
+        <button
+          type="button"
+          onClick={() => {
+            setMenuToggled(true);
+            setShowPlusMenu((v) => !v);
+          }}
+          className={`grid h-12 w-12 animate-float place-items-center rounded-full transition-all duration-300 shadow-xl hover:opacity-95 active:scale-90 ${
+            showPlusMenu
+              ? "bg-slate-800 text-slate-200 border-slate-700 rotate-90"
+              : "bg-slate-800 text-slate-100 border-slate-700 font-bold rotate-0"
+          }`}
+          aria-label="Toggle supersonic options"
+          aria-expanded={showPlusMenu}
+        >
+          <Plus
+            className={`col-start-1 row-start-1 h-6 w-6 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+              showPlusMenu ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
+            }`}
+          />
+          <X
+            className={`col-start-1 row-start-1 h-6 w-6 transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+              showPlusMenu ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
+            }`}
+          />
+        </button>
       </div>
 
       {/* Theme Modal */}
@@ -437,13 +442,13 @@ const floatingMenuRef = useRef<HTMLDivElement>(null);
       <SystemThemePromptBanner />
 
       {/* FLOATING SCROLL TO TOP ARROW BUTTON */}
-      <div className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-50 flex flex-col items-end gap-3 select-none">
+      <div className="fixed bottom-4 left-4 sm:bottom-15 sm:left-6 z-50 flex flex-col items-end gap-3 select-none">
         <div className="flex flex-col items-center gap-3">
           {showScrollTop && (
             <button
               type="button"
               onClick={scrollToTop}
-              className="grid h-10 w-10 place-items-center rounded-xl border border-slate-800 bg-slate-900/90 text-slate-400 backdrop-blur-md transition hover:bg-slate-800 hover:text-white shadow-lg animate-in fade-in zoom-in-90 duration-200"
+              className="grid h-12 w-12 place-items-center rounded-full bg-slate-800 text-slate-200 backdrop-blur-md transition hover:bg-slate-800 hover:text-white shadow-lg animate-in fade-in zoom-in-90 duration-200"
               aria-label="Scroll to top"
             >
               <ChevronUp className="h-5 w-5" />

@@ -72,21 +72,6 @@ export function AdminSettingsDashboard() {
 
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const [security, setSecurity] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
-
-  const [notifications, setNotifications] = useState({
-    alertCritical: true,
-    alertMaintenance: true,
-    weeklyReport: false,
-    slackWebhook: "https://hooks.slack.com/services/YOUR_WORKSPACE/YOUR_CHANNEL/TOKEN",
-  });
-
-  const [showApiKey, setShowApiKey] = useState(false);
   const [apiConfig, setApiConfig] = useState({
     publicKey: "pk_test_configuration_environment_key",
     secretKey: import.meta.env.VITE_STRIPE_KEY_SECRET || "sk_test_fallback_placeholder_key",
@@ -153,7 +138,7 @@ export function AdminSettingsDashboard() {
       }
       return;
     }
-    // Notifications / API tabs: no backend endpoints exist for these yet —
+    // Notifications / API tabs: no backend endpoints exist for these yet -
     // this remains a simulated save, unchanged from before.
     setIsSaving(true);
     setTimeout(() => {
@@ -180,7 +165,7 @@ export function AdminSettingsDashboard() {
   };
 
   return (
-    <div className="w-full min-h-full text-[#626d7c] font-sans antialiased px-0 py-4 sm:p-8">
+    <div className="w-full min-h-full text-foreground/60 font-sans antialiased px-0 py-4 sm:p-8">
       {/* Toast */}
       {toast && (
         <div
@@ -208,10 +193,12 @@ export function AdminSettingsDashboard() {
 
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 px-4 sm:px-0 border-b border-[#161b22]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 px-4 sm:px-0">
           <div>
-            <h1 className="text-2xl font-bold text-white tracking-tight">System Settings</h1>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <h1 className="text-2xl font-bold text-foreground/80 tracking-tight">
+              System Settings
+            </h1>
+            <p className="text-xs text-foreground/60 mt-0.5">
               Manage administrative credentials, data nodes, and gateway authorizations.
             </p>
           </div>
@@ -225,7 +212,7 @@ export function AdminSettingsDashboard() {
                   ? savingPassword
                   : isSaving
             }
-            className="bg-[#e2a54a] hover:bg-[#cb923c] disabled:bg-slate-800 text-[#07090e] disabled:text-slate-500 font-bold text-xs tracking-wide px-5 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 uppercase disabled:cursor-not-allowed"
+            className="bg-[#E2A54A] hover:bg-[#cb923c] disabled:bg-slate-800 text-[#07090e] disabled:text-foreground/60 font-bold text-xs tracking-wide px-5 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2 uppercase disabled:cursor-not-allowed"
           >
             {(
               activeTab === "profile"
@@ -252,7 +239,7 @@ export function AdminSettingsDashboard() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
           {/* Sidebar Tabs */}
-          <div className="flex flex-col space-y-1 bg-[#0c1017] p-2 sm:rounded-xl border-y sm:border border-[#161b22]">
+          <div className="flex flex-col space-y-1 bg-surface p-2 sm:rounded-xl">
             {(["profile", "security"] as SettingsTab[]).map((t) => {
               const icons = { profile: User, security: Shield };
               const labels = {
@@ -267,8 +254,8 @@ export function AdminSettingsDashboard() {
                   onClick={() => handleTabChange(t)}
                   className={`flex items-center gap-3 px-4 py-3 text-xs font-bold rounded-lg transition-all tracking-wide text-left ${
                     activeTab === t
-                      ? "bg-[#1c2330] text-[#e2a54a]"
-                      : "hover:text-white text-[#626d7c]"
+                      ? "bg-background text-[#E2A54A]"
+                      : "hover:text-white text-foreground/60"
                   }`}
                 >
                   <Icon className="h-4 w-4" /> {labels[t]}
@@ -278,20 +265,20 @@ export function AdminSettingsDashboard() {
           </div>
 
           {/* Form Panel */}
-          <div className="md:col-span-3 bg-[#0c1017] sm:border border-[#161b22] sm:rounded-xl p-4 sm:p-6 min-h-105">
+          <div className="md:col-span-3 bg-surface sm:rounded-xl p-4 sm:p-6 min-h-105">
             <form id="settings-matrix-form" onSubmit={handleSaveSettings} className="space-y-6">
               {/* PROFILE TAB */}
               {activeTab === "profile" && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1 font-mono">
+                    <h3 className="text-sm font-bold text-foreground/80 uppercase tracking-wider mb-1 font-mono">
                       Admin Configuration
                     </h3>
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-[11px] text-foreground/60">
                       Configure corporate structural mapping rules.
                     </p>
                   </div>
-                  <div className="flex flex-col sm:flex-row items-center gap-5 p-4 bg-[#07090e]/50 border border-[#161b22] rounded-xl">
+                  <div className="flex flex-col sm:flex-row items-center gap-5 p-4 bg-background rounded-xl">
                     <div className="relative h-16 w-16 rounded-full overflow-hidden border border-slate-700 bg-slate-900 shrink-0">
                       {profile.avatarUrl ? (
                         <img
@@ -306,7 +293,7 @@ export function AdminSettingsDashboard() {
                       )}
                     </div>
                     <div className="flex flex-col gap-1.5 items-center sm:items-start text-center sm:text-left">
-                      <label className="cursor-pointer bg-[#16191c] hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center gap-2">
+                      <label className="cursor-pointer bg-[#16191c] hover:bg-slate-800 border border-slate-800 text-foreground text-xs font-semibold px-3 py-2 rounded-lg transition flex items-center gap-2">
                         <Upload className="h-3.5 w-3.5 text-slate-400" />
                         Upload New Image
                         <input
@@ -319,27 +306,29 @@ export function AdminSettingsDashboard() {
                           className="hidden"
                         />
                         {uploadingAvatar && (
-                          <p className="text-[10px] text-slate-500">Uploading...</p>
+                          <p className="text-[10px] text-foreground/60">Uploading...</p>
                         )}
                       </label>
-                      <p className="text-[10px] text-slate-500">Supports PNG or JPEG up to 2MB.</p>
+                      <p className="text-[10px] text-foreground/60">
+                        Supports PNG or JPEG up to 2MB.
+                      </p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                      <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider">
                         Account Handle
                       </label>
                       <input
-                       type="text"
-  required
-  value={fullName}
-  onChange={(e) => setFullName(e.target.value)}
-                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#e2a54a]/60 font-medium transition"
+                        type="text"
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className="bg-background rounded-lg px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                      <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider">
                         Email Address
                       </label>
                       <input
@@ -347,7 +336,7 @@ export function AdminSettingsDashboard() {
                         required
                         value={user?.email ?? ""}
                         disabled
-                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#e2a54a]/60 font-medium transition"
+                        className="bg-background rounded-lg px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
@@ -358,19 +347,19 @@ export function AdminSettingsDashboard() {
                         type="text"
                         value={user?.role ?? ""}
                         disabled
-                        className="capitalize bg-[#07090e]/50 border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-slate-500 font-mono cursor-not-allowed"
+                        className="capitalize bg-[#07090e]/50 rounded-lg px-4 py-2.5 text-xs text-foreground/60 font-mono cursor-not-allowed"
                       />
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                     <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                      <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider">
                         Account Handle
                       </label>
                       <input
-                       type="text"
-  required
-  value={phone}
-  onChange={(e) => setPhone(e.target.value)}
-                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[#e2a54a]/60 font-medium transition"
+                        type="text"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="bg-background rounded-lg px-4 py-2.5 text-xs text-foreground/80 focus:outline-none focus:border-[#E2A54A]/60 font-medium transition"
                       />
                     </div>
                   </div>
@@ -384,25 +373,25 @@ export function AdminSettingsDashboard() {
                     <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1 font-mono">
                       Cryptographic Credentials
                     </h3>
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-[11px] text-foreground/60">
                       Rotate security profile authorization parameters below.
                     </p>
                   </div>
                   <div className="flex flex-col space-y-1.5">
-                    <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                    <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider">
                       Current Encryption Password
                     </label>
                     <div className="relative w-full">
                       <input
                         type={showCurrentPassword ? "text" : "password"}
                         value={currentPassword}
-onChange={(e) => setCurrentPassword(e.target.value)}
-                        className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 pr-10 transition"
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                        className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 pr-10 transition"
                       />
                       <button
                         type="button"
                         onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2d3643] hover:text-[#626d7c] transition"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2d3643] hover:text-foreground/60 transition"
                       >
                         {showCurrentPassword ? (
                           <EyeOff className="h-4 w-4" />
@@ -414,20 +403,20 @@ onChange={(e) => setCurrentPassword(e.target.value)}
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                      <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider">
                         New Master Password
                       </label>
                       <div className="relative w-full">
                         <input
                           type={showNewPassword ? "text" : "password"}
                           value={newPassword}
-onChange={(e) => setNewPassword(e.target.value)}
-                          className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 pr-10 transition"
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          className="w-full bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 pr-10 transition"
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPassword(!showNewPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2d3643] hover:text-[#626d7c] transition"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2d3643] hover:text-foreground/60 transition"
                         >
                           {showNewPassword ? (
                             <EyeOff className="h-4 w-4" />
@@ -438,26 +427,26 @@ onChange={(e) => setNewPassword(e.target.value)}
                       </div>
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider">
+                      <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider">
                         Confirm Master Token
                       </label>
                       <input
                         type="password"
                         value={confirmPassword}
-onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#e2a54a]/60 transition"
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="bg-[#07090e] border border-[#161b22] rounded-lg px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-[#E2A54A]/60 transition"
                       />
                     </div>
                   </div>
                   <div className="h-px bg-[#161b22]" />
                   {/* <div className="flex items-center justify-between p-4 bg-[#07090e] border border-[#161b22] rounded-xl gap-4">
                     <div className="flex items-start gap-3">
-                      <Lock className="h-5 w-5 text-[#e2a54a] mt-0.5 shrink-0" />
+                      <Lock className="h-5 w-5 text-[#E2A54A] mt-0.5 shrink-0" />
                       <div>
                         <p className="text-xs font-bold text-white">
                           Two-Factor Authentication Core (2FA)
                         </p>
-                        <p className="text-[11px] text-slate-500 mt-0.5">
+                        <p className="text-[11px] text-foreground/60 mt-0.5">
                           Enforce hardware/TOTP cryptographic challenges on core operations resets.
                         </p>
                       </div>
@@ -471,11 +460,11 @@ onChange={(e) => setConfirmPassword(e.target.value)}
                         }
                         className="sr-only peer"
                       />
-                      <div className="w-9 h-5 bg-[#161b22] border border-slate-800 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#626d7c] peer-checked:after:bg-[#07090e] after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#e2a54a] peer-checked:border-transparent" />
+                      <div className="w-9 h-5 bg-[#161b22] border border-slate-800 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-foreground/60 peer-checked:after:bg-[#07090e] after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#E2A54A] peer-checked:border-background" />
                     </label>
                   </div>
                   <div className="space-y-2.5">
-                    <label className="text-[10px] uppercase font-bold text-[#626d7c] tracking-wider block">
+                    <label className="text-[10px] uppercase font-bold text-foreground/60 tracking-wider block">
                       Active Platform Terminals
                     </label>
                     <div className="flex items-center justify-between p-3.5 bg-[#07090e]/40 border border-[#161b22] rounded-lg text-xs gap-4">
@@ -485,7 +474,7 @@ onChange={(e) => setConfirmPassword(e.target.value)}
                           <p className="font-mono text-white text-[11px] truncate">
                             Macintosh - Chrome Core Module
                           </p>
-                          <p className="text-[10px] text-slate-500 mt-0.5 truncate">
+                          <p className="text-[10px] text-foreground/60 mt-0.5 truncate">
                             197.210.44.12 - Lagos, Nigeria
                           </p>
                         </div>

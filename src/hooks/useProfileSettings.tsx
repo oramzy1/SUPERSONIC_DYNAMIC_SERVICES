@@ -29,7 +29,7 @@ export function useProfileSettings() {
   const handleAvatarFile = async (file: File) => {
     setUploadingAvatar(true);
     try {
-      // Reusing the generic presigned-url endpoint — it's tagged "Quotes" in
+      // Reusing the generic presigned-url endpoint - it's tagged "Quotes" in
       // the OpenAPI spec but is a plain S3-presign utility with no
       // quote-specific logic, and there's no dedicated avatar upload route.
       const presigned = await quotesApi.getPresignedUrl(file.name, file.type || "image/jpeg");
@@ -89,7 +89,10 @@ export function useProfileSettings() {
     }
     setSavingPassword(true);
     try {
-      await accountApi.changePassword({ current_password: currentPassword, new_password: newPassword });
+      await accountApi.changePassword({
+        current_password: currentPassword,
+        new_password: newPassword,
+      });
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -103,15 +106,24 @@ export function useProfileSettings() {
 
   return {
     user,
-    fullName, setFullName,
-    phone, setPhone,
+    fullName,
+    setFullName,
+    phone,
+    setPhone,
     avatarUrl,
-    uploadingAvatar, handleAvatarFile,
-    savingProfile, saveProfile,
-    currentPassword, setCurrentPassword,
-    newPassword, setNewPassword,
-    confirmPassword, setConfirmPassword,
-    savingPassword, savePassword,
-    toast, setToast,
+    uploadingAvatar,
+    handleAvatarFile,
+    savingProfile,
+    saveProfile,
+    currentPassword,
+    setCurrentPassword,
+    newPassword,
+    setNewPassword,
+    confirmPassword,
+    setConfirmPassword,
+    savingPassword,
+    savePassword,
+    toast,
+    setToast,
   };
 }

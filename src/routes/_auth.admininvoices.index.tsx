@@ -45,7 +45,7 @@ function DownloadButton({ invoiceId }: { invoiceId: number }) {
     <button
       onClick={download}
       disabled={busy}
-      className="grid h-7 w-7 place-items-center rounded-md bg-white/4 text-slate-400 hover:text-white disabled:opacity-50"
+      className="grid h-7 w-7 place-items-center rounded-md bg-white/4 text-slate-400 hover:text-foreground disabled:opacity-50"
     >
       {busy ? (
         <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -59,8 +59,8 @@ function DownloadButton({ invoiceId }: { invoiceId: number }) {
 function RouteComponent() {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("All");
-const [page, setPage] = useState(1);
-const PAGE_SIZE = 15;
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 15;
 
   // Assumes GET /invoices returns ALL invoices for an admin/staff token (the
   // same scoping ambiguity flagged for /quotes and /jobs earlier) rather
@@ -75,7 +75,7 @@ const PAGE_SIZE = 15;
     statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
 
   const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
-const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const paid = invoices.filter((i) => i.status.toLowerCase() === "sent");
   const outstanding = invoices.filter((i) => i.status.toLowerCase() !== "sent");
@@ -114,24 +114,24 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   ];
 
   return (
-    <div className="w-full text-slate-200 select-none pb-12">
+    <div className="w-full text-foreground/80 select-none pb-12">
       <Breadcrumbs items={[{ label: "Invoices" }]} />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Financial Tracking</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Financial Tracking</h1>
           <p className="text-sm text-slate-400 mt-1">Track payments and monitor revenue.</p>
         </div>
         <div className="flex flex-col items-end gap-1 self-start sm:self-auto">
           <button
             disabled
             title="Invoice creation isn't available via the API yet"
-            className="flex items-center gap-1.5 px-4 py-2 bg-white/5 text-slate-500 font-bold text-xs rounded-lg cursor-not-allowed"
+            className="flex items-center gap-1.5 px-4 py-2 bg-white/5 text-foreground/60 font-bold text-xs rounded-lg cursor-not-allowed"
           >
             + New Invoice
           </button>
-          <span className="text-[10px] text-slate-600">
-            Not connected — no backend endpoint yet
+          <span className="text-[10px] text-foreground/60">
+            Not connected - no backend endpoint yet
           </span>
         </div>
       </div>
@@ -142,39 +142,42 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
           return (
             <div
               key={idx}
-              className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-34"
+              className="bg-surface backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-34"
             >
               <div className="flex items-start justify-between w-full">
-                <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
+                <span className="text-[10px] font-bold tracking-wider text-foreground/60 uppercase">
                   {card.title}
                 </span>
-                <div className="text-slate-600">
+                <div className="text-foreground/60">
                   <Icon className="w-4 h-4" />
                 </div>
               </div>
               <div className="mt-2">
-                <h3 className="text-2xl font-bold tracking-tight font-mono text-white">
+                <h3 className="text-2xl font-bold tracking-tight font-mono text-foreground">
                   {card.value}
                 </h3>
-                <p className="text-[11px] font-medium text-slate-500 mt-1">{card.subtext}</p>
+                <p className="text-[11px] font-medium text-foreground/60 mt-1">{card.subtext}</p>
               </div>
             </div>
           );
         })}
       </div>
 
-      <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl overflow-hidden flex flex-col mb-6">
+      <div className="bg-surface backdrop-blur-md border border-white/6 rounded-xl overflow-hidden flex flex-col mb-6">
         <div className="flex items-center justify-between gap-4 p-5 border-b border-white/6">
-          <h2 className="text-sm font-bold text-white tracking-tight">Invoices</h2>
-          <div className="flex items-center bg-black/20 p-1 rounded-lg border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto">
+          <h2 className="text-sm font-bold text-foreground tracking-tight">Invoices</h2>
+          <div className="flex items-center bg-surface p-1 rounded-lg border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto">
             {statusOptions.map((s) => (
               <button
                 key={s}
-                onClick={() => { setStatusFilter(s); setPage(1); }}
+                onClick={() => {
+                  setStatusFilter(s);
+                  setPage(1);
+                }}
                 className={`px-3 py-1 rounded-md whitespace-nowrap ${
                   statusFilter === s
                     ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10"
-                    : "hover:text-slate-200"
+                    : "hover:text-foreground/80"
                 }`}
               >
                 {s}
@@ -186,7 +189,7 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
         <div className="w-full overflow-x-auto">
           <table className="w-full min-w-175 text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/4 text-[10px] font-bold uppercase tracking-[0.12em] text-slate-500">
+              <tr className="border-b border-white/4 text-[10px] font-bold uppercase tracking-[0.12em] text-foreground/60">
                 <th className="py-4 px-6">INVOICE #</th>
                 <th className="py-4 px-6">TYPE</th>
                 <th className="py-4 px-6">AMOUNT</th>
@@ -199,7 +202,7 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
             <tbody className="divide-y divide-white/2 text-xs">
               {isLoading ? (
                 <tr>
-                  <td colSpan={6} className="py-14 px-6 text-center text-slate-500">
+                  <td colSpan={6} className="py-14 px-6 text-center text-foreground/60">
                     Loading invoices...
                   </td>
                 </tr>
@@ -207,7 +210,7 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
                 <tr>
                   <td colSpan={6} className="py-12 px-6">
                     <div className="flex flex-col items-center justify-center gap-2 text-center">
-                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-slate-500 mb-1">
+                      <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
                         <FileSearch className="w-4 h-4" />
                       </div>
                       <p className="text-sm font-medium text-slate-300">No invoices found</p>
@@ -226,11 +229,11 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
                     }
                     className="hover:bg-white/2 transition cursor-pointer"
                   >
-                    <td className="py-4 px-6 font-mono font-bold text-slate-300">
+                    <td className="py-4 px-6 font-mono font-bold text-foreground/60">
                       {row.invoice_number}
                     </td>
                     <td className="py-4 px-6 text-slate-400 capitalize">{row.invoice_type}</td>
-                    <td className="py-4 px-6 font-mono font-bold text-white">
+                    <td className="py-4 px-6 font-mono font-bold text-foreground">
                       €{row.total_amount}
                     </td>
                     <td className="py-4 px-6 text-slate-400">{formatDate(row.created_at)}</td>
@@ -246,6 +249,7 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
                       >
                         {row.status}
                       </span>
+                      #
                     </td>
                     <td className="py-4 px-6 text-xs text-slate-400">
                       {row.job_id && (
@@ -259,9 +263,9 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
                         </Link>
                       )}
                       {row.quote_number && (
-                        <span className="block text-slate-600">{row.quote_number}</span>
+                        <span className="block text-foreground/60">{row.quote_number}</span>
                       )}
-                      {!row.job_id && !row.quote_number && "—"}
+                      {!row.job_id && !row.quote_number && "-"}
                     </td>
                     <td className="py-4 px-6 text-right">
                       <div
@@ -282,11 +286,11 @@ const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
         </div>
 
         <div className="flex items-center justify-between px-6 py-4 border-t border-white/6 bg-white/1">
-<span className="text-xs text-slate-500">
-  Showing <span className="text-slate-400 font-medium">{paginated.length}</span> of{" "}
-  <span className="text-slate-400 font-medium">{invoices.length}</span> invoices
-</span>
-<Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+          <span className="text-xs text-foreground/60">
+            Showing <span className="text-foreground/70 font-medium">{paginated.length}</span> of{" "}
+            <span className="text-foreground/70 font-medium">{invoices.length}</span> invoices
+          </span>
+          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ function UserSetNewPasswordPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
-   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { token } = Route.useSearch();
 
@@ -115,7 +115,7 @@ function UserSetNewPasswordPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
-                  <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                  <Lock className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/60" />
                 </div>
               </div>
 
@@ -133,7 +133,7 @@ function UserSetNewPasswordPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-white/4 py-2.5 pl-4 pr-11 text-sm text-white placeholder-slate-600 outline-none transition focus:border-[#8EA7FF] focus:bg-white/6"
                   />
-                  <ShieldCheck className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                  <ShieldCheck className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/60" />
                 </div>
               </div>
 
@@ -146,7 +146,9 @@ function UserSetNewPasswordPage() {
                   ) : (
                     <Circle className="h-4 w-4 text-slate-600 shrink-0" />
                   )}
-                  <span className={validation.hasMinLength ? "text-slate-200" : "text-slate-500"}>
+                  <span
+                    className={validation.hasMinLength ? "text-foreground" : "text-foreground/60"}
+                  >
                     8+ Characters
                   </span>
                 </div>
@@ -158,7 +160,9 @@ function UserSetNewPasswordPage() {
                   ) : (
                     <Circle className="h-4 w-4 text-slate-600 shrink-0" />
                   )}
-                  <span className={validation.hasSpecialChar ? "text-slate-200" : "text-slate-500"}>
+                  <span
+                    className={validation.hasSpecialChar ? "text-foreground" : "text-foreground/60"}
+                  >
                     1 Special Char
                   </span>
                 </div>
@@ -170,7 +174,9 @@ function UserSetNewPasswordPage() {
                   ) : (
                     <Circle className="h-4 w-4 text-slate-600 shrink-0" />
                   )}
-                  <span className={validation.hasUppercase ? "text-slate-200" : "text-slate-500"}>
+                  <span
+                    className={validation.hasUppercase ? "text-foreground" : "text-foreground/60"}
+                  >
                     1 Uppercase
                   </span>
                 </div>
@@ -182,7 +188,7 @@ function UserSetNewPasswordPage() {
                   ) : (
                     <Circle className="h-4 w-4 text-slate-600 shrink-0" />
                   )}
-                  <span className={validation.hasNumber ? "text-slate-200" : "text-slate-500"}>
+                  <span className={validation.hasNumber ? "text-foreground" : "text-foreground/60"}>
                     1 Number
                   </span>
                 </div>
@@ -224,13 +230,20 @@ function UserSetNewPasswordPage() {
         </div>
 
         {/* Footer help link line precisely duplicating graphic text content */}
-        <p className="text-center text-xs text-slate-500">
+        <p className="text-center text-xs text-foreground/60">
           Need technical support?{" "}
-          <Link to="/support" className="text-[#8EA7FF] hover:underline font-medium" search={function (current: { tab?: ("security" | "profile" | "notifications" | "api") | undefined; }): never {
-            throw new Error("Function not implemented.");
-          } } params={function (current: { slug?: string | undefined; }): never {
-            throw new Error("Function not implemented.");
-          } }>
+          <Link
+            to="/support"
+            className="text-[#8EA7FF] hover:underline font-medium"
+            search={function (current: {
+              tab?: ("security" | "profile" | "notifications" | "api") | undefined;
+            }): never {
+              throw new Error("Function not implemented.");
+            }}
+            params={function (current: { slug?: string | undefined }): never {
+              throw new Error("Function not implemented.");
+            }}
+          >
             Contact Intelligence Desk
           </Link>
         </p>

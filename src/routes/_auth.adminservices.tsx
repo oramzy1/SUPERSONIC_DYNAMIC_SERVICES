@@ -68,7 +68,7 @@ const INITIAL_SERVICES: ServiceDetail[] = [
   },
   {
     slug: "enterprise-moving",
-    image: enterprise, 
+    image: enterprise,
     heroTitle: "Enterprise & Commercial Moving",
     title: "Enterprise & Commercial Moving (Local & Long-Distance)",
     intro:
@@ -233,14 +233,14 @@ export function RouteComponent() {
   };
 
   return (
-    <div className="w-full text-slate-200 select-none pb-12 font-sans antialiased">
+    <div className="w-full text-foreground/80 select-none pb-12 font-sans antialiased">
       {/* HEADER ROW */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">Service Modules</h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Manage available logistics services, configure pricing, and control
-            operational status across all regions.
+          <h1 className="text-2xl font-bold tracking-tight text-foreground/70">Service Modules</h1>
+          <p className="text-sm text-foreground/60 mt-1">
+            Manage available logistics services, configure pricing, and control operational status
+            across all regions.
           </p>
         </div>
 
@@ -284,7 +284,7 @@ export function RouteComponent() {
                   <h3 className="text-sm font-bold text-white tracking-tight line-clamp-1">
                     {service.title || "Untitled Service module"}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-foreground/60 mt-1.5 line-clamp-2 leading-relaxed">
                     {service.intro || "No current summary description payload provided."}
                   </p>
                 </div>
@@ -300,7 +300,7 @@ export function RouteComponent() {
                   >
                     <div
                       className={`w-4.5 h-4.5 rounded-full flex items-center justify-center transition-all duration-200 ${
-                        isActive ? "translate-x-5 bg-[#E2A54A]" : "translate-x-0 bg-slate-500"
+                        isActive ? "translate-x-5 bg-[#E2A54A]" : "translate-x-0 bg-foreground/60"
                       }`}
                     >
                       {isActive && (
@@ -325,14 +325,14 @@ export function RouteComponent() {
       </div>
 
       {/* META FEEDBACK INFO LAYOUT FOOTER */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-800/40 pt-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-800/40 pt-6">
         <div className="bg-[#111315]/40 border border-slate-800/40 rounded-xl p-4 flex items-start gap-3">
           <Info className="w-4 h-4 text-[#E2A54A] mt-0.5" />
           <div>
             <span className="text-xs font-bold text-white tracking-tight">
               Active Edge-Caching Node Sync
             </span>
-            <p className="text-[11px] text-slate-500 mt-0.5">
+            <p className="text-[11px] text-foreground/60 mt-0.5">
               Content updates transmitted using custom hooks trigger instant invalidation across
               client edge routers.
             </p>
@@ -344,13 +344,13 @@ export function RouteComponent() {
             <span className="text-xs font-bold text-white tracking-tight">
               Eco-Centric Logistics Metric Flag
             </span>
-            <p className="text-[11px] text-slate-500 mt-0.5">
+            <p className="text-[11px] text-foreground/60 mt-0.5">
               All updated service records automatically inherit Dutch corporate environmental
               standard tags.
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* MODAL DIALOG OVERLAY PANEL */}
       {editingService && (
@@ -398,7 +398,7 @@ export function RouteComponent() {
 
               {isNewService && (
                 <div className="flex flex-col gap-1.5 opacity-75">
-                  <label className="font-bold text-slate-500 uppercase tracking-wider text-[10px]">
+                  <label className="font-bold text-foreground/60 uppercase tracking-wider text-[10px]">
                     Generated URL Key Route
                   </label>
                   <input
@@ -497,7 +497,7 @@ export function RouteComponent() {
                     <button
                       type="button"
                       onClick={() => removeArrayItem("body", index)}
-                      className="p-2.5 text-slate-500 hover:text-rose-400 transition mt-0.5"
+                      className="p-2.5 text-foreground/60 hover:text-rose-400 transition mt-0.5"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -531,7 +531,7 @@ export function RouteComponent() {
                       <button
                         type="button"
                         onClick={() => removeArrayItem("tags", index)}
-                        className="p-2 text-slate-500 hover:text-rose-400"
+                        className="p-2 text-foreground/60 hover:text-rose-400"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -565,7 +565,7 @@ export function RouteComponent() {
                     <button
                       type="button"
                       onClick={() => removeArrayItem("benefits", index)}
-                      className="p-2 text-slate-500 hover:text-rose-400"
+                      className="p-2 text-foreground/60 hover:text-rose-400"
                     >
                       <X className="w-4 h-4" />
                     </button>

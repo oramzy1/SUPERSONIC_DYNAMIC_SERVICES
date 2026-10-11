@@ -20,11 +20,11 @@ export function CounterOfferModal({
     <div className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-4">
       <div className="w-full max-w-sm rounded-xl border border-white/10 bg-[#0c1017] p-6">
         <h2 className="text-sm font-bold text-white">Counter Offer</h2>
-        <p className="mt-1 text-xs text-slate-500">
-          Responds on the existing negotiation — the customer can accept, reject or counter again.
+        <p className="mt-1 text-xs text-foreground/60">
+          Responds on the existing negotiation - the customer can accept, reject or counter again.
         </p>
 
-        <label className="mt-5 block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+        <label className="mt-5 block text-[10px] font-bold uppercase tracking-wider text-foreground/60">
           Your amount (€)
         </label>
         <input
@@ -35,7 +35,7 @@ export function CounterOfferModal({
           className="mt-1.5 w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2 font-mono text-sm text-white outline-none focus:border-[#E2A54A]/40"
         />
 
-        <label className="mt-4 block text-[10px] font-bold uppercase tracking-wider text-slate-500">
+        <label className="mt-4 block text-[10px] font-bold uppercase tracking-wider text-foreground/60">
           Message (optional)
         </label>
         <textarea
@@ -43,18 +43,22 @@ export function CounterOfferModal({
           maxLength={2000}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="mt-1.5 w-full resize-none rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-sm text-slate-200 outline-none focus:border-[#E2A54A]/40"
+          className="mt-1.5 w-full resize-none rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-sm text-foreground outline-none focus:border-[#E2A54A]/40"
         />
 
         <div className="mt-6 flex justify-end gap-2">
-          <button onClick={onClose} disabled={busy}
-            className="rounded-md px-3 py-1.5 text-[10px] font-bold text-slate-400 hover:text-white disabled:opacity-50">
+          <button
+            onClick={onClose}
+            disabled={busy}
+            className="rounded-md px-3 py-1.5 text-[10px] font-bold text-slate-400 hover:text-white disabled:opacity-50"
+          >
             Cancel
           </button>
           <button
             onClick={() => onSubmit(amount, message.trim() || undefined)}
             disabled={busy || !valid}
-            className="flex items-center gap-1.5 rounded-md bg-[#E2A54A] px-3 py-1.5 text-[10px] font-bold text-slate-950 hover:bg-[#d4963b] disabled:opacity-50">
+            className="flex items-center gap-1.5 rounded-md bg-[#E2A54A] px-3 py-1.5 text-[10px] font-bold text-slate-950 hover:bg-[#d4963b] disabled:opacity-50"
+          >
             {busy && <Loader2 className="h-3 w-3 animate-spin" />} Send Counter
           </button>
         </div>

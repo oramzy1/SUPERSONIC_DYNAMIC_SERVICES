@@ -25,7 +25,7 @@ function UserLayoutWrapper() {
   const { isAuthenticated } = useAuth();
 
   // Global function exposed to your app to intercept actions
-   const triggerGate = (nextActionUrl?: string) => {
+  const triggerGate = (nextActionUrl?: string) => {
     if (!isAuthenticated) {
       if (nextActionUrl) setRedirectTarget(nextActionUrl);
       setIsGateOpen(true);
@@ -108,7 +108,7 @@ function UserLayoutWrapper() {
             </div>
 
             {/* Extra context help footer */}
-            <p className="mt-4 text-[11px] text-slate-500">
+            <p className="mt-4 text-[11px] text-foreground/60">
               Registration is completely free and takes less than 60 seconds.
             </p>
           </div>

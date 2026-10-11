@@ -10,7 +10,7 @@ import {
   KanbanSquare,
   MoreVertical,
   Calendar,
-  MapPin, 
+  MapPin,
   UserPlus,
   PackageSearch,
   X,
@@ -93,7 +93,7 @@ const JOB_STATUS_STYLES: Record<string, string> = {
   in_progress: "bg-amber-500/10 text-[#E2A54A] border-[#E2A54A]/20",
   completed: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
   overdue: "bg-rose-500/10 text-rose-400 border-rose-500/20",
-  cancelled: "bg-white/4 text-slate-500 border-white/4",
+  cancelled: "bg-white/4 text-foreground/60 border-white/4",
 };
 
 function errMsg(err: unknown): string {
@@ -198,7 +198,7 @@ function RouteComponent() {
   ];
 
   return (
-    <div className="w-full text-slate-200 select-none pb-12">
+    <div className="w-full text-foreground select-none pb-12">
       {toast && (
         <div
           className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-xl text-xs font-semibold shadow-2xl border transition-all ${
@@ -236,7 +236,7 @@ function RouteComponent() {
               className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-5 flex flex-col justify-between h-32 relative"
             >
               <div className="flex items-start justify-between w-full">
-                <span className="text-[10px] font-bold tracking-wider text-slate-500 uppercase">
+                <span className="text-[10px] font-bold tracking-wider text-foreground/60 uppercase">
                   {card.title}
                 </span>
                 <div
@@ -264,7 +264,7 @@ function RouteComponent() {
               className={`px-3 py-1 rounded-md whitespace-nowrap transition-colors uppercase ${
                 statusFilter === s
                   ? "bg-[#E2A54A]/10 text-[#E2A54A] border border-[#E2A54A]/10 font-semibold"
-                  : "hover:text-slate-200"
+                  : "hover:text-foreground"
               }`}
             >
               {s}
@@ -275,11 +275,11 @@ function RouteComponent() {
 
       {visible.length === 0 ? (
         <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl py-16 px-5 flex flex-col items-center justify-center gap-2 text-center">
-          <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-slate-500 mb-1">
+          <div className="p-2.5 bg-white/2 rounded-lg border border-white/6 text-foreground/60 mb-1">
             <PackageSearch className="w-4 h-4" />
           </div>
           <p className="text-sm font-medium text-slate-300">No assigned jobs found</p>
-          <p className="text-xs text-slate-500 max-w-xs">
+          <p className="text-xs text-foreground/60 max-w-xs">
             Jobs will show up here once quotes are accepted and scheduled to a crew.
           </p>
         </div>
@@ -290,7 +290,7 @@ function RouteComponent() {
               bucket.jobs.length > 0 && (
                 <div key={bucket.label} className="flex flex-col gap-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
                       {bucket.label}
                     </span>
                     <span className="px-1.5 py-0.5 rounded bg-white/4 text-slate-400 text-[9px] font-mono">
@@ -327,7 +327,7 @@ function RouteComponent() {
                             {job.customer_name}
                           </h4>
                           {job.scheduled_start && (
-                            <span className="text-xs font-medium text-slate-500 mt-1 flex items-center gap-1.5">
+                            <span className="text-xs font-medium text-foreground/60 mt-1 flex items-center gap-1.5">
                               <Calendar className="w-3 h-3 text-slate-600" />{" "}
                               {formatDate(job.scheduled_start)}
                             </span>
@@ -387,18 +387,18 @@ function RouteComponent() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-slate-500 font-medium">
+        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-foreground/60 font-medium">
           <span className="flex items-center gap-2">
-            <Users className="w-3.5 h-3.5 text-slate-500" />
+            <Users className="w-3.5 h-3.5 text-foreground/60" />
             Crew Members Available:
           </span>
           <span className="text-[11px] font-mono text-slate-400 font-bold">
             {crewMembers.length}
           </span>
         </div>
-        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-slate-500 font-medium">
+        <div className="bg-[#0d111a]/40 backdrop-blur-md border border-white/6 rounded-xl p-4 flex items-center justify-between text-xs text-foreground/60 font-medium">
           <span className="flex items-center gap-2">
-            <MapPin className="w-3.5 h-3.5 text-slate-500" />
+            <MapPin className="w-3.5 h-3.5 text-foreground/60" />
             Total Assignments Tracked:
           </span>
           <span className="text-[11px] font-mono text-slate-400 font-bold">{flatJobs.length}</span>
@@ -466,17 +466,17 @@ function AssignJobModal({
           </h3>
           <button
             onClick={onClose}
-            className="text-slate-500 hover:text-slate-300 transition-colors"
+            className="text-foreground/60 hover:text-slate-300 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-xs text-slate-500 mb-5">{job.customer_name}</p>
+        <p className="text-xs text-foreground/60 mb-5">{job.customer_name}</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/60">
                 Scheduled Start
               </label>
               <input
@@ -488,7 +488,7 @@ function AssignJobModal({
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/60">
                 Scheduled End
               </label>
               <input
@@ -502,7 +502,7 @@ function AssignJobModal({
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <label className="text-[10px] font-bold uppercase tracking-wider text-foreground/60">
               Select Crew Members ({crew.length} selected)
             </label>
             <div className="max-h-44 overflow-y-auto space-y-1.5 pr-1">
@@ -520,7 +520,7 @@ function AssignJobModal({
                         : "bg-[#07090e] border-[#161b22] hover:border-[#252c3a]"
                     }`}
                   >
-                    <span className="flex items-center gap-2.5 text-xs font-medium text-slate-200">
+                    <span className="flex items-center gap-2.5 text-xs font-medium text-foreground">
                       <span className="w-6 h-6 rounded-full bg-white/4 border border-white/8 flex items-center justify-center text-[9px] font-bold text-slate-400">
                         {member.full_name
                           .split(" ")

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_user/forgotpassword")({
 
 function UserForgotPasswordPage() {
   const [email, setEmail] = useState("");
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -47,7 +47,7 @@ function UserForgotPasswordPage() {
           <>
             {/* Header Content Blocks */}
             <div className="space-y-1.5 mb-8">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
                 Security Portal
               </p>
               <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
@@ -113,7 +113,7 @@ function UserForgotPasswordPage() {
             </div>
             <button
               onClick={() => setIsSubmitted(false)}
-              className="text-xs text-slate-500 hover:text-white transition underline block mx-auto pt-2"
+              className="text-xs text-foreground/60 hover:text-white transition underline block mx-auto pt-2"
             >
               Resend recovery link
             </button>

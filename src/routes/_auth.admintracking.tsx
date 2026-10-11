@@ -25,27 +25,32 @@ interface ActiveNode {
 
 const STATUS_CONFIG = {
   // Repurposed to represent "Overdue" (no maintenance concept exists in the
-  // API) — kept the rose color scheme since it fits the semantics.
+  // API) - kept the rose color scheme since it fits the semantics.
   MAINTENANCE: {
     dot: "#ef4444",
     badge: "bg-rose-500/10 text-rose-400 border-rose-500/20",
     label: "Overdue",
   },
   "EN ROUTE": {
-    dot: "#e2a54a",
-    badge: "bg-[#e2a54a]/10 text-[#e2a54a] border-[#e2a54a]/20",
+    dot: "#E2A54A",
+    badge: "bg-[#E2A54A]/10 text-[#E2A54A] border-[#E2A54A]/20",
     label: "En Route",
   },
   IDLE: {
     dot: "#4b5563",
-    badge: "bg-slate-800/60 text-slate-500 border-slate-700/40",
+    badge: "bg-slate-800/60 text-foreground/60 border-slate-700/40",
     label: "Scheduled",
   },
 };
 
 function formatDateTime(iso?: string | null): string {
   if (!iso) return "Not scheduled";
-  return new Date(iso).toLocaleString("en-GB", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+  return new Date(iso).toLocaleString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 export function TrackingDashboard() {
@@ -70,38 +75,42 @@ export function TrackingDashboard() {
   });
 
   const usersById = new Map(users.map((u) => [u.id, u]));
-const overdueIds = new Set((dash?.overdue_jobs ?? []).map((j) => j.id));
-const dashById = new Map(
-  [...(dash?.today_jobs ?? []), ...(dash?.upcoming_jobs ?? []), ...(dash?.overdue_jobs ?? [])].map((j) => [j.id, j]),
-);
+  const overdueIds = new Set((dash?.overdue_jobs ?? []).map((j) => j.id));
+  const dashById = new Map(
+    [
+      ...(dash?.today_jobs ?? []),
+      ...(dash?.upcoming_jobs ?? []),
+      ...(dash?.overdue_jobs ?? []),
+    ].map((j) => [j.id, j]),
+  );
 
-const NODES: ActiveNode[] = allJobs
-  .filter((j) => j.status !== "completed" && j.status !== "cancelled")
-  .map((j) => {
-    const status: ActiveNode["status"] = overdueIds.has(j.id)
-      ? "MAINTENANCE"
-      : j.status === "in_progress"
-        ? "EN ROUTE"
-        : "IDLE";
+  const NODES: ActiveNode[] = allJobs
+    .filter((j) => j.status !== "completed" && j.status !== "cancelled")
+    .map((j) => {
+      const status: ActiveNode["status"] = overdueIds.has(j.id)
+        ? "MAINTENANCE"
+        : j.status === "in_progress"
+          ? "EN ROUTE"
+          : "IDLE";
 
-    const dashInfo = dashById.get(j.id);
-    const from = dashInfo?.address_from ?? j.move_from;
-    const to = dashInfo?.address_to ?? j.move_to;
-    const crewNames = (j.crew_members ?? []).map((c) => c.full_name);
+      const dashInfo = dashById.get(j.id);
+      const from = dashInfo?.address_from ?? j.move_from;
+      const to = dashInfo?.address_to ?? j.move_to;
+      const crewNames = (j.crew_members ?? []).map((c) => c.full_name);
 
-    return {
-      id: `JOB-${j.id}`,
-      status,
-      telemetry: {
-        route: from && to ? `${from} → ${to}` : "Route not available",
-        eta: formatDateTime(j.scheduled_start),
-        crewName: crewNames.length > 0 ? crewNames.join(", ") : "Unassigned",
-        detailLabel: "PHOTOS",
-        detailValue: String(j.photos?.length ?? 0),
-        isAlert: status === "MAINTENANCE",
-      },
-    };
-  });
+      return {
+        id: `JOB-${j.id}`,
+        status,
+        telemetry: {
+          route: from && to ? `${from} → ${to}` : "Route not available",
+          eta: formatDateTime(j.scheduled_start),
+          crewName: crewNames.length > 0 ? crewNames.join(", ") : "Unassigned",
+          detailLabel: "PHOTOS",
+          detailValue: String(j.photos?.length ?? 0),
+          isAlert: status === "MAINTENANCE",
+        },
+      };
+    });
   const selectedNode = NODES.find((n) => n.id === selectedNodeId);
   const alertCount = NODES.filter((n) => n.status === "MAINTENANCE").length;
 
@@ -111,7 +120,7 @@ const NODES: ActiveNode[] = allJobs
     return true;
   });
 
-  // Map is kept for visual context (base tiles only) — there is no
+  // Map is kept for visual context (base tiles only) - there is no
   // coordinate data anywhere in the API to plot markers with, so no
   // markers, no flyTo, no live positions. If a fleet-telemetry endpoint
   // gets added later, this is the natural place to wire markers back in.
@@ -146,7 +155,9 @@ const NODES: ActiveNode[] = allJobs
         attributionControl: false,
       });
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", { maxZoom: 19 }).addTo(map);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+        maxZoom: 19,
+      }).addTo(map);
 
       mapInstanceRef.current = map;
     };
@@ -172,78 +183,34 @@ const NODES: ActiveNode[] = allJobs
         .node-scroll::-webkit-scrollbar-thumb{background:#1c2330;border-radius:2px;}
       `}</style>
 
-      {/* ── MAP PANE ── */}
-      <div className="relative z-0 h-[42vh] lg:h-full lg:flex-1 shrink-0 overflow-hidden">
-        <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
-
-        <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#07090e]/80 backdrop-blur-sm border border-[#1c2330] rounded-lg px-3 py-1.5">
-          <Radio className="h-3 w-3 text-[#e2a54a]" />
-          <span className="text-[10px] font-bold text-white tracking-widest font-mono uppercase">
-            Job Status Board
-          </span>
-        </div>
-
-        {/* Zoom controls (kept — map tiles still render for context) */}
-        <div className="absolute bottom-4 left-4 z-10 bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-lg overflow-hidden shadow-2xl">
-          <button
-            onClick={() => mapInstanceRef.current?.zoomIn()}
-            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#1c2330] transition-colors text-sm font-medium"
-          >
-            +
-          </button>
-          <div className="w-5 h-px bg-[#1c2330] mx-auto" />
-          <button
-            onClick={() => mapInstanceRef.current?.zoomOut()}
-            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#1c2330] transition-colors text-sm font-medium"
-          >
-            −
-          </button>
-        </div>
-
-        {/* Honest permanent notice — there is genuinely no GPS/coordinate
-            data available from the backend, regardless of how many jobs
-            exist. */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-6">
-          <div className="bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-xl px-4 py-3 text-center max-w-xs">
-            <p className="text-xs font-semibold text-slate-300">Live GPS telemetry isn't available yet</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">
-              No vehicle location endpoint exists in the API — the list on the right reflects real job status instead.
-            </p>
-          </div>
-        </div>
-
-        {selectedNode?.telemetry.isAlert && (
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 bg-rose-500/10 backdrop-blur-sm border border-rose-500/30 rounded-lg px-3 py-1.5 whitespace-nowrap">
-            <AlertTriangle className="h-3 w-3 text-rose-400 shrink-0" />
-            <span className="text-[10px] font-bold text-rose-400 font-mono">
-              {selectedNode.id} — overdue
-            </span>
-          </div>
-        )}
-      </div>
-
       {/* ── RIGHT PANEL ── */}
-      <div className="relative z-1 w-full lg:w-95 xl:w-105 flex flex-col bg-[#0a0c10] border-t lg:border-t-0 lg:border-l border-[#161b22] overflow-hidden shrink-0">
-        <div className="px-5 pt-5 pb-4 border-b border-[#161b22] shrink-0">
+      <div className="relative z-1 w-full flex flex-col bg-background overflow-hidden shrink-0">
+        <div className="px-5 pt-5 pb-4 shrink-0">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-white tracking-tight">Active Jobs</h2>
-              <p className="text-[11px] text-slate-600 mt-0.5">
+              <h2 className="text-base font-bold text-foreground/70 tracking-tight">Active Jobs</h2>
+              <p className="text-[11px] text-foreground/60 mt-0.5">
                 {NODES.length} jobs tracked · {alertCount} overdue
               </p>
             </div>
           </div>
 
-          <div className="flex gap-1 mt-4 bg-[#07090e] p-1 rounded-lg border border-[#161b22]">
+          <div className="flex gap-1 mt-4 bg-surface p-1 rounded-lg">
             {(["ALL", "IN TRANSIT", "ALERTS"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setFilter(tab)}
                 className={`flex-1 py-1.5 text-[10px] font-bold tracking-wide rounded-md transition-all ${
-                  filter === tab ? "bg-[#1c2330] text-white shadow-sm" : "text-slate-600 hover:text-slate-400"
+                  filter === tab
+                    ? "bg-background text-foreground/70 shadow-sm"
+                    : "text-foreground/60 hover:text-slate-400"
                 }`}
               >
-                {tab === "ALL" ? `All (${NODES.length})` : tab === "IN TRANSIT" ? "In Progress" : `Overdue (${alertCount})`}
+                {tab === "ALL"
+                  ? `All (${NODES.length})`
+                  : tab === "IN TRANSIT"
+                    ? "In Progress"
+                    : `Overdue (${alertCount})`}
               </button>
             ))}
           </div>
@@ -258,48 +225,75 @@ const NODES: ActiveNode[] = allJobs
                 key={node.id}
                 onClick={() => setSelectedNodeId(isSelected ? null : node.id)}
                 className={`rounded-xl border cursor-pointer select-none transition-all duration-150 overflow-hidden ${
-                  isSelected ? "bg-[#111520] border-[#e2a54a]/30 shadow-lg shadow-[#e2a54a]/5" : "bg-[#0c0e14] border-[#161b22] hover:border-[#252c3a]"
+                  isSelected
+                    ? "bg-background border-background/90 shadow-lg shadow-[#E2A54A]/5"
+                    : "bg-surface border-surface/90 hover:border-[#252c3a]"
                 }`}
               >
-                <div className="h-px w-full" style={{ background: isSelected ? cfg.dot : "transparent" }} />
+                <div
+                  className="h-px w-full"
+                  style={{ background: isSelected ? cfg.dot : "transparent" }}
+                />
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-2 h-2 rounded-full shrink-0 mt-0.5" style={{ background: cfg.dot, boxShadow: isSelected ? `0 0 6px ${cfg.dot}` : "none" }} />
+                      <div
+                        className="w-2 h-2 rounded-full shrink-0 mt-0.5"
+                        style={{
+                          background: cfg.dot,
+                          boxShadow: isSelected ? `0 0 6px ${cfg.dot}` : "none",
+                        }}
+                      />
                       <div className="min-w-0">
-                        <span className="text-sm font-bold text-white font-mono tracking-wide">{node.id}</span>
-                        <p className="text-[11px] text-slate-500 mt-0.5 flex items-center gap-1 truncate">
+                        <span className="text-sm font-bold text-foreground/80 font-mono tracking-wide">
+                          {node.id}
+                        </span>
+                        <p className="text-[11px] text-foreground/60 mt-0.5 flex items-center gap-1 truncate">
                           <MapPin className="h-2.5 w-2.5 shrink-0" />
                           <span className="truncate">{node.telemetry.route}</span>
                         </p>
                       </div>
                     </div>
-                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${cfg.badge}`}>{cfg.label}</span>
+                    <span
+                      className={`text-[9px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${cfg.badge}`}
+                    >
+                      {cfg.label}
+                    </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-[#07090e] rounded-lg px-2.5 py-2 border border-[#161b22]">
-                      <p className="text-[9px] text-slate-600 uppercase tracking-wider font-bold mb-0.5">ETA</p>
-                      <p className={`text-[11px] font-bold font-mono truncate ${node.telemetry.isAlert ? "text-rose-400" : "text-white"}`}>
+                    <div className="bg-surface rounded-lg px-2.5 py-2 ">
+                      <p className="text-[9px] text-foreground/60 uppercase tracking-wider font-bold mb-0.5">
+                        ETA
+                      </p>
+                      <p
+                        className={`text-[11px] font-bold font-mono truncate ${node.telemetry.isAlert ? "text-rose-400" : "text-foreground/80"}`}
+                      >
                         {node.telemetry.eta}
                       </p>
                     </div>
-                    <div className="bg-[#07090e] rounded-lg px-2.5 py-2 border border-[#161b22] flex items-center gap-1.5">
-                      <ImageIcon className="h-2.5 w-2.5 text-slate-600 shrink-0" />
+                    <div className="bg-surface rounded-lg px-2.5 py-2 border border-surface flex items-center gap-1.5">
+                      <ImageIcon className="h-2.5 w-2.5 text-foreground/60 shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-[9px] text-slate-600 uppercase tracking-wider font-bold mb-0.5">{node.telemetry.detailLabel}</p>
-                        <p className="text-[11px] font-bold text-white truncate">{node.telemetry.detailValue}</p>
+                        <p className="text-[9px] text-foreground/60 uppercase tracking-wider font-bold mb-0.5">
+                          {node.telemetry.detailLabel}
+                        </p>
+                        <p className="text-[11px] font-bold text-foreground/80 truncate">
+                          {node.telemetry.detailValue}
+                        </p>
                       </div>
                     </div>
                   </div>
 
                   {isSelected && (
-                    <div className="mt-3 pt-3 border-t border-[#1c2330] flex items-center justify-between">
+                    <div className="mt-3 pt-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 rounded-full" style={{ background: cfg.dot }} />
-                        <span className="text-[10px] text-slate-500 truncate">{node.telemetry.crewName}</span>
+                        <span className="text-[10px] text-foreground/60 truncate">
+                          {node.telemetry.crewName}
+                        </span>
                       </div>
-                      <button className="flex items-center gap-1 text-[10px] text-[#e2a54a] font-semibold hover:text-[#cb923c] transition-colors shrink-0">
+                      <button className="flex items-center gap-1 text-[10px] text-[#E2A54A] font-semibold hover:text-[#cb923c] transition-colors shrink-0">
                         Details <ArrowRight className="h-2.5 w-2.5" />
                       </button>
                     </div>
@@ -311,29 +305,85 @@ const NODES: ActiveNode[] = allJobs
 
           {filteredNodes.length === 0 && (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <Radio className="h-8 w-8 text-slate-700 mb-3" />
-              <p className="text-sm text-slate-500 font-medium">
+              <Radio className="h-8 w-8 text-foreground/60 mb-3" />
+              <p className="text-sm text-foreground/60 font-medium">
                 {NODES.length === 0 ? "No active jobs right now" : "No jobs match this filter"}
               </p>
-              <p className="text-xs text-slate-700 mt-1">
-                {NODES.length === 0 ? "Jobs appear here once quotes are accepted." : "Try switching to All"}
+              <p className="text-xs text-foreground/60 mt-1">
+                {NODES.length === 0
+                  ? "Jobs appear here once quotes are accepted."
+                  : "Try switching to All"}
               </p>
             </div>
           )}
         </div>
 
-        <div className="p-4 border-t border-[#161b22] shrink-0">
+        {/* <div className="p-4 border-t border-[#161b22] shrink-0">
           <button
             disabled
             title="No backend endpoint exists yet for dispatching a new unit"
-            className="w-full bg-white/5 text-slate-500 font-bold text-xs tracking-widest py-3.5 rounded-xl flex items-center justify-center gap-2 uppercase cursor-not-allowed"
+            className="w-full bg-white/5 text-foreground/60 font-bold text-xs tracking-widest py-3.5 rounded-xl flex items-center justify-center gap-2 uppercase cursor-not-allowed"
           >
             <Plus className="h-3.5 w-3.5 stroke-[3px]" />
             Dispatch New Unit
           </button>
-          <p className="text-[10px] text-slate-600 text-center mt-1.5">Not connected — no backend endpoint yet</p>
-        </div>
+          <p className="text-[10px] text-slate-600 text-center mt-1.5">
+            Not connected - no backend endpoint yet
+          </p>
+        </div> */}
       </div>
     </div>
   );
 }
+
+//  <div className="relative z-0 h-[42vh] lg:h-full lg:flex-1 shrink-0 overflow-hidden">
+//         <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
+
+//         <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#07090e]/80 backdrop-blur-sm border border-[#1c2330] rounded-lg px-3 py-1.5">
+//           <Radio className="h-3 w-3 text-[#E2A54A]" />
+//           <span className="text-[10px] font-bold text-white tracking-widest font-mono uppercase">
+//             Job Status Board
+//           </span>
+//         </div>
+
+//         {/* Zoom controls (kept - map tiles still render for context) */}
+//         <div className="absolute bottom-4 left-4 z-10 bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-lg overflow-hidden shadow-2xl">
+//           <button
+//             onClick={() => mapInstanceRef.current?.zoomIn()}
+//             className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#1c2330] transition-colors text-sm font-medium"
+//           >
+//             +
+//           </button>
+//           <div className="w-5 h-px bg-[#1c2330] mx-auto" />
+//           <button
+//             onClick={() => mapInstanceRef.current?.zoomOut()}
+//             className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#1c2330] transition-colors text-sm font-medium"
+//           >
+//             −
+//           </button>
+//         </div>
+
+//         {/* Honest permanent notice - there is genuinely no GPS/coordinate
+//             data available from the backend, regardless of how many jobs
+//             exist. */}
+//         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-6">
+//           <div className="bg-[#0c1017]/90 backdrop-blur-sm border border-[#1c2330] rounded-xl px-4 py-3 text-center max-w-xs">
+//             <p className="text-xs font-semibold text-slate-300">
+//               Live GPS telemetry isn't available yet
+//             </p>
+//             <p className="text-[11px] text-foreground/60 mt-0.5">
+//               No vehicle location endpoint exists in the API - the list on the right reflects real
+//               job status instead.
+//             </p>
+//           </div>
+//         </div>
+
+//         {selectedNode?.telemetry.isAlert && (
+//           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2 bg-rose-500/10 backdrop-blur-sm border border-rose-500/30 rounded-lg px-3 py-1.5 whitespace-nowrap">
+//             <AlertTriangle className="h-3 w-3 text-rose-400 shrink-0" />
+//             <span className="text-[10px] font-bold text-rose-400 font-mono">
+//               {selectedNode.id} - overdue
+//             </span>
+//           </div>
+//         )}
+//       </div>

@@ -12,7 +12,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { ThemeModal } from "@/components/shared/ThemeModal";
 
 // 1. Create a lightweight Auth Intercept Context so any component on your site can trigger this popup
-const SecurityGuardContext = createContext<{ 
+const SecurityGuardContext = createContext<{
   triggerGate: (nextActionUrl?: string) => void;
 }>({
   triggerGate: () => {},
@@ -31,11 +31,10 @@ function CrewLayoutWrapper() {
   const [notifSheetOpen, setNotifSheetOpen] = useState(false);
   const { setIsThemeModalOpen, isThemeModalOpen } = useTheme();
 
-
   const { isAuthenticated } = useAuth();
 
   // Global function exposed to your app to intercept actions
-   const triggerGate = (nextActionUrl?: string) => {
+  const triggerGate = (nextActionUrl?: string) => {
     if (!isAuthenticated) {
       if (nextActionUrl) setRedirectTarget(nextActionUrl);
       setIsGateOpen(true);
@@ -66,30 +65,31 @@ function CrewLayoutWrapper() {
 
   return (
     <SecurityGuardContext.Provider value={{ triggerGate }}>
-       <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
-    <CrewDashboardSidebar />
-    <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
-     <CrewDashboardTopbar
-            onMenuToggle={() => window.dispatchEvent(new Event("toggle-admin-sidebar"))}
+      <div className="flex h-screen w-full overflow-hidden bg-[#0B0F17]">
+        <CrewDashboardSidebar />
+        <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
+          <CrewDashboardTopbar
+            onMenuToggle={() => window.dispatchEvent(new Event("toggle-crew-sidebar"))}
             onNotificationsClick={() => setNotifSheetOpen(true)}
           />
-      <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
-        <Outlet />
-      </main>
-    </div>
-  </div>
+          <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
+            <Outlet />
+          </main>
+        </div>
+      </div>
 
-   {isAuthenticated && (
+      {isAuthenticated && (
         <>
-          <NotificationsSheet open={notifSheetOpen} onClose={() => setNotifSheetOpen(false)} role="crew" />
+          <NotificationsSheet
+            open={notifSheetOpen}
+            onClose={() => setNotifSheetOpen(false)}
+            role="crew"
+          />
           <NotificationToastWatcher role="crew" />
           <NotificationsStack role="crew" onOpenSheet={() => setNotifSheetOpen(true)} />
-            <ThemeModal open={isThemeModalOpen} onClose={() => setIsThemeModalOpen(false)} />
+          <ThemeModal open={isThemeModalOpen} onClose={() => setIsThemeModalOpen(false)} />
         </>
       )}
-
-
-
 
       {/* PORTAL SECURITY MODAL OVERLAY */}
       {isGateOpen && (
@@ -140,7 +140,7 @@ function CrewLayoutWrapper() {
             </div>
 
             {/* Extra context help footer */}
-            <p className="mt-4 text-[11px] text-slate-500">
+            <p className="mt-4 text-[11px] text-foreground/60">
               Registration is completely free and takes less than 60 seconds.
             </p>
           </div>
