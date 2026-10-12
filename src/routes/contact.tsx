@@ -136,7 +136,7 @@ function Contact() {
               <div className="p-4">
                 <p className="font-display text-base font-semibold">Netherlands</p>
                 <p className="text-xs text-muted-foreground">
-                  117 Ganzeweide, 6413 GC, Heerlen, The Netherlands
+                  117-15 Ganzeweide, 6413 GC, Heerlen, The Netherlands
                 </p>
               </div>
             </div>

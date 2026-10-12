@@ -1664,7 +1664,7 @@ function QuoteRequest() {
               <ContactStrip
                 icon={<MapPin className="h-4 w-4 sm:h-5 sm:w-5" />}
                 label="Address"
-                value="117 Ganzeweide, 6413 GC, Heerlen, The Netherlands"
+                value="117-15 Ganzeweide, 6413 GC, Heerlen, The Netherlands"
               />
             </aside>
           )}
