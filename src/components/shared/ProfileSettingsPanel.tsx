@@ -101,7 +101,7 @@ export function ProfileSettingsPanel() {
           <button
             type="submit"
             disabled={savingProfile}
-            className="flex items-center gap-2 rounded-xs bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:opacity-90 disabled:opacity-50"
+            className="flex items-center gap-2 rounded-xs bg-primary px-4 py-2.5 text-xs font-bold text-white hover:opacity-90 disabled:opacity-50"
           >
             {savingProfile ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" />

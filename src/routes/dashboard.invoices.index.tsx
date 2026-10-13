@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Download, Loader2, ChevronRight, FileSearch } from "lucide-react";
+import { Download, Loader2, ChevronRight, FileSearch, ArrowUp, ArrowDown } from "lucide-react";
 import { invoicesApi, jobsApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { cn } from "@/lib/utils";
@@ -62,6 +62,7 @@ function InvoicesPage() {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("All");
   const [page, setPage] = useState(1);
+  const [sortDir, setSortDir] = useState<"desc" | "asc">("desc")
   const PAGE_SIZE = 15;
 
   const { data: invoices = [], isLoading } = useQuery({
@@ -75,26 +76,33 @@ function InvoicesPage() {
   });
   const jobStatusById = new Map(jobs.map((j) => [j.id, j.status]));
 
-  const statusOptions = ["All", ...Array.from(new Set(invoices.map((i) => i.status)))];
-  const visible =
-    statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
+  const statusOptions = ["All", ...Array.from(new Set(invoices.map((i) => i.status)))]; 
+  const filtered =
+  statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
+const visible = [...filtered].sort((a, b) => {
+  const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  const result = diff !== 0 ? diff : a.id - b.id;
+  return sortDir === "desc" ? -result : result;
+});
   const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
   const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  const paid = invoices.filter((i) => i.status.toLowerCase() === "paid");
-  const pending = invoices.filter(
-    (i) => i.status.toLowerCase() === "pending" || i.status.toLowerCase() === "overdue",
-  );
+  // const paid = invoices.filter((i) => i.status.toLowerCase() === "paid");
+  const outstanding = invoices.filter((i) => i.status.toLowerCase() !== "sent");
+  const paid = invoices.filter((i) => i.status.toLowerCase() === "sent");
+   const sum = (list: typeof invoices) =>
+    list.reduce((s, i) => s + parseFloat(i.total_amount || "0"), 0);
+
 
   const SUMMARY = [
     {
       label: "Total Outstanding",
-      value: `€${pending.reduce((s, i) => s + parseFloat(i.total_amount), 0).toFixed(2)}`,
-      sub: `${pending.length} pending`,
+      value: `€${sum(outstanding).toFixed(2)}`,
+      sub: `${outstanding.length} pending`,
     },
     {
       label: "Total Paid",
-      value: `€${paid.reduce((s, i) => s + parseFloat(i.total_amount), 0).toFixed(2)}`,
+      value: `€${sum(paid).toFixed(2)}`,
       sub: `${paid.length} invoices`,
     },
     { label: "Total Invoices", value: String(invoices.length), sub: "All time" },
@@ -147,8 +155,18 @@ function InvoicesPage() {
 
       <div className="mt-8 overflow-hidden rounded-2xl bg-surface">
         <div className="flex items-center justify-between border-b border-white/5 p-6">
-          <h2 className="font-display text-lg font-semibold">Transaction History</h2>
-        </div>
+  <h2 className="font-display text-lg font-semibold">Transaction History</h2>
+  <button
+    onClick={() => {
+      setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+      setPage(1);
+    }}
+    className="flex items-center gap-1.5 rounded-xs bg-white/5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-foreground/80 hover:bg-white/10"
+  >
+    {sortDir === "desc" ? <ArrowDown className="h-3.5 w-3.5" /> : <ArrowUp className="h-3.5 w-3.5" />}
+    {sortDir === "desc" ? "Newest first" : "Oldest first"}
+  </button>
+</div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-190">
             <thead className="bg-white/3">
@@ -206,17 +224,16 @@ function InvoicesPage() {
                       <td className="px-6 py-5">
                         <span
                           className={cn(
-                            "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider",
-                            inv.status.toLowerCase() === "paid"
-                              ? "bg-primary text-primary-foreground"
-                              : inv.status.toLowerCase() === "overdue"
+                            "inline-flex items-center gap-1.5 rounded-xs px-3 py-1 text-[10px] font-bold uppercase tracking-wider",
+                            inv.status.toLowerCase() === "sent"
+                              ? "bg-primary text-white"
+                              : inv.status.toLowerCase() === "draft"
                                 ? "bg-red-500/90 text-foreground"
                                 : inv.status.toLowerCase() === "cancelled"
                                   ? "bg-white/10 text-foreground/60"
                                   : "bg-[#3B82F6] text-foreground",
                           )}
-                        >
-                          <span className="h-1.5 w-1.5 rounded-full bg-white" /> {inv.status}
+                        > {inv.status}
                         </span>
                       </td>
                       <td className="px-6 py-5">

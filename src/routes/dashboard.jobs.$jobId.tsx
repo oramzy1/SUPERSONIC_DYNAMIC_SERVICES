@@ -172,7 +172,7 @@ function JobDetailPage() {
               <DocRow
                 icon={<FileSignature className="h-4 w-4" />}
                 title="Contract"
-                status={job.contract_status}
+                status={job.contract_status === "customer_signed" ? "YOU HAVE SIGNED" : job.contract_status}
                 action={
                   job.contract_url && (needsSignature || canViewContract) ? (
                     <a
@@ -192,7 +192,7 @@ function JobDetailPage() {
                 }
               />
             ) : null}
-            {job.invoice_id ? (
+            {(job.invoice_id && job.status === "completed") ? (
               <DocRow
                 icon={<Receipt className="h-4 w-4" />}
                 title={job.invoice_number ? `Invoice ${job.invoice_number}` : "Invoice"}

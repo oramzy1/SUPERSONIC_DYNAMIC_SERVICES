@@ -73,6 +73,14 @@ function QuoteDetailPage() {
     staleTime: 5 * 60_000,
   });
 
+  
+ const { data: job } = useQuery({
+   queryKey: ["job", quote?.job_id],
+   queryFn: () => jobsApi.get(quote!.job_id!),
+   enabled: !!quote?.job_id,
+ });
+ const jobCompleted = job?.status === "completed";
+
   const { data: tracking, isLoading: trackingLoading } = useQuery({
     queryKey: ["job-tracking", quote?.tracking_token],
     queryFn: () => jobsApi.track(quote!.tracking_token!),
@@ -261,7 +269,7 @@ function QuoteDetailPage() {
                 {quote?.contract_status === "signed" ? "View Contract" : "Sign Contract"}
               </a>
             )}
-            {quote?.invoice_id && (
+            {(quote?.invoice_id && jobCompleted) && (
               <Link
                 to="/dashboard/invoices/$invoiceId"
                 params={{ invoiceId: String(quote.invoice_id) }}
@@ -450,20 +458,26 @@ function QuoteDetailPage() {
 
         <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
           <span>
-            Move: <span className="text-foreground font-semibold">{request?.move_date || "-"}</span>
+            Move Date: <span className="text-foreground font-semibold">{request?.move_date || "-"}</span>
           </span>
-          <span>
-            Delivery:{" "}
-            <span className="text-foreground font-semibold">{request?.delivery_date || "-"}</span>
+         {request?.delivery_date && (
+           <span>
+            Delivery Date:{" "}
+            <span className="text-foreground font-semibold">{request?.delivery_date}</span>
           </span>
-          <span>
+         )}
+        {request?.freight_weight && (
+            <span>
             Weight:{" "}
-            <span className="text-foreground font-semibold">{request?.freight_weight || "-"}</span>
+            <span className="text-foreground font-semibold">{request?.freight_weight}</span>
           </span>
-          <span>
+        )}
+          {request?.storage_size && (
+            <span>
             Storage:{" "}
-            <span className="text-foreground font-semibold">{request?.storage_size || "-"}</span>
+            <span className="text-foreground font-semibold">{request?.storage_size}</span>
           </span>
+          )}
         </div>
 
         {request?.additional_services?.length ? (
@@ -475,9 +489,9 @@ function QuoteDetailPage() {
               {request?.additional_services.map((s: any, i: any) => (
                 <span
                   key={i}
-                  className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-muted-foreground text-[10px]"
+                  className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-muted-foreground text-[10px] capitalize"
                 >
-                  {s}
+                  {s.replace("_", " ")}
                 </span>
               ))}
             </div>

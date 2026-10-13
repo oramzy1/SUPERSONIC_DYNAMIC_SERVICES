@@ -157,10 +157,14 @@ function ContractDetailPage() {
               <p className="text-[10px] text-foreground/60 uppercase mb-1">Move Date</p>
               <p>{formatDate(contract.move_date)}</p>
             </div>
-            <div>
+          {
+            contract.delivery_date && (
+                          <div>
               <p className="text-[10px] text-foreground/60 uppercase mb-1">Delivery Date</p>
               <p>{formatDate(contract.delivery_date)}</p>
             </div>
+            )
+          }
           </div>
           {contract.additional_services.length > 0 && (
             <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/6">

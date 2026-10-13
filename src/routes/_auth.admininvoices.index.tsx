@@ -9,6 +9,8 @@ import {
   FileSearch,
   Download,
   Loader2,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
 import { invoicesApi, mapPdfError, openBlobInNewTab } from "@/lib/api";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
@@ -61,6 +63,7 @@ function RouteComponent() {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("All");
   const [page, setPage] = useState(1);
+  const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const PAGE_SIZE = 15;
 
   // Assumes GET /invoices returns ALL invoices for an admin/staff token (the
@@ -72,8 +75,14 @@ function RouteComponent() {
   });
 
   const statusOptions = ["All", ...Array.from(new Set(invoices.map((i) => i.status)))];
-  const visible =
-    statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
+  const filtered =
+  statusFilter === "All" ? invoices : invoices.filter((i) => i.status === statusFilter);
+const visible = [...filtered].sort((a, b) => {
+  const diff = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  // Tie-break on id so same-timestamp invoices keep a stable order.
+  const result = diff !== 0 ? diff : a.id - b.id;
+  return sortDir === "desc" ? -result : result;
+});
 
   const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
   const paginated = visible.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -93,7 +102,7 @@ function RouteComponent() {
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   });
 
-  const metrics = [
+  const metrics = [ 
     {
       title: "TOTAL OUTSTANDING",
       value: `€${sum(outstanding).toFixed(2)}`,
@@ -155,7 +164,22 @@ function RouteComponent() {
       <div className="bg-surface backdrop-blur-md border border-white/6 rounded-xl overflow-hidden flex flex-col mb-6">
         <div className="flex items-center justify-between gap-4 p-5 border-b border-white/6">
           <h2 className="text-sm font-bold text-foreground tracking-tight">Invoices</h2>
-          <div className="flex items-center bg-surface p-1 rounded-xs border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto">
+          <div className="flex items-center gap-3 min-w-0">
+             <button
+      onClick={() => {
+        setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+        setPage(1);
+      }}
+      className="flex shrink-0 items-center gap-1.5 rounded-xs border border-white/6 bg-surface px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-foreground/80"
+    >
+      {sortDir === "desc" ? (
+        <ArrowDown className="h-3.5 w-3.5" />
+      ) : (
+        <ArrowUp className="h-3.5 w-3.5" />
+      )}
+      {sortDir === "desc" ? "Newest first" : "Oldest first"}
+    </button>
+            <div className="flex items-center bg-surface p-1 rounded-xs border border-white/6 text-[10px] font-bold uppercase tracking-wider text-slate-400 overflow-x-auto">
             {statusOptions.map((s) => (
               <button
                 key={s}
@@ -172,6 +196,7 @@ function RouteComponent() {
                 {s}
               </button>
             ))}
+          </div>
           </div>
         </div>
 
@@ -229,9 +254,9 @@ function RouteComponent() {
                     <td className="py-4 px-6">
                       <span
                         className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
-                          row.status.toLowerCase() === "paid"
+                          row.status.toLowerCase() === "sent"
                             ? "bg-emerald-500/10 text-emerald-400"
-                            : row.status.toLowerCase().includes("fail")
+                            : row.status.toLowerCase().includes("draft")
                               ? "bg-rose-500/10 text-rose-400"
                               : "bg-amber-500/10 text-[#E2A54A]"
                         }`}

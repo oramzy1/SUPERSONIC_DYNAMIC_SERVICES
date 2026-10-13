@@ -57,8 +57,10 @@ function UserRegisterPage() {
     confirmPassword: "",
     agreeTerms: false,
   });
-  const { register } = useAuth();
+  const { register, user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isAdminRole = user?.role === "admin";
 
   const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
