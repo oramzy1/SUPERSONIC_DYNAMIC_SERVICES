@@ -64,7 +64,7 @@ function QuoteDetailPage() {
     queryKey: ["account", "me"],
     queryFn: () => accountApi.getProfile(),
     staleTime: 5 * 60_000,
-  });
+  }); 
 
   const generateMutation = useMutation({
     mutationFn: ({
@@ -72,7 +72,7 @@ function QuoteDetailPage() {
       days,
       lineItems,
     }: {
-      amount: string;
+      amount: number;
       days: number;
       lineItems?: QuoteLineItem[];
     }) => quotesApi.generateQuote(id, { amount, valid_until_days: days, line_items: lineItems }),
@@ -82,7 +82,11 @@ function QuoteDetailPage() {
       queryClient.invalidateQueries({ queryKey: ["admin", "quote-detail", id] });
       showSuccess("Quote sent - awaiting customer response.");
     },
-    onError: (err) => showError(err, "Failed to send quote."),
+    // onError: (err) => showError(err, "Failed to send quote."),
+     onError: (err: any) => {
+      console.error("[generateQuote] 422 detail", err?.response?.data?.detail ?? err?.detail ?? err);
+      showError(err, "Failed to send quote.");
+    },
   });
 
   const rejectMutation = useMutation({
@@ -294,7 +298,10 @@ function QuoteDetailPage() {
           <div className="divide-y divide-white/5">
             {quote.line_items.map((li, i) => (
               <div key={i} className="flex items-center justify-between py-2 text-sm">
-                <span className="text-foreground/70">{li.description}</span>
+                <span className="text-foreground/70">
+                  {li.description}
+                  {li.quantity > 1 ? ` × ${li.quantity}` : ""}
+                </span>
                 <span className="font-mono text-foreground/80">€{li.amount}</span>
               </div>
             ))}

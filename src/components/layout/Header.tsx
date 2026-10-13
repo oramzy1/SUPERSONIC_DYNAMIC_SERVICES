@@ -261,7 +261,7 @@ export function Header() {
                           setProfileDropdownOpen(false);
                           await logout();
                         }}
-                        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary hover:opacity-90 transition-colors py-3 text-sm font-semibold text-primary-foreground"
+                        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary hover:opacity-90 transition-colors py-3 text-sm font-semibold text-white"
                       >
                         Logout <LogOut className="h-4 w-4" />
                       </button>

@@ -166,7 +166,8 @@ export interface QuoteResponse {
 
 export interface QuoteLineItem {
   description: string;
-  amount: string;
+  quantity: number;
+  amount: number;
 }
 
 export interface QuoteGenerateRequest {

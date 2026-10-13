@@ -3,12 +3,14 @@ import { Loader2, Wand2 } from "lucide-react";
 import type { QuoteLineItem, QuoteRequestResponse } from "@/lib/api-types";
 import { showErrorText } from "@/lib/toast";
 
+type DraftItem = { description: string; quantity: string; amount: string };
+
 export function GenerateQuoteModal({
   quote,
   busy,
   title = "Generate Quote",
   initialAmount,
-  initialLineItems,
+  initialLineItems, 
   onClose,
   onSubmit,
 }: {
@@ -18,17 +20,31 @@ export function GenerateQuoteModal({
   initialAmount?: string;
   initialLineItems?: QuoteLineItem[] | null;
   onClose: () => void;
-  onSubmit: (amount: string, validUntilDays: number, lineItems?: QuoteLineItem[]) => void;
+  onSubmit: (amount: number, validUntilDays: number, lineItems?: QuoteLineItem[]) => void;
 }) {
   const [amount, setAmount] = useState(initialAmount ?? "");
   const [validDays, setValidDays] = useState(14);
-  const [lineItems, setLineItems] = useState<QuoteLineItem[]>(initialLineItems ?? []);
+   const [lineItems, setLineItems] = useState<DraftItem[]>(
+    (initialLineItems ?? []).map((li) => ({
+      description: li.description,
+      quantity: String(li.quantity ?? 1),
+      amount: String(li.amount),
+    })),
+  );
 
-  const itemsTotal = lineItems.reduce((sum, li) => sum + (Number(li.amount) || 0), 0);
-  const effectiveAmount = lineItems.length > 0 ? itemsTotal.toFixed(2) : amount;
 
-  const addItem = () => setLineItems((p) => [...p, { description: "", amount: "" }]);
-  const updateItem = (i: number, patch: Partial<QuoteLineItem>) =>
+const VAT_RATE = 0.21;
+ const itemsSubtotal = lineItems.reduce(
+     (sum, li) => sum + (Number(li.quantity) || 0) * (Number(li.amount) || 0),
+     0,
+   );
+const subtotalCents = Math.round(itemsSubtotal * 100);
+const vatCents = Math.round(subtotalCents * VAT_RATE);
+const totalWithVat = (subtotalCents + vatCents) / 100;
+const effectiveAmount = lineItems.length > 0 ? totalWithVat.toFixed(2) : amount;
+
+  const addItem = () => setLineItems((p) => [...p, { description: "", quantity: "1", amount: "" }]);
+   const updateItem = (i: number, patch: Partial<DraftItem>) =>
     setLineItems((p) => p.map((li, idx) => (idx === i ? { ...li, ...patch } : li)));
   const removeItem = (i: number) => setLineItems((p) => p.filter((_, idx) => idx !== i));
 
@@ -38,15 +54,31 @@ export function GenerateQuoteModal({
       showErrorText("Enter a valid amount greater than 0.");
       return;
     }
-    if (lineItems.some((li) => !li.description.trim() || !li.amount || Number(li.amount) <= 0)) {
-      showErrorText("Every line item needs a description and an amount greater than 0.");
+if (
+      lineItems.some(
+        (li) =>
+          !li.description.trim() || !(Number(li.amount) > 0) || !(Number(li.quantity) >= 1),
+      )
+    ) {
+      showErrorText("Every line item needs a description, a quantity of at least 1, and an amount greater than 0.");
       return;
     }
     if (validDays < 1 || validDays > 90) {
       showErrorText("Validity must be between 1 and 90 days.");
       return;
     }
-    onSubmit(effectiveAmount, validDays, lineItems.length > 0 ? lineItems : undefined);
+    onSubmit(
+      parsed,
+      validDays,
+      lineItems.length > 0
+        ? lineItems.map((li) => ({
+            description: li.description.trim(),
+            quantity: Number(li.quantity),
+            amount: Number(li.amount),
+          }))
+        : undefined,
+    );
+    console.log("[GenerateQuoteModal] submit", { effectiveAmount, validDays, lineItems });
   };
 
   return (
@@ -78,7 +110,8 @@ export function GenerateQuoteModal({
             />
             {lineItems.length > 0 && (
               <p className="mt-1 text-[10px] text-foreground/60">
-                Auto-calculated from line items below.
+                Subtotal €{(subtotalCents / 100).toFixed(2)} + 21% VAT €
+                {(vatCents / 100).toFixed(2)}.
                 {initialAmount ? ` Customer countered at €${initialAmount}.` : ""}
               </p>
             )}
@@ -118,6 +151,13 @@ export function GenerateQuoteModal({
                     onChange={(e) => updateItem(i, { description: e.target.value })}
                     placeholder="Description"
                     className="flex-1 rounded-xs border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
+                  />
+                   <input
+                    value={li.quantity}
+                    onChange={(e) => updateItem(i, { quantity: e.target.value })}
+                    placeholder="Qty"
+                    inputMode="numeric"
+                    className="w-16 rounded-xs border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none focus:border-[#E2A54A]/50"
                   />
                   <input
                     value={li.amount}
