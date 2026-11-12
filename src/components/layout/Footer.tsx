@@ -23,6 +23,9 @@ import ideal from "@/assets/images/ideal-logo.png";
 import master from "@/assets/images/mastercard-logo.png";
 import visa from "@/assets/images/visa-logo.png";
 import paypal from "@/assets/images/paypal-logo.png";
+import qualityMark1 from "@/assets/images/logo-niwo1.png";
+import qualityMark2 from "@/assets/images/logo-niwo2.png";
+import qualityMark3 from "@/assets/images/logo-teal.png";
 
 // Short-form opening hours
 const HOURS = [
@@ -235,7 +238,34 @@ export function Footer() {
               Certified Quality Mark
             </span>
             <div className="flex flex-wrap items-center gap-2.5">
-              {/* Quality Mark Images if uncommented */}
+              <div className="flex flex-nowrap items-center gap-2">
+                {/* Quality Mark 1 */}
+                <div className="h-8 sm:h-9 w-11 sm:w-14 shrink-0 flex items-center justify-center rounded bg-slate-900 border border-slate-800 p-1 overflow-hidden">
+                  <img
+                    src={qualityMark1}
+                    alt="Quality mark 1"
+                    className="h-full w-full object-contain opacity-80 hover:opacity-100 transition"
+                  />
+                </div>
+
+                {/* Quality Mark 2 */}
+                <div className="h-8 sm:h-9 w-11 sm:w-14 shrink-0 flex items-center justify-center rounded bg-slate-900 border border-slate-800 p-1 overflow-hidden">
+                  <img
+                    src={qualityMark2}
+                    alt="Quality mark 2"
+                    className="h-full w-full object-contain opacity-80 hover:opacity-100 transition"
+                  />
+                </div>
+
+                {/* Quality Mark 3 */}
+                <div className="h-8 sm:h-9 w-11 sm:w-14 shrink-0 flex items-center justify-center rounded bg-slate-900 border border-slate-800 p-1 overflow-hidden">
+                  <img
+                    src={qualityMark3}
+                    alt="Quality mark 3"
+                    className="h-full w-full object-contain opacity-80 hover:opacity-100 transition"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
