@@ -55,7 +55,7 @@ import type {
 const BASE = "https://supersonic-dynamic-services-api-0zjh.onrender.com"
 
 // Set to false to reject backend requests without changing the application.
-export const CONNECTED: boolean = false;
+export const CONNECTED: boolean = true;
 
 // ─── Token helpers ──────────────────────────────────
 const ACCESS_KEY = "sds_access_token";
