@@ -54,6 +54,9 @@ import type {
 // const BASE = import.meta.env.VITE_API_BASE_URL as string;
 const BASE = "https://supersonic-dynamic-services-api-0zjh.onrender.com"
 
+// Set to false to reject backend requests without changing the application.
+export const CONNECTED: boolean = false;
+
 // ─── Token helpers ──────────────────────────────────
 const ACCESS_KEY = "sds_access_token";
 const REFRESH_KEY = "sds_refresh_token";
@@ -86,6 +89,10 @@ const api = axios.create({
 
 // Request interceptor – attach Bearer token
 api.interceptors.request.use((config) => {
+  if (!CONNECTED) {
+    throw new Error("Backend unavailable");
+  }
+
   const token = getAccessToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

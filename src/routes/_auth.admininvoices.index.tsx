@@ -169,7 +169,7 @@ const visible = [...filtered].sort((a, b) => {
       onClick={() => {
         setSortDir((d) => (d === "desc" ? "asc" : "desc"));
         setPage(1);
-      }}
+      }}  
       className="flex shrink-0 items-center gap-1.5 rounded-xs border border-white/6 bg-surface px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-foreground/80"
     >
       {sortDir === "desc" ? (
