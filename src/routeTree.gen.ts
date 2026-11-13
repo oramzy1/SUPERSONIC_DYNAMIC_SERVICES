@@ -46,6 +46,7 @@ import { Route as PaymentSuccessRouteImport } from './routes/payment.success'
 import { Route as DashboardSupportRouteImport } from './routes/dashboard.support'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard.profile'
 import { Route as UserSetnewpasswordRouteImport } from './routes/_user.setnewpassword'
+import { Route as UserResetPasswordRouteImport } from './routes/_user.reset-password'
 import { Route as UserRegisterRouteImport } from './routes/_user.register'
 import { Route as UserLoginRouteImport } from './routes/_user.login'
 import { Route as UserForgotpasswordRouteImport } from './routes/_user.forgotpassword'
@@ -267,6 +268,11 @@ const DashboardProfileRoute = DashboardProfileRouteImport.update({
 const UserSetnewpasswordRoute = UserSetnewpasswordRouteImport.update({
   id: '/setnewpassword',
   path: '/setnewpassword',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserResetPasswordRoute = UserResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => UserRoute,
 } as any)
 const UserRegisterRoute = UserRegisterRouteImport.update({
@@ -509,6 +515,7 @@ export interface FileRoutesByFullPath {
   '/forgotpassword': typeof UserForgotpasswordRoute
   '/login': typeof UserLoginRoute
   '/register': typeof UserRegisterRoute
+  '/reset-password': typeof UserResetPasswordRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/support': typeof DashboardSupportRoute
@@ -582,6 +589,7 @@ export interface FileRoutesByTo {
   '/forgotpassword': typeof UserForgotpasswordRoute
   '/login': typeof UserLoginRoute
   '/register': typeof UserRegisterRoute
+  '/reset-password': typeof UserResetPasswordRoute
   '/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/support': typeof DashboardSupportRoute
@@ -661,6 +669,7 @@ export interface FileRoutesById {
   '/_user/forgotpassword': typeof UserForgotpasswordRoute
   '/_user/login': typeof UserLoginRoute
   '/_user/register': typeof UserRegisterRoute
+  '/_user/reset-password': typeof UserResetPasswordRoute
   '/_user/setnewpassword': typeof UserSetnewpasswordRoute
   '/dashboard/profile': typeof DashboardProfileRoute
   '/dashboard/support': typeof DashboardSupportRoute
@@ -739,6 +748,7 @@ export interface FileRouteTypes {
     | '/forgotpassword'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/setnewpassword'
     | '/dashboard/profile'
     | '/dashboard/support'
@@ -812,6 +822,7 @@ export interface FileRouteTypes {
     | '/forgotpassword'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/setnewpassword'
     | '/dashboard/profile'
     | '/dashboard/support'
@@ -890,6 +901,7 @@ export interface FileRouteTypes {
     | '/_user/forgotpassword'
     | '/_user/login'
     | '/_user/register'
+    | '/_user/reset-password'
     | '/_user/setnewpassword'
     | '/dashboard/profile'
     | '/dashboard/support'
@@ -1225,6 +1237,13 @@ declare module '@tanstack/react-router' {
       path: '/setnewpassword'
       fullPath: '/setnewpassword'
       preLoaderRoute: typeof UserSetnewpasswordRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/_user/reset-password': {
+      id: '/_user/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof UserResetPasswordRouteImport
       parentRoute: typeof UserRoute
     }
     '/_user/register': {
@@ -1574,6 +1593,7 @@ interface UserRouteChildren {
   UserForgotpasswordRoute: typeof UserForgotpasswordRoute
   UserLoginRoute: typeof UserLoginRoute
   UserRegisterRoute: typeof UserRegisterRoute
+  UserResetPasswordRoute: typeof UserResetPasswordRoute
   UserSetnewpasswordRoute: typeof UserSetnewpasswordRoute
 }
 
@@ -1582,6 +1602,7 @@ const UserRouteChildren: UserRouteChildren = {
   UserForgotpasswordRoute: UserForgotpasswordRoute,
   UserLoginRoute: UserLoginRoute,
   UserRegisterRoute: UserRegisterRoute,
+  UserResetPasswordRoute: UserResetPasswordRoute,
   UserSetnewpasswordRoute: UserSetnewpasswordRoute,
 }
 

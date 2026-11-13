@@ -4,12 +4,11 @@ import { Lock, ShieldCheck, ArrowRight, CheckCircle2, Circle } from "lucide-reac
 import { CTAButton } from "@/components/shared/CTAButton";
 import { authApi } from "@/lib/api";
 import { showError, showErrorText, showSuccess } from "@/lib/toast";
-import { useSearch } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_user/setnewpassword")({
   component: UserSetNewPasswordPage,
   validateSearch: (search: Record<string, unknown>) => ({
-    token: (search.token as string) || "",
+    token: typeof search.token === "string" ? search.token : "",
   }),
 });
 
@@ -41,6 +40,7 @@ function UserSetNewPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
 
     const allCriteriaMet = Object.values(validation).every(Boolean);
     if (!allCriteriaMet) {
@@ -187,10 +187,12 @@ function UserSetNewPasswordPage() {
               <CTAButton
                 variant="primary"
                 type="submit"
+                disabled={isSubmitting}
                 style={{ backgroundColor: "var(--primary)" }}
                 className="w-full rounded-xl py-3 text-xs sm:text-sm font-semibold text-slate-900 transition hover:opacity-95 flex items-center justify-center gap-2 pt-2"
               >
-                Reset Password <ArrowRight className="h-4 w-4 text-slate-900" />
+                {isSubmitting ? "Resetting Password..." : "Reset Password"}
+                <ArrowRight className="h-4 w-4 text-slate-900" />
               </CTAButton>
             </form>
           ) : (
@@ -208,7 +210,7 @@ function UserSetNewPasswordPage() {
               </div>
               <CTAButton
                 variant="primary"
-                onClick={() => navigate({ to: "/login" as any })}
+                onClick={() => navigate({ to: "/login", search: { redirect: undefined } })}
                 style={{ backgroundColor: "var(--primary)" }}
                 className="w-full rounded-xl py-2.5 text-xs font-semibold text-slate-900 mt-2"
               >
@@ -224,14 +226,6 @@ function UserSetNewPasswordPage() {
           <Link
             to="/support"
             className="text-[#8EA7FF] hover:underline font-medium"
-            search={function (current: {
-              tab?: ("security" | "profile" | "notifications" | "api") | undefined;
-            }): never {
-              throw new Error("Function not implemented.");
-            }}
-            params={function (current: { slug?: string | undefined }): never {
-              throw new Error("Function not implemented.");
-            }}
           >
             Contact Intelligence Desk
           </Link>
